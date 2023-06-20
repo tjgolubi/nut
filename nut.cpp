@@ -1,27 +1,40 @@
 // Copyright 2023 Terry Golubiewski, all rights reserved.
 
-#include <string>
 #include <ranges>
 #include <algorithm>
 #include <optional>
+#include <string>
 #include <vector>
 #include <map>
 #include <iostream>
 #include <iomanip>
 #include <fstream>
 #include <iterator>
+#include <cmath>
 #include <cctype>
 #include <cstdlib>
 
+class PrecSaver {
+private:
+  std::ostream& os;
+  int prec;
+public:
+  explicit PrecSaver(std::ostream& output)
+    : os(output), prec(output.precision()) { }
+  PrecSaver(std::ostream& output, int p)
+    : os(output), prec(output.precision(p)) { }
+  ~PrecSaver() { os.precision(prec); }
+}; // PrecSaver
+
 struct Ingredient {
   std::string name;
-  int g = 0;
-  int ml = 0;
-  int cal = 0;
-  int prot = 0;
-  int fat = 0;
-  int carb = 0;
-  int fiber = 0;
+  double g     = 0.0;
+  double ml    = 0.0;
+  double cal   = 0.0;
+  double prot  = 0.0;
+  double fat   = 0.0;
+  double carb  = 0.0;
+  double fiber = 0.0;
   Ingredient() : name() { }
   explicit Ingredient(const std::string& n) : name(n) { }
   void scale(double ratio) {
@@ -48,70 +61,134 @@ struct Ingredient {
 }; // Ingredient
 
 std::ostream& operator<<(std::ostream& output, const Ingredient& ingred) {
- using std::setw;
-  output << setw(4) << ingred.g
-	 << setw(4) << ingred.ml
-	 << setw(4) << ingred.cal
-	 << setw(4) << ingred.prot
-	 << setw(4) << ingred.fat
-	 << setw(4) << ingred.carb
-	 << setw(4) << ingred.fiber
+  using std::setw;
+  using std::round;
+  PrecSaver precSaver(output, 5);
+  output << setw(4) << round(ingred.g)
+	 << setw(4) << round(ingred.ml)
+	 << setw(4) << round(ingred.cal)
+	 << setw(6) << ingred.prot
+	 << setw(6) << ingred.fat
+	 << setw(6) << ingred.carb
+	 << setw(6) << ingred.fiber
 	 << ' ' << ingred.name;
   return output;
 } // << Ingredient
 
 std::vector<Ingredient> Ingredients;
 
+#if 0
 auto Compare(const Ingredient& ingred, const std::string& name)
 { return (ingred.name <=> name); }
+#endif
 
 auto FindIngredient(const std::vector<Ingredient>& ingredients,
                     const std::string& name)
   -> std::optional<Ingredient>
 {
-  std::optional<Ingredient> rval;
-  auto r = std::ranges::equal_range(ingredients, name,
+  auto r = std::ranges::lower_bound(ingredients, name,
                                     std::ranges::less {}, &Ingredient::name);
-  if (!r.empty())
-    rval = r.back();
-  return rval;
-}
+  if (r == ingredients.end() || r->name != name)
+    return std::nullopt;
+
+  return *r;
+} // FindIngredient
 
 auto ReadIngredients() {
+  std::string str;
   std::vector<Ingredient> rval;
   auto input = std::ifstream("ingred.txt");
   if (!input)
     return rval;
+  auto output = std::ofstream("tjg.txt");
   Ingredient ingred;
   while (input >> std::ws) {
     {
       auto c = input.peek();
       if (c == '#') {
-	input.ignore(1024, '\n');
+	std::getline(input, str);
+	output << str << '\n';
+	// input.ignore(1024, '\n');
 	continue;
       }
     }
     ingred = Ingredient();
     input >> ingred.g >> ingred.ml >> ingred.cal
 	  >> ingred.prot >> ingred.fat >> ingred.carb >> ingred.fiber;
-    if (input && std::getline(input >> std::ws, ingred.name))
+    if (input && std::getline(input >> std::ws, ingred.name)) {
       rval.push_back(ingred);
+      using std::setw;
+      using std::round;
+      using std::abs;
+      output << std::defaultfloat << std::setprecision(6)
+             <<        setw(5) << round(ingred.g)
+             << ' ' << setw(5) << round(ingred.ml)
+	     << ' ' << setw(5) << round(ingred.cal)
+	     << std::fixed << std::setprecision(2)
+	     << ' ' << setw(6) << ingred.prot
+	     << ' ' << setw(6) << ingred.fat
+	     << ' ' << setw(6) << ingred.carb
+	     << ' ' << setw(6) << ingred.fiber
+	     << ' ' << ingred.name << '\n';
+    }
   }
   std::sort(rval.begin(), rval.end()); // todo: use std::ranges::sort
   return rval;
 } // ReadIngredients
 
-struct Weight {
-  std::string unit;
-  double g = 0;
-};
+auto ToLower(const std::string& str) {
+  auto lwr = str;
+  for (auto& c: lwr)
+    c = tolower(c);
+  return lwr;
+}
 
-const std::vector<Weight> Weights = {
-  { "g",     1 },
-  { "kg", 1000 },
-  { "oz",  28.3495 },
-  { "lb", 453.5924 }
-}; // Weights
+const std::map<std::string, std::string> ValSyn = {
+  { "1/8", "0.125" },
+  { "1/4", "0.25" },
+  { "1/3", "0.333" },
+  { "1/2", "0.5" },
+  { "2/3", "0.667" },
+  { "3/4", "0.75" }
+}; // ValSyn
+
+const std::map<std::string, std::string> UnitSyn = {
+  { "each",    "ea"   },
+  { "piece",   "ea"   },
+  { "pieces",  "ea"   },
+  { "#",       "lb"   },
+  { "T",       "tbsp" },
+  { "c",       "cup"  },
+  { "cups",    "cup"  },
+  { "gallon",  "gal"  },
+  { "gallons", "gal"  },
+  { "gram" ,   "g"    },
+  { "grams",   "g"    },
+  { "liter",   "l"    },
+  { "liters",  "l"    },
+  { "ounce",   "oz"   },
+  { "ounces",  "oz"   },
+  { "pint",    "pt"   },
+  { "pints",   "pt"   },
+  { "pound",   "lb"   },
+  { "pounds",  "lb"   },
+  { "quart",   "qt"   },
+  { "quarts",  "qt"   },
+  { "shots",   "shot" },
+  { "t",       "tsp"  },
+  { "tbsps",   "tbsp" },
+  { "tsps",    "tsp"  }
+}; // UnitSyn
+
+auto FindValue(const std::string& value) {
+  auto it = ValSyn.find(value);
+  return std::stod((it != ValSyn.end()) ? it->second : value);
+}
+
+auto FindUnit(const std::string& unit) {
+  auto it = UnitSyn.find(unit);
+  return (it != UnitSyn.end()) ? it->second : ToLower(unit);
+}
 
 struct Volume {
   std::string unit;
@@ -131,54 +208,61 @@ const std::vector<Volume> Volumes = {
   { "gal", 3785.4118 }
 }; // Volumes
 
-const std::map<std::string, std::string> Abbrev = {
-  { "c", "cup" },
-  { "t", "tsp" },
-  { "T", "tbsp" },
-  { "each", "ea" },
-  { "pint", "pt" },
-  { "quart", "qt" },
-  { "gallon", "gal" },
-  { "gram" , "g" },
-  { "liter", "l" }
-}; // Abbrev
+auto FindVolume(const std::string& unit) {
+  for (auto& it : Volumes) {
+    if (it.unit == unit)
+      return it.ml;
+  }
+  return 0.0;
+} // FindVolume
 
-struct Line {
-  double value = 0;
+struct Weight {
   std::string unit;
-  std::string name;
-}; // Line
+  double g = 0;
+};
 
-auto Ratio(const Ingredient& ingred, const std::string& unit, double value)
-  -> double
-{
-  if (unit == "ea")
+const std::vector<Weight> Weights = {
+  { "g",     1 },
+  { "kg", 1000 },
+  { "oz",  28.3495 },
+  { "lb", 453.5924 }
+}; // Weights
+
+auto FindWeight(const std::string& unit) {
+  for (auto& it : Weights) {
+    if (it.unit == unit)
+      return it.g;
+  }
+  return 0.0;
+} // FindWeight
+
+auto Ratio(const Ingredient& ingred, const std::string& unit, double value) {
+  if (unit == "ea" && ingred.g < 0.0)
     return value;
   if (ingred.ml != 0) {
-    for (auto& it : Volumes) {
-      if (unit == it.unit)
-	return value * it.ml / ingred.ml;
-    }
+    auto v = FindVolume(unit);
+    if (v != 0.0)
+      return value * v / ingred.ml;
   }
   if (ingred.g != 0) {
-    for (auto& it : Weights) {
-      if (unit == it.unit)
-	return value * it.g / ingred.g;
-    }
+    auto v = FindWeight(unit);
+    if (v != 0.0)
+      return value * v / std::abs(ingred.g);
   }
-  return 0;
+  return 0.0;
 } // Ratio
 
-auto ToLower(const std::string& str) {
-  auto lwr = str;
-  for (auto& c: lwr)
-    c = tolower(c);
-  return lwr;
-}
-
 int main() {
+  using std::cout;
   const auto& ingredients = ReadIngredients();
-  std::cout << "Read " << ingredients.size() << " ingredients." << std::endl;
+  cout << "Read " << ingredients.size() << " ingredients." << std::endl;
+
+  struct Line {
+    std::string value;
+    std::string unit;
+    std::string name;
+  }; // Line
+
   Line line;
   auto total = Ingredient("Total");
   while (std::cin) {
@@ -186,30 +270,58 @@ int main() {
     std::getline(std::cin >> std::ws, line.name);
     if (!std::cin)
       break;
-    auto ingred = FindIngredient(ingredients, ToLower(line.name))
-      .value_or(Ingredient(line.name));
-    auto iter = Abbrev.find(line.unit);
-    auto unit = (iter != Abbrev.end()) ? iter->second : ToLower(line.unit);
-    ingred.scale(Ratio(ingred, unit, line.value));
+    auto name = ToLower(line.name);
+    { // trim punctuation
+      const auto punct = std::string("!#$()*+,./:;<=>?@[]^{|}~");
+      auto i = name.find_first_of(punct);
+      if (i != std::string::npos)
+	name.erase(i);
+    }
+    { // trim whitespace
+      const auto ws = std::string(" \t\n\r\f\v");
+      auto i = name.find_last_not_of(ws);
+      if (i != std::string::npos && ++i < name.size())
+	name.erase(i);
+    }
+    auto ingred = FindIngredient(ingredients, name);
+    if (!ingred && !name.empty() && name.back() == 's') {
+      name.pop_back();
+      ingred = FindIngredient(ingredients, name);
+      if (!ingred && !name.empty() && name.back() == 'e') {
+	name.pop_back();
+	ingred = FindIngredient(ingredients, name);
+	if (!ingred && !name.empty() && name.back() == 'i') {
+	  name.back() = 'y';
+	  ingred = FindIngredient(ingredients, name);
+	}
+      }
+    }
+    if (!ingred)
+      ingred = Ingredient(line.name);
+    auto& ing = *ingred;
+    auto value = FindValue(line.value);
+    auto unit  = FindUnit(line.unit);
+    ing.scale(Ratio(ing, unit, value));
     using std::setw;
-    std::cout
-      << "g="    << setw(3) << ingred.g
-      << " cal=" << setw(4) << ingred.cal
-      << " p="   << setw(3) << ingred.prot
-      << " f="   << setw(3) << ingred.fat
-      << " c="   << setw(3) << ingred.carb
-      << " fb="  << setw(3) << ingred.fiber
-      << ' ' << setw(3) << line.value
-      << ' ' << line.unit << ' ' << line.name << std::endl;
-    total += ingred;
+    using std::round;
+    cout
+      << "g="    << setw(3) << round(ing.g)
+      << " cal=" << setw(4) << round(ing.cal)
+      << " p="   << setw(3) << round(ing.prot)
+      << " f="   << setw(3) << round(ing.fat)
+      << " c="   << setw(3) << round(ing.carb)
+      << " fb="  << setw(3) << round(ing.fiber)
+      << " : " << line.value << ' ' << line.unit << ' ' << line.name
+      << std::endl;
+    total += ing;
   }
-  std::cout << "\nTotals:"
-       << " g="   << total.g
-       << " cal=" << total.cal
-       << " p="   << total.prot
-       << " f="   << total.fat
-       << " c="   << total.carb
-       << " fb="  << total.fiber
+  cout << "\nTotals:"
+       << " g="   << round(total.g)
+       << " cal=" << round(total.cal)
+       << " p="   << round(total.prot)
+       << " f="   << round(total.fat)
+       << " c="   << round(total.carb)
+       << " fb="  << round(total.fiber)
        << std::endl;
   return EXIT_SUCCESS;
 } // main

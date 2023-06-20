@@ -1,188 +1,386 @@
 #  g  ml cal prot fat carb fiber
 # Oils
-  14  15 120   0  13   0   0 vegetable oil
-  14  15 124   0  14   0   0 canola oil
-  14  15 120   0  14   0   0 evoo
-  14  15 120   0  14   0   0 olive oil
-   2   2  15   0   2   0   0 olive oil spray
+  100   110   884   0.00 100.00   0.00   0.00 oil
+  100   110   884   0.00 100.00   0.00   0.00 vegetable oil
+  100   110   884   0.00 100.00   0.00   0.00 canola oil
+  100   111   884   0.00 100.00   0.00   0.00 evoo
+  100   111   884   0.00 100.00   0.00   0.00 olive oil
+   -2     0    15   0.00   2.00   0.00   0.00 olive oil spray
+   -2     0    15   0.00   2.00   0.00   0.00 evoo spray
 # Poultry
- 112   0 130  24   3   0   0 chicken white
- 112   0 180  21  10   0   0 chicken dark
-  50  48  74   6   5   0   0 egg
- 242 240 126  27   0   2   0 egg white
- 243 240 782  39  65   9   0 egg yolk
+  -55     0   135  13.67   8.45   0.00   0.00 small chicken thigh
+  -62     0   152  15.41   9.52   0.00   0.00 medium chicken thigh
+  -84     0   206  20.87  12.90   0.00   0.00 large chicken thigh
+  -46     0    95  11.83   4.96   0.00   0.00 small skinned chicken thigh
+  -52     0   108  13.37   5.61   0.00   0.00 medium skinned chicken thigh
+  -70     0   145  18.00   7.55   0.00   0.00 large skinned chicken thigh
+  -92     0   212  23.68  12.28   0.00   0.00 small chicken leg
+ -112     0   258  28.83  14.95   0.00   0.00 medium chicken leg
+ -146     0   336  37.58  19.49   0.00   0.00 large chicken leg
+  -81     0   153  21.71   6.77   0.00   0.00 small skinned chicken leg
+  -94     0   178  25.19   7.86   0.00   0.00 medium skinned chicken leg
+ -128     0   242  34.30  10.70   0.00   0.00 large skinned chicken leg
+  -32     0    92   8.52   6.18   0.00   0.00 chicken wing
+  100     0   230  25.74  13.35   0.00   0.00 chicken leg
+  100     0   245  24.85  15.36   0.00   0.00 chicken thigh
+  200     0   475  50.59  28.71   0.00   0.00 chicken quarter
+  -20     0    40   6.04   1.61   0.00   0.00 skinned chicken wing
+  100     0   207  25.72  10.79   0.00   0.00 skinned chicken thigh
+  100     0   189  26.80   8.36   0.00   0.00 skinned chicken leg
+  100     0   195  29.55   7.72   0.00   0.00 chicken breast
+  -84     0   164  24.82   6.48   0.00   0.00 small chicken breast
+  -98     0   191  28.96   7.57   0.00   0.00 medium chicken breast
+ -111     0   216  32.80   8.57   0.00   0.00 large chicken breast
+  100     0   237  30.42  11.89   0.00   0.00 chicken meat
+  135   240   148  31.17   1.67   0.00   0.00 diced cooked chicken
+  100     0   110  23.09   1.24   0.00   0.00 cooked chicken
+  135   240   148  31.17   1.67   0.00   0.00 diced chicken breast
+  140   240   332  42.59  16.65   0.00   0.00 diced chicken
+  -37     0    54   4.65   3.68   0.28   0.00 small egg
+  -44     0    65   5.54   4.37   0.34   0.00 medium egg
+  -50     0    74   6.29   4.97   0.38   0.00 large egg
+  -58     0    85   7.30   5.77   0.45   0.00 extra large egg
+  -65     0    96   8.18   6.46   0.50   0.00 jumbo egg
+  243   240   357  30.57  24.15   1.87   0.00 egg
+  242   240   126  26.49   0.41   1.77   0.00 egg whites
+  243   240   782  38.54  64.49   8.72   0.00 egg yolks
+  136   240   211  17.11  14.53   1.52   0.00 chopped egg
 # Fish
- 112   0 130  22   4   0   0 salmon
- 113   0 110  21   3   0   0 tilapia
- 230   0 189  41   2   0   0 cod
- 112   0  96  20   1   0   0 fish
- 200   0 265  38  12   0   0 whitefish
- 115 240 166  32   3   2   0 shrimp
- 112   0 110  23   1   1   0 lobster 
- 113   0 100  23   1   0   0 tuna
- 113   0 100  23   1   0   0 tuna white
- 113   0 100  22   2   0   0 tuna albacore
+  112     0   130  22.00   4.00   0.00   0.00 salmon
+  454     0   435  91.00   8.00   0.00   0.00 tilapia
+  230     0   189  41.00   2.00   0.00   0.00 cod
+  112     0    96  20.00   1.00   0.00   0.00 fish
+  407     0   448  85.00   9.00   0.00   0.00 halibut
+  200     0   265  38.00  12.00   0.00   0.00 whitefish
+  115   240   166  32.00   3.00   2.00   0.00 shrimp
+  112     0   110  23.00   1.00   1.00   0.00 lobster
+  113     0   100  23.00   1.00   0.00   0.00 tuna
+  113     0   100  23.00   1.00   0.00   0.00 white tuna
+  113     0   100  22.00   2.00   0.00   0.00 albacore tuna
+  136     0   165  27.00   5.00   0.00   0.00 swordfish
+   79     0   117  16.00   5.00   0.00   0.00 trout
+  100     0   217  18.00  11.00  10.00   1.00 scallops
 # Meat
- 112   0 240  21  17   0   0 ground beef
- 112   0 240  21  17   0   0 beef ground
- 112   0 290  20  22   0   0 beef ground 20%
- 112   0 240  21  17   0   0 beef ground 15%
- 112   0 200  22  11   0   0 beef ground 10%
- 112   0 170  23   8   0   0 beef ground 7%
- 227   0 568  62  34   0   0 beef steak
- 227   0 568  62  34   0   0 steak
- 170   0 226  16  18   0   0 lamb
- 170   0 226  16  18   0   0 lamb chop
-  85   0 224  14  18   0   0 ground pork
-  85   0 224  14  18   0   0 pork ground
- 113   0 163  24   7   0   0 pork
- 113   0 163  24   7   0   0 pork chop
+  112     0   240  21.00  17.00   0.00   0.00 ground beef
+  112     0   290  20.00  22.00   0.00   0.00 ground beef 20%
+  112     0   240  21.00  17.00   0.00   0.00 ground beef 15%
+  112     0   200  22.00  11.00   0.00   0.00 ground beef 10%
+  112     0   170  23.00   8.00   0.00   0.00 ground beef 7%
+  112     0   155  24.00   6.00   0.00   0.00 ground beef 5%
+  272     0   685  74.00  41.00   0.00   0.00 beef steak
+  272     0   685  74.00  41.00   0.00   0.00 steak
+  170     0   226  16.00  18.00   0.00   0.00 lamb
+  170     0   226  16.00  18.00   0.00   0.00 lamb chop
+   85     0   224  14.00  18.00   0.00   0.00 ground pork
+  113     0   163  24.00   7.00   0.00   0.00 pork
+  113     0   163  24.00   7.00   0.00   0.00 pork chop
 # Dairy
- 248 240 120   8   5  11   0 milk
- 248 240 120   8   5  11   0 milk 2%
- 248 240 120   8   5  11   0 2% milk
- 248 240 150   8   8  11   0 milk whole
- 248 240 150   8   8  11   0 whole milk
- 248 240 100   8   3  11   0 milk 1%
- 248 240  80   8   0  11   0 milk 0%
- 248 240  80   8   0  11   0 milk skim
- 248 240  80   8   0  11   0 skim milk
- 245 240  98   8   2  12   0 buttermilk
- 230 240 190  21   5  16   0 greek yogurt
- 248 240 143  12   4  16   0 yogurt
-  39  30 130   3   3  22   0 milk condensed
-  32  30  40   2   2   3   0 milk evaporated
-  14  15 100   0  11   0   0 butter
-  14  15 100   0  11   0   0 butter canola oil
-  14  15  90   0  10   0   0 butter olive oil
-  14  15  60   0   7   0   0 margarine   
-  30  30  62   1   6   2   0 sour cream
-  30  30  40   1   3   1   0 half and half
-  30  30  40   1   3   1   0 half & half
-  30  30 120   1  12   1   0 heavy cream
+  248   240   120   8.00   5.00  11.00   0.00 milk
+  248   240   120   8.00   5.00  11.00   0.00 milk 2%
+  248   240   100   8.00   3.00  11.00   0.00 milk 1%
+  248   240    80   8.00   0.00  11.00   0.00 milk 0%
+  248   240   120   8.00   5.00  11.00   0.00 2% milk
+  248   240   150   8.00   8.00  11.00   0.00 whole milk
+  248   240    80   8.00   0.00  11.00   0.00 skim milk
+  245   240    98   8.00   2.00  12.00   0.00 buttermilk
+  128   240   635  34.00  34.00  49.00   0.00 dry milk
+  128   240   635  34.00  34.00  49.00   0.00 milk powder
+  230   240   190  21.00   5.00  16.00   0.00 greek yogurt
+  248   240   143  12.00   4.00  16.00   0.00 yogurt
+  306   240   982  24.00  27.00 166.00   0.00 condensed milk
+  243   240   168   9.00  10.00  13.00   0.00 evaporated milk
+  227   240  1628   2.00 184.00   0.00   0.00 butter
+ -113     0   810   1.00  92.00   0.00   0.00 butter stick
+   14    15   100   0.00  11.00   0.00   0.00 canola oil butter
+   14    15    90   0.00  10.00   0.00   0.00 olive oil butter
+  227   240  1628   2.00 184.00   0.00   0.00 garlic butter
+ -113     0   810   1.00  92.00   0.00   0.00 garlic butter stick
+  100   117   876   0.00  99.00   0.00   0.00 ghee
+   14    15    60   0.00   7.00   0.00   0.00 imperial margarine
+  229   240  1205   1.00 136.00   0.00   0.00 margarine
+  230   240   492   7.00  48.00  10.00   0.00 sour cream
+  242   240   315   7.00  28.00  10.00   0.00 half and half
+  242   240   315   7.00  28.00  10.00   0.00 half & half
+  238   240   821   5.00  88.00   7.00   0.00 heavy cream
+  244   240   110   8.00   5.00   9.00   2.00 soy milk
+  244   240    80   7.00   5.00   4.00   2.00 soy milk unsweet
+  244   240    60   1.00   3.00   8.00   0.00 almond milk
+  244   240    30   1.00   3.00   1.00   0.00 almond milk unsweet
+  244   240    70   0.00   5.00   6.00   0.00 coconut milk
+  244   240    40   0.00   4.00   2.00   0.00 coconut milk unsweet
+  244   240    25   1.00   2.00   1.00   0.00 cashew milk unsweet
 # Cheese
-  19   0  50   5   4   2   0 american cheese slice
-  19   0  70   3   6   0   0 american deli slice
-  23   0  90   6   7   0   0 swiss cheese slice
-  28  60 110   7   9   1   0 swiss cheese shredded
-  28  60 110   6   9   1   0 cheddar cheese shredded
-  28  60 110   6   9   1   0 cheese shredded
-  28  60 110   9   8   1   0 parmesan shredded
-  28  60  80   7   6   1   0 mozzarella shredded
-  28  60  60   5   3   4   0 velveeta shredded
-  28  30  90   2   9   2   0 cream cheese
-  14  15  60   1   7   0   0 mascarpone
+  100     0   337  19.00  26.00   7.00   0.00 american cheese
+  -19     0    50   5.00   4.00   2.00   0.00 american cheese slice
+  -19     0    70   3.00   6.00   0.00   0.00 american deli slice
+  113   240   381  21.00  30.00   8.00   0.00 shredded american cheese
+  113   240   381  21.00  30.00   8.00   0.00 shredded cheese
+  100     0   380  27.00  28.00   5.00   0.00 swiss cheese
+  -23     0    90   6.00   7.00   0.00   0.00 swiss cheese slice
+  108   240   410  29.00  30.00   6.00   0.00 shredded swiss cheese
+  100     0   403  25.00  33.00   1.00   0.00 cheddar
+  113   240   455  28.00  37.00   1.00   0.00 shredded cheddar
+  100     0   403  25.00  33.00   1.00   0.00 cheddar cheese
+  113   240   455  28.00  37.00   1.00   0.00 shredded cheddar cheese
+  100     0   392  36.00  26.00   3.00   0.00 parmesan
+  100   292   415  38.00  27.00   3.00   0.00 shredded parmesan
+  100   100   431  38.00  29.00   4.00   0.00 dry grated parmesan
+  100     0   392  36.00  26.00   3.00   0.00 parmesan cheese
+  100   292   415  38.00  27.00   3.00   0.00 shredded parmesan cheese
+  100   100   431  38.00  29.00   4.00   0.00 dry grated parmesan cheese
+  100     0   302  26.00  20.00   4.00   0.00 mozzarella
+  113   240   341  29.00  23.00   4.00   0.00 shredded mozzarella
+  100     0   302  26.00  20.00   4.00   0.00 mozzarella cheese
+  113   240   341  29.00  23.00   4.00   0.00 shredded mozzarella cheese
+  100     0   384  24.00  31.00   2.00   0.00 colby jack
+  -28     0   109   7.00   9.00   0.00   0.00 colby jack slice
+  113   240   434  27.00  35.00   2.00   0.00 shredded colby jack
+  100     0   384  24.00  31.00   2.00   0.00 colby jack cheese
+  -28     0   109   7.00   9.00   0.00   0.00 colby jack cheese slice
+  113   240   434  27.00  35.00   2.00   0.00 shredded colby jack cheese
+   28    60    60   5.00   3.00   4.00   0.00 shredded velveeta
+  232   240   810  18.00  81.00   6.00   0.00 cream cheese
+   14    15    60   1.00   7.00   0.00   0.00 mascarpone
+  100     0   356  25.00  27.00   2.00   0.00 gouda
+  100     0   356  25.00  27.00   2.00   0.00 gouda cheese
+  -28     0    98   7.00   7.00   1.00   0.00 provolone slice
+  100     0   351  26.00  27.00   2.00   0.00 provolone
+   28     0    98   7.00   7.00   1.00   0.00 provolone cheese slice
+  100     0   351  26.00  27.00   2.00   0.00 provolone cheese
 # Pantry
-   4   5  15   0   0   4   0 sugar
-   4   5  15   0   0   4   0 sugar granulated
-   4   5  15   0   0   4   0 sugar brown
-   4   5  15   0   0   4   0 sugar powdered
-  30  60 110   3   0  23   0 flour
-  32  60 110   2   0  25   1 flour cake
-  32  60 110   2   0  25   1 cake flour
-  13  30  50   0   1   9   0 graham cracker crumbs
-  28 120 100   3   0  20   1 panko
-  28 120 110   3   4  17   1 panko italian
-  30 120 120   4   2  18   2 bread crumbs
-  30 120 120   4   2  21   2 bread crumbs italian
+  200   240   774   0.00   0.00 200.00   0.00 sugar
+  200   240   774   0.00   0.00 200.00   0.00 granulated sugar
+  220   240   829   0.00   0.00 214.00   0.00 brown sugar
+  220   240   829   0.00   0.00 214.00   0.00 packed brown sugar
+  145   240   547   0.00   0.00 141.00   0.00 unpacked brown sugar
+  120   240   467   0.00   0.00 120.00   0.00 powdered sugar
+  120   240   467   0.00   0.00 120.00   0.00 unsifted powdered sugar
+  100   240   389   0.00   0.00 100.00   0.00 sifted powdered sugar
+  337   240   977   0.00   0.00 252.00   0.00 molasses
+  125   240   455  13.00   1.00  95.00   3.00 flour
+  120   240   407  16.00   2.00  87.00  15.00 whole wheat flour
+  137   240   496  11.00   1.00 107.00   2.00 cake flour
+    8    15    30   0.00   0.00   7.00   0.00 corn starch
+   30    60   130   2.00   3.00  23.00   1.00 graham cracker crumbs
+   28   120   100   3.00   0.00  20.00   1.00 panko
+   28   120   110   3.00   4.00  17.00   1.00 italian panko
+   30   120   120   4.00   2.00  18.00   2.00 bread crumbs
+   30   120   120   4.00   2.00  21.00   2.00 italian bread crumbs
+  100   193   314  12.00  17.00  55.00  34.00 chili powder
+  300   240     0   0.00   0.00   0.00   0.00 salt
+  100   236   255  11.00   3.00  65.00  27.00 pepper
+  100   236   255  11.00   3.00  65.00  27.00 black pepper
+  100   208   296  10.00   2.00  69.00  26.00 white pepper
+  100   277   318  12.00  17.00  57.00  27.00 cayenne pepper
+  163   223     0   0.00   0.00   0.00   0.00 lemon pepper
+  100   252   375  18.00  22.00  44.00  11.00 cumin
+  100   214   289  15.00  13.00  56.00  37.00 paprika
+  100   218   354   8.00  10.00  65.00  21.00 turmeric
+  100   251   306  11.00  10.00  64.00  43.00 oregano
+  100   251   306  11.00  10.00  64.00  43.00 ground oregano
+  100   801   271  13.00   7.00  61.00  40.00 marjoram
+  100   776   315  11.00  13.00  61.00  40.00 sage
+  100  1017   276  23.00   4.00  52.00  30.00 dried parsley
+  100   340   276   9.00   7.00  64.00  37.00 thyme
+  100   214   261   4.00   3.00  80.00  54.00 cinnamon
+  200   240   758   1.00   0.00 197.00   7.00 cinnamon sugar
+  100   243   263   6.00   9.00  72.00  22.00 allspice
+  100   337   251  14.00   4.00  61.00  41.00 basil
+  100   825   279  22.00   5.00  52.00  10.00 coriander
+  100   255   345  16.00  15.00  52.00  40.00 fennel seed
+  100   270   347   9.00   6.00  71.00  13.00 ginger ground
+  100   266   342   6.00  13.00  69.00  15.00 pumpkin pie spice
+  100   266   342   6.00  13.00  69.00  15.00 pumpkin spice
+  100   240   325  13.00  14.00  58.00  33.00 curry powder
+    5    15    25   1.00   1.00   3.00   0.00 garam masala
+  453   466     0   0.00   0.00   0.00   0.00 lawry's
+   57   117     0   0.00   0.00   0.00   0.00 italian seasoning
+  100   413   307  10.00   8.00  66.00  11.00 poultry seasoning
+    9    20    30   0.00   0.00   4.00   0.00 pork rub
+  208   240   599   0.00   0.00  26.00   0.00 vanilla
+  208   240   599   0.00   0.00  26.00   0.00 vanilla extract
+   21    25     0   0.00   0.00   0.00   0.00 lemon extract
+  136   240   181   9.00   1.00  45.00   5.00 dried minced garlic
+  100   175   332  17.00   1.00  73.00  10.00 garlic powder
+  150   240   718   6.00  45.00  95.00   9.00 chocolate chip
+  100     0   501  13.00  52.00  30.00  17.00 chocolate
+  100     0   501  13.00  52.00  30.00  17.00 baking chocolate
+  300   240   837   6.00   3.00 195.00   8.00 chocolate syrup
+  100   279   229  20.00  14.00  54.00  33.00 cocoa
+  100   279   229  20.00  14.00  54.00  33.00 cocoa powder
+   38    30   120   2.00   4.00  20.00   1.00 hot fudge
+    9    15    30   1.00   1.00   6.00   0.00 chili seasoning
+    9    10    20   0.00   0.00   4.00   0.00 taco seasoning
+  -34     0   120  24.00   1.00   3.00   1.00 casein scoop
+  -34     0   120  24.00   1.00   3.00   1.00 casein powder scoop
+  -33     0   110  25.00   1.00   1.00   1.00 isopure scoop
+   34    70   120  24.00   1.00   3.00   1.00 casein
+   34    70   120  24.00   1.00   3.00   1.00 casein powder
+   33    70   110  25.00   1.00   1.00   1.00 isopure
 # Nuts & Seeds
-  30  60 200   5  20   4   2 walnut
-  30  60 210   3  22   4   3 pecan
-  31  44 170   6  11  10   8 flaxseed
-  13  30  70   3   5   4   3 flaxseed meal
-  12  15  60   2   4   5   3 chia seed
+  120   240   785  18.00  78.00  16.00   8.00 chopped walnuts
+  109   240   753  10.00  78.00  15.00  11.00 chopped pecans
+  100     0   553  18.00  44.00  30.00   3.00 cashews
+  100     0   654  15.00  65.00  14.00   7.00 walnuts
+  100     0   691   9.00  72.00  14.00  10.00 pecans
+  100     0   578  21.00  51.00  20.00  12.00 almonds
+  146   240   828  38.00  72.00  24.00  12.00 peanuts
+  135   240   848  20.00  82.00  23.00  13.00 hazelnuts
+  115   240   722  17.00  70.00  19.00  11.00 chopped hazelnuts
+  134   240   962  11.00 102.00  19.00  12.00 macadamia nuts
+  168   240   987  31.00  71.00  49.00  46.00 flaxseed
+   13    30    70   3.00   5.00   4.00   3.00 ground flaxseed
+   13    30    70   3.00   5.00   4.00   3.00 flaxseed meal
+  100   125   490  16.00  31.00  44.00  38.00 chia seeds
+  144   240   825  26.00  72.00  34.00  17.00 sesame seeds
+  144   240   821  33.00  71.00  27.00  15.00 sunflower seeds
+  138   240   747  34.00  63.00  25.00   5.00 pumpkin seeds
 # Sauces & Spreads
-  21  15  64   0   0  17   0 honey
-  32  27 190   7  16   7   2 peanut butter
-  15  15  10   2   0   1   0 soy sauce
-  15  15  40   0   4   2   0 miracle whip
-  14  15 100   0  11   0   0 mayo
-  14  15 100   0  11   0   0 mayonnaise
-  17  15  20   0   0   5   0 ketchup
- 246 240  10   1   0   2   0 chicken broth
- 246 240  10   1   0   2   0 broth chicken
-   6  15  10   1   0   2   0 chicken boullion
-   6  15  10   1   0   2   0 boullion chicken
- 246 240  15   1   0   2   0 beef broth
- 246 240  15   1   0   2   0 broth beef
-   6  15  15   1   0   2   0 beef boullion
-   6  15  15   1   0   2   0 boullion beef
- 239 240  43   0   0   2   0 vinegar
- 238 240  50   0   0   2   0 vinegar cider
-   5   5   0   0   0   0   0 vinegar rice
-   5   5   0   0   0   0   0 vinegar wine
-   5   5   0   0   0   0   0 vinegar red
-   5   5   0   0   0   0   0 vinegar red wine
-   5   5   0   0   0   0   0 vinegar white
-   5   5   0   0   0   0   0 vinegar white wine
- 239 240 210   0   0  41   0 vinegar balsamic
- 239 240 210   0   0  41   0 balsamic
- 250 240 165  10   8  20   8 mustard
- 300 240 198  12   9  23  10 mustard dijon
- 275 240 184   0   0  54   0 worcestershire
+  339   240  1031   1.00   0.00 279.00   1.00 honey
+  100    93   588  25.00  50.00  20.00   6.00 peanut butter
+  255   240   135  16.00   0.00  19.00   2.00 soy sauce
+   15    15    40   0.00   4.00   2.00   0.00 miracle whip
+  235   240   916   2.00  78.00  56.00   0.00 mayo
+  235   240   916   2.00  78.00  56.00   0.00 mayonnaise
+  240   240   233   4.00   1.00  60.00   1.00 ketchup
+  246   240    10   1.00   0.00   2.00   0.00 chicken broth
+  240   240    12   1.00   0.00   2.00   0.00 chicken stock
+   -6     0    10   1.00   0.00   2.00   0.00 chicken boullion cube
+    6    15    10   1.00   0.00   2.00   0.00 chicken boullion
+  246   240    15   1.00   0.00   2.00   0.00 beef broth
+  233   240     7   1.00   0.00   1.00   0.00 beef stock
+   -6     0    15   1.00   0.00   2.00   0.00 beef boullion cube
+    6    15    15   1.00   0.00   2.00   0.00 beef boullion
+  239   240    43   0.00   0.00   2.00   0.00 vinegar
+  238   240    50   0.00   0.00   2.00   0.00 cider vinegar
+    5     5     0   0.00   0.00   0.00   0.00 rice vinegar
+    5     5     0   0.00   0.00   0.00   0.00 wine vinegar
+    5     5     0   0.00   0.00   0.00   0.00 red vinegar
+    5     5     0   0.00   0.00   0.00   0.00 red wine vinegar
+    5     5     0   0.00   0.00   0.00   0.00 white vinegar
+    5     5     0   0.00   0.00   0.00   0.00 white wine vinegar
+  239   240   210   0.00   0.00  41.00   0.00 balsamic vinegar
+  239   240   210   0.00   0.00  41.00   0.00 balsamic
+  250   240   165  10.00   8.00  20.00   8.00 mustard
+  300   240   198  12.00   9.00  23.00  10.00 dijon mustard
+  275   240   184   0.00   0.00  54.00   0.00 worcestershire
+  275   240   184   0.00   0.00  54.00   0.00 worcestershire sauce
 # Fruit & Vegetables
-   5   0   5   0   0   1   0 garlic
- 136 240 181   9   1  45   5 garlic chopped
- 136 240 181   9   1  45   5 garlic minced
- 151   0  72   0   0  19   3 apple
- 128 120 110   0   0  27   1 applesauce
- 118 188 105   1   0  27   3 banana
- 225 240 200   2   1  51   6 banana mash
- 146 240  83   1   0  21   4 blueberry
- 123 240  64   1   1  15   8 raspberry
- 144 240  62   2   1  14   8 blackberry
-  50 120  25   0   0   6   2 cranberry
- 159 240 110   1   0  29   1 grape
-  75 102  46   1   0  11   2 kiwi
- 144 240  46   1   0  11   3 strawberry
- 166 240  53   1   0  13   3 strawberry sliced
-  43 103   6   0   0   1   1 celery
-  61   0  25   1   0   6   2 carrot
-  71 240  20   2   0   4   0 broccoli flower
-  91 240  31   3   0   6   3 broccoli chopped
- 122 165  22   1   0   5   2 tomato
- 121 120  45   2   0   9   3 tomato crushed
- 260 240  90   3   1  18   4 tomato sauce
-  61  60  15   1   0   3   0 tomato chopped
-  16  15  13   1   0   3   1 tomato paste
-  54 240 139   8   2  30   7 tomato dried
- 150 240  27   1   0   6   2 tomato cherry
- 110 165  46   1   0  11   2 onion
- 100 240  32   2   0   7   3 scallion
- 120 192  24   1   0   6   2 pepper green
- 120 192  31   1   0   7   2 pepper bell
-  13  36   4   0   0   1   0 jalapeno
-  90 240  27   1   1   5   3 jalapeno sliced
- 201 210 322   4  30  17  14 avocado
- 284 478 219  15   1  39  12 peas
- 284 478 219  15   1  39  12 peas frozen
- 130 236 112   2   0  26   4 sweet potato
- 130 236 112   2   0  26   4 potato sweet
- 167 250 174   3   4  32   3 potato
- 180 240 204   4   0  44   1 rice white
- 180 240 204   4   0  44   1 rice
- 195 240 215   5   2  44   4 rice brown
-   5   5  10   0   0   1   0 basic paste
-   5   5  10   0   0   2   0 ginger paste
-   5   5  15   0   0   2   0 garlic paste
-  57 240   8   1   0   2   1 lettuce
- 244 240  61   1   0  21   1 lemon juice
- 248 240  62   1   0  21   1 lime juice
- 240 240 286   12  3  55  11 bean garbanzo
- 240 240 286   12  3  55  11 garbanzo
- 240 240 286   12  3  55  11 chickpea
- 130 120 120    7  1  21   7 bean chili
- 110 240  34    2  0   8   4 bean green
- 110 240  34    2  0   8   4 green bean
-  15  27   3    0  0   1   0 asparagus spear
- 135 240  27    3  0   5   3 asparagus
+   -5     0     5   0.00   0.00   1.00   0.00 garlic clove
+  136   240   203   9.00   1.00  45.00   3.00 garlic
+  136   240   181   9.00   1.00  45.00   5.00 minced garlic
+ -151     0    72   0.00   0.00  19.00   3.00 apple
+  128   120   110   0.00   0.00  27.00   1.00 applesauce
+ -118   188   105   1.00   0.00  27.00   3.00 banana
+  225   240   200   2.00   1.00  51.00   6.00 banana mash
+  146   240    83   1.00   0.00  21.00   4.00 blueberries
+  123   240    64   1.00   1.00  15.00   8.00 raspberries
+  144   240    62   2.00   1.00  14.00   8.00 blackberries
+   50   120    25   0.00   0.00   6.00   2.00 cranberries
+  159   240   110   1.00   0.00  29.00   1.00 grapes
+  -75   102    46   1.00   0.00  11.00   2.00 kiwi
+   -6     0     2   0.00   0.00   1.00   0.00 small strawberry
+  -13     0     4   0.00   0.00   1.00   0.00 medium strawberry
+  -19     0     6   0.00   0.00   1.00   0.00 large strawberry
+  -28     0     9   0.00   0.00   2.00   1.00 extra large strawberry
+  144   240    46   1.00   0.00  11.00   3.00 strawberries
+  166   240    53   1.00   0.00  13.00   3.00 sliced strawberries
+  231   240    74   2.00   1.00  18.00   5.00 pureed strawberries
+  -43     0     6   0.00   0.00   1.00   1.00 celery stalk
+  100   240    14   1.00   0.00   3.00   2.00 chopped celery
+  100   240    14   1.00   0.00   3.00   2.00 sliced celery
+  -10     0     4   0.00   0.00   1.00   0.00 baby carrot
+  -49     0    20   0.00   0.00   5.00   1.00 small carrot
+  -61     0    25   1.00   0.00   6.00   2.00 medium carrot
+  -73     0    30   1.00   0.00   7.00   2.00 large carrot
+  110   240    45   1.00   0.00  11.00   3.00 grated carrots
+  122   240    50   1.00   0.00  12.00   3.00 sliced carrots
+  127   240    52   1.00   0.00  12.00   4.00 chopped carrots
+   71   240    20   2.00   0.00   4.00   0.00 broccoli
+   71   240    20   2.00   0.00   4.00   0.00 broccoli flowers
+   91   240    31   3.00   0.00   6.00   3.00 chopped broccoli
+   -6     0     1   0.00   0.00   0.00   0.00 grape tomato
+  -17     0     3   0.00   0.00   1.00   0.00 cherry tomato
+  -61     0    11   1.00   0.00   3.00   1.00 plum tomato
+  -89     0    16   1.00   0.00   4.00   1.00 small tomato
+ -122     0    22   1.00   0.00   5.00   2.00 medium tomato
+ -183     0    33   2.00   0.00   7.00   2.00 large tomato
+  -61     0    11   1.00   0.00   2.00   1.00 italian tomato
+ -122     0    22   1.00   0.00   5.00   2.00 tomato
+  -22     0     4   0.00   0.00   1.00   0.00 tomato slice
+  178   240    32   2.00   0.00   7.00   2.00 chopped tomatoes
+  121   120    45   2.00   0.00   9.00   3.00 crushed tomatoes
+  260   240    90   3.00   1.00  18.00   4.00 tomato sauce
+   16    15    13   1.00   0.00   3.00   1.00 tomato paste
+   54   240   139   8.00   2.00  30.00   7.00 dried tomatoes
+  150   240    27   1.00   0.00   6.00   2.00 cherry tomatoes
+ -148     0    35   1.00   1.00   2.00   0.00 roma tomato
+ -122   164    28   1.00   0.00   6.00   1.00 green tomato
+ -110   165    46   1.00   0.00  11.00   2.00 onion
+  110   165    46   1.00   0.00  11.00   2.00 chopped onion
+  100   240    32   2.00   0.00   7.00   3.00 scallions
+  100   152    72   3.00   0.00  17.00   0.00 shallots
+  100   253    80   2.00   1.00  18.00   2.00 ginger
+ -167     0    45   2.00   0.00  11.00   2.00 cucumber
+   53   120     8   0.00   0.00   2.00   0.00 sliced cucumber
+ -200     0    24   1.00   0.00   4.00   1.00 peeled cucumber
+  117   240    14   1.00   0.00   3.00   1.00 sliced peeled cucumber
+  133   240    16   1.00   0.00   3.00   1.00 pared chopped cucumber
+ -194     0    31   2.00   0.00   7.00   2.00 zucchini
+  113   240    18   1.00   0.00   4.00   1.00 sliced zucchini
+  125   240    20   2.00   0.00   4.00   1.00 chopped zucchini
+ -458     0   110   5.00   1.00  26.00  16.00 eggplant
+  458     0   110   5.00   1.00  26.00  16.00 peeled eggplant
+  550     0   132   6.00   1.00  31.00  19.00 unpeeled eggplant
+   83   240    20   1.00   0.00   5.00   3.00 cubed eggplant
+ -120   192    24   1.00   0.00   6.00   2.00 green pepper
+ -120   192    31   1.00   0.00   7.00   2.00 bell pepper
+ -120   192    31   1.00   0.00   7.00   2.00 green bell pepper
+ -120   192    31   1.00   0.00   7.00   2.00 red bell pepper
+ -120   192    31   1.00   0.00   7.00   2.00 yellow bell pepper
+  -13    36     4   0.00   0.00   1.00   0.00 jalapeno
+   13    36     4   0.00   0.00   1.00   0.00 sliced jalapeno
+  -13    36     4   0.00   0.00   1.00   0.00 jalapeno pepper
+   13    36     4   0.00   0.00   1.00   0.00 sliced jalapeno pepper
+ -201   210   322   4.00  30.00  17.00  14.00 avocado
+  284   478   219  15.00   1.00  39.00  12.00 peas
+  284   478   219  15.00   1.00  39.00  12.00 frozen peas
+ -130   236   112   2.00   0.00  26.00   4.00 sweet potato
+ -167   250   174   3.00   4.00  32.00   3.00 potato
+  180   240   204   4.00   0.00  44.00   1.00 rice white
+  180   240   204   4.00   0.00  44.00   1.00 rice
+  195   240   215   5.00   2.00  44.00   4.00 rice brown
+    5     5    10   0.00   0.00   1.00   0.00 basic paste
+    5     5    10   0.00   0.00   2.00   0.00 ginger paste
+    5     5    15   0.00   0.00   2.00   0.00 garlic paste
+   57   240     8   1.00   0.00   2.00   1.00 lettuce
+   30   240     7   1.00   0.00   1.00   1.00 spinach
+   61   240    22   2.00   0.00   4.00   2.00 parsley
+  100   444    30   3.00   1.00   4.00   3.00 chives
+  248   240    62   1.00   0.00  21.00   1.00 lime juice
+  244   240    61   1.00   0.00  21.00   1.00 lemon juice
+  100   232    47   2.00   0.00  16.00  11.00 lemon peel
+  100   232    47   2.00   0.00  16.00  11.00 lemon zest
+  240   240   286  12.00   3.00  55.00  11.00 garbanzos
+  240   240   286  12.00   3.00  55.00  11.00 garbanzo beans
+  240   240   286  12.00   3.00  55.00  11.00 chickpeas
+  130   120   120   7.00   1.00  21.00   7.00 chili beans
+  110   240    34   2.00   0.00   8.00   4.00 green beans
+  -15    27     3   0.00   0.00   1.00   0.00 asparagus spear
+  135   240    27   3.00   0.00   5.00   3.00 asparagus
+  454   445   154   5.00   1.00  37.00  13.00 pumpkin canned
 ## Mushrooms
-  85 160  20   3   0   3   1 mushroom
-  85 160  20   3   0   3   1 mushroom white
-  85 160  20   3   0   3   1 mushroom monterrey
-  85 160  20   2   0   4   1 mushroom portabella
-  85 160  20   2   0   4   1 portabella
-  85 160  20   2   0   4   1 mushroom brown
-  71 120  40   1   0  11   2 mushroom shiitake
-  71 120  40   1   0  11   2 shiitake
- 150  80  52   5   1  10   4 mushroom oyster
+  -18    46     4   1.00   0.00   1.00   0.00 mushroom
+  -18    46     4   1.00   0.00   1.00   0.00 white mushroom
+  -18    46     4   1.00   0.00   1.00   0.00 brown mushroom
+  100   352    22   3.00   0.00   3.00   1.00 sliced mushrooms
+  100   352    22   3.00   0.00   3.00   1.00 sliced white mushrooms
+  100   352    22   3.00   0.00   3.00   1.00 sliced brown mushrooms
+   85   160    20   3.00   0.00   3.00   1.00 monterrey mushroom
+ -150    80    52   5.00   1.00  10.00   4.00 oyster mushroom
+  -85   240    22   2.00   0.00   4.00   1.00 portabella mushroom
+  -85   240    22   2.00   0.00   4.00   1.00 portabella
+   71   120    40   1.00   0.00  11.00   2.00 shiitake mushroom
+   71   120    40   1.00   0.00  11.00   2.00 shiitake
+  298   300   200   5.00   9.00  25.00   2.00 golden mushroom soup
+  298   300   250   3.00  15.00  22.00   5.00 cream of mushroom soup
