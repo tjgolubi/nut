@@ -115,43 +115,43 @@
   244   240    40   0.00   4.00   2.00   0.00 coconut milk unsweet
   244   240    25   1.00   2.00   1.00   0.00 cashew milk unsweet
 # Cheese
-  100     0   337  19.00  26.00   7.00   0.00 american cheese
-  -19     0    50   5.00   4.00   2.00   0.00 american cheese slice
-  -19     0    70   3.00   6.00   0.00   0.00 american deli slice
-  113   240   381  21.00  30.00   8.00   0.00 shredded american cheese
-  113   240   381  21.00  30.00   8.00   0.00 shredded cheese
-  100     0   380  27.00  28.00   5.00   0.00 swiss cheese
-  -23     0    90   6.00   7.00   0.00   0.00 swiss cheese slice
-  108   240   410  29.00  30.00   6.00   0.00 shredded swiss cheese
-  100     0   403  25.00  33.00   1.00   0.00 cheddar
-  113   240   455  28.00  37.00   1.00   0.00 shredded cheddar
-  100     0   403  25.00  33.00   1.00   0.00 cheddar cheese
-  113   240   455  28.00  37.00   1.00   0.00 shredded cheddar cheese
-  100     0   392  36.00  26.00   3.00   0.00 parmesan
-  100   292   415  38.00  27.00   3.00   0.00 shredded parmesan
-  100   100   431  38.00  29.00   4.00   0.00 dry grated parmesan
-  100     0   392  36.00  26.00   3.00   0.00 parmesan cheese
-  100   292   415  38.00  27.00   3.00   0.00 shredded parmesan cheese
-  100   100   431  38.00  29.00   4.00   0.00 dry grated parmesan cheese
-  100     0   302  26.00  20.00   4.00   0.00 mozzarella
-  113   240   341  29.00  23.00   4.00   0.00 shredded mozzarella
-  100     0   302  26.00  20.00   4.00   0.00 mozzarella cheese
-  113   240   341  29.00  23.00   4.00   0.00 shredded mozzarella cheese
-  100     0   384  24.00  31.00   2.00   0.00 colby jack
-  -28     0   109   7.00   9.00   0.00   0.00 colby jack slice
-  113   240   434  27.00  35.00   2.00   0.00 shredded colby jack
-  100     0   384  24.00  31.00   2.00   0.00 colby jack cheese
-  -28     0   109   7.00   9.00   0.00   0.00 colby jack cheese slice
-  113   240   434  27.00  35.00   2.00   0.00 shredded colby jack cheese
+  100     0   337  18.94  26.05   6.94   0.00 american cheese
+  -19     0    50   3.00   3.50   2.00   0.00 american cheese slice
+  -19     0    70   3.00   6.00   1.00   0.00 american deli slice
+  113   240   381  21.40  29.44   7.84   0.00 shredded american cheese
+  113   240   381  21.40  29.44   7.84   0.00 shredded cheese
+  100     0   380  26.93  27.80   5.38   0.00 swiss cheese
+  -28     0   106   7.54   7.78   1.51   0.00 swiss cheese slice
+  108   240   410  29.08  30.02   5.81   0.00 shredded swiss cheese
+  100     0   403  24.90  33.14   1.28   0.00 cheddar
+  100     0   403  24.90  33.14   1.28   0.00 cheddar cheese
+  113   240   455  28.14  37.45   1.45   0.00 shredded cheddar
+  113   240   455  28.14  37.45   1.45   0.00 shredded cheddar cheese
+  100     0   392  35.75  25.83   3.22   0.00 parmesan
+  100     0   392  35.75  25.83   3.22   0.00 parmesan cheese
+  100   292   415  37.86  27.34   3.41   0.00 shredded parmesan
+  100   292   415  37.86  27.34   3.41   0.00 shredded parmesan cheese
+  100   100   431  38.46  28.61   4.06   0.00 grated parmesan
+  100   100   431  38.46  28.61   4.06   0.00 grated parmesan cheese
+  100     0   302  25.96  20.03   3.83   0.00 mozzarella
+  100     0   302  25.96  20.03   3.83   0.00 mozzarella cheese
+  113   240   341  29.33  22.63   4.33   0.00 shredded mozzarella
+  113   240   341  29.33  22.63   4.33   0.00 shredded mozzarella cheese
+  100     0   384  24.12  31.20   1.62   0.00 colby jack
+  100     0   384  24.12  31.20   1.62   0.00 colby jack cheese
+  -28     0   109   6.84   8.85   0.46   0.00 colby jack slice
+  -28     0   109   6.84   8.85   0.46   0.00 colby jack cheese slice
+  113   240   434  27.26  35.26   1.83   0.00 shredded colby jack
+  113   240   434  27.26  35.26   1.83   0.00 shredded colby jack cheese
    28    60    60   5.00   3.00   4.00   0.00 shredded velveeta
-  232   240   810  18.00  81.00   6.00   0.00 cream cheese
+  232   240   810  17.52  80.90   6.17   0.00 cream cheese
    14    15    60   1.00   7.00   0.00   0.00 mascarpone
-  100     0   356  25.00  27.00   2.00   0.00 gouda
-  100     0   356  25.00  27.00   2.00   0.00 gouda cheese
-  -28     0    98   7.00   7.00   1.00   0.00 provolone slice
-  100     0   351  26.00  27.00   2.00   0.00 provolone
-   28     0    98   7.00   7.00   1.00   0.00 provolone cheese slice
-  100     0   351  26.00  27.00   2.00   0.00 provolone cheese
+  100     0   356  24.94  27.44   2.22   0.00 gouda
+  100     0   356  24.94  27.44   2.22   0.00 gouda cheese
+  100     0   351  25.58  26.62   2.14   0.00 provolone
+  100     0   351  25.58  26.62   2.14   0.00 provolone cheese
+  -28     0    98   7.16   7.45   0.60   0.00 provolone slice
+  -28     0    98   7.16   7.45   0.60   0.00 provolone cheese slice
 # Pantry
   200   240   774   0.00   0.00 200.00   0.00 sugar
   200   240   774   0.00   0.00 200.00   0.00 granulated sugar
