@@ -254,35 +254,37 @@
   135   240   799  27.08  69.26  30.90  14.30 sunflower seeds
   138   240   747  33.87  63.27  24.58   5.40 pumpkin seeds
 # Sauces & Spreads
-  339   240  1031   1.00   0.00 279.00   1.00 honey
-  100    93   588  25.00  50.00  20.00   6.00 peanut butter
-  255   240   135  16.00   0.00  19.00   2.00 soy sauce
-   15    15    40   0.00   4.00   2.00   0.00 miracle whip
+  339   240  1031   1.02   0.00 279.34   0.70 honey
+  318   240   967   0.95   0.00 262.03   0.60 clover honey
+  322   240   840   0.00   0.64 216.03   0.00 maple syrup
+  100    93   588  25.09  50.39  19.56   6.00 peanut butter
+  255   240   135  16.01   0.10  19.41   2.00 soy sauce
+   15    15    40   0.00   3.50   2.00   0.00 miracle whip
   235   240   916   2.00  78.00  56.00   0.00 mayo
-  235   240   916   2.00  78.00  56.00   0.00 mayonnaise
-  240   240   233   4.00   1.00  60.00   1.00 ketchup
-  246   240    10   1.00   0.00   2.00   0.00 chicken broth
-  240   240    12   1.00   0.00   2.00   0.00 chicken stock
-   -6     0    10   1.00   0.00   2.00   0.00 chicken boullion cube
-    6    15    10   1.00   0.00   2.00   0.00 chicken boullion
-  246   240    15   1.00   0.00   2.00   0.00 beef broth
-  233   240     7   1.00   0.00   1.00   0.00 beef stock
+  235   240   916   2.12  78.49  56.16   0.00 mayonnaise
+  240   240   233   4.18   0.91  60.19   0.70 ketchup
+  238   240    38   4.85   1.37   0.91   0.00 chicken broth
+  240   240    12   0.95   0.29   1.51   0.00 chicken stock
+   -6     0     9   0.71   0.22   1.13   0.00 chicken boullion cube
+   -6     0     9   0.71   0.22   1.13   0.00 chicken boullion
+  246   240    17   2.74   0.53   0.10   0.00 beef broth
+  233   240     7   0.84   0.19   0.80   0.00 beef stock
    -6     0    15   1.00   0.00   2.00   0.00 beef boullion cube
     6    15    15   1.00   0.00   2.00   0.00 beef boullion
-  239   240    43   0.00   0.00   2.00   0.00 vinegar
-  238   240    50   0.00   0.00   2.00   0.00 cider vinegar
+  239   240    43   0.00   0.00   0.10   0.00 vinegar
+  238   240    50   0.00   0.00   2.22   0.00 cider vinegar
     5     5     0   0.00   0.00   0.00   0.00 rice vinegar
     5     5     0   0.00   0.00   0.00   0.00 wine vinegar
     5     5     0   0.00   0.00   0.00   0.00 red vinegar
     5     5     0   0.00   0.00   0.00   0.00 red wine vinegar
     5     5     0   0.00   0.00   0.00   0.00 white vinegar
     5     5     0   0.00   0.00   0.00   0.00 white wine vinegar
-  239   240   210   0.00   0.00  41.00   0.00 balsamic vinegar
-  239   240   210   0.00   0.00  41.00   0.00 balsamic
-  250   240   165  10.00   8.00  20.00   8.00 mustard
-  300   240   198  12.00   9.00  23.00  10.00 dijon mustard
-  275   240   184   0.00   0.00  54.00   0.00 worcestershire
-  275   240   184   0.00   0.00  54.00   0.00 worcestershire sauce
+   15    15    30   0.00   0.00   7.00   0.00 balsamic vinegar
+   15    15    30   0.00   0.00   7.00   0.00 balsamic
+  250   240   165   9.88   7.78  19.45   8.00 mustard
+  300   240   198  11.85   9.33  23.34   9.60 dijon mustard
+  275   240   184   0.00   0.00  53.52   0.00 worcestershire
+  275   240   184   0.00   0.00  53.52   0.00 worcestershire sauce
 # Fruit & Vegetables
    -5     0     5   0.00   0.00   1.00   0.00 garlic clove
   136   240   203   9.00   1.00  45.00   3.00 garlic
