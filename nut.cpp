@@ -302,6 +302,7 @@ int main() {
     auto value = FindValue(line.value);
     auto unit  = FindUnit(line.unit);
     ing.scale(Ratio(ing, unit, value));
+    ing.g = std::abs(ing.g);
     using std::setw;
     using std::round;
     cout
