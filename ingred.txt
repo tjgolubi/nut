@@ -536,17 +536,31 @@
   130   120   120   7.00   1.00  21.00   7.00 chili beans
   244   240    83   2.70   0.69  19.82   7.10 pumpkin
 ## Mushrooms
-  -18    46     4   1.00   0.00   1.00   0.00 mushroom
-  -18    46     4   1.00   0.00   1.00   0.00 white mushroom
-  -18    46     4   1.00   0.00   1.00   0.00 brown mushroom
-  100   352    22   3.00   0.00   3.00   1.00 sliced mushrooms
-  100   352    22   3.00   0.00   3.00   1.00 sliced white mushrooms
-  100   352    22   3.00   0.00   3.00   1.00 sliced brown mushrooms
-   85   160    20   3.00   0.00   3.00   1.00 monterrey mushroom
- -150    80    52   5.00   1.00  10.00   4.00 oyster mushroom
-  -85   240    22   2.00   0.00   4.00   1.00 portabella mushroom
-  -85   240    22   2.00   0.00   4.00   1.00 portabella
-   71   120    40   1.00   0.00  11.00   2.00 shiitake mushroom
-   71   120    40   1.00   0.00  11.00   2.00 shiitake
-  298   300   200   5.00   9.00  25.00   2.00 golden mushroom soup
-  298   300   250   3.00  15.00  22.00   5.00 cream of mushroom soup
+   -9     0     2   0.31   0.03   0.33   0.10 small mushroom
+  -18    46     4   0.56   0.06   0.59   0.20 medium mushroom
+  -18    46     4   0.56   0.06   0.59   0.20 mushroom
+  -23     0     5   0.71   0.08   0.75   0.20 large mushroom
+   68   240    15   2.16   0.24   2.30   0.70 sliced mushrooms
+   68   240    15   2.16   0.24   2.30   0.70 chopped mushrooms
+  156   240    39   2.92   0.45   7.94   3.70 canned mushrooms
+ -150    80    52   4.94   0.65   9.52   3.60 oyster mushroom
+ -150    80    52   4.94   0.65   9.52   3.60 large oyster mushroom
+  -85   240    22   2.10   0.17   4.26   1.30 portabella mushroom
+  -85   240    22   2.10   0.17   4.26   1.30 portabella
+   85   240    22   2.10   0.17   4.26   1.30 diced portabella
+   85   240    22   2.10   0.17   4.26   1.30 sliced portabella
+   85   240    22   2.10   0.17   4.26   1.30 chopped portabella
+   -4     0    11   0.36   0.04   2.83   0.43 dried shiitake mushroom
+  100     0   296   9.58   0.99  75.37  11.50 chopped dried shiitake mushrooms
+  100     0   296   9.58   0.99  75.37  11.50 sliced dried shiitake mushrooms
+   -4     0    11   0.36   0.04   2.83   0.43 dried shiitake
+  100     0   296   9.58   0.99  75.37  11.50 chopped dried shiitake
+  100     0   296   9.58   0.99  75.37  11.50 sliced dried shiitake
+  -19     0     7   0.40   0.10   1.30   0.50 shiitake mushroom
+  -19     0     7   0.40   0.10   1.30   0.50 shiitake
+   70   240    24   1.60   0.30   4.70   1.70 chopped shiitake
+   70   240    24   1.60   0.30   4.70   1.70 chopped shiitake mushroom
+  119   120    80   2.00   3.50  10.00   1.00 condensed golden mushroom soup
+  119   120    80   2.00   3.50  10.00   1.00 golden mushroom soup
+  251   240   213   4.04  14.78  16.87   0.00 condensed cream of mushroom soup
+  251   240   213   4.04  14.78  16.87   0.00 cream of mushroom soup
