@@ -100,37 +100,17 @@ auto ReadIngredients() {
   auto input = std::ifstream("ingred.txt");
   if (!input)
     return rval;
-  auto output = std::ofstream("tjg.txt");
   Ingredient ingred;
   while (input >> std::ws) {
-    {
-      auto c = input.peek();
-      if (c == '#') {
-	std::getline(input, str);
-	output << str << '\n';
-	// input.ignore(1024, '\n');
-	continue;
-      }
+    if (input.peek() == '#') {
+      input.ignore(1024, '\n');
+      continue;
     }
     ingred = Ingredient();
     input >> ingred.g >> ingred.ml >> ingred.cal
 	  >> ingred.prot >> ingred.fat >> ingred.carb >> ingred.fiber;
-    if (input && std::getline(input >> std::ws, ingred.name)) {
+    if (input && std::getline(input >> std::ws, ingred.name))
       rval.push_back(ingred);
-      using std::setw;
-      using std::round;
-      using std::abs;
-      output << std::defaultfloat << std::setprecision(6)
-             <<        setw(5) << round(ingred.g)
-             << ' ' << setw(5) << round(ingred.ml)
-	     << ' ' << setw(5) << round(ingred.cal)
-	     << std::fixed << std::setprecision(2)
-	     << ' ' << setw(6) << ingred.prot
-	     << ' ' << setw(6) << ingred.fat
-	     << ' ' << setw(6) << ingred.carb
-	     << ' ' << setw(6) << ingred.fiber
-	     << ' ' << ingred.name << '\n';
-    }
   }
   std::sort(rval.begin(), rval.end()); // todo: use std::ranges::sort
   return rval;
@@ -252,6 +232,13 @@ auto Ratio(const Ingredient& ingred, const std::string& unit, double value) {
   return 0.0;
 } // Ratio
 
+void Subst(std::string& str1, const std::string& str2, const std::string& str3)
+{
+  auto idx = str1.find(str2);
+  if (idx != std::string::npos)
+    str1.replace(idx, str2.length(), str3);
+} // Subst
+
 int main() {
   using std::cout;
   const auto& ingredients = ReadIngredients();
@@ -266,6 +253,11 @@ int main() {
   Line line;
   auto total = Ingredient("Total");
   while (std::cin) {
+    std::cin >> std::ws;
+    if (std::cin.peek() == '#') {
+      std::cin.ignore(1024, '\n');
+      continue;
+    }
     std::cin >> line.value >> line.unit;
     std::getline(std::cin >> std::ws, line.name);
     if (!std::cin)
@@ -282,6 +274,10 @@ int main() {
       auto i = name.find_last_not_of(ws);
       if (i != std::string::npos && ++i < name.size())
 	name.erase(i);
+    }
+    { // substitute common synonyms
+      Subst(name, "diced", "chopped");
+      Subst(name, "dry",   "dried");
     }
     auto ingred = FindIngredient(ingredients, name);
     if (!ingred && !name.empty() && name.back() == 's') {
