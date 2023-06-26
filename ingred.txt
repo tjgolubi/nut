@@ -1,4 +1,4 @@
-#  g  ml cal prot fat carb fiber
+#  g     ml   cal   prot  fat     carb  fiber desc
 # Oils
   100   110   884   0.00 100.00   0.00   0.00 oil
   100   110   884   0.00 100.00   0.00   0.00 vegetable oil
