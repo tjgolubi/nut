@@ -123,6 +123,18 @@ auto ToLower(const std::string& str) {
   return lwr;
 }
 
+void TrimLeadingWs(std::string& str) {
+  static const auto ws = std::string(" \t\n\r\f\v");
+  str.erase(0, str.find_first_not_of(ws));
+}
+
+void TrimTrailingWs(std::string& str) {
+  static const auto ws = std::string(" \t\n\r\f\v");
+  auto i = str.find_last_not_of(ws);
+  if (i != std::string::npos && ++i < str.size())
+    str.erase(i);
+}
+
 const std::map<std::string, std::string> ValSyn = {
   { "1/8", "0.125" },
   { "1/4", "0.25" },
@@ -263,18 +275,19 @@ int main() {
     if (!std::cin)
       break;
     auto name = ToLower(line.name);
+    // Trim leading parenthetical.
+    if (name[0] == '(') {
+      auto i = name.find(')');
+      if (i != std::string::npos && ++i < name.size())
+        (void) TrimLeadingWs(name.erase(0, i));
+    }
     { // trim punctuation
       const auto punct = std::string("!#$()*+,./:;<=>?@[]^{|}~");
       auto i = name.find_first_of(punct);
       if (i != std::string::npos)
 	name.erase(i);
     }
-    { // trim whitespace
-      const auto ws = std::string(" \t\n\r\f\v");
-      auto i = name.find_last_not_of(ws);
-      if (i != std::string::npos && ++i < name.size())
-	name.erase(i);
-    }
+    TrimTrailingWs(name);
     { // substitute common synonyms
       Subst(name, "diced", "chopped");
       Subst(name, "dry",   "dried");
@@ -312,13 +325,18 @@ int main() {
       << std::endl;
     total += ing;
   }
-  cout << "\nTotals:"
-       << " g="   << round(total.g)
-       << " cal=" << round(total.cal)
-       << " p="   << round(total.prot)
-       << " f="   << round(total.fat)
-       << " c="   << round(total.carb)
-       << " fb="  << round(total.fiber)
-       << std::endl;
+  {
+    using std::cout;
+    using std::setw;
+    using std::round;
+    cout << '\n'
+	 << setw(4) << round(total.cal)  << " kcal\n"
+	 << setw(4) << round(total.g)    << " g total\n"
+	 << setw(4) << round(total.prot) << " g protein\n"
+	 << setw(4) << round(total.fat)  << " g fat\n"
+	 << setw(4) << round(total.carb) << " g carb\n"
+	 << setw(4) << round(total.fiber)<< " g fiber"
+	 << std::endl;
+  }
   return EXIT_SUCCESS;
 } // main
