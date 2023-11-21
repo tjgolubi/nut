@@ -259,6 +259,7 @@ int main() {
   struct Line {
     std::string value;
     std::string unit;
+    std::string grams;
     std::string name;
   }; // Line
 
@@ -270,17 +271,18 @@ int main() {
       std::cin.ignore(1024, '\n');
       continue;
     }
-    std::cin >> line.value >> line.unit;
-    std::getline(std::cin >> std::ws, line.name);
+    std::cin >> line.value >> line.unit >> std::ws;
+    line.grams.erase();
+    if (std::cin.peek() == '(') {
+      std::cin.ignore();
+      std::getline(std::cin >> std::ws, line.grams, ')');
+      TrimTrailingWs(line.grams);
+      std::cin >> std::ws;
+    }
+    std::getline(std::cin, line.name);
     if (!std::cin)
       break;
-    auto name = ToLower(line.name);
-    // Trim leading parenthetical.
-    if (name[0] == '(') {
-      auto i = name.find(')');
-      if (i != std::string::npos && ++i < name.size())
-        (void) TrimLeadingWs(name.erase(0, i));
-    }
+    auto name  = ToLower(line.name);
     { // trim punctuation
       const auto punct = std::string("!#$()*+,./:;<=>?@[]^{|}~");
       auto i = name.find_first_of(punct);
@@ -321,8 +323,20 @@ int main() {
       << " f="   << setw(3) << round(ing.fat)
       << " c="   << setw(3) << round(ing.carb)
       << " fb="  << setw(3) << round(ing.fiber)
-      << " : " << line.value << ' ' << line.unit << ' ' << line.name
-      << std::endl;
+      << " : " << line.value << ' ' << line.unit << ' ';
+    if (line.grams == "g") {
+      cout << '(' << round(ing.g)<< "g) ";
+    }
+    else if (line.grams.ends_with('g')) {
+      cout << '(' << line.grams;
+      if (round(ing.g) != round(std::stod(line.grams)))
+        cout << '?';
+      cout << ") ";
+    }
+    else if (!line.grams.empty()) {
+      cout << '(' << line.grams << ") ";
+    }
+    cout << line.name << std::endl;
     total += ing;
   }
   {
@@ -330,7 +344,7 @@ int main() {
     using std::setw;
     using std::round;
     cout << '\n'
-	 << setw(4) << round(total.cal)  << " kcal\n"
+	 << setw(4) << round(total.cal)  << " cal total\n"
 	 << setw(4) << round(total.g)    << " g total\n"
 	 << setw(4) << round(total.prot) << " g protein\n"
 	 << setw(4) << round(total.fat)  << " g fat\n"
