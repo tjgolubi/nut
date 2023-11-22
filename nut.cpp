@@ -14,6 +14,17 @@
 #include <cctype>
 #include <cstdlib>
 
+
+namespace gsl {
+
+template<class T, class U>
+constexpr T narrow_cast(U&& u) noexcept {
+  return static_cast<T>(std::forward<U>(u));
+}
+
+} // gsl
+
+
 class PrecSaver {
 private:
   std::ostream& os;
@@ -251,106 +262,182 @@ void Subst(std::string& str1, const std::string& str2, const std::string& str3)
     str1.replace(idx, str2.length(), str3);
 } // Subst
 
+struct Line {
+  std::string value;
+  std::string unit;
+  std::string weight;
+  std::string name;
+  void erase() {
+    value.erase();
+    unit.erase();
+    weight.erase();
+    name.erase();
+  }
+}; // Line
+
+std::string MakeString(const Line& line) {
+  std::string rval = line.value + " " + line.unit;
+  if (!line.weight.empty())
+    rval += " (" + line.weight + ")";
+  rval += " " + line.name;
+  return rval;
+}
+
+std::ostream& operator<<(std::ostream& os, const Line& line)
+  { return os << MakeString(line); }
+
 int main() {
-  using std::cout;
-  const auto& ingredients = ReadIngredients();
-  cout << "Read " << ingredients.size() << " ingredients." << std::endl;
+  try {
+    const auto& ingredients = ReadIngredients();
+    std::cout << "Read " << ingredients.size() << " ingredients." << std::endl;
 
-  struct Line {
-    std::string value;
-    std::string unit;
-    std::string grams;
-    std::string name;
-  }; // Line
-
-  Line line;
-  auto total = Ingredient("Total");
-  while (std::cin) {
-    std::cin >> std::ws;
-    if (std::cin.peek() == '#') {
-      std::cin.ignore(1024, '\n');
-      continue;
-    }
-    std::cin >> line.value >> line.unit >> std::ws;
-    line.grams.erase();
-    if (std::cin.peek() == '(') {
-      std::cin.ignore();
-      std::getline(std::cin >> std::ws, line.grams, ')');
-      TrimTrailingWs(line.grams);
+    int servings = 0;
+    double cookedWeight = 0.0;
+    Line line;
+    auto total = Ingredient("Total");
+    std::cin.exceptions(std::cin.failbit);
+    while (std::cin) {
       std::cin >> std::ws;
-    }
-    std::getline(std::cin, line.name);
-    if (!std::cin)
-      break;
-    auto name  = ToLower(line.name);
-    { // trim punctuation
-      const auto punct = std::string("!#$()*+,./:;<=>?@[]^{|}~");
-      auto i = name.find_first_of(punct);
-      if (i != std::string::npos)
-	name.erase(i);
-    }
-    TrimTrailingWs(name);
-    { // substitute common synonyms
-      Subst(name, "diced", "chopped");
-      Subst(name, "dry",   "dried");
-    }
-    auto ingred = FindIngredient(ingredients, name);
-    if (!ingred && !name.empty() && name.back() == 's') {
-      name.pop_back();
-      ingred = FindIngredient(ingredients, name);
-      if (!ingred && !name.empty() && name.back() == 'e') {
-	name.pop_back();
-	ingred = FindIngredient(ingredients, name);
-	if (!ingred && !name.empty() && name.back() == 'i') {
-	  name.back() = 'y';
-	  ingred = FindIngredient(ingredients, name);
+      if (std::cin.eof())
+	break;
+      if (std::cin.peek() == '#') {
+	std::cin.ignore(1024, '\n');
+	continue;
+      }
+      line.erase();
+      std::cin >> line.value >> line.unit >> std::ws;
+      if (std::cin.peek() == '(') {
+	std::cin.ignore();
+	std::getline(std::cin >> std::ws, line.weight, ')');
+	TrimTrailingWs(line.weight);
+	std::cin >> std::ws;
+      }
+      {
+	auto unit = ToLower(line.unit);
+	if (unit == "serving" || unit == "servings") {
+	  if (servings != 0)
+	    throw std::runtime_error("Duplicate servings: " + MakeString(line));
+	  double s = std::stod(line.value);
+	  if (s < 1 || s > 100 || std::round(s) != s) {
+	    throw std::runtime_error(
+		"Invalid number of servings: " + MakeString(line));
+	  }
+	  double w = 0.0;
+	  if (!line.weight.empty()) {
+	    std::istringstream iss(line.weight);
+	    double v = 0.0;
+	    std::string u;
+	    iss >> v >> u;
+	    w = v * FindWeight(u);
+	    if (w <= 0.0) {
+	      throw std::runtime_error(
+		  "Invalid serving weight: " + MakeString(line));
+	    }
+	  }
+	  servings = gsl::narrow_cast<int>(s);
+	  cookedWeight = w;
+	  std::cout << "servings=" << servings;
+	  if (cookedWeight)
+	    std::cout << ", cooked weight=" << std::ceil(cookedWeight) << " g";
+	  std::cout << std::endl;
+	  continue;
 	}
       }
+      std::getline(std::cin, line.name);
+      auto name  = ToLower(line.name);
+      { // trim punctuation
+	const auto punct = std::string("!#$()*+,./:;<=>?@[]^{|}~");
+	auto i = name.find_first_of(punct);
+	if (i != std::string::npos)
+	  name.erase(i);
+      }
+      TrimTrailingWs(name);
+      { // substitute common synonyms
+	Subst(name, "diced", "chopped");
+	Subst(name, "dry",   "dried");
+      }
+      auto ingred = FindIngredient(ingredients, name);
+      if (!ingred && !name.empty() && name.back() == 's') {
+	name.pop_back();
+	ingred = FindIngredient(ingredients, name);
+	if (!ingred && !name.empty() && name.back() == 'e') {
+	  name.pop_back();
+	  ingred = FindIngredient(ingredients, name);
+	  if (!ingred && !name.empty() && name.back() == 'i') {
+	    name.back() = 'y';
+	    ingred = FindIngredient(ingredients, name);
+	  }
+	}
+      }
+      if (!ingred)
+	ingred = Ingredient(line.name);
+      auto& ing = *ingred;
+      auto value = FindValue(line.value);
+      auto unit  = FindUnit(line.unit);
+      ing.scale(Ratio(ing, unit, value));
+      ing.g = std::abs(ing.g);
+      using std::cout;
+      using std::setw;
+      using std::round;
+      cout
+	<< "g="    << setw(3) << round(ing.g)
+	<< " cal=" << setw(4) << round(ing.cal)
+	<< " p="   << setw(3) << round(ing.prot)
+	<< " f="   << setw(3) << round(ing.fat)
+	<< " c="   << setw(3) << round(ing.carb)
+	<< " fb="  << setw(3) << round(ing.fiber)
+	<< " : " << line.value << ' ' << line.unit;
+      if (!line.weight.empty()) {
+	cout << " (";
+	if (line.weight == "g") {
+	  cout << round(ing.g)<< "g)";
+	}
+	else {
+	  cout << line.weight;
+	  std::istringstream iss(line.weight);
+	  double v = 0.0;
+	  std::string u;
+	  double g = 0.0;
+	  iss >> v >> u;
+	  if (iss)
+	    g = round(v * FindWeight(u));
+	  if (g <= 0.0 || round(abs(ing.g)) != g)
+	    cout << '?';
+	  cout << ')';
+	}
+      }
+      cout << ' ' << line.name << std::endl;
+      total += ing;
     }
-    if (!ingred)
-      ingred = Ingredient(line.name);
-    auto& ing = *ingred;
-    auto value = FindValue(line.value);
-    auto unit  = FindUnit(line.unit);
-    ing.scale(Ratio(ing, unit, value));
-    ing.g = std::abs(ing.g);
-    using std::setw;
-    using std::round;
-    cout
-      << "g="    << setw(3) << round(ing.g)
-      << " cal=" << setw(4) << round(ing.cal)
-      << " p="   << setw(3) << round(ing.prot)
-      << " f="   << setw(3) << round(ing.fat)
-      << " c="   << setw(3) << round(ing.carb)
-      << " fb="  << setw(3) << round(ing.fiber)
-      << " : " << line.value << ' ' << line.unit << ' ';
-    if (line.grams == "g") {
-      cout << '(' << round(ing.g)<< "g) ";
+    {
+      using std::cout;
+      using std::setw;
+      using std::round;
+      cout << '\n';
+      if (servings != 0) {
+	cout << "Per ";
+	if (cookedWeight != 0.0)
+	  cout << std::ceil(cookedWeight/servings) << " g ";
+	cout << "serving:\n\n";
+	total.scale(1.0/servings);
+      }
+      cout << setw(4) << round(total.cal)  << " cal\n"
+	   << setw(4) << round(total.g)    << " g raw\n"
+	   << setw(4) << round(total.prot) << " g protein\n"
+	   << setw(4) << round(total.fat)  << " g fat\n"
+	   << setw(4) << round(total.carb) << " g carb\n"
+	   << setw(4) << round(total.fiber)<< " g fiber"
+	   << std::endl;
     }
-    else if (line.grams.ends_with('g')) {
-      cout << '(' << line.grams;
-      if (round(ing.g) != round(std::stod(line.grams)))
-        cout << '?';
-      cout << ") ";
-    }
-    else if (!line.grams.empty()) {
-      cout << '(' << line.grams << ") ";
-    }
-    cout << line.name << std::endl;
-    total += ing;
+    return EXIT_SUCCESS;
   }
-  {
-    using std::cout;
-    using std::setw;
-    using std::round;
-    cout << '\n'
-	 << setw(4) << round(total.cal)  << " cal total\n"
-	 << setw(4) << round(total.g)    << " g total\n"
-	 << setw(4) << round(total.prot) << " g protein\n"
-	 << setw(4) << round(total.fat)  << " g fat\n"
-	 << setw(4) << round(total.carb) << " g carb\n"
-	 << setw(4) << round(total.fiber)<< " g fiber"
-	 << std::endl;
+  catch (const std::ios_base::failure& fail) {
+    std::cout << "ios_base::failure: " << fail.what() << '\n'
+              << "    error code = " << fail.code() << std::endl;
+
   }
-  return EXIT_SUCCESS;
+  catch (const std::exception& x) {
+    std::cout << "standard exception: " << x.what() << std::endl;
+  }
+  return EXIT_FAILURE;
 } // main

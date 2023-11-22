@@ -138,8 +138,10 @@
   227   240  1628   1.93 184.12   0.14   0.00 garlic butter
  -113     0   810   0.96  91.65   0.07   0.00 garlic butter stick
   205   240  1796   0.57 203.93   0.00   0.00 ghee
-   14    15    60   0.00   7.00   0.00   0.00 imperial margarine
-  229   240  1205   1.37 135.50   0.00   0.00 margarine
+  224   240  1120   0.00 112.00   0.00   0.00 imperial margarine
+ -112   120   560   0.00  56.00   0.00   0.00 stick imperial margarine
+  227   240  1600   0.41 178.81   4.40   0.00 margarine
+ -113   120   800   0.20  89.01   2.19   0.00 stick margarine
   230   240   492   7.27  48.21   9.82   0.00 sour cream
   242   240   315   7.16  27.83  10.41   0.00 half and half
   242   240   315   7.16  27.83  10.41   0.00 half & half
@@ -280,6 +282,8 @@
    34    70   120  24.00   1.00   3.00   1.00 casein
    34    70   120  24.00   1.00   3.00   1.00 casein powder
    33    70   110  25.00   1.00   1.00   1.00 isopure
+   78   120   320   4.00   9.00  56.00   2.00 jiffy corn muffin mix
+ -240   360   960  12.00  27.00 168.00   6.00 box jiffy corn muffin mix
 # Nuts & Seeds
   120   240   785  18.28  78.25  16.45   8.00 chopped walnut
   100   240   654  15.23  65.21  13.71   6.70 walnuts
@@ -430,6 +434,16 @@
   -14     0     6   0.13   0.01   1.42   0.20 onion slice
   160   240    67   1.47   0.13  16.18   2.20 chopped onion
   107   240    45   0.98   0.09  10.82   1.47 sliced onion
+  -94     0    41   1.30   0.20   9.50   1.30 red onion
+  -94     0    41   1.30   0.20   9.50   1.30 yellow onion
+  -94     0    41   1.30   0.20   9.50   1.30 white onion
+ -331     0   106   2.60   0.30  25.00   3.00 sweet onion
+  -33     0    11   0.26   0.03   2.50   0.30 sweet onion slice
+  160   240    51   1.30   0.10  12.00   1.40 chopped sweet onion
+ -331     0   106   2.60   0.30  25.00   3.00 vidalia onion
+  -33     0    11   0.26   0.03   2.50   0.30 vidalia onion slice
+  160   240    51   1.30   0.10  12.00   1.40 chopped vidalia onion
+  184   240    81   2.50   0.35  18.69   2.60 pearl onion
    -6     0     2   0.09   0.01   0.37   0.10 small scallion
   -16     0     5   0.27   0.03   1.10   0.40 medium scallion
   -16     0     5   0.27   0.03   1.10   0.40 scallion
@@ -439,6 +453,7 @@
   -16     0     5   0.27   0.03   1.10   0.40 medium green onion
   -16     0     5   0.27   0.03   1.10   0.40 green onion
   -25     0     8   0.46   0.05   1.84   0.60 large green onion
+  100   240    32   1.83   0.19   7.34   2.60 chopped green onion
   100   152    72   2.50   0.10  16.80   3.20 chopped shallot
   100  1380    23   2.13   0.52   3.67   2.80 cilantro
   100  1380    23   2.13   0.52   3.67   2.80 chopped cilantro
@@ -615,6 +630,13 @@
   244   240    83   2.70   0.69  19.82   7.10 canned pumpkin
   130   120   120   7.00   1.00  21.00   7.00 chili beans
   244   240    83   2.70   0.69  19.82   7.10 pumpkin
+  -73     0    63   2.35   0.86  13.88   2.00 small corn ear
+  -90     0    77   2.90   1.06  17.12   2.40 medium corn ear
+ -143     0   123   4.60   1.69  27.20   3.90 large corn ear
+  153   240   132   4.96   1.82  29.29   4.20 corn
+  256   240   184   4.50   1.10  46.00   3.10 creamed corn
+  264   280   177   6.00   3.20  38.00   5.30 drained canned corn
+  124   120    60   1.00   1.00  13.00   2.00 canned corn
 ## Mushrooms
    -9     0     2   0.31   0.03   0.33   0.10 small mushroom
   -18    46     4   0.56   0.06   0.59   0.20 medium mushroom
