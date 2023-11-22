@@ -294,6 +294,7 @@ int main() {
     int servings = 0;
     double cookedWeight = 0.0;
     Line line;
+    std::string buf;
     auto total = Ingredient("Total");
     std::cin.exceptions(std::cin.failbit);
     while (std::cin) {
@@ -304,17 +305,32 @@ int main() {
 	std::cin.ignore(1024, '\n');
 	continue;
       }
-      line.erase();
-      std::cin >> line.value >> line.unit >> std::ws;
-      if (std::cin.peek() == '(') {
-	std::cin.ignore();
-	std::getline(std::cin >> std::ws, line.weight, ')');
-	TrimTrailingWs(line.weight);
-	std::cin >> std::ws;
+      std::getline(std::cin, buf);
+      { // Parse one input line.
+	std::istringstream input(buf);
+	line.erase();
+	input >> line.value;
+	if (!input)
+	  throw std::runtime_error("Invalid ingredient value: " + buf);
+	input >> line.unit;
+	if (!input)
+	  throw std::runtime_error("Invalid ingredient units: " + buf);
+	input >> std::ws;
+	if (input.peek() == '(') {
+	  input.ignore();
+	  std::getline(input >> std::ws, line.weight, ')');
+	  TrimTrailingWs(line.weight);
+	  input >> std::ws;
+	}
+	std::getline(input, line.name);
       }
-      {
+      { // Process servings specification.
 	auto unit = ToLower(line.unit);
 	if (unit == "serving" || unit == "servings") {
+	  if (!line.name.empty() && line.name[0] != '#') {
+	    throw std::runtime_error(
+		"Invalid servings spec: " + MakeString(line));
+	  }
 	  if (servings != 0)
 	    throw std::runtime_error("Duplicate servings: " + MakeString(line));
 	  double s = std::stod(line.value);
@@ -343,7 +359,6 @@ int main() {
 	  continue;
 	}
       }
-      std::getline(std::cin, line.name);
       auto name  = ToLower(line.name);
       { // trim punctuation
 	const auto punct = std::string("!#$()*+,./:;<=>?@[]^{|}~");
@@ -397,11 +412,12 @@ int main() {
 	  std::istringstream iss(line.weight);
 	  double v = 0.0;
 	  std::string u;
-	  double g = 0.0;
+	  int g = 0;
 	  iss >> v >> u;
 	  if (iss)
-	    g = round(v * FindWeight(u));
-	  if (g <= 0.0 || round(abs(ing.g)) != g)
+	    g = gsl::narrow_cast<int>(round(v * FindWeight(u)));
+	  int z = gsl::narrow_cast<int>(round(ing.g));
+	  if (g <= 0 || g != z)
 	    cout << '?';
 	  cout << ')';
 	}
@@ -433,7 +449,7 @@ int main() {
   }
   catch (const std::ios_base::failure& fail) {
     std::cout << "ios_base::failure: " << fail.what() << '\n'
-              << "    error code = " << fail.code() << std::endl;
+              << "    error code = " << fail.code().message() << std::endl;
 
   }
   catch (const std::exception& x) {
