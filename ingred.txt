@@ -153,6 +153,7 @@
   244   240    70   0.00   5.00   6.00   0.00 coconut milk
   244   240    40   0.00   4.00   2.00   0.00 coconut milk unsweet
   244   240    25   1.00   2.00   1.00   0.00 cashew milk unsweet
+  113   160   230   5.00  11.00  26.00   0.00 ice cream
 # Cheese
   100     0   337  18.94  26.05   6.94   0.00 american cheese
   -19     0    50   3.00   3.50   2.00   0.00 american cheese slice
@@ -195,6 +196,7 @@
 # Pantry
   200   240   774   0.00   0.00 199.96   0.00 sugar
   200   240   774   0.00   0.00 199.96   0.00 granulated sugar
+  200   240   774   0.00   0.00 199.96   0.00 white sugar
   220   240   829   0.00   0.00 214.13   0.00 brown sugar
   220   240   829   0.00   0.00 214.13   0.00 packed brown sugar
   145   240   547   0.00   0.00 141.13   0.00 unpacked brown sugar
@@ -203,11 +205,13 @@
   100   240   389   0.00   0.10  99.60   0.00 sifted powdered sugar
   337   240   977   0.00   0.34 251.84   0.00 molasses
   125   240   455  12.91   1.22  95.39   3.40 flour
+  125   240   455  12.91   1.22  95.39   3.40 all-purpose flour
   120   240   407  16.44   2.24  87.08  14.60 whole wheat flour
   137   240   496  11.23   1.18 106.90   2.30 cake flour
     8    15    30   0.00   0.00   7.00   0.00 corn starch
   100   125   295  38.30   4.60  38.20  21.00 dried yeast
   100   210   525   5.84  36.31  49.29  20.80 nutmeg
+  100   210   525   5.84  36.31  49.29  20.80 ground nutmeg
   213   237     0   0.00   0.00   0.00   0.00 baking powder
   163   237     0   0.00   0.00   0.00   0.00 baking soda
    30    60   130   2.00   3.00  23.00   1.00 graham cracker crumbs
@@ -222,10 +226,16 @@
   100   193   314  12.26  16.76  54.66  34.20 chili powder
   300   240     0   0.00   0.00   0.00   0.00 salt
   100   236   255  11.00   3.00  65.00  27.00 pepper
+  100   236   255  11.00   3.00  65.00  27.00 ground pepper
   100   236   255  10.95   3.26  64.81  26.50 black pepper
+  100   236   255  10.95   3.26  64.81  26.50 ground black pepper
   100   208   296  10.40   2.12  68.61  26.20 white pepper
+  100   208   296  10.40   2.12  68.61  26.20 ground white pepper
   100   277   318  12.01  17.27  56.63  27.20 cayenne pepper
+  100   277   318  12.01  17.27  56.63  27.20 ground cayenne pepper
   100   277   318  12.01  17.27  56.63  27.20 crushed red pepper
+  100   214   252  10.40   3.50  65.30  25.20 ground peppercorn
+  100   214   252  10.40   3.50  65.30  25.20 peppercorn
   163   223     0   0.00   0.00   0.00   0.00 lemon pepper
   100   252   375  17.81  22.27  44.24  10.50 cumin
   100   252   375  17.81  22.27  44.24  10.50 ground cumin
@@ -244,8 +254,10 @@
   100  2543    43   3.46   1.12   7.02   2.10 dill
   100  7482   253  19.96   4.36  55.82  13.60 dried dill
   100   214   261   3.89   3.19  79.85  54.30 cinnamon
+  100   214   261   3.89   3.19  79.85  54.30 ground cinnamon
   200   240   758   0.50   0.42 197.36   7.00 cinnamon sugar
   100   243   263   6.09   8.69  72.12  21.60 allspice
+  100   243   263   6.09   8.69  72.12  21.60 ground allspice
   100   337   251  14.37   3.98  60.96  40.50 ground basil
   100   742   251  14.37   3.98  60.96  40.50 basil leaves
   100   825   279  21.93   4.78  52.10  10.40 coriander
@@ -284,6 +296,7 @@
    33    70   110  25.00   1.00   1.00   1.00 isopure
    78   120   320   4.00   9.00  56.00   2.00 jiffy corn muffin mix
  -240   360   960  12.00  27.00 168.00   6.00 box jiffy corn muffin mix
+  100   194   384  16.00   6.30  67.00   9.80 oats
 # Nuts & Seeds
   120   240   785  18.28  78.25  16.45   8.00 chopped walnut
   100   240   654  15.23  65.21  13.71   6.70 walnuts
@@ -636,6 +649,7 @@
   153   240   132   4.96   1.82  29.29   4.20 corn
   256   240   184   4.50   1.10  46.00   3.10 creamed corn
   264   280   177   6.00   3.20  38.00   5.30 drained canned corn
+  124   120    60   1.00   1.00  13.00   2.00 undrained canned corn
   124   120    60   1.00   1.00  13.00   2.00 canned corn
 ## Mushrooms
    -9     0     2   0.31   0.03   0.33   0.10 small mushroom
@@ -663,10 +677,10 @@
    70   240    24   1.60   0.30   4.70   1.70 chopped shiitake mushroom
    70   240    24   1.60   0.30   4.70   1.70 sliced shiitake
    70   240    24   1.60   0.30   4.70   1.70 sliced shiitake mushroom
-  119   120    80   2.00   3.50  10.00   1.00 condensed golden mushroom soup
   119   120    80   2.00   3.50  10.00   1.00 golden mushroom soup
-  251   240   213   4.04  14.78  16.87   0.00 condensed cream of mushroom soup
-  251   240   213   4.04  14.78  16.87   0.00 cream of mushroom soup
+ -298   300   200   5.00   8.75  25.00   2.50 can golden mushroom soup
+  119   120   100   1.00   6.00   9.00   2.00 cream of mushroom soup
+ -298   300   250   2.50  15.00  22.50   5.00 can cream of mushroom soup
 #Bread
   -36     0   100   4.00   2.00  18.00   1.00 slider bun
   100   256   443   8.80  17.20  68.60  10.50 crushed whole wheat crackers
@@ -674,3 +688,5 @@
   100   256   443   8.80  17.20  68.60  10.50 crushed whole grain crackers
    -4     0    18   0.35   0.69   2.74   0.40 whole grain cracker
    -5     0    22   0.44   0.86   3.43   0.60 triscuit
+ -200     0   800   1.00  48.00  96.00   0.00 pillsbury pie crust
+  -28     0   120   1.00   7.00  13.00   0.00 pillsbury mini pie crust

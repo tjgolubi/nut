@@ -11,6 +11,7 @@
 #include <fstream>
 #include <iterator>
 #include <cmath>
+#include <cstring>
 #include <cctype>
 #include <cstdlib>
 
@@ -23,7 +24,6 @@ constexpr T narrow_cast(U&& u) noexcept {
 }
 
 } // gsl
-
 
 class PrecSaver {
 private:
@@ -146,23 +146,101 @@ void TrimTrailingWs(std::string& str) {
     str.erase(i);
 }
 
-const std::map<std::string, std::string> ValSyn = {
-  { "1/8", "0.125" },
-  { "1/4", "0.25" },
-  { "1/3", "0.333" },
-  { "1/2", "0.5" },
-  { "2/3", "0.667" },
-  { "3/4", "0.75" }
-}; // ValSyn
+bool ContainsAny(const std::string& str1, const std::string& str2)
+{ return (str1.find_first_of(str2) != std::string::npos); }
+
+bool Contains(const std::string& str, char ch)
+{ return (str.find(ch) != std::string::npos); }
+
+bool Contains(const char* str, char ch)
+{ return (std::strchr(str, ch) != nullptr); }
+
+const std::map<std::string, std::string> FractionMap = {
+  { "¼", "1/4" },
+  { "½", "1/2" },
+  { "¾", "3/4" },
+  { "⅓", "1/3" },
+  { "⅔", "2/3" },
+  { "⅛", "1/8" },
+  { "⅜", "3/8" },
+  { "⅝", "5/8" },
+  { "⅞", "7/8" }
+}; // FractionMap
+
+std::string SubstFraction(const std::string& str) {
+  if (str.empty())
+    return str;
+  for (const auto& s: FractionMap) {
+    auto i = str.find(s.first);
+    if (i == std::string::npos)
+      continue;
+    std::string rval;
+    if (i != 0) {
+      rval = str.substr(0, i);
+      if (std::isdigit(str[i-1]))
+	rval += ' ';
+    }
+    rval += s.second;
+    i += s.first.size();
+    if (i < str.size() && std::isdigit(str[i]))
+      rval += ' ';
+    return rval += str.substr(i);
+  }
+  return str;
+} // SubstFraction
+
+double Value(const std::string& arg) {
+  if (arg.empty())
+    return 0;
+  auto str = SubstFraction(arg);
+  if (Contains(str, '.') || !ContainsAny(str, "-/ ")) {
+    std::size_t pos = 0;
+    double rval = 0.0;
+    try { rval = std::stod(str, &pos); }
+    catch (...) { return 0; }
+    if (pos != str.size())
+      return 0;
+    return rval;
+  }
+  std::istringstream iss(str);
+  int base = 0;
+  iss >> base;
+  if (!iss || base < 0)
+    return 0;
+  switch (iss.peek()) {
+    case '/': {
+      iss.ignore();
+      int den = 0;
+      iss >> den;
+      if (!iss || !iss.eof() || den <= base)
+	return 0;
+      return double(base) / den;
+    }
+    case ' ':
+    case '-':
+      iss.ignore();
+      break;
+    default:
+      return 0;
+  }
+  int num = 0;
+  iss >> num;
+  if (!iss || num <= 0 || iss.peek() != '/')
+    return 0;
+  iss.ignore();
+  int den = 0;
+  iss >> den;
+  if (!iss || den <= num || !iss.eof())
+    return 0;
+  return base + double(num) / den;
+} // Value
 
 const std::map<std::string, std::string> UnitSyn = {
-  { "each",    "ea"   },
-  { "piece",   "ea"   },
-  { "pieces",  "ea"   },
   { "#",       "lb"   },
   { "T",       "tbsp" },
   { "c",       "cup"  },
   { "cups",    "cup"  },
+  { "each",    "ea"   },
   { "gallon",  "gal"  },
   { "gallons", "gal"  },
   { "gram" ,   "g"    },
@@ -171,6 +249,8 @@ const std::map<std::string, std::string> UnitSyn = {
   { "liters",  "l"    },
   { "ounce",   "oz"   },
   { "ounces",  "oz"   },
+  { "piece",   "ea"   },
+  { "pieces",  "ea"   },
   { "pint",    "pt"   },
   { "pints",   "pt"   },
   { "pound",   "lb"   },
@@ -179,18 +259,20 @@ const std::map<std::string, std::string> UnitSyn = {
   { "quarts",  "qt"   },
   { "shots",   "shot" },
   { "t",       "tsp"  },
-  { "tbsps",   "tbsp" },
-  { "tsps",    "tsp"  }
+  { "tablespoon",  "tbsp" },
+  { "tablespoons", "tbsp" },
+  { "tbsps",       "tbsp" },
+  { "teaspoon",    "tsp"  },
+  { "teaspoons",   "tsp"  },
+  { "tsps",        "tsp"  }
 }; // UnitSyn
 
-auto FindValue(const std::string& value) {
-  auto it = ValSyn.find(value);
-  return std::stod((it != ValSyn.end()) ? it->second : value);
-}
-
 auto FindUnit(const std::string& unit) {
-  auto it = UnitSyn.find(unit);
-  return (it != UnitSyn.end()) ? it->second : ToLower(unit);
+  if (unit.empty())
+    return std::string("ea");
+  auto u = ToLower(unit);
+  auto it = UnitSyn.find(u);
+  return (it != UnitSyn.end()) ? it->second : u;
 }
 
 struct Volume {
@@ -239,18 +321,18 @@ auto FindWeight(const std::string& unit) {
   return 0.0;
 } // FindWeight
 
-auto Ratio(const Ingredient& ingred, const std::string& unit, double value) {
+auto Ratio(const Ingredient& ingred, const std::string& unit,
+	   double value, double volume, double weight)
+{
   if (unit == "ea" && ingred.g < 0.0)
     return value;
   if (ingred.ml != 0) {
-    auto v = FindVolume(unit);
-    if (v != 0.0)
-      return value * v / ingred.ml;
+    if (volume != 0.0)
+      return value * volume / ingred.ml;
   }
   if (ingred.g != 0) {
-    auto v = FindWeight(unit);
-    if (v != 0.0)
-      return value * v / std::abs(ingred.g);
+    if (weight != 0.0)
+      return value * weight / std::abs(ingred.g);
   }
   return 0.0;
 } // Ratio
@@ -259,7 +341,7 @@ void Subst(std::string& str1, const std::string& str2, const std::string& str3)
 {
   auto idx = str1.find(str2);
   if (idx != std::string::npos)
-    str1.replace(idx, str2.length(), str3);
+    str1.replace(idx, str2.size(), str3);
 } // Subst
 
 struct Line {
@@ -276,15 +358,55 @@ struct Line {
 }; // Line
 
 std::string MakeString(const Line& line) {
-  std::string rval = line.value + " " + line.unit;
+  std::string rval = line.value;
+  if (!line.unit.empty())
+    rval += " " + line.unit;
   if (!line.weight.empty())
     rval += " (" + line.weight + ")";
-  rval += " " + line.name;
+  if (!line.name.empty())
+    rval += " " + line.name;
   return rval;
-}
+} // MakeString(Line)
 
 std::ostream& operator<<(std::ostream& os, const Line& line)
   { return os << MakeString(line); }
+
+Line Parse(const std::string& str) {
+  Line line;
+  std::istringstream input(str);
+  input >> line.value;
+  if (!input)
+    return line;
+  input >> std::ws;
+  if (input.peek() != '(') {
+    input >> line.unit;
+    if (!input)
+      return line;
+    if (!ContainsAny(line.value, ".-/")
+	&& !FractionMap.contains(line.value)
+	&& !line.unit.empty())
+    {
+      if (std::isdigit(line.unit[0]) && Contains(line.unit, '/')
+	|| FractionMap.contains(line.unit))
+      {
+	line.value += ' ';
+	line.value += line.unit;
+	input >> line.unit;
+	if (!input)
+	  return line;
+      }
+    }
+    input >> std::ws;
+  }
+  if (input.peek() == '(') {
+    input.ignore();
+    std::getline(input >> std::ws, line.weight, ')');
+    TrimTrailingWs(line.weight);
+    input >> std::ws;
+  }
+  std::getline(input, line.name);
+  return line;
+} // Parse
 
 int main() {
   try {
@@ -306,24 +428,7 @@ int main() {
 	continue;
       }
       std::getline(std::cin, buf);
-      { // Parse one input line.
-	std::istringstream input(buf);
-	line.erase();
-	input >> line.value;
-	if (!input)
-	  throw std::runtime_error("Invalid ingredient value: " + buf);
-	input >> line.unit;
-	if (!input)
-	  throw std::runtime_error("Invalid ingredient units: " + buf);
-	input >> std::ws;
-	if (input.peek() == '(') {
-	  input.ignore();
-	  std::getline(input >> std::ws, line.weight, ')');
-	  TrimTrailingWs(line.weight);
-	  input >> std::ws;
-	}
-	std::getline(input, line.name);
-      }
+      Line line = Parse(buf);
       { // Process servings specification.
 	auto unit = ToLower(line.unit);
 	if (unit == "serving" || unit == "servings") {
@@ -344,7 +449,7 @@ int main() {
 	    double v = 0.0;
 	    std::string u;
 	    iss >> v >> u;
-	    w = v * FindWeight(u);
+	    w = v * FindWeight(FindUnit(u));
 	    if (w <= 0.0) {
 	      throw std::runtime_error(
 		  "Invalid serving weight: " + MakeString(line));
@@ -359,7 +464,22 @@ int main() {
 	  continue;
 	}
       }
-      auto name  = ToLower(line.name);
+      auto value = Value(line.value);
+      auto unit  = FindUnit(line.unit);
+      double volume = 0.0;
+      double weight = 0.0;
+      if (unit != "ea") {
+        volume = FindVolume(unit);
+	if (volume == 0.0) {
+	  weight = FindWeight(unit);
+	  if (weight == 0.0 && line.weight.empty()) {
+	    line.name = line.unit + ' ' + line.name;
+	    unit = "ea";
+	    line.unit.clear();
+	  }
+	}
+      }
+      auto name = ToLower(line.name);
       { // trim punctuation
 	const auto punct = std::string("!#$()*+,./:;<=>?@[]^{|}~");
 	auto i = name.find_first_of(punct);
@@ -387,25 +507,35 @@ int main() {
       if (!ingred)
 	ingred = Ingredient(line.name);
       auto& ing = *ingred;
-      auto value = FindValue(line.value);
-      auto unit  = FindUnit(line.unit);
-      ing.scale(Ratio(ing, unit, value));
+      ing.scale(Ratio(ing, unit, value, volume, weight));
       ing.g = std::abs(ing.g);
       using std::cout;
       using std::setw;
       using std::round;
+      auto grams = gsl::narrow_cast<int>(round(ing.g));
+      if (grams == 0 && ing.g != 0.0)
+        grams = 1;
       cout
-	<< "g="    << setw(3) << round(ing.g)
+	<< "g="    << setw(3) << grams
 	<< " cal=" << setw(4) << round(ing.cal)
 	<< " p="   << setw(3) << round(ing.prot)
 	<< " f="   << setw(3) << round(ing.fat)
 	<< " c="   << setw(3) << round(ing.carb)
 	<< " fb="  << setw(3) << round(ing.fiber)
-	<< " : " << line.value << ' ' << line.unit;
+	<< " : " << line.value;
+      if (!line.unit.empty())
+	cout << ' ' << line.unit;
       if (!line.weight.empty()) {
 	cout << " (";
-	if (line.weight == "g") {
-	  cout << round(ing.g)<< "g)";
+        if (!std::isdigit(line.weight[0])) {
+	  double w = FindWeight(FindUnit(line.weight));
+	  if (w == 0.0) {
+	    cout << line.weight << '?';
+	  }
+	  else {
+	    PrecSaver prec(cout, 3);
+	    cout << (ing.g / w) << ' ' << line.weight;
+	  }
 	}
 	else {
 	  cout << line.weight;
@@ -415,14 +545,16 @@ int main() {
 	  int g = 0;
 	  iss >> v >> u;
 	  if (iss)
-	    g = gsl::narrow_cast<int>(round(v * FindWeight(u)));
+	    g = gsl::narrow_cast<int>(round(v * FindWeight(FindUnit(u))));
 	  int z = gsl::narrow_cast<int>(round(ing.g));
 	  if (g <= 0 || g != z)
 	    cout << '?';
-	  cout << ')';
 	}
+	cout << ')';
       }
-      cout << ' ' << line.name << std::endl;
+      if (!line.name.empty())
+	cout << ' ' << line.name;
+      cout << std::endl;
       total += ing;
     }
     {
