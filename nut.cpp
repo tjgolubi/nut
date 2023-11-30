@@ -41,7 +41,7 @@ struct Ingredient {
   std::string name;
   double g     = 0.0;
   double ml    = 0.0;
-  double cal   = 0.0;
+  double kcal  = 0.0;
   double prot  = 0.0;
   double fat   = 0.0;
   double carb  = 0.0;
@@ -51,7 +51,7 @@ struct Ingredient {
   void scale(double ratio) {
     g     *= ratio;
     ml    *= ratio;
-    cal   *= ratio;
+    kcal  *= ratio;
     prot  *= ratio;
     fat   *= ratio;
     carb  *= ratio;
@@ -60,7 +60,7 @@ struct Ingredient {
   Ingredient& operator+=(const Ingredient& rhs) {
     g     += rhs.g;
     ml    += rhs.ml;
-    cal   += rhs.cal;
+    kcal  += rhs.kcal;
     prot  += rhs.prot;
     fat   += rhs.fat;
     carb  += rhs.carb;
@@ -77,7 +77,7 @@ std::ostream& operator<<(std::ostream& output, const Ingredient& ingred) {
   PrecSaver precSaver(output, 5);
   output << setw(4) << round(ingred.g)
 	 << setw(4) << round(ingred.ml)
-	 << setw(4) << round(ingred.cal)
+	 << setw(4) << round(ingred.kcal)
 	 << setw(6) << ingred.prot
 	 << setw(6) << ingred.fat
 	 << setw(6) << ingred.carb
@@ -97,6 +97,8 @@ auto FindIngredient(const std::vector<Ingredient>& ingredients,
                     const std::string& name)
   -> std::optional<Ingredient>
 {
+  if (name.empty())
+    return std::nullopt;
   auto r = std::ranges::lower_bound(ingredients, name,
                                     std::ranges::less {}, &Ingredient::name);
   if (r == ingredients.end() || r->name != name)
@@ -104,6 +106,25 @@ auto FindIngredient(const std::vector<Ingredient>& ingredients,
 
   return *r;
 } // FindIngredient
+
+auto FindIngredientWithPlurals(const std::vector<Ingredient>& ingredients,
+			       std::string name)
+  -> std::optional<Ingredient>
+{
+  auto ingred = FindIngredient(ingredients, name);
+  if (ingred || name.size() <= 1 || name.back() != 's')
+    return ingred;
+  name.pop_back();
+  ingred = FindIngredient(ingredients, name);
+  if (ingred || name.size() <= 1 || name.back() != 'e')
+    return ingred;
+  name.pop_back();
+  ingred = FindIngredient(ingredients, name);
+  if (ingred || name.size() <= 1 || name.back() != 'i')
+    return ingred;
+  name.back() = 'y';
+  return FindIngredient(ingredients, name);
+} // FindIngredientWithPlurals
 
 auto ReadIngredients() {
   std::string str;
@@ -118,7 +139,7 @@ auto ReadIngredients() {
       continue;
     }
     ingred = Ingredient();
-    input >> ingred.g >> ingred.ml >> ingred.cal
+    input >> ingred.g >> ingred.ml >> ingred.kcal
 	  >> ingred.prot >> ingred.fat >> ingred.carb >> ingred.fiber;
     if (input && std::getline(input >> std::ws, ingred.name))
       rval.push_back(ingred);
@@ -479,28 +500,24 @@ int main() {
 	  }
 	}
       }
-      auto name = ToLower(line.name);
-      { // trim punctuation
-	const auto punct = std::string("!#$()*+,./:;<=>?@[]^{|}~");
-	auto i = name.find_first_of(punct);
-	if (i != std::string::npos)
-	  name.erase(i);
-      }
-      TrimTrailingWs(name);
-      { // substitute common synonyms
-	Subst(name, "diced", "chopped");
-	Subst(name, "dry",   "dried");
-      }
-      auto ingred = FindIngredient(ingredients, name);
-      if (!ingred && !name.empty() && name.back() == 's') {
-	name.pop_back();
-	ingred = FindIngredient(ingredients, name);
-	if (!ingred && !name.empty() && name.back() == 'e') {
-	  name.pop_back();
-	  ingred = FindIngredient(ingredients, name);
-	  if (!ingred && !name.empty() && name.back() == 'i') {
-	    name.back() = 'y';
-	    ingred = FindIngredient(ingredients, name);
+      std::optional<Ingredient> ingred;
+      {
+	auto name = ToLower(line.name);
+	{ // trim punctuation
+	  const auto punct = std::string("!#$()*+,./:;<=>?@[]^{|}~");
+	  auto i = name.find_first_of(punct);
+	  if (i != std::string::npos)
+	    name.erase(i);
+	}
+	TrimTrailingWs(name);
+	if (!name.empty()) {
+	  ingred = FindIngredientWithPlurals(ingredients, name);
+	  if (!ingred) {
+	    // substitute common synonyms
+	    Subst(name, "diced", "chopped");
+	    Subst(name, "cubed", "chopped");
+	    Subst(name, "dry",   "dried");
+	    ingred = FindIngredientWithPlurals(ingredients, name);
 	  }
 	}
       }
@@ -511,17 +528,15 @@ int main() {
       ing.g = std::abs(ing.g);
       using std::cout;
       using std::setw;
+      using std::ceil;
       using std::round;
-      auto grams = gsl::narrow_cast<int>(round(ing.g));
-      if (grams == 0 && ing.g != 0.0)
-        grams = 1;
       cout
-	<< "g="    << setw(3) << grams
-	<< " cal=" << setw(4) << round(ing.cal)
-	<< " p="   << setw(3) << round(ing.prot)
-	<< " f="   << setw(3) << round(ing.fat)
-	<< " c="   << setw(3) << round(ing.carb)
-	<< " fb="  << setw(3) << round(ing.fiber)
+	<< "g="     << setw(3) << ceil(ing.g)
+	<< " kcal=" << setw(4) << round(ing.kcal)
+	<< " p="    << setw(3) << round(ing.prot)
+	<< " f="    << setw(3) << round(ing.fat)
+	<< " c="    << setw(3) << round(ing.carb)
+	<< " fb="   << setw(3) << round(ing.fiber)
 	<< " : " << line.value;
       if (!line.unit.empty())
 	cout << ' ' << line.unit;
@@ -547,7 +562,7 @@ int main() {
 	  if (iss)
 	    g = gsl::narrow_cast<int>(round(v * FindWeight(FindUnit(u))));
 	  int z = gsl::narrow_cast<int>(round(ing.g));
-	  if (g <= 0 || g != z)
+	  if (g <= 0 || (100 * std::abs(z-g))/g > 5)
 	    cout << '?';
 	}
 	cout << ')';
@@ -569,7 +584,7 @@ int main() {
 	cout << "serving:\n\n";
 	total.scale(1.0/servings);
       }
-      cout << setw(4) << round(total.cal)  << " cal\n"
+      cout << setw(4) << round(total.kcal) << " kcal\n"
 	   << setw(4) << round(total.g)    << " g raw\n"
 	   << setw(4) << round(total.prot) << " g protein\n"
 	   << setw(4) << round(total.fat)  << " g fat\n"
