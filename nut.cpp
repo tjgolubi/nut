@@ -530,14 +530,18 @@ int main() {
       using std::setw;
       using std::ceil;
       using std::round;
-      cout
-	<< "g="     << setw(3) << ceil(ing.g)
-	<< " kcal=" << setw(4) << round(ing.kcal)
-	<< " p="    << setw(3) << round(ing.prot)
-	<< " f="    << setw(3) << round(ing.fat)
-	<< " c="    << setw(3) << round(ing.carb)
-	<< " fb="   << setw(3) << round(ing.fiber)
-	<< " : " << line.value;
+      {
+        PrecSaver prec(cout, 1);
+	cout << std::fixed
+	  << "g=" << setw(5) << (ceil(ing.g * 10)/10)
+	  << " kcal=" << setw(6) << ing.kcal
+	  << " p="    << setw(5) << ing.prot
+	  << " f="    << setw(5) << ing.fat
+	  << " c="    << setw(5) << ing.carb
+	  << " fb="   << setw(5) << ing.fiber
+	  << std::defaultfloat
+	  << " : " << line.value;
+      }
       if (!line.unit.empty())
 	cout << ' ' << line.unit;
       if (!line.weight.empty()) {
@@ -562,8 +566,9 @@ int main() {
 	  if (iss)
 	    g = gsl::narrow_cast<int>(round(v * FindWeight(FindUnit(u))));
 	  int z = gsl::narrow_cast<int>(round(ing.g));
-	  if (g <= 0 || (100 * std::abs(z-g))/g > 5)
+	  if (g <= 0 || (100 * std::abs(z-g))/g > 7) {
 	    cout << '?';
+	  }
 	}
 	cout << ')';
       }

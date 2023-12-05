@@ -1,4 +1,5 @@
 #  g     ml  kcal   prot  fat     carb  fiber desc
+  240   240     0   0.00   0.00   0.00   0.00 water
 # Oils
   100   110   884   0.00 100.00   0.00   0.00 oil
   100   110   884   0.00 100.00   0.00   0.00 vegetable oil
@@ -8,6 +9,8 @@
    -1     0     8   0.00   0.79   0.21   0.00 olive oil spray
    -1     0     8   0.00   0.79   0.21   0.00 evoo spray
    -1     0     8   0.00   0.79   0.21   0.00 cooking spray
+  100   109   884   0.00 100.00   0.00   0.00 sesame oil
+  100   109   884   0.00 100.00   0.00   0.00 corn oil
 # Poultry
   -55     0   135  13.67   8.45   0.00   0.00 small chicken thigh
   -62     0   152  15.41   9.52   0.00   0.00 medium chicken thigh
@@ -82,9 +85,63 @@
  -118     0   100  21.76   0.82   0.00   0.00 mahi mahi fillet
   100     0   108  23.38   0.95   0.00   0.00 tuna
   100     0   108  23.38   0.95   0.00   0.00 tuna steak
-  113     0   100  23.00   0.50   0.00   0.00 canned tuna
-  154   240   179  39.29   1.26   0.00   0.00 canned white tuna
-  113     0   130  29.00   1.00   0.00   0.00 canned albacore tuna
+  154   165   179  39.29   1.26   0.00   0.00 canned tuna
+  -62     0    60  12.00   1.33   0.00   0.00 bb 3-oz can tuna
+ -113     0   110  23.00   1.56   1.00   0.00 bb 5-oz can tuna
+ -255   240   240  51.00   4.00   0.00   0.00 bb 12-oz can tuna
+-1360  1280  1280 272.00  21.33   0.00   0.00 bb 66.5-oz can tuna
+  -62     0    70  15.00   1.00   0.00   0.00 bb 3-oz can albacore tuna
+ -113     0   120  23.00   2.67   1.00   0.00 bb 5-oz can albacore tuna
+ -255   240   270  54.00   6.00   0.00   0.00 bb 12-oz can albacore tuna
+-1360  1280  1440 288.00  32.00   0.00   0.00 bb 66.5-oz can albacore tuna
+  -62     0    70  16.00   0.67   0.00   0.00 bb 3-oz can solid albacore tuna
+ -113     0   130  29.00   1.56   0.00   0.00 bb 5-oz can solid albacore tuna
+ -144     0   170  37.00   2.00   0.00   0.00 bb 7-oz can solid albacore tuna
+ -255   240   300  63.00   5.33   0.00   0.00 bb 12-oz can solid albacore tuna
+-1360  1280  1600 352.00  21.33   0.00   0.00 bb 66.5-oz can solid albacore tuna
+ -113     0   140  32.00   1.33   0.00   0.00 bb 5-oz can prime albacore tuna
+  -92     0   100  20.00   2.22   0.00   0.00 bb 5-oz can pink salmon
+ -213   200   275  47.50   9.44   0.00   0.00 bb 7.5-oz can pink salmon
+ -425   400   600  90.00  26.67   0.00   0.00 bb 14.75-oz can pink salmon
+  -92     0   110  21.00   3.00   0.00   0.00 bb 5-oz can sockeye salmon
+ -213   200   325  50.00  13.89   0.00   0.00 bb 7.5-oz can sockeye salmon
+ -425   400   650 100.00  27.78   0.00   0.00 bb 14.75-oz can sockeye salmon
+ -113     0   220  24.00  14.00   0.00   0.00 bb 5-oz can prime atlantic salmon
+ -113     0   110  22.00   2.00   1.00   0.00 bb 6-oz can tiny shrimp
+ -113     0   110  22.00   2.00   1.00   0.00 bb 6-oz can medium shrimp
+ -120     0    80  16.00   1.50   1.00   0.00 bb 6-oz can white crabmeat
+ -120     0    80  16.00   1.50   1.00   0.00 bb 6-oz can lump crabmeat
+ -120     0    80  16.00   1.50   1.00   0.00 bb 6-oz can pink crabmeat
+  -70     0    70  17.00   0.22   0.00   0.00 cots 2.5-oz pouch tuna
+ -113     0   100  23.00   0.90   0.00   0.00 cots 5-oz can tuna
+ -255   240   210  48.00   2.00   0.00   0.00 cots 12-oz can tuna
+  -70     0    80  17.00   1.00   0.00   0.00 cots 2.5-oz pouch albacore tuna
+ -142     0   160  35.00   2.00   0.00   0.00 cots 5-oz pouch albacore tuna
+ -113     0   100  20.00   2.00   0.00   0.00 cots 5-oz can albacore tuna
+ -255   240   300  66.00   4.00   0.00   0.00 cots 12-oz can albacore tuna
+ -113     0   130  29.00   1.56   0.00   0.00 cots 5-oz can solid albacore tuna
+  -85     0   100  20.00   1.50   0.00   0.00 cots 2.5-oz pouch smoked pink salmon
+  -70     0    70  15.00   1.00   0.00   0.00 cots 2.5-oz pouch pink salmon
+ -142     0   150  31.00   2.50   0.00   0.00 cots 5-oz pouch pink salmon
+ -113     0   110  22.00   2.44   0.00   0.00 cots 5-oz can pink salmon
+ -425   400   500 100.00   2.22   0.00   0.00 cots 14.75-oz can pink salmon
+ -113     0    70  16.00   0.50   0.00   0.00 cots 6-oz can white crabmeat
+ -168   180    75  12.00   1.67   3.00   0.00 cots 6.5-oz can chopped clams
+ -142     0   130  23.00   1.50   5.00   0.00 cots 10-oz can baby clams
+  -79     0    70  16.00   0.50   0.00   0.00 starkist 3-oz can tuna
+ -113     0    89  20.00   1.00   0.00   0.00 starkist 5-oz can tuna
+ -255   240   210  48.00   2.00   0.00   0.00 starkist 12-oz can tuna
+  -74     0    70  17.00   0.22   0.00   0.00 starkist 2.6-oz pouch tuna
+ -168   180   180  39.00   2.67   0.00   0.00 starkist 6.4-oz pouch tuna
+ -336   360   360  78.00   5.33   0.00   0.00 starkist 11-oz pouch tuna
+  -79     0    80  18.00   0.89   0.00   0.00 starkist 3-oz can albacore tuna
+ -113     0   100  22.00   1.33   0.00   0.00 starkist 5-oz can albacore tuna
+ -255   240   237  51.00   3.67   0.00   0.00 starkist 12-oz can albacore tuna
+  -74     0    80  17.00   1.33   0.00   0.00 starkist 2.6-oz pouch albacore tuna
+ -170   160   180  38.00   3.11   0.00   0.00 starkist 6.4-oz pouch albacore tuna
+  -74     0    70  15.00   1.11   0.00   0.00 starkist 2.6-oz pouch pink salmon
+  -85     0    90  19.00   1.56   0.00   0.00 starkist 5-oz can pink salmon
+ -425   400   600 100.00  22.22   0.00   0.00 starkist 14.75-oz can pink salmon
   100     0   121  19.80   4.01   0.00   0.00 swordfish
   100     0   121  19.80   4.01   0.00   0.00 swordfish steak
   100     0   148  20.77   6.61   0.00   0.00 trout
@@ -135,7 +192,11 @@
   128   240   635  33.69  34.19  49.18   0.00 dried milk
   128   240   635  34.00  34.00  49.00   0.00 milk powder
   240   240   281   9.73  22.06  12.10   0.00 greek yogurt
+  238   240   186  14.65   6.93  16.39   0.00 lowfat greek yogurt
+  227   240   120  22.00   0.00   9.00   0.00 nonfat greek yogurt
   244   240   154  12.86   3.80  17.25   0.00 yogurt
+  244   240   154  12.86   3.80  17.25   0.00 lowfat yogurt
+  245   240   137  14.04   0.44  18.82   0.00 nonfat yogurt
   306   240   982  24.20  26.62 166.46   0.00 condensed milk
   243   240   168   8.56   9.52  12.61   0.00 evaporated milk
   227   240  1628   1.93 184.12   0.14   0.00 butter
@@ -161,14 +222,27 @@
   244   240    40   0.00   4.00   2.00   0.00 coconut milk unsweet
   244   240    25   1.00   2.00   1.00   0.00 cashew milk unsweet
   113   160   230   5.00  11.00  26.00   0.00 ice cream
+  210   240   216  26.23   9.47   5.63   0.00 large curd cottage cheese
+  225   240   232  28.10  10.15   6.03   0.00 small curd cottage cheese
+  218   240   214  24.00   9.40   7.40   0.00 cottage cheese
+  226   240   203  31.05   4.36   8.20   0.00 cottage cheese 2%
+  226   240   163  28.00   2.31   6.15   0.00 cottage cheese 1%
+  145   240   123  25.04   0.61   2.68   0.00 cottage cheese 0%
+  145   240   123  25.04   0.61   2.68   0.00 lowfat cottage cheese
+  145   240   123  25.04   0.61   2.68   0.00 skim cottage cheese
+  -30    70   120  24.00   1.00   3.00   0.00 scoop whey protein powder
+   30    70   120  24.00   1.00   3.00   0.00 whey protein powder
 # Cheese
   100     0   337  18.94  26.05   6.94   0.00 american cheese
   -19     0    50   3.00   3.50   2.00   0.00 american cheese slice
+  -19     0    50   3.00   3.50   2.00   0.00 slice american cheese
   -19     0    70   3.00   6.00   1.00   0.00 american deli slice
+  -19     0    70   3.00   6.00   1.00   0.00 slice american deli
   113   240   381  21.40  29.44   7.84   0.00 shredded american cheese
   113   240   381  21.40  29.44   7.84   0.00 shredded cheese
   100     0   380  26.93  27.80   5.38   0.00 swiss cheese
   -28     0   106   7.54   7.78   1.51   0.00 swiss cheese slice
+  -28     0   106   7.54   7.78   1.51   0.00 slice swiss cheese
   108   240   410  29.08  30.02   5.81   0.00 shredded swiss cheese
   100     0   403  24.90  33.14   1.28   0.00 cheddar
   100     0   403  24.90  33.14   1.28   0.00 cheddar cheese
@@ -214,9 +288,13 @@
   125   240   455  12.91   1.22  95.39   3.40 flour
   125   240   455  12.91   1.22  95.39   3.40 all-purpose flour
   120   240   407  16.44   2.24  87.08  14.60 whole wheat flour
+   14    30    60   3.00   1.50   9.00   5.00 coconut flour
   137   240   496  11.23   1.18 106.90   2.30 cake flour
-    8    15    30   0.00   0.00   7.00   0.00 corn starch
+  128   240   488   0.33   0.06 116.83   1.20 cornstarch
+  128   240   488   0.33   0.06 116.83   1.20 corn starch
   100   125   295  38.30   4.60  38.20  21.00 dried yeast
+   15    60    60   8.00   0.50   5.00   3.00 nutritional yeast
+  100   125   295  38.30   4.60  38.20  21.00 baking yeast
   100   210   525   5.84  36.31  49.29  20.80 nutmeg
   100   210   525   5.84  36.31  49.29  20.80 ground nutmeg
   213   237     0   0.00   0.00   0.00   0.00 baking powder
@@ -274,8 +352,10 @@
   200   240   758   0.50   0.42 197.36   7.00 cinnamon sugar
   100   243   263   6.09   8.69  72.12  21.60 allspice
   100   243   263   6.09   8.69  72.12  21.60 ground allspice
-  100   337   251  14.37   3.98  60.96  40.50 ground basil
-  100   742   251  14.37   3.98  60.96  40.50 basil leaves
+  100   309   251  14.37   3.98  60.96  40.50 ground basil
+  100   742   251  14.37   3.98  60.96  40.50 dried basil leaves
+  100   563    23   3.10   0.60   2.60   1.60 chopped basil leaves
+  100   800    27   2.54   0.61   4.34   3.90 fresh basil leaves
   100   825   279  21.93   4.78  52.10  10.40 coriander
   100   255   345  15.80  14.87  52.29  39.80 fennel seed
   100   270   347   9.12   5.95  70.79  12.50 ground ginger
@@ -316,6 +396,8 @@
  -240   360   960  12.00  27.00 168.00   6.00 box jiffy corn muffin mix
   100   194   384  16.00   6.30  67.00   9.80 rolled oats
    44    60   170   5.00   2.50  31.00   5.00 steel-cut oats
+  100     0   123   5.30   0.54  26.38   4.50 whole-wheat spaghetti
+  100     0   157   5.76   0.92  30.68   1.80 spaghetti
 # Nuts & Seeds
   120   240   785  18.28  78.25  16.45   8.00 chopped walnut
   100   240   654  15.23  65.21  13.71   6.70 walnuts
@@ -350,7 +432,8 @@
   339   240  1031   1.02   0.00 279.34   0.70 honey
   318   240   967   0.95   0.00 262.03   0.60 clover honey
   322   240   840   0.00   0.64 216.03   0.00 maple syrup
-  100    93   588  25.09  50.39  19.56   6.00 peanut butter
+  100    94   588  25.09  50.39  19.56   6.00 peanut butter
+  100    94   633  15.08  59.10  21.22   3.70 almond butter
   255   240   135  16.01   0.10  19.41   2.00 soy sauce
    15    15    40   0.00   3.50   2.00   0.00 miracle whip
   235   240   916   2.00  78.00  56.00   0.00 mayo
@@ -389,12 +472,19 @@
  -212     0   110   0.55   0.36  29.28   5.10 large apple
   125   240    65   0.32   0.21  17.26   3.00 chopped apple
   255   240   194   0.46   0.46  50.77   3.10 applesauce
+ -140     0    81   0.53   0.17  21.49   4.30 small pear
+ -166     0    96   0.63   0.20  25.66   5.10 medium pear
+ -166     0    96   0.63   0.20  25.66   5.10 pear
+ -209     0   121   0.79   0.25  32.31   6.50 large pear
+  166   240    96   0.63   0.20  25.66   5.10 sliced pear
   -79     0    31   0.72   0.20   7.54   1.20 small peach
   -97     0    38   0.89   0.24   9.35   1.50 medium peach
   -97     0    38   0.89   0.24   9.35   1.50 peach
  -156     0    61   1.43   0.39  14.98   2.40 large peach
   169   240    66   1.55   0.42  16.22   2.60 sliced peach
   184   240    72   1.68   0.46  17.65   2.80 chopped peach
+ -208     0   135   1.06   0.56  35.19   3.70 mango
+  165   240   107   0.84   0.45  28.05   3.00 sliced mango
   -81     0    72   0.88   0.27  18.50   2.10 extra small banana
  -101     0    90   1.10   0.33  23.07   2.60 small banana
  -118     0   105   1.29   0.39  26.95   3.10 medium banana
@@ -406,6 +496,11 @@
   -67     0    20   0.47   0.13   7.06   1.90 lime
   -59     0    17   0.64   0.17   5.41   1.60 small lemon
   -83     0    24   0.92   0.25   7.83   2.40 lemon
+  100   246    97   1.50   0.20  25.00  10.70 orange zest
+ -140     0    69   1.30   0.20  18.00   3.10 orange
+  -96     0    45   0.90   0.12  11.28   2.30 small orange
+ -132     0    62   1.23   0.16  15.39   3.10 medium orange
+ -183     0    86   1.73   0.22  21.62   4.40 large orange
   146   240    83   1.07   0.48  21.01   3.50 blueberry
   123   240    64   1.48   0.80  14.69   8.00 raspberry
   144   240    62   2.00   0.71  13.84   7.60 blackberry
@@ -475,9 +570,10 @@
   150   240    27   1.31   0.30   5.84   1.80 cherry tomato
  -148     0    35   1.00   1.00   2.00   0.00 roma tomato
  -122   164    28   1.48   0.25   6.27   1.40 green tomato
-   -5     0     5   0.19   0.02   0.99   0.10 garlic clove
-  136   240   203   8.65   0.68  44.96   2.90 garlic
-  136   240   181   8.61   0.91  44.88   4.50 minced garlic
+   -3     0     4   0.19   0.02   0.99   0.10 garlic clove
+   -3     0     4   0.19   0.02   0.99   0.10 clove garlic
+  136   240   204   8.60   0.90  44.90   2.70 garlic
+  100   176   150   6.40   0.40  33.20   2.10 minced garlic
   -69     0    29   0.64   0.06   7.08   1.00 small onion
  -110     0    46   1.01   0.09  11.12   1.50 medium onion
  -110     0    46   1.01   0.09  11.12   1.50 onion
@@ -510,6 +606,7 @@
   100  1380    23   2.13   0.52   3.67   2.80 chopped cilantro
    89   240    54   1.34   0.27  12.59   1.60 leek
   100   249    80   1.82   0.75  17.77   2.00 ginger
+  100   249    80   1.82   0.75  17.77   2.00 ginger root
   100   249    80   1.82   0.75  17.77   2.00 sliced ginger
  -158     0    19   0.93   0.25   3.41   1.10 small cucumber
  -200     0    24   1.19   0.32   4.34   1.40 medium cucumber
@@ -633,6 +730,8 @@
  -779     0   109   7.02   1.09  23.17   9.40 large lettuce head
    57   240     8   0.50   0.08   1.63   0.70 chopped lettuce
    57   240     8   0.50   0.08   1.63   0.70 shredded lettuce
+  100     0    50   3.30   0.70  10.01   2.00 kale
+   68   240    34   2.21   0.47   6.71   1.30 chopped kale
    30   240     7   0.86   0.12   1.09   0.70 spinach
    30   240     7   0.86   0.12   1.09   0.70 baby spinach
    61   240    22   1.78   0.47   3.80   2.00 parsley
@@ -698,6 +797,7 @@
   264   280   177   6.00   3.20  38.00   5.30 drained canned corn
   124   120    60   1.00   1.00  13.00   2.00 undrained canned corn
   124   120    60   1.00   1.00  13.00   2.00 canned corn
+  100   145    88   3.02   0.77  20.80   2.40 frozen corn
 ## Mushrooms
    -9     0     2   0.31   0.03   0.33   0.10 small mushroom
   -18    46     4   0.56   0.06   0.59   0.20 medium mushroom
@@ -746,6 +846,18 @@
    39   360   140   5.00   2.50  29.00   4.00 cheerios
 # Baked
   -43     0   113   4.10   2.60  19.00   2.00 hamburger bun
+  -13     0    41   1.08   1.01   6.68   0.40 4" flour tortilla
+  -13     0    41   1.08   1.01   6.68   0.40 mini flour tortilla
+  -30     0    94   2.49   2.32  15.40   0.90 6" flour tortilla
+  -30     0    94   2.49   2.32  15.40   0.90 small flour tortilla
+  -39     0   122   3.23   3.02  20.03   1.20 7" flour tortilla
+  -39     0   122   3.23   3.02  20.03   1.20 medium flour tortilla
+  -51     0   159   4.23   3.95  26.19   1.60 8" flour tortilla
+  -70     0   218   5.80   5.42  35.94   2.20 10" flour tortilla
+  -70     0   218   5.80   5.42  35.94   2.20 large flour tortilla
+ -114     0   356   9.45   8.84  58.54   3.50 12" flour tortilla
+  100     0   312   8.29   7.75  51.35   3.10 flour tortilla
 # Beverages
  -355   355   103   0.85   0.00   5.81   0.00 light beer
  -360   355   155   1.66   0.00  12.78   0.00 beer
+  248   240   112   1.70   0.50  26.00   0.50 orange juice
