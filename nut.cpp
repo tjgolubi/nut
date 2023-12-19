@@ -41,7 +41,7 @@ public:
   ~PrecSaver() { os.precision(prec); }
 }; // PrecSaver
 
-struct Nutrient {
+struct Nutrition {
   double g     = 0.0;
   double ml    = 0.0;
   double kcal  = 0.0;
@@ -67,7 +67,7 @@ struct Nutrient {
     carb  *= ratio;
     fiber *= ratio;
   }
-  Nutrient& operator+=(const Nutrient& rhs) {
+  Nutrition& operator+=(const Nutrition& rhs) {
     g     += rhs.g;
     ml    += rhs.ml;
     kcal  += rhs.kcal;
@@ -77,11 +77,11 @@ struct Nutrient {
     fiber += rhs.fiber;
     return *this;
   }
-  bool operator==(const Nutrient& rhs) const = default;
-  auto operator<=>(const Nutrient& lhs) const = default;
-}; // Nutrient
+  bool operator==(const Nutrition& rhs) const = default;
+  auto operator<=>(const Nutrition& lhs) const = default;
+}; // Nutrition
 
-std::ostream& operator<<(std::ostream& output, const Nutrient& nutr) {
+std::ostream& operator<<(std::ostream& output, const Nutrition& nutr) {
   using std::setw;
   using std::round;
   PrecSaver precSaver(output, 5);
@@ -93,94 +93,72 @@ std::ostream& operator<<(std::ostream& output, const Nutrient& nutr) {
 	 << setw(6) << nutr.carb
 	 << setw(6) << nutr.fiber;
   return output;
-} // << Nutrient
+} // << Nutrition
 
-std::istream& operator>>(std::istream& input, Nutrient& nutr) {
-  nutr = Nutrient();
+std::istream& operator>>(std::istream& input, Nutrition& nutr) {
+  nutr = Nutrition();
   return input >> nutr.g >> nutr.ml >> nutr.kcal
 	>> nutr.prot >> nutr.fat >> nutr.carb >> nutr.fiber;
 }
 
-struct Ingredient {
-  std::string name;
-  Nutrient nutrient;
-  Ingredient() : name(), nutrient() { }
-  explicit Ingredient(const std::string& n) : name(n), nutrient() { }
-  void clear() { name.clear(); nutrient.zero(); }
-  void scale(double ratio) { nutrient.scale(ratio); }
-  Ingredient& operator+=(const Ingredient& rhs) {
-    nutrient += rhs.nutrient;
-    return *this;
-  }
-  bool operator==(const Ingredient& rhs) const = default;
-  auto operator<=>(const Ingredient& lhs) const = default;
-}; // Ingredient
-
-std::ostream& operator<<(std::ostream& output, const Ingredient& ingred)
-{ return output << ingred.nutrient << ' ' << ingred.name; }
-
-std::istream& operator>>(std::istream& input, Ingredient& ingred) {
-  ingred.clear();
-  input >> ingred.nutrient;
-  if (input)
-    std::getline(input >> std::ws, ingred.name);
-  return input;
-}
+using NutrMap = std::map<std::string, Nutrition>;
 
 #if 0
 auto Compare(const Ingredient& ingred, const std::string& name)
 { return (ingred.name <=> name); }
 #endif
 
-auto FindIngredient(const std::vector<Ingredient>& ingredients,
+auto FindIngredient(const NutrMap& ingredients,
                     const std::string& name)
-  -> std::optional<Ingredient>
+  -> std::optional<Nutrition>
 {
   if (name.empty())
     return std::nullopt;
-  auto r = std::ranges::lower_bound(ingredients, name,
-                                    std::ranges::less {}, &Ingredient::name);
-  if (r == ingredients.end() || r->name != name)
+
+  auto r = ingredients.find(name);
+  if (r == ingredients.end())
     return std::nullopt;
 
-  return *r;
+  return r->second;
 } // FindIngredient
 
-auto FindIngredientWithPlurals(const std::vector<Ingredient>& ingredients,
+auto FindIngredientWithPlurals(const NutrMap& ingredients,
 			       std::string name)
-  -> std::optional<Ingredient>
+  -> std::optional<Nutrition>
 {
-  auto ingred = FindIngredient(ingredients, name);
-  if (ingred || name.size() <= 1 || name.back() != 's')
-    return ingred;
+  auto nutr = FindIngredient(ingredients, name);
+  if (nutr || name.size() <= 1 || name.back() != 's')
+    return nutr;
   name.pop_back();
-  ingred = FindIngredient(ingredients, name);
-  if (ingred || name.size() <= 1 || name.back() != 'e')
-    return ingred;
+  nutr = FindIngredient(ingredients, name);
+  if (nutr || name.size() <= 1 || name.back() != 'e')
+    return nutr;
   name.pop_back();
-  ingred = FindIngredient(ingredients, name);
-  if (ingred || name.size() <= 1 || name.back() != 'i')
-    return ingred;
+  nutr = FindIngredient(ingredients, name);
+  if (nutr || name.size() <= 1 || name.back() != 'i')
+    return nutr;
   name.back() = 'y';
   return FindIngredient(ingredients, name);
 } // FindIngredientWithPlurals
 
 auto ReadIngredients() {
   std::string str;
-  std::vector<Ingredient> rval;
+  using NutrMap = std::map<std::string, Nutrition>;
+  NutrMap rval;
   auto input = std::ifstream("ingred.txt");
   if (!input)
     return rval;
-  Ingredient ingred;
+  std::string name;
+  Nutrition nutr;
   while (input >> std::ws) {
     if (input.peek() == '#') {
       input.ignore(1024, '\n');
       continue;
     }
-    if (input >> ingred)
-      rval.push_back(ingred);
+    if (input >> nutr
+	&& std::getline(input >> std::ws, name))
+      rval.emplace(std::move(name), std::move(nutr));
   }
-  std::sort(rval.begin(), rval.end()); // todo: use std::ranges::sort
   return rval;
 } // ReadIngredients
 
@@ -378,7 +356,7 @@ auto FindWeight(const std::string& unit) {
   return 0.0;
 } // FindWeight
 
-auto Ratio(const Nutrient& nutr, const std::string& unit,
+auto Ratio(const Nutrition& nutr, const std::string& unit,
 	   double value, double volume, double weight)
 {
   if (unit == "ea" && nutr.g < 0.0)
@@ -474,7 +452,7 @@ int main() {
     double cookedWeight = 0.0;
     Line line;
     std::string buf;
-    Nutrient total;
+    Nutrition total;
     std::cin.exceptions(std::cin.failbit);
     while (std::cin) {
       std::cin >> std::ws;
@@ -536,7 +514,7 @@ int main() {
 	  }
 	}
       }
-      std::optional<Ingredient> ingred;
+      std::optional<Nutrition> nutr;
       {
 	auto name = ToLower(line.name);
 	{ // trim punctuation
@@ -547,19 +525,19 @@ int main() {
 	}
 	TrimTrailingWs(name);
 	if (!name.empty()) {
-	  ingred = FindIngredientWithPlurals(ingredients, name);
-	  if (!ingred) {
+	  nutr = FindIngredientWithPlurals(ingredients, name);
+	  if (!nutr) {
 	    // substitute common synonyms
 	    Subst(name, "diced", "chopped");
 	    Subst(name, "cubed", "chopped");
 	    Subst(name, "dry",   "dried");
-	    ingred = FindIngredientWithPlurals(ingredients, name);
+	    nutr = FindIngredientWithPlurals(ingredients, name);
 	  }
 	}
       }
-      if (!ingred)
-	ingred = Ingredient(line.name);
-      auto& nut = ingred->nutrient;
+      if (!nutr)
+	nutr = Nutrition();
+      auto& nut = *nutr;
       nut.scale(Ratio(nut, unit, value, volume, weight));
       nut.g = std::abs(nut.g);
       using std::cout;
