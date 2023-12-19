@@ -1,5 +1,7 @@
 // Copyright 2023 Terry Golubiewski, all rights reserved.
 
+#include <gsl/gsl>
+
 #include <ranges>
 #include <algorithm>
 #include <optional>
@@ -16,6 +18,7 @@
 #include <cstdlib>
 
 
+#ifndef GSL_GSL_H
 namespace gsl {
 
 template<class T, class U>
@@ -24,6 +27,7 @@ constexpr T narrow_cast(U&& u) noexcept {
 }
 
 } // gsl
+#endif
 
 class PrecSaver {
 private:
@@ -37,8 +41,7 @@ public:
   ~PrecSaver() { os.precision(prec); }
 }; // PrecSaver
 
-struct Ingredient {
-  std::string name;
+struct Nutrient {
   double g     = 0.0;
   double ml    = 0.0;
   double kcal  = 0.0;
@@ -46,8 +49,15 @@ struct Ingredient {
   double fat   = 0.0;
   double carb  = 0.0;
   double fiber = 0.0;
-  Ingredient() : name() { }
-  explicit Ingredient(const std::string& n) : name(n) { }
+  void zero() {
+    g     = 0.0;
+    ml    = 0.0;
+    kcal  = 0.0;
+    prot  = 0.0;
+    fat   = 0.0;
+    carb  = 0.0;
+    fiber = 0.0;
+  }
   void scale(double ratio) {
     g     *= ratio;
     ml    *= ratio;
@@ -57,7 +67,7 @@ struct Ingredient {
     carb  *= ratio;
     fiber *= ratio;
   }
-  Ingredient& operator+=(const Ingredient& rhs) {
+  Nutrient& operator+=(const Nutrient& rhs) {
     g     += rhs.g;
     ml    += rhs.ml;
     kcal  += rhs.kcal;
@@ -67,26 +77,55 @@ struct Ingredient {
     fiber += rhs.fiber;
     return *this;
   }
+  bool operator==(const Nutrient& rhs) const = default;
+  auto operator<=>(const Nutrient& lhs) const = default;
+}; // Nutrient
+
+std::ostream& operator<<(std::ostream& output, const Nutrient& nutr) {
+  using std::setw;
+  using std::round;
+  PrecSaver precSaver(output, 5);
+  output << setw(4) << round(nutr.g)
+	 << setw(4) << round(nutr.ml)
+	 << setw(4) << round(nutr.kcal)
+	 << setw(6) << nutr.prot
+	 << setw(6) << nutr.fat
+	 << setw(6) << nutr.carb
+	 << setw(6) << nutr.fiber;
+  return output;
+} // << Nutrient
+
+std::istream& operator>>(std::istream& input, Nutrient& nutr) {
+  nutr = Nutrient();
+  return input >> nutr.g >> nutr.ml >> nutr.kcal
+	>> nutr.prot >> nutr.fat >> nutr.carb >> nutr.fiber;
+}
+
+struct Ingredient {
+  std::string name;
+  Nutrient nutrient;
+  Ingredient() : name(), nutrient() { }
+  explicit Ingredient(const std::string& n) : name(n), nutrient() { }
+  void clear() { name.clear(); nutrient.zero(); }
+  void scale(double ratio) { nutrient.scale(ratio); }
+  Ingredient& operator+=(const Ingredient& rhs) {
+    nutrient += rhs.nutrient;
+    return *this;
+  }
   bool operator==(const Ingredient& rhs) const = default;
   auto operator<=>(const Ingredient& lhs) const = default;
 }; // Ingredient
 
-std::ostream& operator<<(std::ostream& output, const Ingredient& ingred) {
-  using std::setw;
-  using std::round;
-  PrecSaver precSaver(output, 5);
-  output << setw(4) << round(ingred.g)
-	 << setw(4) << round(ingred.ml)
-	 << setw(4) << round(ingred.kcal)
-	 << setw(6) << ingred.prot
-	 << setw(6) << ingred.fat
-	 << setw(6) << ingred.carb
-	 << setw(6) << ingred.fiber
-	 << ' ' << ingred.name;
-  return output;
-} // << Ingredient
+std::ostream& operator<<(std::ostream& output, const Ingredient& ingred)
+{ return output << ingred.nutrient << ' ' << ingred.name; }
 
-std::vector<Ingredient> Ingredients;
+std::istream& operator>>(std::istream& input, Ingredient& ingred) {
+  ingred.clear();
+  input >> ingred.nutrient;
+  if (input)
+    std::getline(input >> std::ws, ingred.name);
+  return input;
+}
 
 #if 0
 auto Compare(const Ingredient& ingred, const std::string& name)
@@ -138,10 +177,7 @@ auto ReadIngredients() {
       input.ignore(1024, '\n');
       continue;
     }
-    ingred = Ingredient();
-    input >> ingred.g >> ingred.ml >> ingred.kcal
-	  >> ingred.prot >> ingred.fat >> ingred.carb >> ingred.fiber;
-    if (input && std::getline(input >> std::ws, ingred.name))
+    if (input >> ingred)
       rval.push_back(ingred);
   }
   std::sort(rval.begin(), rval.end()); // todo: use std::ranges::sort
@@ -173,7 +209,7 @@ bool ContainsAny(const std::string& str1, const std::string& str2)
 bool Contains(const std::string& str, char ch)
 { return (str.find(ch) != std::string::npos); }
 
-bool Contains(const char* str, char ch)
+bool Contains(gsl::czstring str, char ch)
 { return (std::strchr(str, ch) != nullptr); }
 
 const std::map<std::string, std::string> FractionMap = {
@@ -342,18 +378,18 @@ auto FindWeight(const std::string& unit) {
   return 0.0;
 } // FindWeight
 
-auto Ratio(const Ingredient& ingred, const std::string& unit,
+auto Ratio(const Nutrient& nutr, const std::string& unit,
 	   double value, double volume, double weight)
 {
-  if (unit == "ea" && ingred.g < 0.0)
+  if (unit == "ea" && nutr.g < 0.0)
     return value;
-  if (ingred.ml != 0) {
+  if (nutr.ml != 0) {
     if (volume != 0.0)
-      return value * volume / ingred.ml;
+      return value * volume / nutr.ml;
   }
-  if (ingred.g != 0) {
+  if (nutr.g != 0) {
     if (weight != 0.0)
-      return value * weight / std::abs(ingred.g);
+      return value * weight / std::abs(nutr.g);
   }
   return 0.0;
 } // Ratio
@@ -438,7 +474,7 @@ int main() {
     double cookedWeight = 0.0;
     Line line;
     std::string buf;
-    auto total = Ingredient("Total");
+    Nutrient total;
     std::cin.exceptions(std::cin.failbit);
     while (std::cin) {
       std::cin >> std::ws;
@@ -523,9 +559,9 @@ int main() {
       }
       if (!ingred)
 	ingred = Ingredient(line.name);
-      auto& ing = *ingred;
-      ing.scale(Ratio(ing, unit, value, volume, weight));
-      ing.g = std::abs(ing.g);
+      auto& nut = ingred->nutrient;
+      nut.scale(Ratio(nut, unit, value, volume, weight));
+      nut.g = std::abs(nut.g);
       using std::cout;
       using std::setw;
       using std::ceil;
@@ -533,12 +569,12 @@ int main() {
       {
         PrecSaver prec(cout, 1);
 	cout << std::fixed
-	  << "g=" << setw(5) << (ceil(ing.g * 10)/10)
-	  << " kcal=" << setw(6) << ing.kcal
-	  << " p="    << setw(5) << ing.prot
-	  << " f="    << setw(5) << ing.fat
-	  << " c="    << setw(5) << ing.carb
-	  << " fb="   << setw(5) << ing.fiber
+	  << "g=" << setw(5) << (ceil(nut.g * 10)/10)
+	  << " kcal=" << setw(6) << nut.kcal
+	  << " p="    << setw(5) << nut.prot
+	  << " f="    << setw(5) << nut.fat
+	  << " c="    << setw(5) << nut.carb
+	  << " fb="   << setw(5) << nut.fiber
 	  << std::defaultfloat
 	  << " : " << line.value;
       }
@@ -553,7 +589,7 @@ int main() {
 	  }
 	  else {
 	    PrecSaver prec(cout, 3);
-	    cout << (ing.g / w) << ' ' << line.weight;
+	    cout << (nut.g / w) << ' ' << line.weight;
 	  }
 	}
 	else {
@@ -561,12 +597,11 @@ int main() {
 	  std::istringstream iss(line.weight);
 	  double v = 0.0;
 	  std::string u;
-	  int g = 0;
+	  double g = 0.0;
 	  iss >> v >> u;
 	  if (iss)
-	    g = gsl::narrow_cast<int>(round(v * FindWeight(FindUnit(u))));
-	  int z = gsl::narrow_cast<int>(round(ing.g));
-	  if (g <= 0 || (100 * std::abs(z-g))/g > 7) {
+	    g = v * FindWeight(FindUnit(u));
+	  if (g <= 0.0 || (100 * std::abs(nut.g-g))/g > 7) {
 	    cout << '?';
 	  }
 	}
@@ -575,7 +610,7 @@ int main() {
       if (!line.name.empty())
 	cout << ' ' << line.name;
       cout << std::endl;
-      total += ing;
+      total += nut;
     }
     {
       using std::cout;
