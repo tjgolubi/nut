@@ -58,14 +58,17 @@ struct Nutrition {
     carb  = 0.0;
     fiber = 0.0;
   }
-  void scale(double ratio) {
-    g     *= ratio;
-    ml    *= ratio;
-    kcal  *= ratio;
+  void scaleMacros(double ratio) {
     prot  *= ratio;
     fat   *= ratio;
     carb  *= ratio;
     fiber *= ratio;
+  }
+  void scale(double ratio) {
+    g     *= ratio;
+    ml    *= ratio;
+    kcal  *= ratio;
+    scaleMacros(ratio);
   }
   Nutrition& operator+=(const Nutrition& rhs) {
     g     += rhs.g;
@@ -84,14 +87,16 @@ struct Nutrition {
 std::ostream& operator<<(std::ostream& output, const Nutrition& nutr) {
   using std::setw;
   using std::round;
-  PrecSaver precSaver(output, 5);
-  output << setw(4) << round(nutr.g)
-	 << setw(4) << round(nutr.ml)
-	 << setw(4) << round(nutr.kcal)
-	 << setw(6) << nutr.prot
-	 << setw(6) << nutr.fat
-	 << setw(6) << nutr.carb
-	 << setw(6) << nutr.fiber;
+  PrecSaver precSaver(output, 1);
+  output << std::fixed
+         << ' ' << setw(7) << round(nutr.g)
+	 << ' ' << setw(6) << round(nutr.ml)
+	 << ' ' << setw(6) << round(nutr.kcal)
+	 << ' ' << setw(5) << nutr.prot
+	 << ' ' << setw(5) << nutr.fat
+	 << ' ' << setw(5) << nutr.carb
+	 << ' ' << setw(5) << nutr.fiber
+	 << std::defaultfloat;
   return output;
 } // << Nutrition
 
@@ -141,27 +146,6 @@ auto FindIngredientWithPlurals(const NutrMap& ingredients,
   return FindIngredient(ingredients, name);
 } // FindIngredientWithPlurals
 
-auto ReadIngredients() {
-  std::string str;
-  using NutrMap = std::map<std::string, Nutrition>;
-  NutrMap rval;
-  auto input = std::ifstream("ingred.txt");
-  if (!input)
-    return rval;
-  std::string name;
-  Nutrition nutr;
-  while (input >> std::ws) {
-    if (input.peek() == '#') {
-      input.ignore(1024, '\n');
-      continue;
-    }
-    if (input >> nutr
-	&& std::getline(input >> std::ws, name))
-      rval.emplace(std::move(name), std::move(nutr));
-  }
-  return rval;
-} // ReadIngredients
-
 auto ToLower(const std::string& str) {
   auto lwr = str;
   for (auto& c: lwr)
@@ -180,6 +164,106 @@ void TrimTrailingWs(std::string& str) {
   if (i != std::string::npos && ++i < str.size())
     str.erase(i);
 }
+
+auto ReadIngredients() {
+  std::string str;
+  using NutrMap = std::map<std::string, Nutrition>;
+  NutrMap rval;
+  auto input = std::ifstream("ingred.txt");
+  if (!input)
+    return rval;
+  std::string name;
+  Nutrition nutr;
+  std::string key;
+  bool allow_each = false;
+  bool is_equal = false;
+  static const auto all = std::numeric_limits<std::streamsize>::max();
+  while (input >> std::ws) {
+    if (input.peek() == '#') {
+      input.ignore(all, '\n');
+      continue;
+    }
+    if (input.peek() == '/') {
+      input.ignore();
+      if (input.peek() == '/') {
+        input.ignore(all, '\n');
+	continue;
+      }
+      input.unget();
+    }
+    allow_each = (input.peek() == '*');
+    if (allow_each) {
+      input.ignore();
+      input >> std::ws;
+    }
+    nutr.zero();
+    is_equal = (input.peek() == '=');
+    if (is_equal) {
+      input.ignore();
+      input >> std::ws >> std::quoted(key);
+      auto iter = rval.find(key);
+      if (iter != rval.end())
+        nutr = iter->second;
+      else
+	std::cout << std::quoted(key) << " not found.\n";
+      key.clear();
+    }
+    else {
+      input >> nutr.g >> nutr.ml >> nutr.kcal >> std::ws;
+      key.clear();
+      if (auto c = input.peek(); std::isdigit(c) || c == '.')
+	input >> nutr.prot >> nutr.fat >> nutr.carb >> nutr.fiber;
+      else
+	input >> std::quoted(key);
+    }
+    std::getline(input >> std::ws, name);
+    if (auto i = name.rfind("//"); i != std::string::npos) {
+      name.erase(i);
+      TrimTrailingWs(name);
+    }
+#if 0
+    if (!is_equal && key.empty()) {
+      auto kcal = 4 * (nutr.prot + nutr.carb - nutr.fiber) + 9 * nutr.fat;
+      auto err = std::abs(kcal - nutr.kcal);
+      if (nutr.kcal != 0.0)
+        err /= nutr.kcal;
+      if (std::abs(err) > 0.1)
+	std::cout << "kcal warning: " << kcal << " != " << nutr << ' ' << name
+	          << '\n';
+    }
+#endif
+    if (!key.empty()) {
+      auto iter = rval.find(key);
+      if (iter != rval.end()) {
+	const Nutrition& n = iter->second;
+	const double scale = double(nutr.kcal) / n.kcal;
+	nutr.prot  = scale * n.prot;
+	nutr.fat   = scale * n.fat;
+	nutr.carb  = scale * n.carb;
+	nutr.fiber = scale * n.fiber;
+	if (nutr.g == 0.0)
+	  nutr.g = scale * std::abs(n.g);
+	if (nutr.ml == 0.0)
+	  nutr.ml = scale * n.ml;
+      }
+      else {
+	std::cout << std::quoted(key) << " not found " << name << '\n';
+	nutr.zero();
+      }
+    }
+    if (!name.empty() && (nutr.g != 0.0 || nutr.ml != 0.0)) {
+      if (allow_each && nutr.g > 0.0)
+	nutr.g = -nutr.g;
+#if 0
+      std::cout << std::left << std::setw(40) << std::quoted(name) << ' '
+		<< std::right << nutr << '\n';
+#endif
+      if (!rval.try_emplace(name, nutr).second)
+        std::cout << "Duplicate: " << name << '\n';
+    }
+  }
+  return rval;
+} // ReadIngredients
 
 bool ContainsAny(const std::string& str1, const std::string& str2)
 { return (str1.find_first_of(str2) != std::string::npos); }
@@ -459,7 +543,8 @@ int main() {
       if (std::cin.eof())
 	break;
       if (std::cin.peek() == '#') {
-	std::cin.ignore(1024, '\n');
+        static const auto all = std::numeric_limits<std::streamsize>::max();
+	std::cin.ignore(all, '\n');
 	continue;
       }
       std::getline(std::cin, buf);
@@ -525,6 +610,8 @@ int main() {
 	}
 	TrimTrailingWs(name);
 	if (!name.empty()) {
+	  Subst(name, "extra small", "xsmall");
+	  Subst(name, "extra large", "xlarge");
 	  nutr = FindIngredientWithPlurals(ingredients, name);
 	  if (!nutr) {
 	    // substitute common synonyms
@@ -539,7 +626,8 @@ int main() {
 	nutr = Nutrition();
       auto& nut = *nutr;
       nut.scale(Ratio(nut, unit, value, volume, weight));
-      nut.g = std::abs(nut.g);
+      if (nut.g != 0.0)
+        nut.g = std::max(std::abs(nut.g), 0.1);
       using std::cout;
       using std::setw;
       using std::ceil;
@@ -547,7 +635,7 @@ int main() {
       {
         PrecSaver prec(cout, 1);
 	cout << std::fixed
-	  << "g=" << setw(5) << (ceil(nut.g * 10)/10)
+	  << "g="     << setw(6) << nut.g
 	  << " kcal=" << setw(6) << nut.kcal
 	  << " p="    << setw(5) << nut.prot
 	  << " f="    << setw(5) << nut.fat
