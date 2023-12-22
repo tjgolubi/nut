@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <sstream>
 #include <iostream>
 #include <iomanip>
 #include <fstream>
@@ -16,18 +17,6 @@
 #include <cstring>
 #include <cctype>
 #include <cstdlib>
-
-
-#ifndef GSL_GSL_H
-namespace gsl {
-
-template<class T, class U>
-constexpr T narrow_cast(U&& u) noexcept {
-  return static_cast<T>(std::forward<U>(u));
-}
-
-} // gsl
-#endif
 
 class PrecSaver {
 private:
