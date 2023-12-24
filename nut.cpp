@@ -1,13 +1,17 @@
 // Copyright 2023 Terry Golubiewski, all rights reserved.
 
+#include "Nutrition.h"
+
 #include <gsl/gsl>
 
+#include <regex>
 #include <ranges>
 #include <algorithm>
 #include <optional>
 #include <string>
 #include <vector>
 #include <map>
+#include <sstream>
 #include <iostream>
 #include <iomanip>
 #include <fstream>
@@ -17,112 +21,61 @@
 #include <cctype>
 #include <cstdlib>
 
-
-#ifndef GSL_GSL_H
-namespace gsl {
-
-template<class T, class U>
-constexpr T narrow_cast(U&& u) noexcept {
-  return static_cast<T>(std::forward<U>(u));
-}
-
-} // gsl
-#endif
+namespace rng = std::ranges;
+using namespace std::string_literals;
 
 class PrecSaver {
-private:
   std::ostream& os;
-  int prec;
+  std::streamsize prec;
+  std::ios::fmtflags flags;
 public:
-  explicit PrecSaver(std::ostream& output)
-    : os(output), prec(output.precision()) { }
-  PrecSaver(std::ostream& output, int p)
-    : os(output), prec(output.precision(p)) { }
-  ~PrecSaver() { os.precision(prec); }
+  explicit PrecSaver(std::ostream& os_)
+    : os(os_), prec{os_.precision()}, flags{os_.flags()} { }
+  PrecSaver(std::ostream& os_, int p)
+    : os(os_), prec{os_.precision(p)}, flags{os_.flags()} { }
+  ~PrecSaver() {
+    os.precision(prec);
+    os.flags(flags);
+  }
 }; // PrecSaver
 
-struct Nutrition {
-  double g     = 0.0;
-  double ml    = 0.0;
-  double kcal  = 0.0;
-  double prot  = 0.0;
-  double fat   = 0.0;
-  double carb  = 0.0;
-  double fiber = 0.0;
-  void zero() {
-    g     = 0.0;
-    ml    = 0.0;
-    kcal  = 0.0;
-    prot  = 0.0;
-    fat   = 0.0;
-    carb  = 0.0;
-    fiber = 0.0;
+struct Ingredient {
+  std::string name;
+  Nutrition nutr;
+  auto operator<=>(const Ingredient&) const = default;
+}; // Ingredient
+
+using NutrVec = std::vector<Ingredient>;
+
+void ReadIngredients(NutrVec& ingredients) {
+  static const auto fname = "ingred.dat";
+  std::ifstream input{fname, std::ios::binary};
+  if (!input || !input.is_open())
+    throw std::runtime_error(fname + ": cannot read"s);
+  Ingredient ingr;
+  while (std::getline(input, ingr.name, '\0')) {
+    input.read(reinterpret_cast<char*>(&ingr.nutr), sizeof(ingr.nutr));
+    ingredients.push_back(ingr);
   }
-  void scale(double ratio) {
-    g     *= ratio;
-    ml    *= ratio;
-    kcal  *= ratio;
-    prot  *= ratio;
-    fat   *= ratio;
-    carb  *= ratio;
-    fiber *= ratio;
-  }
-  Nutrition& operator+=(const Nutrition& rhs) {
-    g     += rhs.g;
-    ml    += rhs.ml;
-    kcal  += rhs.kcal;
-    prot  += rhs.prot;
-    fat   += rhs.fat;
-    carb  += rhs.carb;
-    fiber += rhs.fiber;
-    return *this;
-  }
-  bool operator==(const Nutrition& rhs) const = default;
-  auto operator<=>(const Nutrition& lhs) const = default;
-}; // Nutrition
+  if (!rng::is_sorted(ingredients))
+    throw std::runtime_error(fname + " is not sorted"s);
+} // ReadIngredients
 
-std::ostream& operator<<(std::ostream& output, const Nutrition& nutr) {
-  using std::setw;
-  using std::round;
-  PrecSaver precSaver(output, 5);
-  output << setw(4) << round(nutr.g)
-	 << setw(4) << round(nutr.ml)
-	 << setw(4) << round(nutr.kcal)
-	 << setw(6) << nutr.prot
-	 << setw(6) << nutr.fat
-	 << setw(6) << nutr.carb
-	 << setw(6) << nutr.fiber;
-  return output;
-} // << Nutrition
-
-std::istream& operator>>(std::istream& input, Nutrition& nutr) {
-  nutr = Nutrition();
-  return input >> nutr.g >> nutr.ml >> nutr.kcal
-	>> nutr.prot >> nutr.fat >> nutr.carb >> nutr.fiber;
-}
-
-using NutrMap = std::map<std::string, Nutrition>;
-
-#if 0
-auto Compare(const Ingredient& ingred, const std::string& name)
-{ return (ingred.name <=> name); }
-#endif
-
-auto FindIngredient(const NutrMap& ingredients,
+auto FindIngredient(const NutrVec& ingredients,
                     const std::string& name)
   -> std::optional<Nutrition>
 {
   if (name.empty())
     return std::nullopt;
 
-  auto r = ingredients.find(name);
-  if (r == ingredients.end())
+  auto i = rng::lower_bound(ingredients, name, {}, &Ingredient::name);
+  if (i == ingredients.end() || i->name != name)
     return std::nullopt;
 
-  return r->second;
+  return i->nutr;
 } // FindIngredient
 
-auto FindIngredientWithPlurals(const NutrMap& ingredients,
+auto FindIngredientWithPlurals(const NutrVec& ingredients,
 			       std::string name)
   -> std::optional<Nutrition>
 {
@@ -141,48 +94,34 @@ auto FindIngredientWithPlurals(const NutrMap& ingredients,
   return FindIngredient(ingredients, name);
 } // FindIngredientWithPlurals
 
-auto ReadIngredients() {
-  std::string str;
-  using NutrMap = std::map<std::string, Nutrition>;
-  NutrMap rval;
-  auto input = std::ifstream("ingred.txt");
-  if (!input)
-    return rval;
-  std::string name;
-  Nutrition nutr;
-  while (input >> std::ws) {
-    if (input.peek() == '#') {
-      input.ignore(1024, '\n');
-      continue;
-    }
-    if (input >> nutr
-	&& std::getline(input >> std::ws, name))
-      rval.emplace(std::move(name), std::move(nutr));
-  }
-  return rval;
-} // ReadIngredients
+unsigned char ToLower(unsigned char c) { return std::tolower(c); }
 
-auto ToLower(const std::string& str) {
-  auto lwr = str;
-  for (auto& c: lwr)
-    c = tolower(c);
-  return lwr;
+std::string ToLower(const std::string& str) {
+  std::string result;
+  result.reserve(str.size());
+  auto to_lower = [](unsigned char c) -> unsigned char
+    { return std::tolower(c); };
+  rng::transform(str, std::back_inserter(result), to_lower);
+  return result;
 }
 
-void TrimLeadingWs(std::string& str) {
-  static const auto ws = std::string(" \t\n\r\f\v");
-  str.erase(0, str.find_first_not_of(ws));
-}
+void TrimLeadingWs(std::string& str)
+{ str.erase(0, str.find_first_not_of(" \t\n\r\f\v")); }
 
 void TrimTrailingWs(std::string& str) {
-  static const auto ws = std::string(" \t\n\r\f\v");
-  auto i = str.find_last_not_of(ws);
+  auto i = str.find_last_not_of(" \t\n\r\f\v");
   if (i != std::string::npos && ++i < str.size())
     str.erase(i);
 }
 
 bool ContainsAny(const std::string& str1, const std::string& str2)
 { return (str1.find_first_of(str2) != std::string::npos); }
+
+bool Contains(const std::string& str1, const std::string& str2)
+{ return (str1.find(str2) != std::string::npos); }
+
+bool Contains(const std::string& str1, gsl::czstring str2)
+{ return (str1.find(str2) != std::string::npos); }
 
 bool Contains(const std::string& str, char ch)
 { return (str.find(ch) != std::string::npos); }
@@ -372,13 +311,6 @@ auto Ratio(const Nutrition& nutr, const std::string& unit,
   return 0.0;
 } // Ratio
 
-void Subst(std::string& str1, const std::string& str2, const std::string& str3)
-{
-  auto idx = str1.find(str2);
-  if (idx != std::string::npos)
-    str1.replace(idx, str2.size(), str3);
-} // Subst
-
 struct Line {
   std::string value;
   std::string unit;
@@ -445,7 +377,8 @@ Line Parse(const std::string& str) {
 
 int main() {
   try {
-    const auto& ingredients = ReadIngredients();
+    NutrVec ingredients;
+    ReadIngredients(ingredients);
     std::cout << "Read " << ingredients.size() << " ingredients." << std::endl;
 
     int servings = 0;
@@ -459,7 +392,8 @@ int main() {
       if (std::cin.eof())
 	break;
       if (std::cin.peek() == '#') {
-	std::cin.ignore(1024, '\n');
+        static const auto all = std::numeric_limits<std::streamsize>::max();
+	std::cin.ignore(all, '\n');
 	continue;
       }
       std::getline(std::cin, buf);
@@ -518,19 +452,24 @@ int main() {
       {
 	auto name = ToLower(line.name);
 	{ // trim punctuation
-	  const auto punct = std::string("!#$()*+,./:;<=>?@[]^{|}~");
+	  const auto punct = std::string("!$()*+,/:;<=>?@[]^{|}~");
 	  auto i = name.find_first_of(punct);
 	  if (i != std::string::npos)
 	    name.erase(i);
 	}
 	TrimTrailingWs(name);
 	if (!name.empty()) {
+	  if (Contains(name, "extra")) {
+	    static const std::regex e{"\\bextra[ -](small|large)\\b"};
+	    name = std::regex_replace(name, e, "x$1");
+	  }
 	  nutr = FindIngredientWithPlurals(ingredients, name);
 	  if (!nutr) {
 	    // substitute common synonyms
-	    Subst(name, "diced", "chopped");
-	    Subst(name, "cubed", "chopped");
-	    Subst(name, "dry",   "dried");
+	    static const std::regex e1{"\\b(diced|cubed)\\b"};
+	    static const std::regex e2{"\\bdry\\b"};
+	    name = std::regex_replace(name, e1, "chopped");
+	    name = std::regex_replace(name, e2, "dried");
 	    nutr = FindIngredientWithPlurals(ingredients, name);
 	  }
 	}
@@ -539,7 +478,8 @@ int main() {
 	nutr = Nutrition();
       auto& nut = *nutr;
       nut.scale(Ratio(nut, unit, value, volume, weight));
-      nut.g = std::abs(nut.g);
+      if (nut.g != 0.0)
+        nut.g = std::max(std::abs(nut.g), 0.1f);
       using std::cout;
       using std::setw;
       using std::ceil;
@@ -547,7 +487,7 @@ int main() {
       {
         PrecSaver prec(cout, 1);
 	cout << std::fixed
-	  << "g=" << setw(5) << (ceil(nut.g * 10)/10)
+	  << "g="     << setw(6) << nut.g
 	  << " kcal=" << setw(6) << nut.kcal
 	  << " p="    << setw(5) << nut.prot
 	  << " f="    << setw(5) << nut.fat
