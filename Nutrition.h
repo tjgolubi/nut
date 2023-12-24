@@ -61,10 +61,10 @@ std::ostream& operator<<(std::ostream& output, const Nutrition& nutr) {
 	          << setw(8) << nutr.g
 	   << ' ' << setw(7) << nutr.ml
 	   << ' ' << setw(7) << nutr.kcal
-	   << ' ' << setw(5) << nutr.prot
-	   << ' ' << setw(5) << nutr.fat
-	   << ' ' << setw(5) << nutr.carb
-	   << ' ' << setw(5) << nutr.fiber;
+	   << ' ' << setw(6) << nutr.prot
+	   << ' ' << setw(6) << nutr.fat
+	   << ' ' << setw(6) << nutr.carb
+	   << ' ' << setw(6) << nutr.fiber;
     output.precision(prec);
     output.setf(flags);
     return output;

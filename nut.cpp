@@ -452,7 +452,7 @@ int main() {
       {
 	auto name = ToLower(line.name);
 	{ // trim punctuation
-	  const auto punct = std::string("!#$()*+,./:;<=>?@[]^{|}~");
+	  const auto punct = std::string("!$()*+,/:;<=>?@[]^{|}~");
 	  auto i = name.find_first_of(punct);
 	  if (i != std::string::npos)
 	    name.erase(i);

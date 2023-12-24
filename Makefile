@@ -4,7 +4,7 @@ INCL=$(abspath $(HOME)/App/GSL/include)
 
 .PHONY: all clean scour
 
-all: nut.exe digest.exe ingred.dat
+all: nut.exe digest.exe ingred.dat barf.exe barf.txt
 
 nut.exe: nut.cpp Nutrition.h
 	g++ -I $(INCL) -std=c++20 nut.cpp -o nut.exe
@@ -12,10 +12,17 @@ nut.exe: nut.cpp Nutrition.h
 digest.exe: digest.cpp Nutrition.h
 	g++ -I $(INCL) -std=c++20 digest.cpp -o digest.exe
 
-ingred.dat: digest.exe ingred.txt
+barf.exe: digest.cpp Nutrition.h
+	g++ -I $(INCL) -std=c++20 barf.cpp -o barf.exe
+
+ingred.dat: digest.exe ingred.txt $(wildcard branded/*.txt)
 	./digest
 
+barf.txt: barf.exe ingred.dat
+	./barf > barf.txt
+
 clean:
+	rm -f ingred.dat barf.txt
 
 scour: clean
-	rm -f nut.exe digest.exe ingred.dat
+	rm -f nut.exe digest.exe barf.exe

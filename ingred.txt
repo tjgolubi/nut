@@ -125,11 +125,18 @@
 *  104     0   101  21.14   0.60   1.32   0.00 lobster tail
    100     0    85  18.50   0.70   0.00   0.00 mahi mahi
 *  118     0   100  21.76   0.82   0.00   0.00 mahi mahi fillet
-   100     0   108  23.38   0.95   0.00   0.00 tuna
    100     0   108  23.38   0.95   0.00   0.00 tuna steak
-   154   165   179  39.29   1.26   0.00   0.00 canned tuna
-   100     0   121  19.80   4.01   0.00   0.00 swordfish
+     =             "tuna steak"                tuna
+   154   237   179  39.29   1.26   0.00   0.00 canned tuna in water drained // fs
+*  184     0   194 "canned tuna in water drained" 6.5-oz can tuna in water // fs
+   100     0   116  25.51   0.82   0      0    canned light tuna in water drained // fs
+*    0     0   191 "canned light tuna in water drained" can light tuna in water drained // fs
+*  354     0   365 "canned light tuna in water drained" 12.5-oz can light tuna in water drained // fs
+   100     0   128  23.62   2.97   0.00   0.00 canned white tuna in water drained // fs
+*    0     0   220 "canned white tuna in water drained" can white tuna in water drained // fs
+#include "branded/StarKist.txt"
    100     0   121  19.80   4.01   0.00   0.00 swordfish steak
+     =             "swordfish steak"           swordfish
    100     0   148  20.77   6.61   0.00   0.00 trout
 *   79     0   117  16.41   5.22   0.00   0.00 trout fillet
    100     0    93  19.14   1.22   0.00   0.00 walleye
@@ -854,10 +861,7 @@
 
 # Branded
 
-#if 0
-
 #include "branded/BumbleBee.txt"
 #include "branded/ChickenOfTheSea.txt"
-#include "branded/StarKist.txt"
 
 #endif

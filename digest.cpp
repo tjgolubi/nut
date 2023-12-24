@@ -77,7 +77,6 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts) {
 	continue;
       }
       const auto& incl = s[1].str();
-      COUT << "#include " << std::quoted(incl) << '\n';
       ReadIngredients(incl, nuts);
       continue;
     }
@@ -188,11 +187,13 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts) {
 	nutr.ml = scale * n.ml;
     }
 
-    if (nutr.g == 0.0 && nutr.ml == 0.0 && !allow_each)
-      COUT << "allow each assumed\n";
-
-    if (allow_each && nutr.g > 0.0)
-      nutr.g = -nutr.g;
+    if (nutr.g == 0.0) {
+      if (nutr.ml == 0.0 && !allow_each)
+	COUT << "allow each assumed\n";
+    }
+    else {
+      nutr.g = allow_each ? -std::abs(nutr.g) : std::abs(nutr.g);
+    }
 #if 0
       cout << std::left << std::setw(40) << std::quoted(name) << ' '
 		<< std::right << nutr << '\n';
