@@ -38,6 +38,7 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts) {
   std::string company;
   bool allow_each = false;
   bool is_equal = false;
+  bool ignore_flag = false;
   while (std::getline(input, line)) {
     ++linenum;
 
@@ -57,6 +58,17 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts) {
       continue;
 
     if (istr.peek() == '#') {
+      if (line == "#if 0") {
+        ignore_flag = true;
+	continue;
+      }
+      if (line == "#endif") {
+        ignore_flag = false;
+	continue;
+      }
+      if (ignore_flag)
+        continue;
+
       std::smatch s;
       static const std::regex e{" *# *include *\"([^\"]+)\""};
       if (!std::regex_match(line, s, e) || !s.ready() || s.size() != 2) {
@@ -70,9 +82,13 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts) {
       continue;
     }
 
+    if (ignore_flag)
+      continue;
+
     if (istr.peek() == ':') {
       istr.ignore();
-      istr >> std::ws >> company;
+      istr >> std::ws;
+      std::getline(istr, company);
       continue;
     }
 
