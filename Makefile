@@ -2,14 +2,20 @@
 
 INCL=$(abspath $(HOME)/App/GSL/include)
 
-all: nut.exe digest.exe
+.PHONY: all clean scour
 
-nut.exe: nut.cpp
+all: nut.exe digest.exe ingred.dat
+
+nut.exe: nut.cpp Nutrition.h
 	g++ -I $(INCL) -std=c++20 nut.cpp -o nut.exe
 
-digest.exe: digest.cpp
+digest.exe: digest.cpp Nutrition.h
 	g++ -I $(INCL) -std=c++20 digest.cpp -o digest.exe
+
+ingred.dat: digest.exe ingred.txt
+	./digest
+
 clean:
 
 scour: clean
-	rm nut.exe digest.exe
+	rm -f nut.exe digest.exe ingred.dat
