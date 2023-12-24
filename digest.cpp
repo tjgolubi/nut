@@ -20,6 +20,9 @@ using NutritionMap = std::map<std::string, Nutrition>;
 
 #define COUT cout << fname << '(' << linenum << ") "
 
+bool Contains(const std::string& str1, const auto& str2)
+{ return (str1.find(str2) != std::string::npos); }
+
 void ReadIngredients(const std::string& fname, NutritionMap& nuts) {
   using std::cout;
   auto input = std::ifstream(fname);
@@ -87,6 +90,7 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts) {
     if (istr.peek() == ':') {
       istr.ignore();
       istr >> std::ws;
+      company.clear();
       std::getline(istr, company);
       continue;
     }
@@ -108,6 +112,8 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts) {
       }
       if (!company.empty())
         key = std::regex_replace(key, company_re, company);
+      else if (Contains(key, "$$"))
+	COUT << "$$ undefined\n";
       auto iter = nuts.find(key);
       if (iter == nuts.end()) {
 	COUT << "key not found: " << std::quoted(key) << '\n';
@@ -140,6 +146,8 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts) {
 
     if (!company.empty())
       name = std::regex_replace(name, company_re, company);
+    else if (Contains(name, "$$"))
+      COUT << "$$ undefined\n";
 
     static auto is_upper = [](unsigned char c) -> bool
       { return std::isupper(c); };
@@ -166,6 +174,8 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts) {
     if (!key.empty()) {
       if (!company.empty())
         key = std::regex_replace(key, company_re, company);
+      else if (Contains(key, "$$"))
+        COUT << "$$ undefined\n";
       auto iter = nuts.find(key);
       if (iter == nuts.end()) {
 	COUT << "key not found: " << std::quoted(key) << '\n';
