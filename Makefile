@@ -12,14 +12,14 @@ nut.exe: nut.cpp Nutrition.h
 digest.exe: digest.cpp Nutrition.h
 	g++ -I $(INCL) -std=c++20 digest.cpp -o digest.exe
 
-barf.exe: digest.cpp Nutrition.h
+barf.exe: barf.cpp Nutrition.h
 	g++ -I $(INCL) -std=c++20 barf.cpp -o barf.exe
 
 ingred.dat: digest.exe ingred.txt $(wildcard branded/*.txt)
-	./digest
+	./digest.exe
 
 barf.txt: barf.exe ingred.dat
-	./barf > barf.txt
+	./barf.exe > barf.txt
 
 clean:
 	rm -f ingred.dat barf.txt

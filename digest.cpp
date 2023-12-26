@@ -35,10 +35,25 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts) {
   std::string name;
   static const auto npos = std::string::npos;
   static const auto ws   = " \t\n\r\f\v";
-  static const std::regex company_re("\\$\\$");
+  static const std::regex dollars_re("\\$\\$");
   Nutrition nutr;
   std::string key;
-  std::string company;
+  std::string dollars;
+  using VarItem = std::pair<std::regex, std::string>;
+  using VarMap = std::map<std::string, VarItem>;
+  VarMap vars;
+  auto subst_vars = [&](std::string& str) {
+    if (!Contains(str, '$'))
+      return;
+    if (!dollars.empty())
+      str = std::regex_replace(str, dollars_re, dollars);
+    else if (Contains(str, "$$"))
+      COUT << "$$ undefined\n";
+    if (vars.empty())
+      return;
+    for (const auto& [var, val]: vars)
+      str = std::regex_replace(str, val.first, val.second);
+  }; // subst_vars
   bool allow_each = false;
   bool is_equal = false;
   bool ignore_flag = false;
@@ -90,8 +105,30 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts) {
     if (istr.peek() == ':') {
       istr.ignore();
       istr >> std::ws;
-      company.clear();
-      std::getline(istr, company);
+      if (istr.eof()) {
+	dollars.clear();
+	vars.clear();
+	continue;
+      }
+      if (!Contains(line, '=')) {
+	dollars.clear();
+	std::getline(istr, dollars);
+	continue;
+      }
+      static const auto e = std::regex{"\\s*:\\s*(\\w+)\\s*=\\s*(.*)"};
+      std::smatch m;
+      if (!std::regex_match(line, m, e)) {
+	COUT << "invalid variable definition\n";
+	continue;
+      }
+      auto var = m[1].str();
+      auto val = m[2].str();
+      if (val.empty()) {
+	vars.erase(var);
+	continue;
+      }
+      subst_vars(val);
+      vars[var] = VarItem("\\$" + var + "\\b", val);
       continue;
     }
 
@@ -110,10 +147,7 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts) {
 	COUT << " invalid key\n";
 	continue;
       }
-      if (!company.empty())
-        key = std::regex_replace(key, company_re, company);
-      else if (Contains(key, "$$"))
-	COUT << "$$ undefined\n";
+      subst_vars(key);
       auto iter = nuts.find(key);
       if (iter == nuts.end()) {
 	COUT << "key not found: " << std::quoted(key) << '\n';
@@ -144,10 +178,7 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts) {
       continue;
     }
 
-    if (!company.empty())
-      name = std::regex_replace(name, company_re, company);
-    else if (Contains(name, "$$"))
-      COUT << "$$ undefined\n";
+    subst_vars(name);
 
     static auto is_upper = [](unsigned char c) -> bool
       { return std::isupper(c); };
@@ -172,10 +203,7 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts) {
 #endif
 
     if (!key.empty()) {
-      if (!company.empty())
-        key = std::regex_replace(key, company_re, company);
-      else if (Contains(key, "$$"))
-        COUT << "$$ undefined\n";
+      subst_vars(key);
       auto iter = nuts.find(key);
       if (iter == nuts.end()) {
 	COUT << "key not found: " << std::quoted(key) << '\n';
