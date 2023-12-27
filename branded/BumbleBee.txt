@@ -16,7 +16,7 @@
 
 : in_water = albacore in water
 : drained  = $in_water drained
-: canned_drained = canned  $drained $$
+: canned_drained = canned $drained $$
    113   105   120  23      2.5    1      0    $canned_drained
 
 *   62     0    70 "$canned_drained"      3-oz can $drained $$

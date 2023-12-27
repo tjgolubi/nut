@@ -104,25 +104,29 @@
 #include "branded/ChickenOfTheSea.txt"
 : chicken of the sea
 
-     = "canned light tuna in water drained $$" canned light tuna in water drained
-*    = "can light tuna in water drained $$"    can light tuna in water drained
-*    = "can light tuna in water $$"            can light tuna in water
-     = "canned light tuna in water $$"         canned light tuna in water
+: in_water = light tuna in water
+: drained  = $in_water drained
+     = "canned $drained $$"           canned $drained
+*    = "can $drained $$"              can $drained
+*    = "can $in_water $$"             can $in_water
+     = "canned $in_water $$"          canned $in_water
 
-     = "canned solid albacore in water drained $$" canned white tuna in water drained
-*    = "can solid albacore in water drained $$"    can white tuna in water drained
-*    = "can solid albacore in water $$"            can white tuna in water
-     = "canned solid albacore in water $$"         canned white tuna in water
+: tuna = tuna in water
+     = "canned $drained"              canned $tuna drained
+     = "canned $in_water"             canned $tuna
+     = "canned $tuna drained"         canned tuna
 
-:
+*    = "can $drained"                 can $tuna drained
+*    = "can $in_water"                can $tuna
+*    = "can $tuna"                    can tuna
 
-     = "canned light tuna in water drained" canned tuna in water drained
-     = "canned light tuna in water"         canned tuna in water
-     = "canned tuna in water drained"       canned tuna
-
-*    = "can light tuna in water drained"    can tuna in water drained
-*    = "can light tuna in water"            can tuna in water
-*    = "can tuna in water"                  can tuna
+: 1 = solid albacore in water
+: 2 = white tuna in water
+     = "canned $1 drained $$"         canned $2 drained
+*    = "can $1 drained $$"            can $2 drained
+*    = "can $1 $$"                    can $2
+     = "canned $1 $$"                 canned $2
+: // chicken of the sea
 
    100     0   121  19.80   4.01   0.00   0.00 swordfish steak
      =             "swordfish steak"           swordfish
