@@ -1,26 +1,24 @@
 #  g     ml  kcal   prot  fat     carb  fiber desc
-   240   240     0   0.00   0.00   0.00   0.00 water
+   240   240     0   0      0      0      0    water
 # Oils
-   100   110   884   0.00 100.00   0.00   0.00 oil
-   100   110   884   0.00 100.00   0.00   0.00 vegetable oil
-   100   110   884   0.00 100.00   0.00   0.00 canola oil
-   100   111   884   0.00 100.00   0.00   0.00 evoo
-   100   111   884   0.00 100.00   0.00   0.00 olive oil
-*    1     0     8   0.00   0.79   0.21   0.00 olive oil spray
-*    1     0     8   0.00   0.79   0.21   0.00 evoo spray
-*    1     0     8   0.00   0.79   0.21   0.00 cooking spray
-   100   109   884   0.00 100.00   0.00   0.00 sesame oil
-   100   109   884   0.00 100.00   0.00   0.00 corn oil
+   100   110   884   0    100      0      0    oil
+   100   110   884   0    100      0      0    vegetable oil
+   100   110   884   0    100      0      0    canola oil
+   100   111   884   0    100      0      0    evoo
+   100   111   884   0    100      0      0    olive oil
+*    1     0     8   0      0.79   0.21   0    olive oil spray
+*    1     0     8   0      0.79   0.21   0    evoo spray
+*    1     0     8   0      0.79   0.21   0    cooking spray
+   100   109   884   0    100      0      0    sesame oil
+   100   109   884   0    100      0      0    corn oil
 # Poultry
 #include "chicken.txt"
-   100     0   104  17.07   1.66   4.21   0.50 cooked turkey breast
-   100     0   112  13.50   3.00   7.70   0.40 smoked turkey breast
-   112     0    90  21.00   1.00   3.00   0.00 turkey tenderloin
+#include "turkey.txt"
 # Egg
-   243   237   357  30.57  24.15   1.87   0.00 raw egg
-   242   237   126  26.49   0.41   1.77   0.00 raw egg white
-   243   237   782  38.54  64.49   8.72   0.00 raw egg yolk
-    67   237   446  22.95  37.39   2.41   0.00 dried egg yolk
+   243   237   357  30.57  24.15   1.87   0    raw egg
+   242   237   126  26.49   0.41   1.77   0    raw egg white
+   243   237   782  38.54  64.49   8.72   0    raw egg yolk
+    67   237   446  22.95  37.39   2.41   0    dried egg yolk
 
 *    0     0    54 "raw egg"                   raw small egg
 *    0     0    65 "raw egg"                   raw medium egg
@@ -30,9 +28,9 @@
 *    0     0    17 "raw egg white"             raw large egg white
 *   17     0    55 "raw egg yolk"              raw large egg yolk
 
-   100     0   154  12.53  10.57   1.12   0.00 cooked egg
-   163   237    85  17.70   0.28   1.19   0.00 cooked egg white
-   100     0   321  15.80  26.43   3.58   0.00 cooked egg yolk
+   100     0   154  12.53  10.57   1.12   0    cooked egg
+   163   237    85  17.70   0.28   1.19   0    cooked egg white
+   100     0   321  15.80  26.43   3.58   0    cooked egg yolk
 
 *   36     0    54 "cooked egg"                cooked small egg
 *   44     0    65 "cooked egg"                cooked medium egg
@@ -56,14 +54,31 @@
    =               "cooked large egg yolk"     large egg yolk
    =               "cooked chopped egg"        chopped egg
 # Fish
-   100     0   183  19.90  10.85   0.00   0.00 salmon
-*  396     0   724  78.80  42.96   0.00   0.00 salmon fillet
-   150   240   216  30.86   9.42   0.00   0.00 canned salmon
-   100     0    96  20.08   1.70   0.00   0.00 tilapia
-   100     0    96  20.08   1.70   0.00   0.00 tilapia fillet
-   100     0    82  17.90   0.63   0.00   0.00 pacific cod
-*  116     0    95  20.76   0.73   0.00   0.00 pacific cod fillet
-   100     0    82  17.81   0.67   0.00   0.00 cod
+   100     0   146  21.62   4.93   0      0    salmon
+ 28.35     0    41  "salmon"                   boneless salmon
+*  227     0   468  50     28      0      0    salmon fillet
+*  227     0   418  62     17      0      0    wild salmon fillet
+   150   240   216  30.86   9.42   0      0    canned salmon
+   100     0   116  19.94   3.45   0      0    pink salmon
+*    0     0   368  "pink salmon"              pink salmon fillet
+   100     0   142  19.84   6.34   0      0    wild atlantic salmon
+*    0     0   562  "wild atlantic salmon"     wild atlantic salmon fillet
+   100     0   156  16.92   9.22   0      0    farmed atlantic salmon
+   100     0   117  18.28   4.32   0      0    smoked chinook salmon
+   =                "smoked chinook salmon"    smoked salmon
+*    0     0    23  "smoked salmon"            piece smoked salmon
+ 28.35     0    33  "smoked salmon"            boneless smoked salmon
+     0   237   159  "smoked salmon"            flaked smoked salmon
+   100     0    96  20.08   1.7    0      0    tilapia
+*  170     0   218  44      4.5    0      0    tilapia fillet
+   100     0    82  17.9    0.63   0      0    pacific cod
+*    0     0    95  "pacific cod"              pacific cod fillet
+   100     0   211  19.2   10.84   8.25   0.5  cod
+ 28.35     0    32  "cod"                      cod with bone
+ 28.35     0    49  "cod"                      boneless cod
+ 28.35     0    60  "cod"                      cooked boneless cod
+*    0     0   196  "cod"                      pacific cod fillet 2
+     0   237   287  "cod"                      flaked cod // cooked
    100     0    82  17.81   0.67   0.00   0.00 atlantic cod
 *  230     0   189  41.14   1.55   0.00   0.00 atlantic cod fillet
    100     0    84  17.76   0.92   0.00   0.00 fish
