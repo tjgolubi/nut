@@ -54,6 +54,7 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts) {
     for (const auto& [var, val]: vars)
       str = std::regex_replace(str, val.first, val.second);
   }; // subst_vars
+  VarMap defs;
   bool allow_each = false;
   bool is_equal = false;
   bool ignore_flag = false;
@@ -68,6 +69,9 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts) {
 
     if (line.empty())
       continue;
+
+    for (const auto& [var, val]: defs)
+      line = std::regex_replace(line, val.first, val.second);
 
     std::istringstream istr{line};
 
@@ -88,14 +92,30 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts) {
         continue;
 
       std::smatch s;
-      static const std::regex e{" *# *include *\"([^\"]+)\""};
-      if (!std::regex_match(line, s, e) || !s.ready() || s.size() != 2) {
-        if (line.find("include") != npos)
-          COUT << "invalid #include\n";
+      if (Contains(line, "include")) {
+	static const std::regex e{"\\s*#\\s*include\\s*\"([^\"]+)\""};
+	if (!std::regex_match(line, s, e) || s.size() != 2) {
+	  COUT << "invalid #include\n";
+	  continue;
+	}
+	const auto& incl = s[1].str();
+	ReadIngredients(incl, nuts);
 	continue;
       }
-      const auto& incl = s[1].str();
-      ReadIngredients(incl, nuts);
+      if (Contains(line, "define")) {
+        static const std::regex e{"\\s*#\\s*define\\s+(\\w+)\\s+(.*)"};
+	if (!std::regex_match(line, s, e) || s.size() != 3) {
+	  COUT << "invalid #define\n";
+	  continue;
+	}
+	auto var = s[1].str();
+	auto val = s[2].str();
+	if (val.empty())
+	  defs.erase(var);
+	else
+	  defs[var] = VarItem("\\b" + var + "\\b", val);
+	continue;
+      }
       continue;
     }
 
