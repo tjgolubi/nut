@@ -12,34 +12,7 @@
    100   109   884   0.00 100.00   0.00   0.00 sesame oil
    100   109   884   0.00 100.00   0.00   0.00 corn oil
 # Poultry
-*   55     0   135  13.67   8.45   0.00   0.00 small chicken thigh
-*   62     0   152  15.41   9.52   0.00   0.00 medium chicken thigh
-*   84     0   206  20.87  12.90   0.00   0.00 large chicken thigh
-*   46     0    95  11.83   4.96   0.00   0.00 small skinned chicken thigh
-*   52     0   108  13.37   5.61   0.00   0.00 medium skinned chicken thigh
-*   70     0   145  18.00   7.55   0.00   0.00 large skinned chicken thigh
-*   92     0   212  23.68  12.28   0.00   0.00 small chicken leg
-*  112     0   258  28.83  14.95   0.00   0.00 medium chicken leg
-*  146     0   336  37.58  19.49   0.00   0.00 large chicken leg
-*   81     0   153  21.71   6.77   0.00   0.00 small skinned chicken leg
-*   94     0   178  25.19   7.86   0.00   0.00 medium skinned chicken leg
-*  128     0   242  34.30  10.70   0.00   0.00 large skinned chicken leg
-*   32     0    92   8.52   6.18   0.00   0.00 chicken wing
-   100     0   230  25.74  13.35   0.00   0.00 chicken leg
-   100     0   245  24.85  15.36   0.00   0.00 chicken thigh
-   200     0   475  50.59  28.71   0.00   0.00 chicken quarter
-*   20     0    40   6.04   1.61   0.00   0.00 skinned chicken wing
-   100     0   207  25.72  10.79   0.00   0.00 skinned chicken thigh
-   100     0   189  26.80   8.36   0.00   0.00 skinned chicken leg
-   100     0   195  29.55   7.72   0.00   0.00 chicken breast
-*   84     0   164  24.82   6.48   0.00   0.00 small chicken breast
-*   98     0   191  28.96   7.57   0.00   0.00 medium chicken breast
-*  111     0   216  32.80   8.57   0.00   0.00 large chicken breast
-   100     0   237  30.42  11.89   0.00   0.00 chicken meat
-   135   240   148  31.17   1.67   0.00   0.00 chopped cooked chicken
-   100     0   110  23.09   1.24   0.00   0.00 cooked chicken
-   135   240   148  31.17   1.67   0.00   0.00 chopped chicken breast
-   140   240   332  42.59  16.65   0.00   0.00 chopped chicken
+#include "chicken.txt"
    100     0   104  17.07   1.66   4.21   0.50 cooked turkey breast
    100     0   112  13.50   3.00   7.70   0.40 smoked turkey breast
    112     0    90  21.00   1.00   3.00   0.00 turkey tenderloin
