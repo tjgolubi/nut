@@ -219,10 +219,11 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts) {
       nutr.fat   = scale * n.fat;
       nutr.carb  = scale * n.carb;
       nutr.fiber = scale * n.fiber;
-      if (nutr.g == 0.0)
+      if (nutr.g == 0.0) {
 	nutr.g = scale * std::abs(n.g);
-      if (nutr.ml == 0.0)
-	nutr.ml = scale * n.ml;
+	if (nutr.ml == 0.0)
+	  nutr.ml = scale * n.ml;
+      }
     }
 
     if (nutr.g == 0.0) {

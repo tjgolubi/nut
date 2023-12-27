@@ -1,88 +1,106 @@
 : chicken of the sea
 
-    70     0    70  17      0      0      0    packet light tuna in water $$
+: packet_in_water = packet light tuna in water $$
+    70     0    70  17      0      0      0    $packet_in_water
+*   70     0    70 "$packet_in_water"          2.5-oz $packet_in_water
+*  140     0   140 "$packet_in_water"          5-oz $packet_in_water
 
-*   70     0    70 "packet light tuna in water $$"      2.5-oz packet light tuna in water $$
-*  140     0   140 "packet light tuna in water $$"      5-oz packet light tuna in water $$
+: packet_in_water = packet albacore in water $$
+    70     0    80  17      1      0      0    $packet_in_water
+*   70     0    80 "$packet_in_water"          2.5-oz $packet_in_water
+*  140     0   160 "$packet_in_water"          5-oz $packet_in_water
 
-    70     0    80  17      1      0      0    packet albacore in water $$
+: packet_in_water = packet smoked pink salmon in water $$
+*   85     0   100  20      1.5    1      0    3-oz $packet_in_water
+*   =              "3-oz $packet_in_water"     $packet_in_water
 
-*   70     0    80 "packet albacore in water $$"           2.5-oz packet albacore in water $$
-*  140     0   160 "packet albacore in water $$"           5-oz packet albacore in water $$
+: packet_in_water = packet pink salmon in water $$
+    70     0    70  15      1      0      0    $packet_in_water
+*   70     0    70 "$packet_in_water"          2.5-oz $packet_in_water
+*  140     0    70 "$packet_in_water"          5-oz $packet_in_water
 
-*   85     0   100  20      1.5    1      0    3-oz packet smoked pink salmon in water $$
-*   =              "3-oz packet smoked pink salmon in water $$" packet smoked pink salmon in water $$
+: in_water = light tuna in water
+: drained  = $in_water drained
+: canned_drained = canned $drained $$
+   113     0   100  23      0.5    0      0    $canned_drained
 
-    70     0    70  15      1      0      0    packet pink salmon in water $$
+*   85     0    60 "$canned_drained"           3-oz can $in_water $$
+*  113     0   100 "$canned_drained"           5-oz can $drained $$
+*  142     0   100 "$canned_drained"           5-oz can $in_water $$
+*  340     0   240 "$canned_drained"           12-oz can $in_water $$
+*  =               "5-oz can $drained $$"      can $drained $$
+*  =               "5-oz can $in_water $$"     can $in_water $$
+   =               "can $in_water $$"          canned $in_water $$
 
-*   70     0    70 "packet pink salmon in water $$" 2.5-oz packet pink salmon in water $$
-*  140     0    70 "packet pink salmon in water $$" 5-oz packet pink salmon in water $$
+: in_water = albacore in water
+: drained  = $in_water drained
+: canned_drained = canned $drained $$
+   113     0   100  20      1      0      0    $canned_drained
+*  113     0   100 "$canned_drained"           5-oz can $drained $$
+*  142     0   100 "$canned_drained"           5-oz can $in_water $$
+*  =               "5-oz can $drained $$"      can $drained $$
+*  =               "5-oz can $in_water $$"     can $in_water $$
+   =               "can $in_water $$"          canned $in_water $$
 
-   113     0   100  23      0.5    0      0    canned light tuna in water drained $$
+: in_water = solid $in_water
+: drained  = $in_water drained
+: canned_drained = canned $drained $$
+   113     0   130  29      1      0      0    $canned_drained
+*  113     0   130 "$canned_drained"           5-oz can $drained $$
+*  142     0   130 "$canned_drained"           5-oz can $in_water $$
+*  340     0   312 "$canned_drained"           12-oz can $in_water $$
+* 1885     0  1730 "$canned_drained"           66.5-oz can $in_water $$
+*  =               "5-oz can $drained $$"      can $drained $$
+*  =               "5-oz can $in_water $$"     can $in_water $$
+   =               "can $in_water $$"          canned $in_water $$
 
-*   85     0    60 "canned light tuna in water drained $$"   3-oz can light tuna in water $$
-*  113     0   100 "canned light tuna in water drained $$"   5-oz can light tuna in water drained $$
-*  142     0   100 "canned light tuna in water drained $$"   5-oz can light tuna in water $$
-*  340     0   240 "canned light tuna in water drained $$"   12-oz can light tuna in water $$
-*  =               "5-oz can light tuna in water drained $$" can light tuna in water drained $$
-*  =               "5-oz can light tuna in water $$"         can light tuna in water $$
-   =               "can light tuna in water $$"              canned light tuna in water $$
+: in_water = pink salmon in water
+: drained  = $in_water drained
+: canned_drained = canned $drained $$
+   113     0   110  22      2      0      0    $canned_drained
+*  113     0   110 "$canned_drained"           5-oz can $drained $$
+*  142     0   110 "$canned_drained"           5-oz can $in_water $$
+*  418     0   492 "$canned_drained"           14.75-oz can $in_water $$
+*  =               "5-oz can $drained $$"      can $drained $$
+*  =               "5-oz can $in_water $$"     can $in_water $$
+   =               "can $in_water $$"          canned $in_water $$
 
-   113     0   100  20      1      0      0    canned albacore in water drained $$
+: in_water = lump crabmeat in water
+: drained  = $in_water drained
+: canned_drained = canned $drained $$
+   120     0    70  14      0      2      0    $canned_drained
+*  120     0    70 "$canned_drained"           6-oz can $drained $$
+*  170     0    70 "$canned_drained"           6-oz can $in_water $$
+*  =               "6-oz can $drained $$"      can $drained $$
+*  =               "6-oz can $in_water $$"     can $in_water $$
+   =               "can $in_water $$"          canned $in_water $$
 
-*  113     0   100 "canned albacore in water drained $$"   5-oz can albacore in water drained $$
-*  142     0   100 "canned albacore in water drained $$"   5-oz can albacore in water $$
-*  =               "5-oz can albacore in water drained $$" can albacore in water drained $$
-*  =               "5-oz can albacore in water $$"         can albacore in water $$
-   =               "can albacore in water $$"              canned albacore in water $$
+: in_water = white crabmeat in water
+: drained  = $in_water drained
+: canned_drained = canned $drained $$
+   113     0    60  13      0      2      0    $canned_drained
+*  113     0    60 "$canned_drained"           6-oz can $drained $$
+*  170     0    60 "$canned_drained"           6-oz can $in_water $$
+*  =               "6-oz can $drained $$"      can $drained $$
+*  =               "6-oz can $in_water $$"     can $in_water $$
+   =               "can $in_water $$"          canned $in_water $$
 
-   113     0   130  29      1      0      0    canned solid albacore in water drained $$
+: in_water = chopped clams in water
+: drained  = $in_water drained
+: canned_drained = canned $drained $$
+    85     0    45   8      0      3      0    $canned_drained
+*   85     0    90 "$canned_drained"           6.5-oz can $drained $$
+*  184     0    90 "$canned_drained"           6.5-oz can $in_water $$
+*  =               "6.5-oz can $drained $$"    can $drained $$
+*  =               "6.5-oz can $in_water $$"   can $in_water $$
+   =               "can $in_water $$"          canned $in_water $$
 
-*  113     0   130 "canned solid albacore in water drained $$"   5-oz can solid albacore in water drained $$
-*  142     0   130 "canned solid albacore in water drained $$"   5-oz can solid albacore in water $$
-*  340     0   312 "canned solid albacore in water drained $$"   12-oz can solid albacore in water $$
-* 1885     0  1730 "canned solid albacore in water drained $$"   66.5-oz can solid albacore in water $$
-*  =               "5-oz can solid albacore in water drained $$" can solid albacore in water drained $$
-*  =               "5-oz can solid albacore in water $$"         can solid albacore in water $$
-   =               "can solid albacore in water $$"              canned solid albacore in water $$
-
-   113     0   110  22      2      0      0    canned pink salmon in water drained $$
-
-*  113     0   110 "canned pink salmon in water drained $$"   5-oz can pink salmon in water drained $$
-*  142     0   110 "canned pink salmon in water drained $$"   5-oz can pink salmon in water $$
-*  418     0   492 "canned pink salmon in water drained $$"   14.75-oz can pink salmon in water $$
-*  =               "5-oz can pink salmon in water drained $$" can pink salmon in water drained $$
-*  =               "5-oz can pink salmon in water $$"         can pink salmon in water $$
-   =               "can pink salmon in water $$"              canned pink salmon in water $$
-
-   120     0    70  14      0      2      0    canned lump crabmeat in water drained $$
-
-*  120     0    70 "canned lump crabmeat in water drained $$"   6-oz can lump crabmeat in water drained $$
-*  170     0    70 "canned lump crabmeat in water drained $$"   6-oz can lump crabmeat in water $$
-*  =               "6-oz can lump crabmeat in water drained $$" can lump crabmeat in water drained $$
-*  =               "6-oz can lump crabmeat in water $$"         can lump crabmeat in water $$
-   =               "can lump crabmeat in water $$"              canned lump crabmeat in water $$
-
-   113     0    60  13      0      2      0    canned white crabmeat in water drained $$
-
-*  113     0    60 "canned white crabmeat in water drained $$"   6-oz can white crabmeat in water drained $$
-*  170     0    60 "canned white crabmeat in water drained $$"   6-oz can white crabmeat in water $$
-*  =               "6-oz can white crabmeat in water drained $$" can white crabmeat in water drained $$
-*  =               "6-oz can white crabmeat in water $$"         can white crabmeat in water $$
-   =               "can white crabmeat in water $$"              canned white crabmeat in water $$
-
-    85     0    45   8      0      3      0    canned chopped clams in water drained $$
-
-*   85     0    90 "canned chopped clams in water drained $$"     6.5-oz can chopped clams in water drained $$
-*  184     0    90 "canned chopped clams in water drained $$"     6.5-oz can chopped clams in water $$
-*  =               "6.5-oz can chopped clams in water drained $$" can chopped clams in water drained $$
-*  =               "6.5-oz can chopped clams in water $$"         can chopped clams in water $$
-   =               "can chopped clams in water $$"                canned chopped clams in water $$
-
-   142     0   130  23      1.5    5      0    canned baby clams in water drained $$
-
-*  142     0   130 "canned baby clams in water drained $$"        10-oz can baby clams in water drained $$
-*  283     0   130 "canned baby clams in water drained $$"        10-oz can baby clams in water $$
-*  =               "10-oz can baby clams in water drained $$"     can baby clams in water drained $$
-*  =               "10-oz can baby clams in water $$"             can baby clams in water $$
-   =               "can baby clams in water $$"                   canned baby clams in water $$
+: in_water = baby clams in water
+: drained  = $in_water drained
+: canned_drained = canned $drained $$
+   142     0   130  23      1.5    5      0    $canned_drained
+*  142     0   130 "$canned_drained"           10-oz can $drained $$
+*  283     0   130 "$canned_drained"           10-oz can $in_water $$
+*  =               "10-oz can $drained $$"     can $drained $$
+*  =               "10-oz can $in_water $$"    can $in_water $$
+   =               "can $in_water $$"          canned $in_water $$
