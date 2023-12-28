@@ -333,15 +333,16 @@
    244   CUP    40   0      4      2      0    coconut milk unsweet
    244   CUP    25   1      2      1      0    cashew milk unsweet
    113   160   230   5     11     26      0    ice cream
-   210   CUP   216  26.23   9.47   5.63   0    large curd cottage cheese
-   225   CUP   232  28.10  10.15   6.03   0    small curd cottage cheese
-   218   CUP   214  24      9.4    7.4    0    cottage cheese
+   100     0   103  12.49   4.51   2.68   0    cottage cheese
+     0   CUP   216 "cottage cheese"            large curd cottage cheese
+     0   CUP   232 "cottage cheese"            small curd cottage cheese
    226   CUP   203  31.05   4.36   8.20   0    cottage cheese 2%
    226   CUP   163  28.00   2.31   6.15   0    cottage cheese 1%
    145   CUP   123  25.04   0.61   2.68   0    cottage cheese 0%
+     =             "cottage cheese 2%"         reduced fat cottage cheese
      =             "cottage cheese 1%"         lowfat cottage cheese
-     =             "cottage cheese 0%"         skim cottage cheese
      =             "cottage cheese 0%"         nonfat cottage cheese
+     =             "cottage cheese 0%"         skim cottage cheese
     30    70   120  24      1      3      0    whey protein powder
    = "whey protein powder" whey protein
 *  = "whey protein powder" scoop whey protein powder
@@ -394,6 +395,7 @@
    113   CUP   434  27.26  35.26   1.83   0    shredded colby jack cheese
      = "shredded colby jack cheese"            shredded colby jack
     28  1_4C    60   5      3      4      0    shredded velveeta
+    28     0    70   4      4      3      0    slice velveeta
    232   CUP   810  17.52  80.90   6.17   0    cream cheese
     14  TBSP    60   1      7      0      0    mascarpone
    100     0   356  24.94  27.44   2.22   0    gouda cheese
@@ -432,8 +434,9 @@
     30  1_4C   130   2      3     23      1    graham cracker crumbs
     28  1_2C   100   3      0     20      1    panko
     28  1_2C   110   3      3.5   17      1    italian panko
-    28  1_4C   120   4      1.5   21      2    bread crumbs
-     = "bread crumbs"                          italian bread crumbs
+   108   CUP   427  14.42   5.72  77.74   4.9  bread crumbs
+   120   CUP   460  16.96   6.58  82.19   5.9  seasoned bread crumbs
+     = "seasoned bread crumbs"                 italian bread crumbs
     30  1_4C   120   4      1.5   18      2    whole wheat bread crumbs
      = "whole wheat bread crumbs"              whole grain bread crumbs
      = "whole wheat bread crumbs"              italian whole wheat bread crumbs
@@ -483,10 +486,15 @@
    200   CUP   758   0.50   0.42 197.36   7    cinnamon sugar
    100   243   263   6.09   8.69  72.12  21.6  ground allspice
      = "ground allspice"                       allspice
-   100   742   251  14.37   3.98  60.96  40.5  dried basil leaves
-   100   309   251 "dried basil leaves"        ground basil
-   100   563    23   3.1    0.6    2.6    1.6  chopped basil leaves
-   100   800    27   2.54   0.61   4.34   3.9  fresh basil leaves
+   100     0   251  14.37   3.98  60.96  40.5  dried basil
+     0   TSP     4 "dried basil"               ground basil
+     0  TBSP     5 "dried basil"               dried basil leaves
+   100     0    27   2.54   0.61   4.34   3.9  fresh basil
+     0   800    27 "fresh basil"               fresh basil leaves
+*    0     0   0.2 "fresh basil leaves"        fresh basil leaf
+*    = "fresh basil leaf" leaf fresh basil
+*    = "fresh basil leaf" leaves fresh basil
+    42   CUP    9.8  1.3    0.3    1.1    0.7  chopped fresh basil
    100   825   279  21.93   4.78  52.10  10.4  coriander
    100   255   345  15.80  14.87  52.29  39.8  fennel seed
    100   270   347   9.12   5.95  70.79  12.5  ground ginger
@@ -528,25 +536,38 @@
 *    0     0    26  "walnuts"                  walnut
      0   CUP   523  "walnuts"                  ground walnut
      0   CUP   785  "walnuts"                  chopped walnut
-   119   CUP   822  10.91  85.64  16.49  11.4  chopped pecan
    108   CUP   746   9.90  77.73  14.97  10.4  pecans
 *    0     0    20 "pecans"                    pecan
+     0   CUP   822 "pecans"                    chopped pecan
    100     0   553  18.22  43.85  30.19   3.3  raw cashew
    137   CUP   786  20.97  63.50  44.79   4.1  cashews
 *    0     0     9 "cashews"                   cashew
-   138   CUP   824  30.48  72.91  26.62  16.3  almonds
-*    0     0     8 "almonds"                   almond
+   138   CUP   824  30.48  72.91  26.62  16.3  dry-roasted almonds
+*    0     0     8 "dry-roasted almonds"       dry-roasted almond
+     = "dry-roasted almonds"                   almonds
+*    = "dry-roasted almond"                    almond
    143   CUP   827  30.40  72.42  28.23  16.9  raw almonds
 *    0     0     7 "raw almonds"               raw almond
-   108   CUP   624  22.96  54.69  21.32  12.7  slivered almond
-    92   CUP   532  19.56  46.59  18.16  10.9  sliced almond
+   145   CUP   842  31.81  73.40  28.91  15.1  blanched almond
+     0   CUP   624 "raw almonds"               slivered almond
+     0   CUP   532 "raw almonds"               sliced almond
+   146   CUP   828  37.67  71.89  23.55  12.4  raw peanut
+   146   CUP   854  34.57  72.5   31.4   11.7  dry-roasted peanuts
+*    0     0     6 "dry-roasted peanuts"       dry-roasted peanut
+   100     0   318  13.5   22.01  21.26   8.8  boiled peanut
+     0   CUP   200 "boiled peanut"             boiled peanut in shell
+     0   CUP   572 "boiled peanut"             shelled boiled peanut
    146   CUP   875  40.92  76.65  22.28  13.7  peanuts
-   133   CUP   797  37.28  69.82  20.30  12.5  chopped peanut
-   135   CUP   848  10.18  82.01  22.54  13.1  hazelnuts
-*    0     0     9 "hazelnuts"                 hazelnut
-   115   CUP   722  17.19  69.86  19.20  11.2  chopped hazelnut
+*    0     0  5.25 "peanuts"                   peanut
+     0   CUP   797 "peanuts"                   chopped peanut
+   100     0   628  14.95  60.75  16.7    9.7  raw hazelnuts
+*    0     0   8.8 "raw hazelnuts"             raw hazelnut
+     0   CUP   722 "raw hazelnuts"             chopped raw hazelnut
+   100     0   646 "raw hazelnuts"             dry-roasted hazelnut
+     = "chopped raw hazelnut"                  chopped hazelnut
+     = "dry-roasted hazelnut"                  hazelnut
    134   CUP   959  10.44 101.95  17.19  10.7  macadamia nuts
-*    0     0    18 "macadamia nuts"            macadamia nut
+*    0     0  18.5 "macadamia nuts"            macadamia nut
    168   CUP   897  30.73  70.83  48.52  45.9  flaxseed
      7  TBSP    37   1.28   2.95   2.02   1.9  ground flaxseed
      = "ground flaxseed"                       flaxseed meal
