@@ -234,16 +234,28 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts) {
         COUT << "zero base kcal\n";
 	continue;
       }
-      const auto scale = nutr.kcal / n.kcal;
+
+      double scale = 0.0;
+      if (nutr.kcal != 0.0)
+	scale = nutr.kcal / n.kcal;
+      else if (nutr.g != 0.0 && n.g != 0.0)
+	scale = nutr.g / n.g;
+      else if (nutr.ml != 0.0 && n.ml != 0.0)
+	scale = nutr.ml / n.ml;
+      if (scale == 0.0) {
+	COUT << "0 scale: " << std::quoted(key) << '\n';
+	continue;
+      }
       nutr.prot  = scale * n.prot;
       nutr.fat   = scale * n.fat;
       nutr.carb  = scale * n.carb;
       nutr.fiber = scale * n.fiber;
-      if (nutr.g == 0.0) {
+      if (nutr.kcal == 0.0)
+	nutr.kcal = scale * n.kcal;
+      if (nutr.g == 0.0)
 	nutr.g = scale * std::abs(n.g);
-	if (nutr.ml == 0.0)
-	  nutr.ml = scale * n.ml;
-      }
+      if (nutr.ml == 0.0)
+	nutr.ml = scale * n.ml;
     }
 
     if (nutr.g == 0.0) {

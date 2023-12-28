@@ -254,23 +254,23 @@
    100     0    91  19.39   0.92   0      0    raw perch
 *    0     0    55 "raw perch"                 fillet raw perch
    100     0   117  24.86   1.18   0      0    perch
-*    0     0    54 "perch                      perch fillet
+*    0     0    54 "perch"                     perch fillet
 *    =             "perch fillet"              fillet perch
    180   CUP   191  29.12   5.56   4.19   0    scallop
 *    0     0    14 "scallop"                   piece scallop
      0   CUP   127 "scallop"                   raw scallop
-   100     0    79  18.00   0.20   0.60   0.00 lump crab
-   120     0    80  17.00   0.50   2.00   0.00 canned lump crab
-   100     0    79  18.00   0.20   0.60   0.00 lump crabmeat
-   120     0    80  17.00   0.50   2.00   0.00 canned lump crabmeat
+   100     0    79  18      0.2    0.60   0    lump crabmeat
+     =             "lump crabmeat"             lump crab
+   120     0    80  17      0.5    2.00   0    canned lump crab
+     =             "canned lump crab"          canned lump crabmeat
 # Meat
-   100     0   254  17.17  20.00   0.00   0.00 ground beef
    100     0   332  14.35  30.00   0.00   0.00 ground beef 30%
    100     0   254  17.17  20.00   0.00   0.00 ground beef 20%
    100     0   215  18.59  15.00   0.00   0.00 ground beef 15%
    100     0   176  20.00  10.00   0.00   0.00 ground beef 10%
    112     0   170  23.00   8.00   0.00   0.00 ground beef 7%
    100     0   137  21.41   5.00   0.00   0.00 ground beef 5%
+     =             "ground beef 20%"           ground beef
    100     0   251  27.40  14.84   0.00   0.00 steak
    100     0   252  27.29  15.01   0.00   0.00 beef steak
    100     0   201  20.30  12.71   0.00   0.00 sirloin steak
@@ -315,10 +315,10 @@
    227   CUP  1628   1.93 184.12   0.14   0.00 garlic butter
 *  113     0   810   0.96  91.65   0.07   0.00 garlic butter stick
    205   CUP  1796   0.57 203.93   0.00   0.00 ghee
-   224   CUP  1120   0.00 112.00   0.00   0.00 imperial margarine
-*  112  1_2C   560   0.00  56.00   0.00   0.00 stick imperial margarine
-   227   CUP  1600   0.41 178.81   4.40   0.00 margarine
-*  113  1_2C   800   0.20  89.01   2.19   0.00 stick margarine
+   224   CUP  1120   0.00 112.00   0.00   0    imperial margarine
+*    0  1_2C     0 "imperial margarine"        stick imperial margarine
+   227   CUP  1600   0.41 178.81   4.40   0    margarine
+*    0  1_2C     0 "margarine"                 stick margarine
    230   CUP   492   7.27  48.21   9.82   0.00 sour cream
    242   CUP   315   7.16  27.83  10.41   0.00 half and half
    242   CUP   315   7.16  27.83  10.41   0.00 half & half
