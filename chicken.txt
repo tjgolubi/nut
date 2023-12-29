@@ -1,6 +1,4 @@
 #  g     ml  kcal   prot  fat     carb  fiber desc
-#define OZ   28.35
-#define CUP 236.6
 # Poultry
 : chicken thigh with skin // roasted or baked
 : meat = $$ meat

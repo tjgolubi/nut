@@ -1,5 +1,3 @@
-#define OZ   28.35
-#define CUP 236.6
 //  g     ml  kcal   prot   fat   carb  fiber  description
    100     0   187  28.9    7.02   0      0    turkey
     OZ     0    37 "turkey"                    boneless turkey

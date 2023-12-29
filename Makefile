@@ -15,7 +15,7 @@ digest.exe: digest.cpp Nutrition.h
 barf.exe: barf.cpp Nutrition.h
 	g++ -I $(INCL) -std=c++20 barf.cpp -o barf.exe
 
-ingred.dat: digest.exe ingred.txt chicken.txt turkey.txt $(wildcard branded/*.txt)
+ingred.dat: digest.exe ingred.txt defs.txt chicken.txt turkey.txt $(wildcard branded/*.txt)
 	./digest.exe
 
 barf.txt: barf.exe ingred.dat

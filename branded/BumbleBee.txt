@@ -1,17 +1,7 @@
 : bumble bee
 
-#define OZ  28.35
-#define 2_OZ 56.7
-#define 2_2_OZ 62
-#define 3_OZ 85
-#define 4_OZ 113
-#define 5_OZ 142
-#define 6_OZ 170
-#define 7_OZ 198
-#define 8_OZ 227
-#define 9_OZ 255
-#define 12_OZ 340
-#define 48_OZ 1360
+#define 2_2_OZ  62.37
+#define 48_OZ   1361
 #define 66_5_OZ 1885
 
 : in_water = light tuna in water

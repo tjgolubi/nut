@@ -1,18 +1,4 @@
-#define OZ    28.35
-#define LB   453.6
-#define CUP  236.6
-#define 1_2C 118.3
-#define 1_3C  78.9
-#define 1_4C  59.1
-#define TSP    4.93
-#define 2TSP   9.86
-#define TBSP  14.8
-#define 2TBSP 29.6
-#define 3TBSP 44.4
-#define FLOZ  29.6
-#define 2FLOZ 59.1
-#define 3FLOZ 88.7
-#define 4FLOZ 118.3
+#include "defs.txt"
 
 #  g     ml  kcal   prot  fat     carb  fiber desc
      1     1     0   0      0      0      0    water
@@ -302,14 +288,16 @@
      = "dried milk" milk powder
    240   CUP   281   9.73  22.06  12.10   0    greek yogurt
    238   CUP   186  14.65   6.93  16.39   0    lowfat greek yogurt
-   227   CUP  1_2C  22      0      9      0    nonfat greek yogurt
+   170 6FLOZ    90  16      0      6      0    nonfat greek yogurt chobani
+     = "nonfat greek yogurt chobani"           nonfat greek yogurt
+
    244   CUP   154  12.86   3.80  17.25   0    lowfat yogurt
      = "lowfat yogurt" yogurt
    245   CUP   137  14.04   0.44  18.82   0    nonfat yogurt
    306   CUP   982  24.20  26.62 166.46   0    condensed milk
    243   CUP   168   8.56   9.52  12.61   0    evaporated milk
    227   CUP  1628   1.93 184.12   0.14   0    butter
-*    0  1_2C     0 "butter"                    butter stick
+*    0  HCUP     0 "butter"                    butter stick
 *    = "butter stick" stick butter
      = "butter" garlic butter
 *    = "butter stick" garlic butter stick
@@ -318,9 +306,9 @@
     14  TBSP    90   0     10      0      0    olive oil butter
    205   CUP  1796   0.57 203.93   0      0    ghee
    224   CUP  1120   0    112      0      0    imperial margarine
-*    0  1_2C     0 "imperial margarine"        stick imperial margarine
+*    0  HCUP     0 "imperial margarine"        stick imperial margarine
    227   CUP  1600   0.41 178.81   4.40   0    margarine
-*    0  1_2C     0 "margarine"                 stick margarine
+*    0  HCUP     0 "margarine"                 stick margarine
    230   CUP   492   7.27  48.21   9.82   0    sour cream
    242   CUP   315   7.16  27.83  10.41   0    half and half
      =              "half and half"            half & half
@@ -381,7 +369,7 @@
      = "shredded parmesan cheese"              shredded parmesan
    100   100   431  38.46  28.61   4.06   0    grated parmesan cheese
      = "grated parmesan cheese"                grated parmesan
-    28  1_4C   110   8      9      1      1    shredded asiago parmesan romano cheese
+    28  QCUP   110   8      9      1      1    shredded asiago parmesan romano cheese
    100     0   302  25.96  20.03   3.83   0    mozzarella cheese
      = "mozzarella cheese"                     mozzarella
    113   CUP   341  29.33  22.63   4.33   0    shredded mozzarella cheese
@@ -394,7 +382,7 @@
 *    = "colby jack slice"                      slice colby jack cheese
    113   CUP   434  27.26  35.26   1.83   0    shredded colby jack cheese
      = "shredded colby jack cheese"            shredded colby jack
-    28  1_4C    60   5      3      4      0    shredded velveeta
+    28  QCUP    60   5      3      4      0    shredded velveeta
     28     0    70   4      4      3      0    slice velveeta
    232   CUP   810  17.52  80.90   6.17   0    cream cheese
     14  TBSP    60   1      7      0      0    mascarpone
@@ -426,18 +414,18 @@
      = "cornstarch"                            corn starch
    100   125   295  38.3    4.6   38.2   21    dried yeast
      = "dried yeast"                           baking yeast
-    15  1_4C    60   8      0.5    5      3    nutritional yeast
+    15  QCUP    60   8      0.5    5      3    nutritional yeast
    100   210   525   5.84  36.31  49.29  20.8  ground nutmeg
      = "ground nutmeg"                         nutmeg
    213   CUP     0   0      0      0      0    baking powder
    163   CUP     0   0      0      0      0    baking soda
-    30  1_4C   130   2      3     23      1    graham cracker crumbs
-    28  1_2C   100   3      0     20      1    panko
-    28  1_2C   110   3      3.5   17      1    italian panko
+    30  QCUP   130   2      3     23      1    graham cracker crumbs
+    28  HCUP   100   3      0     20      1    panko
+    28  HCUP   110   3      3.5   17      1    italian panko
    108   CUP   427  14.42   5.72  77.74   4.9  bread crumbs
    120   CUP   460  16.96   6.58  82.19   5.9  seasoned bread crumbs
      = "seasoned bread crumbs"                 italian bread crumbs
-    30  1_4C   120   4      1.5   18      2    whole wheat bread crumbs
+    30  QCUP   120   4      1.5   18      2    whole wheat bread crumbs
      = "whole wheat bread crumbs"              whole grain bread crumbs
      = "whole wheat bread crumbs"              italian whole wheat bread crumbs
      = "whole wheat bread crumbs"              italian whole grain bread crumbs
@@ -455,7 +443,7 @@
      = "ground white pepper"                   white pepper
    100   277   318  12.01  17.27  56.63  27.2  ground cayenne pepper
      = "ground cayenne pepper"                 crushed red pepper
-   130  1_2C    25   0      0      5      1    roasted red pepper
+   130  HCUP    25   0      0      5      1    roasted red pepper
    100   214   252  10.40   3.50  65.30  25.2  ground peppercorn
      = "ground peppercorn"                     peppercorn
    163   223     0   0      0      0      0    lemon pepper
@@ -525,10 +513,10 @@
     38 2TBSP   120   2      4     20      1    hot fudge
      9  TBSP    30   1      0.5    6      0    chili seasoning
      9    20    30   0      0      6      0    taco seasoning
-    78  1_2C   320   4      9     56      2    jiffy corn muffin mix
+    78  HCUP   320   4      9     56      2    jiffy corn muffin mix
 *    0     0   960  "jiffy corn muffin mix"    box jiffy corn muffin mix
    100   194   384  16      6.3   67      9.8  rolled oats
-    44  1_4C   170   5      2.5   31      5    steel-cut oats
+    44  QCUP   170   5      2.5   31      5    steel-cut oats
    100     0   123   5.30   0.54  26.38   4.5  whole-wheat spaghetti
    100     0   157   5.76   0.92  30.68   1.8  spaghetti
 # Nuts & Seeds
@@ -596,15 +584,15 @@
    233   CUP     7   0.84   0.19   0.80   0    beef stock
 *    4     0     5   0      0      1      0    beef boullion cube
      6   TSP    15   1      0      2      0    beef boullion
-   239   CUP    43   0      0      0.10   0    vinegar
    238   CUP    50   0      0      2.22   0    cider vinegar
-     5   TSP     0   0      0      0      0    rice vinegar
-     5   TSP     0   0      0      0      0    wine vinegar
-     5   TSP     0   0      0      0      0    red vinegar
-     5   TSP     0   0      0      0      0    red wine vinegar
-     5   TSP     0   0      0      0      0    white vinegar
-     5   TSP     0   0      0      0      0    white wine vinegar
-    15  TBSP    30   0      0      7      0    balsamic vinegar
+   239   CUP    43   0      0      0.10   0    vinegar
+   239   CUP    43   0      0      0      0    rice vinegar
+   239   CUP    43   0      0      0      0    wine vinegar
+   239   CUP    43   0      0      0      0    red vinegar
+   239   CUP    43   0      0      0      0    red wine vinegar
+   239   CUP    43   0      0      0      0    white vinegar
+   239   CUP    43   0      0      0      0    white wine vinegar
+   239   CUP   210   0.05   0     40.8    0    balsamic vinegar
      = "balsamic vinegar"                      balsamic
    250   CUP   165   9.88   7.78  19.45   8    yellow mustard
      = "yellow mustard"                        mustard
@@ -613,12 +601,16 @@
      = "worcestershire sauce"                  worcestershire
      = "worcestershire sauce"                  wooster sauce
 # Fruit & Vegetables
-*  138     0    72   0.36   0.23  19.06   3.3  apple
-*    0     0    55 "apple"                     small apple
-*    0     0    72 "apple"                     medium apple
-*    0     0   110 "apple"                     large apple
-     0   CUP    65 "apple"                     chopped apple
+   100     0    52   0.26   0.17  13.81   2.4  apples with skin
+*  113     0    55 "apples with skin"          small apple
+*  151     0    72 "apples with skin"          medium apple
+*  227     0   110 "apples with skin"          large apple
+   100     0    48   0.27   0.13  12.76   1.3  peeled apples
+*  151     0    61 "peeled apples"             peeled apple
+     0   CUP    53 "peeled apples"             sliced peeled apple
+     0   CUP    65 "peeled apples"             chopped apple
    255   CUP   194   0.46   0.46  50.77   3.1  applesauce
+    86   CUP   209   0.80   0.28  56.67   7.5  dried apple
 *  166     0    96   0.63   0.20  25.66   5.1  pear
 *    0     0    81 "pear"                      small pear
 *    0     0    96 "pear"                      medium pear
@@ -680,7 +672,7 @@
 *    8    12    22   0.20   0      5.20   1    black mission fig
 *    8     0    23   0.20   0.03   6.23   0.7  date
    100     0   282   2.45   0.39  75.03   8    dates
-    43  1_4C   120   1.05   0.17  32.26   3.44 chopped dates
+    43  QCUP   120   1.05   0.17  32.26   3.44 chopped dates
 *   14     0     2   0.12   0.03   0.50   0.3  small celery stalk
 *   43     0     6   0.28   0.07   1.19   0.6  medium stalk
 *   43     0     6   0.28   0.07   1.19   0.6  celery stalk
@@ -763,7 +755,7 @@
    142   CUP    17   0.84   0.23   3.07   1    chopped cucumber
 *  300     0    45   1.96   0.33  10.93   1.5  large cucumber with peel
 *  300     0    45   1.96   0.33  10.93   1.5  cucumber with peel
-    53  1_2C     8   0.34   0.06   1.89   0.3  sliced cucumber with peel
+    53  HCUP     8   0.34   0.06   1.89   0.3  sliced cucumber with peel
 *   67     0    12   0.40   0.12   2.68   0.8  dill pickle
 *    0     0     7 "dill pickle"               small dill pickle
 *    0     0    12 "dill pickle"               medium dill pickle
@@ -840,16 +832,16 @@
 *    6     0     2   0.11   0.03   0.41   0.2  serrano pepper
    106   CUP    34   1.83   0.46   7.04   3.9  chopped serrano
    106   CUP    34   1.83   0.46   7.04   3.9  chopped serrano pepper
-*   75  1_2C     7   1.50   0.15   7.10   1.1  anaheim pepper
+*   75  HCUP     7   1.50   0.15   7.10   1.1  anaheim pepper
    100   277   318  12.01  17.27  56.63  27.2  cayenne pepper
 *   45     0    18   0.84   0.20   3.96   0.7  red hot chili pepper
 *   45     0    18   0.84   0.20   3.96   0.7  habenero
 *   45     0    18   0.84   0.20   3.96   0.7  habenero pepper
-    75  1_2C    30   1.40   0.33   6.61   1.1  chopped red hot chili pepper
-    75  1_2C    30   1.40   0.33   6.61   1.1  chopped habenero
-    75  1_2C    30   1.40   0.33   6.61   1.1  chopped habenero pepper
+    75  HCUP    30   1.40   0.33   6.61   1.1  chopped red hot chili pepper
+    75  HCUP    30   1.40   0.33   6.61   1.1  chopped habenero
+    75  HCUP    30   1.40   0.33   6.61   1.1  chopped habenero pepper
 *   45     0    18   0.90   0.09   4.26   0.7  green hot chili pepper
-    75  1_2C    30   1.50   0.15   7.10   1.1  chopped green hot chili pepper
+    75  HCUP    30   1.50   0.15   7.10   1.1  chopped green hot chili pepper
 *  201     0   322   4.02  29.47  17.15  13.5  avocado
    146   CUP   234   2.92  21.40  12.45   9.8  sliced avocado
    150   CUP   240   3     21.99  12.80  10    chopped avocado
@@ -890,11 +882,11 @@
    100   232    47   1.50   0.30  16     10.6  lemon zest
    164   CUP   295  15.65   4.90  49.17  14.1  garbanzos
    164   CUP   295  15.65   4.90  49.17  14.1  garbanzo beans
-   130  1_2C   120   6      2     20      4    canned garbanzos
-   130  1_2C   120   6      2     20      4    canned garbanzo beans
+   130  HCUP   120   6      2     20      4    canned garbanzos
+   130  HCUP   120   6      2     20      4    canned garbanzo beans
    164   CUP   295  15.65   4.90  49.17  14.1  chickpeas
-   130  1_2C   120   6      2     20      4    canned chickpeas
-   130  1_2C   120   7      1     21      7    canned mixed chili beans
+   130  HCUP   120   6      2     20      4    canned chickpeas
+   130  HCUP   120   7      1     21      7    canned mixed chili beans
    = "canned mixed chili beans" mixed chili beans
    = "canned mixed chili beans" chili beans
    173   CUP   199  12.27   0.71  35.79   8.8  pinto beans
@@ -906,7 +898,7 @@
    177   CUP   255  16.21   1.91  44.73  18.4  yellow beans
 *    5     0     2   0.10   0.01   0.39   0.19 green bean
    110   CUP    34   2      0.13   7.84   3.7  cut green beans
-   121  1_2C    20   1      0      3      1    canned green beans
+   121  HCUP    20   1      0      3      1    canned green beans
    183   CUP   620  40      2.09 114.14  37    dried great northern beans
    208   CUP   701  46.45   3.12 126.36  50.8  dried navy beans
    184   CUP   613  43.39   1.53 110.42  46.8  dried kidney beans
@@ -940,10 +932,10 @@
    153   CUP   132   4.96   1.82  29.29   4.2  corn
    256   CUP   184   4.50   1.10  46      3.1  creamed corn
    264   280   177   6      3.20  38      5.3  drained canned corn
-   124  1_2C    60   1      1     13      2    undrained canned corn
-   124  1_2C    60   1      1     13      2    canned corn
+   124  HCUP    60   1      1     13      2    undrained canned corn
+   124  HCUP    60   1      1     13      2    canned corn
    100   145    88   3.02   0.77  20.80   2.4  frozen corn
-## Mushroom 
+## Mushroom
 *    9     0     2   0.31   0.03   0.33   0.1  small mushroom
 *   18    46     4   0.56   0.06   0.59   0.2  medium mushroom
 *   18    46     4   0.56   0.06   0.59   0.2  mushroom
@@ -969,9 +961,9 @@
     70   CUP    24   1.6    0.3    4.7    1.7  chopped shiitake mushroom
     70   CUP    24   1.6    0.3    4.7    1.7  sliced shiitake
     70   CUP    24   1.6    0.3    4.7    1.7  sliced shiitake mushroom
-   119  1_2C    80   2      3.5   10      1    golden mushroom soup
+   119  HCUP    80   2      3.5   10      1    golden mushroom soup
 *  298   300   200   5      8.75  25      2.5  can golden mushroom soup
-   119  1_2C   100   1      6      9      2    cream of mushroom soup
+   119  HCUP   100   1      6      9      2    cream of mushroom soup
 *  298   300   250   2.5   15     22.5    5    can cream of mushroom soup
 #Bread
 *   36     0   100   4      2     18      1    slider bun
@@ -1009,5 +1001,3 @@
 
 #include "branded/BumbleBee.txt"
 #include "branded/StarKist.txt"
-
-#endif

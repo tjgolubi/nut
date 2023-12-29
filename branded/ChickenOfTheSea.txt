@@ -1,12 +1,6 @@
 : chicken of the sea
 
-#define 2_5_OZ 71
-#define  3_OZ  85
-#define  4_OZ 113
-#define  5_OZ 142
-#define  6_OZ 170
-#define 10_OZ 283
-#define 12_OZ 340
+#define 2_5_OZ 70.87
 
 : packet_in_water = packet light tuna in water $$
  2_5_OZ    0    70  17      0      0      0    $packet_in_water

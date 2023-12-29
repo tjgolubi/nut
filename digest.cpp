@@ -17,13 +17,16 @@
 namespace rng = std::ranges;
 
 using NutritionMap = std::map<std::string, Nutrition>;
+using VarItem = std::pair<std::regex, std::string>;
+using VarMap = std::map<std::string, VarItem>;
 
 #define COUT cout << fname << '(' << linenum << ") "
 
 bool Contains(const std::string& str1, const auto& str2)
 { return (str1.find(str2) != std::string::npos); }
 
-void ReadIngredients(const std::string& fname, NutritionMap& nuts) {
+void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
+{
   using std::cout;
   auto input = std::ifstream(fname);
   if (!input || !input.is_open()) {
@@ -39,8 +42,6 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts) {
   Nutrition nutr;
   std::string key;
   std::string dollars;
-  using VarItem = std::pair<std::regex, std::string>;
-  using VarMap = std::map<std::string, VarItem>;
   VarMap vars;
   auto subst_vars = [&](std::string& str) {
     if (!Contains(str, '$'))
@@ -54,10 +55,10 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts) {
     for (const auto& [var, val]: vars)
       str = std::regex_replace(str, val.first, val.second);
   }; // subst_vars
-  VarMap defs;
   bool allow_each = false;
   bool is_equal = false;
   bool ignore_flag = false;
+  std::stack<bool> if_blocks;
   while (std::getline(input, line)) {
     ++linenum;
 
@@ -70,56 +71,117 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts) {
     if (line.empty())
       continue;
 
-    for (const auto& [var, val]: defs)
-      line = std::regex_replace(line, val.first, val.second);
-
-    std::istringstream istr{line};
-
-    istr >> std::ws;
-    if (!istr)
-      continue;
-
-    if (istr.peek() == '#') {
-      if (line == "#if 0") {
-        ignore_flag = true;
+    if (std::regex_search(line, std::regex("^\\s*#"))) {
+      line = std::regex_replace(line, std::regex("^\\s*#\\s*"), "");
+      if (line == "endif") {
+        if (if_blocks.empty()) {
+	  COUT << "unmatched #endif\n";
+	  continue;
+	}
+        ignore_flag = if_blocks.top();
+	if_blocks.pop();
 	continue;
       }
-      if (line == "#endif") {
-        ignore_flag = false;
-	continue;
-      }
+
+      if (line.starts_with("if"))
+        if_blocks.push(ignore_flag);
+
       if (ignore_flag)
-        continue;
+	continue;
+
+      if (line == "if 0") {
+	ignore_flag = true;
+	continue;
+      }
 
       std::smatch s;
-      if (Contains(line, "include")) {
-	static const std::regex e{"\\s*#\\s*include\\s*\"([^\"]+)\""};
-	if (!std::regex_match(line, s, e) || s.size() != 2) {
+      if (line.starts_with("ifdef")) {
+        static const std::regex e{"ifdef\\s+(\\w+)"};
+	if (!std::regex_match(line, s, e)) {
+	  COUT << "invalid #ifdef\n";
+	  continue;
+	}
+	ignore_flag = !defs.contains(s[1].str());
+	continue;
+      }
+
+      if (line.starts_with("ifndef")) {
+        static const std::regex e{"ifndef\\s+(\\w+)"};
+	if (!std::regex_match(line, s, e)) {
+	  COUT << "invalid #ifndef\n";
+	  continue;
+	}
+	ignore_flag = defs.contains(s[1].str());
+	continue;
+      }
+
+      if (line.starts_with("include")) {
+	static const std::regex e{"include\\s*\"([^\"]+)\""};
+	if (!std::regex_match(line, s, e)) {
 	  COUT << "invalid #include\n";
 	  continue;
 	}
-	const auto& incl = s[1].str();
-	ReadIngredients(incl, nuts);
+	ReadIngredients(s[1].str(), nuts, defs);
 	continue;
       }
-      if (Contains(line, "define")) {
-        static const std::regex e{"\\s*#\\s*define\\s+(\\w+)\\s+(.*)"};
-	if (!std::regex_match(line, s, e) || s.size() != 3) {
+      if (line.starts_with("define")) {
+        static const std::regex e1{"define\\s+(\\w+)"};
+        static const std::regex e2{"define\\s+(\\w+)\\s+(.*)"};
+	std::string var;
+	std::string val;
+	if (std::regex_match(line, s, e1)) {
+	  var = s[1].str();
+	}
+	else if (std::regex_match(line, s, e2)) {
+	  var = s[1].str();
+	  val = s[2].str();
+	  for (const auto& [dvar, dval]: defs)
+	    val = std::regex_replace(val, dval.first, dval.second);
+	}
+	else {
 	  COUT << "invalid #define\n";
 	  continue;
 	}
-	auto var = s[1].str();
-	auto val = s[2].str();
-	if (val.empty())
-	  defs.erase(var);
-	else
-	  defs[var] = VarItem("\\b" + var + "\\b", val);
+
+	auto iter = defs.find(var);
+	if (iter == defs.end()) {
+	  VarItem v{std::regex{"\\b" + var + "\\b"}, val};
+	  defs.emplace(var, std::move(v));
+	  continue;
+	}
+
+        auto& oldval = iter->second.second;
+	if (val != oldval) {
+	  COUT "redefining " << var << ": "
+	    << std::quoted(oldval) << " --> " << std::quoted(val) << '\n';
+	}
+	oldval = val;
+	continue;
+      }
+      if (line.starts_with("undef")) {
+        static const std::regex e{"undef\\s+(\\w+)"};
+	if (!std::regex_match(line, s, e)) {
+	  COUT << "invalid #undef\n";
+	  continue;
+	}
+	defs.erase(s[1].str());
 	continue;
       }
       continue;
     }
 
     if (ignore_flag)
+      continue;
+
+    for (const auto& [var, val]: defs)
+      line = std::regex_replace(line, val.first, val.second);
+
+    // std::cout << line << '\n';
+
+    std::istringstream istr{line};
+
+    istr >> std::ws;
+    if (!istr)
       continue;
 
     if (istr.peek() == ':') {
@@ -278,7 +340,8 @@ int main() {
   using std::cout;
   try {
     NutritionMap ingredients;
-    ReadIngredients("ingred.txt", ingredients);
+    VarMap defs;
+    ReadIngredients("ingred.txt", ingredients, defs);
     cout << "Read " << ingredients.size() << " ingredients." << std::endl;
 
     std::ofstream output{"ingred.dat", std::ios::binary};
