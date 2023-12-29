@@ -17,7 +17,12 @@
 namespace rng = std::ranges;
 
 using NutritionMap = std::map<std::string, Nutrition>;
-using VarItem = std::pair<std::regex, std::string>;
+
+struct VarItem {
+  std::regex  re;
+  std::string str;
+}; // VarItem
+
 using VarMap = std::map<std::string, VarItem>;
 
 #define COUT cout << fname << '(' << linenum << ") "
@@ -53,12 +58,17 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
     if (vars.empty())
       return;
     for (const auto& [var, val]: vars)
-      str = std::regex_replace(str, val.first, val.second);
+      str = std::regex_replace(str, val.re, val.str);
   }; // subst_vars
   bool allow_each = false;
   bool is_equal = false;
   bool ignore_flag = false;
-  std::stack<bool> if_blocks;
+  struct IfBlock {
+    bool was_ignore = false;
+    bool else_flag  = false;
+    explicit IfBlock(bool ignore) : was_ignore(ignore) { }
+  }; // IfBlock
+  std::stack<IfBlock> if_blocks;
   while (std::getline(input, line)) {
     ++linenum;
 
@@ -78,7 +88,7 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 	  COUT << "unmatched #endif\n";
 	  continue;
 	}
-        ignore_flag = if_blocks.top();
+        ignore_flag = if_blocks.top().was_ignore;
 	if_blocks.pop();
 	continue;
       }
@@ -86,14 +96,22 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
       if (line == "else") {
         if (if_blocks.empty()) {
 	  COUT << "unmatched #else\n";
+	  ignore_flag = true;
 	  continue;
 	}
-	ignore_flag = ignore_flag ? if_blocks.top() : true;
+	if (if_blocks.top().else_flag) {
+	  COUT << "unexpected #else\n";
+	  ignore_flag = true;
+	  continue;
+	}
+	auto& top = if_blocks.top();
+	ignore_flag = ignore_flag ? top.was_ignore : true;
+	top.else_flag = true;
         continue;
       }
 
       if (line.starts_with("if"))
-        if_blocks.push(ignore_flag);
+        if_blocks.push(IfBlock(ignore_flag));
 
       if (ignore_flag)
 	continue;
@@ -124,6 +142,11 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 	continue;
       }
 
+      if (line.starts_with("if")) {
+        COUT << "invalid #if\n";
+	continue;
+      }
+
       if (line.starts_with("include")) {
 	static const std::regex e{"include\\s*\"([^\"]+)\""};
 	if (!std::regex_match(line, s, e)) {
@@ -145,7 +168,7 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 	  var = s[1].str();
 	  val = s[2].str();
 	  for (const auto& [dvar, dval]: defs)
-	    val = std::regex_replace(val, dval.first, dval.second);
+	    val = std::regex_replace(val, dval.re, dval.str);
 	}
 	else {
 	  COUT << "invalid #define\n";
@@ -154,12 +177,11 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 
 	auto iter = defs.find(var);
 	if (iter == defs.end()) {
-	  VarItem v{std::regex{"\\b" + var + "\\b"}, val};
-	  defs.emplace(var, std::move(v));
+	  defs.emplace(var, VarItem{std::regex{"\\b" + var + "\\b"}, val});
 	  continue;
 	}
 
-        auto& oldval = iter->second.second;
+        auto& oldval = iter->second.str;
 	if (val != oldval) {
 	  COUT "redefining " << var << ": "
 	    << std::quoted(oldval) << " --> " << std::quoted(val) << '\n';
@@ -184,7 +206,7 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 	}
 	auto str = line.substr(i);
 	for (const auto& [dvar, dval]: defs)
-	  str = std::regex_replace(str, dval.first, dval.second);
+	  str = std::regex_replace(str, dval.re, dval.str);
         COUT << str << '\n';
 	continue;
       }
@@ -195,7 +217,7 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
       continue;
 
     for (const auto& [var, val]: defs)
-      line = std::regex_replace(line, val.first, val.second);
+      line = std::regex_replace(line, val.re, val.str);
 
     // std::cout << line << '\n';
 
@@ -231,7 +253,7 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 	continue;
       }
       subst_vars(val);
-      vars[var] = VarItem("\\$" + var + "\\b", val);
+      vars[var] = VarItem{std::regex{"\\$" + var + "\\b"}, val};
       continue;
     }
 
