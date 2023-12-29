@@ -83,6 +83,15 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 	continue;
       }
 
+      if (line == "else") {
+        if (if_blocks.empty()) {
+	  COUT << "unmatched #else\n";
+	  continue;
+	}
+	ignore_flag = ignore_flag ? if_blocks.top() : true;
+        continue;
+      }
+
       if (line.starts_with("if"))
         if_blocks.push(ignore_flag);
 
@@ -165,6 +174,18 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 	  continue;
 	}
 	defs.erase(s[1].str());
+	continue;
+      }
+      if (line.starts_with("echo")) {
+        auto i = line.find_first_not_of(ws, 4);
+	if (i == 4) {
+	  COUT << "invalid #echo\n";
+	  continue;
+	}
+	auto str = line.substr(i);
+	for (const auto& [dvar, dval]: defs)
+	  str = std::regex_replace(str, dval.first, dval.second);
+        COUT << str << '\n';
 	continue;
       }
       continue;
