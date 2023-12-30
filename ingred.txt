@@ -9,9 +9,8 @@
 : olive oil
    100   111   884   0    100      0      0    $$
 *    0     0     8  "$$"                       $$ spray
-     =              "$$"                       extra-virgin $$
+     =              "$$"                       extra virgin $$
      =              "$$"                       evoo
-     =              "evoo"                     extra virgin $$
 *    =              "$$ spray"                 evoo spray
 *    =              "$$ spray"                 cooking spray
    100   109   884   0    100      0      0    sesame oil
@@ -321,16 +320,18 @@
    244   CUP    40   0      4      2      0    coconut milk unsweet
    244   CUP    25   1      2      1      0    cashew milk unsweet
    113   160   230   5     11     26      0    ice cream
-   100     0   103  12.49   4.51   2.68   0    cottage cheese
-     0   CUP   216 "cottage cheese"            large curd cottage cheese
-     0   CUP   232 "cottage cheese"            small curd cottage cheese
-   226   CUP   203  31.05   4.36   8.20   0    cottage cheese 2%
-   226   CUP   163  28.00   2.31   6.15   0    cottage cheese 1%
-   145   CUP   123  25.04   0.61   2.68   0    cottage cheese 0%
-     =             "cottage cheese 2%"         reduced fat cottage cheese
-     =             "cottage cheese 1%"         lowfat cottage cheese
-     =             "cottage cheese 0%"         nonfat cottage cheese
-     =             "cottage cheese 0%"         skim cottage cheese
+: cottage cheese
+   100     0   103  12.49   4.51   2.68   0    $$
+     0   CUP   216 "$$"                        large curd $$
+     0   CUP   232 "$$"                        small curd $$
+   226   CUP   203  31.05   4.36   8.20   0    $$ 2%
+   226   CUP   163  28.00   2.31   6.15   0    $$ 1%
+   145   CUP   123  25.04   0.61   2.68   0    $$ 0%
+     =             "$$ 2%"                     reduced fat $$
+     =             "$$ 1%"                     lowfat $$
+     =             "$$ 0%"                     nonfat $$
+     =             "$$ 0%"                     skim $$
+: // cottage cheese
     30    70   120  24      1      3      0    whey protein powder
    = "whey protein powder" whey protein
 *  = "whey protein powder" scoop whey protein powder
@@ -405,8 +406,8 @@
      = "unsifted powdered sugar"               powdered sugar
      0   CUP   389 "unsifted powdered sugar"   sifted powdered sugar
    337   CUP   977   0      0.34 251.84   0    molasses
-   125   CUP   455  12.91   1.22  95.39   3.4  all-purpose flour
-     = "all-purpose flour"                     flour
+   125   CUP   455  12.91   1.22  95.39   3.4  all purpose flour
+     = "all purpose flour"                     flour
    120   CUP   407  16.44   2.24  87.08  14.6  whole wheat flour
     14 2TBSP    60   3      1.5    9      5    coconut flour
    137   CUP   496  11.23   1.18 106.90   2.3  cake flour
@@ -516,8 +517,8 @@
     78  HCUP   320   4      9     56      2    jiffy corn muffin mix
 *    0     0   960  "jiffy corn muffin mix"    box jiffy corn muffin mix
    100   194   384  16      6.3   67      9.8  rolled oats
-    44  QCUP   170   5      2.5   31      5    steel-cut oats
-   100     0   123   5.30   0.54  26.38   4.5  whole-wheat spaghetti
+    44  QCUP   170   5      2.5   31      5    steel cut oats
+   100     0   123   5.30   0.54  26.38   4.5  whole wheat spaghetti
    100     0   157   5.76   0.92  30.68   1.8  spaghetti
 # Nuts & Seeds
    100   CUP   654  15.23  65.21  13.71   6.7  walnuts
@@ -530,18 +531,18 @@
    100     0   553  18.22  43.85  30.19   3.3  raw cashew
    137   CUP   786  20.97  63.50  44.79   4.1  cashews
 *    0     0     9 "cashews"                   cashew
-   138   CUP   824  30.48  72.91  26.62  16.3  dry-roasted almonds
-*    0     0     8 "dry-roasted almonds"       dry-roasted almond
-     = "dry-roasted almonds"                   almonds
-*    = "dry-roasted almond"                    almond
+   138   CUP   824  30.48  72.91  26.62  16.3  dry roasted almonds
+*    0     0     8 "dry roasted almonds"       dry roasted almond
+     = "dry roasted almonds"                   almonds
+*    = "dry roasted almond"                    almond
    143   CUP   827  30.40  72.42  28.23  16.9  raw almonds
 *    0     0     7 "raw almonds"               raw almond
    145   CUP   842  31.81  73.40  28.91  15.1  blanched almond
      0   CUP   624 "raw almonds"               slivered almond
      0   CUP   532 "raw almonds"               sliced almond
    146   CUP   828  37.67  71.89  23.55  12.4  raw peanut
-   146   CUP   854  34.57  72.5   31.4   11.7  dry-roasted peanuts
-*    0     0     6 "dry-roasted peanuts"       dry-roasted peanut
+   146   CUP   854  34.57  72.5   31.4   11.7  dry roasted peanuts
+*    0     0     6 "dry roasted peanuts"       dry roasted peanut
    100     0   318  13.5   22.01  21.26   8.8  boiled peanut
      0   CUP   200 "boiled peanut"             boiled peanut in shell
      0   CUP   572 "boiled peanut"             shelled boiled peanut
@@ -551,9 +552,9 @@
    100     0   628  14.95  60.75  16.7    9.7  raw hazelnuts
 *    0     0   8.8 "raw hazelnuts"             raw hazelnut
      0   CUP   722 "raw hazelnuts"             chopped raw hazelnut
-   100     0   646 "raw hazelnuts"             dry-roasted hazelnut
+   100     0   646 "raw hazelnuts"             dry roasted hazelnut
      = "chopped raw hazelnut"                  chopped hazelnut
-     = "dry-roasted hazelnut"                  hazelnut
+     = "dry roasted hazelnut"                  hazelnut
    134   CUP   959  10.44 101.95  17.19  10.7  macadamia nuts
 *    0     0  18.5 "macadamia nuts"            macadamia nut
    168   CUP   897  30.73  70.83  48.52  45.9  flaxseed
@@ -691,19 +692,30 @@
    123   CUP    64   1.48   0.80  14.69   8    raspberry
    144   CUP    62   2      0.71  13.84   7.6  blackberry
     96   CUP    44   0.37   0.12  11.59   4.4  cranberry
-   111   CUP    51   0.43   0.14  13.42   5.1  chopped cranberry
-*    4     0     3   0.04   0.01   0.90   0    grape
+   111   CUP    51 "cranberry"                 chopped cranberry
+   110   CUP   339   0.08   1.51  90.60   6.3  dried cranberry
    159   CUP   110   1.15   0.26  28.96   1.4  grapes
+*    0     0     3 "grapes"                    seedless grape
+*    0     0     4 "grapes"                    grape
+   145   CUP   434   4.45   0.67 114.81   5.4  raisin
+     0   CUP   493 "raisin"                    packed raisin
+*1_5_OZ    0   129 "raisin"                    box raisin
+*    0     0  1.56 "raisin"                    raisin fruit
 *   75   102    46   0.87   0.40  11.14   2.3  kiwi
-   177   CUP   108   2.02   0.92  25.95   5.3  sliced kiwi
-*    6     0     2   0.05   0.02   0.54   0.1  small strawberry
-*   13     0     4   0.08   0.04   0.92   0.2  medium strawberry
-*   13     0     4   0.08   0.04   0.92   0.2  strawberry
-*   19     0     6   0.12   0.05   1.38   0.4  large strawberry
-*   28     0     9   0.18   0.08   2.07   0.5  xlarge strawberry
-   144   CUP    46   0.96   0.43  11.06   2.9  strawberries
-   166   CUP    53   1.11   0.50  12.75   3.3  sliced strawberry
-   231   CUP    74   1.55   0.70  17.82   4.6  pureed strawberry
+*    0     0     4 "kiwi"                      slice kiwi
+     0   CUP   108 "kiwi"                      sliced kiwi
+: strawberry
+   144   CUP    46   0.96   0.43  11.06   2.9  $$
+*    4     0     2 "$$"                        small $$
+*    8     0     4 "$$"                        medium $$
+*   12     0     6 "$$"                        large $$
+*   18     0     9 "$$"                        xlarge $$
+     = "medium $$" $$ fruit
+     0   CUP    49 "$$"                        half $$
+     = "half $$" "halved $$
+     0   CUP    53 "$$"                        sliced $$
+   231   CUP    74 "$$"                        pureed $$
+:
 *    8     0    20   0.18   0.03   5.37   0.6  dried prune
    100     0   240   2.18   0.38  63.88   7.1  dried prunes
 *   65     0    30   0.46   0.18   7.54   0.9  plum
@@ -1008,31 +1020,53 @@
 *  298   300   250   2.5   15     22.5    5    can cream of mushroom soup
 #Bread
 *   36     0   100   4      2     18      1    slider bun
-   100   256   443   8.8   17.2   68.6   10.5  crushed whole wheat crackers
-*    4     0    18   0.35   0.69   2.74   0.4  whole wheat cracker
-   100   256   443   8.8   17.2   68.6   10.5  crushed whole grain crackers
-*    4     0    18   0.35   0.69   2.74   0.4  whole grain cracker
-*    5     0    22   0.44   0.86   3.43   0.6  triscuit
-*  200     0   800   1     48     96      0    pillsbury pie crust
-*   28     0   120   1      7     13      0    pillsbury mini pie crust
+: whole wheat cracker
+   100   256   443   8.8   17.2   68.6   10.5  crushed $$
+*    0     0    18 "crushed $$"                $$
+: wgc = whole grain cracker
+     = "crushed $$"                            crushed $wgc
+*    = "$$"                                    $wgc
+:
+*   15     0    70   1      2.5   10      1    serving ritz
+*    0     0    14 "serving ritz"              ritz
+*    = "serving ritz" serving ritz cracker
+*    = "ritz"         ritz cracker
+*   28     0   120   3.00   3.50  20.00   3.0  serving triscuit // 6 crackers
+*    0     0    20 "serving triscuit"          triscuit
+*    = "serving triscuit" serving triscuit cracker
+*    = "triscuit"         triscuit cracker
+: reduced fat triscuit
+*   28     0   110   3      2.5   21      4    serving $$
+*    0     0 18.33 "serving $$"                $$
+*    = "serving $$" serving $$ cracker
+*    = "$$"         $$ cracker
+*  200     0   800   1     48     96      0    pie crust pillsbury
+*   28     0   120   1      7     13      0    mini pie crust pillsbury
 #Misc
 *    1     0    18   0      1.5    0.5    0    pill fish oil (1200 mg)
     39   360   140   5      2.5   29      4    cheerios
 
 # Baked
 *   43     0   113   4.10   2.60  19      2    hamburger bun
-*   13     0    41   1.08   1.01   6.68   0.4  4" flour tortilla
-*   13     0    41   1.08   1.01   6.68   0.4  mini flour tortilla
-*   30     0    94   2.49   2.32  15.40   0.9  6" flour tortilla
-*   30     0    94   2.49   2.32  15.40   0.9  small flour tortilla
-*   39     0   122   3.23   3.02  20.03   1.2  7" flour tortilla
-*   39     0   122   3.23   3.02  20.03   1.2  medium flour tortilla
-*   51     0   159   4.23   3.95  26.19   1.6  8" flour tortilla
-*   70     0   218   5.80   5.42  35.94   2.2  10" flour tortilla
-*   70     0   218   5.80   5.42  35.94   2.2  large flour tortilla
-*  114     0   356   9.45   8.84  58.54   3.5  12" flour tortilla
-   100     0   312   8.29   7.75  51.35   3.1  flour tortilla
-
+: flour tortilla
+   100     0   312   8.29   7.75  51.35   3.1  $$
+*    0     0    41 "$$"                        4 inch $$
+*    0     0    94 "$$"                        6 inch $$
+*    0     0   122 "$$"                        7 inch $$
+*    0     0   159 "$$"                        8 inch $$
+*    0     0   218 "$$"                        10 inch $$
+*    0     0   356 "$$"                        12 inch $$
+*    = "4 inch $$"  mini $$
+*    = "6 inch $$"  small $$
+*    = "7 inch $$"  medium $$
+*    = "10 inch $$" large $$
+*    = "12 inch $$" xlarge $$
+*    = "4 inch $$"  4" $$
+*    = "6 inch $$"  6" $$
+*    = "7 inch $$"  7" $$
+*    = "10 inch $$" 10" $$
+*    = "12 inch $$" 12" $$
+: // flour tortilla
 # Beverages
 *  355   355   103   0.85   0      5.81   0    light beer
 *  360   355   155   1.66   0     12.78   0    beer

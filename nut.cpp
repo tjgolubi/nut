@@ -466,10 +466,13 @@ int main() {
 	  nutr = FindIngredientWithPlurals(ingredients, name);
 	  if (!nutr) {
 	    // substitute common synonyms
+	    rng::replace(name, '-', ' ');
 	    static const std::regex e1{"\\b(diced|cubed)\\b"};
 	    static const std::regex e2{"\\bdry\\b"};
+	    static const std::regex e3{"\\bservings\\b"};
 	    name = std::regex_replace(name, e1, "chopped");
 	    name = std::regex_replace(name, e2, "dried");
+	    name = std::regex_replace(name, e3, "serving");
 	    nutr = FindIngredientWithPlurals(ingredients, name);
 	  }
 	}

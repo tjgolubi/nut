@@ -2,6 +2,7 @@
 #define DEFS_TXT
 
 #define OZ    28.35
+#define 1_5_OZ 42.52
 #define 2_OZ  56.70
 #define 3_OZ  85.05
 #define 4_OZ 113.40
