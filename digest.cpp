@@ -62,6 +62,7 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
   }; // subst_vars
   bool allow_each = false;
   bool is_equal = false;
+  bool kcal_range_error = false;
   bool ignore_flag = false;
   struct IfBlock {
     bool was_ignore = false;
@@ -282,11 +283,15 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
       key.clear();
     }
     else {
-      istr >> nutr.g >> nutr.ml >> nutr.kcal >> std::ws;;
+      istr >> nutr.g >> nutr.ml >> nutr.kcal;
       if (!istr) {
 	COUT << "invalid nutrition\n";
 	continue;
       }
+      kcal_range_error = (istr.peek() == '?');
+      if (kcal_range_error)
+        istr.ignore();
+      istr >> std::ws;
       key.clear();
       if (auto c = istr.peek(); std::isdigit(c) || c == '.')
 	istr >> nutr.prot >> nutr.fat >> nutr.carb >> nutr.fiber;
@@ -314,18 +319,19 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
       rng::transform(iter, name.end(), iter, to_lower);
     }
 
-#if 0
-    if (!is_equal && key.empty()) {
+    if (!kcal_range_error && !is_equal && key.empty()) {
+      using std::abs;
+      using std::round;
       auto kcal = 4 * (nutr.prot + nutr.carb - nutr.fiber) + 9 * nutr.fat;
-      auto err = std::abs(kcal - nutr.kcal);
+      auto err = abs(kcal - nutr.kcal);
       if (nutr.kcal != 0.0)
         err /= nutr.kcal;
-      if (std::abs(err) > 0.1) {
+      if (abs(err) > 0.1 && abs(round(kcal) - round(nutr.kcal)) > 1) {
 	cout << fname << ':' << linenum << ": kcal warning: "
-	    << kcal << " != " << nutr << ' ' << name << '\n';
+	    << round(kcal) << " != " << round(nutr.kcal)
+	    << ' ' << name << '\n';
       }
     }
-#endif
 
     if (!key.empty()) {
       subst_vars(key);

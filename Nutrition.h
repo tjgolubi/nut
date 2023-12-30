@@ -66,7 +66,7 @@ std::ostream& operator<<(std::ostream& output, const Nutrition& nutr) {
 	   << ' ' << setw(6) << nutr.carb
 	   << ' ' << setw(6) << nutr.fiber;
     output.precision(prec);
-    output.setf(flags);
+    output.flags(flags);
     return output;
   }
   catch (...) {

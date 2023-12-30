@@ -460,7 +460,8 @@ int main() {
 	TrimTrailingWs(name);
 	if (!name.empty()) {
 	  if (Contains(name, "extra")) {
-	    static const std::regex e{"\\bextra[ -](small|large)\\b"};
+	    static const std::regex
+				e{"\\bextra[ -](small|large|light|heavy)\\b"};
 	    name = std::regex_replace(name, e, "x$1");
 	  }
 	  nutr = FindIngredientWithPlurals(ingredients, name);

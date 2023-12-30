@@ -58,7 +58,7 @@
    =               "cooked large egg yolk"     large egg yolk
    =               "cooked chopped egg"        chopped egg
 # Fish
-   100     0   146  21.62   4.93   0      0    salmon
+   100     0   146? 21.62   4.93   0      0    salmon
     OZ     0    41 "salmon"                    boneless salmon
 *  227     0   468  50     28      0      0    salmon fillet
 : baked salmon
@@ -128,7 +128,7 @@
 *    0     0   265 "whitefish"                 whitefish fillet
 *    =             "whitefish fillet"          fillet whitefish
 : sea bass
-   100     0   148  22.16   5.82   0      0    $$
+   100     0   148? 22.16   5.82   0      0    $$
     OZ     0    28 "$$"                        cooked $$ with bone
     OZ     0    34 "$$"                        boneless $$
     OZ     0    42 "$$"                        cooked boneless $$
@@ -147,7 +147,7 @@
     OZ     0    20 "shrimp"                    raw shrimp with shell
     OZ     0    30 "shrimp"                    raw shelled shrimp
      0   CUP   209 "shrimp"                    cooked shrimp
-   237   CUP   237  20.42   1.36   0      0    canned shrimp
+   237   CUP   237? 20.42   1.36   0      0    canned shrimp
 
    100     0    97  20.33   0.58   1.27   0    lobster
     OZ     0    22 "lobster"                   raw shelled lobster
@@ -259,7 +259,7 @@
    100     0   251  27.40  14.84   0      0    steak
    100     0   252  27.29  15.01   0      0    beef steak
    100     0   201  20.30  12.71   0      0    sirloin steak
-   284     0   675  47.5   35      0      0    ribeye steak
+   284     0   675? 47.5   35      0      0    ribeye steak
    100     0   247  19.61  18.16   0      0    beef tenderloin
    100     0   149  21.72   6.29   0      0    flank steak
    100     0   292  24.32  20.77   0      0    lamb
@@ -304,7 +304,7 @@
    227   CUP  1630   2    183.19   1.48   0    canola oil butter
     14  TBSP    90   0     10      0      0    olive oil butter
    205   CUP  1796   0.57 203.93   0      0    ghee
-   224   CUP  1120   0    112      0      0    imperial margarine
+   224   CUP  1120?  0    112      0      0    imperial margarine
 *    0  HCUP     0 "imperial margarine"        stick imperial margarine
    227   CUP  1600   0.41 178.81   4.40   0    margarine
 *    0  HCUP     0 "margarine"                 stick margarine
@@ -315,9 +315,9 @@
    244   CUP   110   8      4.5    9      2    soy milk
    244   CUP    80   7      4.5    4      2    soy milk unsweet
    244   CUP    60   1      2.5    8      0    almond milk
-   244   CUP    30   1      3      1      0    almond milk unsweet
+   244   CUP    30?  1      3      1      0    almond milk unsweet
    244   CUP    70   0      5      6      0    coconut milk
-   244   CUP    40   0      4      2      0    coconut milk unsweet
+   244   CUP    40?  0      4      2      0    coconut milk unsweet
    244   CUP    25   1      2      1      0    cashew milk unsweet
    113   160   230   5     11     26      0    ice cream
 : cottage cheese
@@ -386,7 +386,7 @@
     28  QCUP    60   5      3      4      0    shredded velveeta
     28     0    70   4      4      3      0    slice velveeta
    232   CUP   810  17.52  80.90   6.17   0    cream cheese
-    14  TBSP    60   1      7      0      0    mascarpone
+    14  TBSP    60?  1      7      0      0    mascarpone
    100     0   356  24.94  27.44   2.22   0    gouda cheese
      = "gouda cheese"                          gouda
    100     0   351  25.58  26.62   2.14   0    provolone cheese
@@ -409,115 +409,115 @@
    125   CUP   455  12.91   1.22  95.39   3.4  all purpose flour
      = "all purpose flour"                     flour
    120   CUP   407  16.44   2.24  87.08  14.6  whole wheat flour
-    14 2TBSP    60   3      1.5    9      5    coconut flour
+    14 2TBSP    60?  3      1.5    9      5    coconut flour
    137   CUP   496  11.23   1.18 106.90   2.3  cake flour
    128   CUP   488   0.33   0.06 116.83   1.2  cornstarch
      = "cornstarch"                            corn starch
-   100   125   295  38.3    4.6   38.2   21    dried yeast
+   100   125   295? 38.3    4.6   38.2   21    dried yeast
      = "dried yeast"                           baking yeast
-    15  QCUP    60   8      0.5    5      3    nutritional yeast
-   100   210   525   5.84  36.31  49.29  20.8  ground nutmeg
+    15  QCUP    60?  8      0.5    5      3    nutritional yeast
+   100   210   525?  5.84  36.31  49.29  20.8  ground nutmeg
      = "ground nutmeg"                         nutmeg
    213   CUP     0   0      0      0      0    baking powder
    163   CUP     0   0      0      0      0    baking soda
     30  QCUP   130   2      3     23      1    graham cracker crumbs
-    28  HCUP   100   3      0     20      1    panko
+    28  HCUP   100?  3      0     20      1    panko
     28  HCUP   110   3      3.5   17      1    italian panko
    108   CUP   427  14.42   5.72  77.74   4.9  bread crumbs
    120   CUP   460  16.96   6.58  82.19   5.9  seasoned bread crumbs
      = "seasoned bread crumbs"                 italian bread crumbs
-    30  QCUP   120   4      1.5   18      2    whole wheat bread crumbs
+    30  QCUP   120?  4      1.5   18      2    whole wheat bread crumbs
      = "whole wheat bread crumbs"              whole grain bread crumbs
      = "whole wheat bread crumbs"              italian whole wheat bread crumbs
      = "whole wheat bread crumbs"              italian whole grain bread crumbs
-   100   193   314  12.26  16.76  54.66  34.2  chili powder
+   100   193   314? 12.26  16.76  54.66  34.2  chili powder
    288   CUP     0   0      0      0      0    salt
      = "salt"                                  sea salt
    230   CUP     0   0      0      0      0    kosher salt
    173   CUP     0   0      0      0      0    garlic salt
-   100   236   255  10.95   3.26  64.81  26.5  ground black pepper
+   100   236   255? 10.95   3.26  64.81  26.5  ground black pepper
      = "ground black pepper"                   pepper
      = "ground black pepper"                   ground pepper
      = "ground black pepper"                   black pepper
      = "ground black pepper"                   crushed black pepper
-   100   208   296  10.40   2.12  68.61  26.2  ground white pepper
+   100   208   296? 10.40   2.12  68.61  26.2  ground white pepper
      = "ground white pepper"                   white pepper
    100   277   318  12.01  17.27  56.63  27.2  ground cayenne pepper
      = "ground cayenne pepper"                 crushed red pepper
-   130  HCUP    25   0      0      5      1    roasted red pepper
+   130  HCUP    25?  0      0      5      1    roasted red pepper
    100   214   252  10.40   3.50  65.30  25.2  ground peppercorn
      = "ground peppercorn"                     peppercorn
    163   223     0   0      0      0      0    lemon pepper
    100   252   375  17.81  22.27  44.24  10.5  ground cumin
      = "ground cumin"                          cumin
-   100   214   289  14.76  12.95  55.74  37.4  paprika
-   100   218   354   7.83   9.88  64.93  21.1  turmeric
-   100   251   306  11.00  10.25  64.43  42.8  ground oregano
+   100   214   289? 14.76  12.95  55.74  37.4  paprika
+   100   218   354?  7.83   9.88  64.93  21.1  turmeric
+   100   251   306? 11.00  10.25  64.43  42.8  ground oregano
      = "ground oregano"                        oregano
-   100   801   271  12.66   7.04  60.56  40.3  marjoram
-   100   776   315  10.63  12.75  60.73  40.3  ground sage
+   100   801   271? 12.66   7.04  60.56  40.3  marjoram
+   100   776   315? 10.63  12.75  60.73  40.3  ground sage
      = "ground sage"                           dried sage
      = "ground sage"                           sage
-   100     0    24   4      0      2      2    sage leaf
+   100     0    24?  4      0      2      2    sage leaf
      = "sage leaf"                             sage leaves
      = "sage leaf"                             leaf sage
      = "sage leaf"                             leaves sage
-   100  1017   276  22.42   4.43  51.66  30.4  dried parsley
-   100   445   331   4.88  15.22  64.06  42.6  dried rosemary
-   100   340   276   9.11   7.43  63.94  37.0  thyme
-   100   260    44   3.29   0.73   8.41   6.8  spearmint
-   100   547   285  19.93   6.03  52.04  29.8  dried spearmint
+   100  1017   276? 22.42   4.43  51.66  30.4  dried parsley
+   100   445   331?  4.88  15.22  64.06  42.6  dried rosemary
+   100   340   276?  9.11   7.43  63.94  37.0  thyme
+   100   260    44?  3.29   0.73   8.41   6.8  spearmint
+   100   547   285? 19.93   6.03  52.04  29.8  dried spearmint
    100  2543    43   3.46   1.12   7.02   2.1  dill sprigs
      = "dill sprigs"                           dill
-   100  7482   253  19.96   4.36  55.82  13.6  dried dill
-   100   214   261   3.89   3.19  79.85  54.3  ground cinnamon
+   100  7482   253? 19.96   4.36  55.82  13.6  dried dill
+   100   214   261?  3.89   3.19  79.85  54.3  ground cinnamon
      = "ground cinnamon"                       cinnamon
    200   CUP   758   0.50   0.42 197.36   7    cinnamon sugar
-   100   243   263   6.09   8.69  72.12  21.6  ground allspice
+   100   243   263?  6.09   8.69  72.12  21.6  ground allspice
      = "ground allspice"                       allspice
-   100     0   251  14.37   3.98  60.96  40.5  dried basil
+   100     0   251? 14.37   3.98  60.96  40.5  dried basil
      0   TSP     4 "dried basil"               ground basil
      0  TBSP     5 "dried basil"               dried basil leaves
-   100     0    27   2.54   0.61   4.34   3.9  fresh basil
+   100     0    27?  2.54   0.61   4.34   3.9  fresh basil
      0   800    27 "fresh basil"               fresh basil leaves
 *    0     0   0.2 "fresh basil leaves"        fresh basil leaf
 *    = "fresh basil leaf" leaf fresh basil
 *    = "fresh basil leaf" leaves fresh basil
     42   CUP    9.8  1.3    0.3    1.1    0.7  chopped fresh basil
    100   825   279  21.93   4.78  52.10  10.4  coriander
-   100   255   345  15.80  14.87  52.29  39.8  fennel seed
+   100   255   345? 15.80  14.87  52.29  39.8  fennel seed
    100   270   347   9.12   5.95  70.79  12.5  ground ginger
    100   266   342   5.76  12.60  69.28  14.8  pumpkin pie spice
      = "pumpkin pie spice"                     pumpkin spice
-   100   CUP   325  12.66  13.81  58.15  33.2  curry powder
+   100   CUP   325? 12.66  13.81  58.15  33.2  curry powder
      5  TBSP    25   1      1      3      0    garam masala
    453   466     0   0      0      0      0    lawry's seasoned salt
      = "lawry's seasoned salt"                 lawry's salt
      = "lawry's seasoned salt"                 lawry's
     57   117     0   0      0      0      0    italian seasoning
    100   413   307   9.59   7.53  65.59  11.3  poultry seasoning
-     9    20    30   0      0      4      0    pork rub
-   208   CUP   599   0.12   0.12  26.31   0    vanilla extract
+     9    20    30?  0      0      4      0    pork rub
+   208   CUP   599?  0.12   0.12  26.31   0    vanilla extract
      = "vanilla extract"                       vanilla
     21    25     0   0      0      0      0    lemon extract
-   136   CUP   181   8.61   0.91  44.88   4.5  dried minced garlic
+   136   CUP   181?  8.61   0.91  44.88   4.5  dried minced garlic
    100   306   349   8.95   0.46  83.28   9.2  dried onion
    100   214   347  10.12   1.05  80.67   5.7  onion powder
    100   175   332  16.80   0.76  72.71   9.9  garlic powder
    168   CUP   805   7.06  50.40 106.01   9.9  chocolate chip
-   100     0   501  12.90  52.31  29.84  16.6  baking chocolate
+   100     0   501? 12.90  52.31  29.84  16.6  baking chocolate
      = "baking chocolate"                      chocolate
    100     0   535   7.65  29.66  59.40   3.4  milk chocolate
    300   CUP   837   6.30   3.39 195.3    7.8  chocolate syrup
-   100   279   229  19.6   13.7   54.3   33.2  cocoa powder
+   100   279   229? 19.6   13.7   54.3   33.2  cocoa powder
    = "cocoa powder" cocoa
     38 2TBSP   120   2      4     20      1    hot fudge
      9  TBSP    30   1      0.5    6      0    chili seasoning
-     9    20    30   0      0      6      0    taco seasoning
+     9    20    30?  0      0      6      0    taco seasoning
     78  HCUP   320   4      9     56      2    jiffy corn muffin mix
 *    0     0   960  "jiffy corn muffin mix"    box jiffy corn muffin mix
    100   194   384  16      6.3   67      9.8  rolled oats
-    44  QCUP   170   5      2.5   31      5    steel cut oats
+    44  QCUP   170?  5      2.5   31      5    steel cut oats
    100     0   123   5.30   0.54  26.38   4.5  whole wheat spaghetti
    100     0   157   5.76   0.92  30.68   1.8  spaghetti
 # Nuts & Seeds
@@ -557,10 +557,10 @@
      = "dry roasted hazelnut"                  hazelnut
    134   CUP   959  10.44 101.95  17.19  10.7  macadamia nuts
 *    0     0  18.5 "macadamia nuts"            macadamia nut
-   168   CUP   897  30.73  70.83  48.52  45.9  flaxseed
-     7  TBSP    37   1.28   2.95   2.02   1.9  ground flaxseed
+   168   CUP   897? 30.73  70.83  48.52  45.9  flaxseed
+     7  TBSP    37?  1.28   2.95   2.02   1.9  ground flaxseed
      = "ground flaxseed"                       flaxseed meal
-   100   125   490  15.62  30.75  43.85  37.7  chia seeds
+   100   125   490? 15.62  30.75  43.85  37.7  chia seeds
    144   CUP   825  25.53  71.52  33.77  17    sesame seeds
    135   CUP   799  27.08  69.26  30.90  14.3  sunflower seeds
    138   CUP   747  33.87  63.27  24.58   5.4  pumpkin seeds
@@ -574,31 +574,31 @@
     15  TBSP    40   0      3.50   2      0    miracle whip
    235   CUP   916   2.12  78.49  56.16   0    mayonnaise
      = "mayonnaise"                            mayo
-   240   CUP   233   4.18   0.91  60.19   0.7  ketchup
+   240   CUP   233?  4.18   0.91  60.19   0.7  ketchup
    251   CUP   188   4.50   4.50  32      3    barbecue sauce
      = "barbecue sauce"                        bbq sauce
    238   CUP    38   4.85   1.37   0.91   0    chicken broth
    240   CUP    12   0.95   0.29   1.51   0    chicken stock
 *    4     0     5   0      0      1      0    chicken boullion cube
-     6   TSP    10   1      0      2      0    chicken boullion
+     6   TSP    10?  1      0      2      0    chicken boullion
    246   CUP    17   2.74   0.53   0.10   0    beef broth
    233   CUP     7   0.84   0.19   0.80   0    beef stock
 *    4     0     5   0      0      1      0    beef boullion cube
-     6   TSP    15   1      0      2      0    beef boullion
-   238   CUP    50   0      0      2.22   0    cider vinegar
-   239   CUP    43   0      0      0.10   0    vinegar
-   239   CUP    43   0      0      0      0    rice vinegar
-   239   CUP    43   0      0      0      0    wine vinegar
-   239   CUP    43   0      0      0      0    red vinegar
-   239   CUP    43   0      0      0      0    red wine vinegar
-   239   CUP    43   0      0      0      0    white vinegar
-   239   CUP    43   0      0      0      0    white wine vinegar
-   239   CUP   210   0.05   0     40.8    0    balsamic vinegar
+     6   TSP    15?  1      0      2      0    beef boullion
+   238   CUP    50?  0      0      2.22   0    cider vinegar
+   239   CUP    43?  0      0      0.10   0    vinegar
+   239   CUP    43?  0      0      0      0    rice vinegar
+   239   CUP    43?  0      0      0      0    wine vinegar
+   239   CUP    43?  0      0      0      0    red vinegar
+   239   CUP    43?  0      0      0      0    red wine vinegar
+   239   CUP    43?  0      0      0      0    white vinegar
+   239   CUP    43?  0      0      0      0    white wine vinegar
+   239   CUP   210?  0.05   0     40.8    0    balsamic vinegar
      = "balsamic vinegar"                      balsamic
    250   CUP   165   9.88   7.78  19.45   8    yellow mustard
      = "yellow mustard"                        mustard
    300   CUP   198  11.85   9.33  23.34   9.6  dijon mustard
-   275   CUP   184   0      0     53.52   0    worcestershire sauce
+   275   CUP   184?  0      0     53.52   0    worcestershire sauce
      = "worcestershire sauce"                  worcestershire
      = "worcestershire sauce"                  wooster sauce
 # Fruit & Vegetables
@@ -615,13 +615,19 @@
     86   CUP   209   0.80   0.28  56.67   7.5  dried apple
    249   CUP   117   0.15   0.27  28.97   0.2  apple juice
      = "apple juice" apple cider
-   100     0    58   0.38   0.12  15.46   3.1  pear
+   100     0    58?  0.38   0.12  15.46   3.1  pear
 *  151     0    81 "pear"                      small pear
 *  181     0    96 "pear"                      medium pear
 *  227     0   121 "pear"                      large pear
      0   CUP    96 "pear"                      sliced pear
 *    = "medium pear" pear fruit
-   245   CUP    71   0.46   0.07  19.06   3.9  canned pear
+: canned pears
+   245   CUP    71?  0.46   0.07  19.06   3.9  $$ in water
+   247   CUP   116   0.74   0.25  30.13   4    $$ in xlight syrup
+   248   CUP   124   0.84   0.17  32.09   4    $$ in juice
+   249   CUP   142   0.47   0.07  37.77   4    $$ in light syrup
+   266   CUP   197   0.53   0.35  50.99   4.3  $$
+:
    180   CUP   472   3.37   1.13 125.46  13.5  dried pear
    249   CUP   117   0.15   0.27  28.97   0.2  apple pear juice
    100     0    39   0.91   0.25   9.54   1.5  peach
@@ -632,11 +638,14 @@
    184   CUP    72 "peach"                     chopped peach
 *    = "medium peach" peach fruit
    100     0   239   3.61   0.76  61.33   8.2  dried peach
-   246   CUP    59   1.07   0.15  14.91   3.2  canned peaches in water
-   248   CUP   104   0.99   0.25  27.42   2.5  canned peaches in xlight syrup
-   252   CUP   136   1.13   0.08  36.52   3.3  canned peaches in light syrup
-   250   CUP   110   1.58   0.08  28.92   3.2  canned peaches in juice
-   262   CUP   194   1.18   0.26  52.24   3.4  canned peaches in heavy syrup
+: canned peaches
+   246   CUP    59?  1.07   0.15  14.91   3.2  $$ in water
+   248   CUP   104   0.99   0.25  27.42   2.5  $$ in xlight syrup
+   252   CUP   136   1.13   0.08  36.52   3.3  $$ in light syrup
+   250   CUP   110   1.58   0.08  28.92   3.2  $$ in juice
+   262   CUP   194   1.18   0.26  52.24   3.4  $$ in heavy syrup
+     = "$$ in water" $$
+:
    248   CUP   134   0.67   0.05  34.66   1.5  peach juice
    100     0    65   0.51   0.27  17.00   1.8  mango
 *  336     0   202 "mango"                     mango fruit
@@ -654,24 +663,24 @@
 *    = "medium banana" banana fruit
    100     0   147   0.65   9.53  16.56   2.2  dried banana
      = "dried banana" banana chip
-*   67     0    20   0.47   0.13   7.06   1.9  lime
-   236   CUP    62   1.03   0.17  20.71   1    lime juice
+*   67     0    20?  0.47   0.13   7.06   1.9  lime
+   236   CUP    62?  1.03   0.17  20.71   1    lime juice
 *    0     0    10 "lime juice"                fruit lime juice
      0   TSP     0      0      0      0   0    realime
-    96   CUP    45   1.4    0.3   15     10    lime peel
+    96   CUP    45?  1.4    0.3   15     10    lime peel
      = "lime peel" lime zest
-   100     0    29   1.10   0.30   9.32   2.8  lemon
+   100     0    29?  1.10   0.30   9.32   2.8  lemon
 *   60     0    17 "lemon"                     small lemon
 *   84     0    24 "lemon"                     medium lemon
 *    = "medium lemon" lemon fruit
-   244   CUP    61   0.93      0  21.06   1    lemon juice
+   244   CUP    61?  0.93      0  21.06   1    lemon juice
 *    0     0    12 "lemon juice"               fruit lemon juice
-     0   TSP     0   0      0      1      0    realemon
-   100   232    47   1.5    0.3   16     10.6  lemon peel
+     0   TSP     0?  0      0      1      0    realemon
+   100   232    47?  1.5    0.3   16     10.6  lemon peel
      = "lemon peel" lemon zest
-    96   CUP    93   1.4    0.2   24     10    orange peel
+    96   CUP    93?  1.4    0.2   24     10    orange peel
      = "orange peel" orange zest
-   100     0    47   0.94   0.12  11.75   2.4  orange
+   100     0    47?  0.94   0.12  11.75   2.4  orange
 *    0     0    45 "orange"                    small orange
 *    0     0    62 "orange"                    medium orange
 *    0     0    86 "orange"                    large orange
@@ -689,9 +698,9 @@
    252   CUP   154   1.13   0.25  40.80   1.8  canned tangerines in light syrup
    249   CUP    92   1.54   0.07  23.83   1.7  canned tangerines in juice
    146   CUP    83   1.07   0.48  21.01   3.5  blueberry
-   123   CUP    64   1.48   0.80  14.69   8    raspberry
-   144   CUP    62   2      0.71  13.84   7.6  blackberry
-    96   CUP    44   0.37   0.12  11.59   4.4  cranberry
+   123   CUP    64?  1.48   0.80  14.69   8    raspberry
+   144   CUP    62?  2      0.71  13.84   7.6  blackberry
+    96   CUP    44?  0.37   0.12  11.59   4.4  cranberry
    111   CUP    51 "cranberry"                 chopped cranberry
    110   CUP   339   0.08   1.51  90.60   6.3  dried cranberry
    159   CUP   110   1.15   0.26  28.96   1.4  grapes
@@ -705,7 +714,7 @@
 *    0     0     4 "kiwi"                      slice kiwi
      0   CUP   108 "kiwi"                      sliced kiwi
 : strawberry
-   144   CUP    46   0.96   0.43  11.06   2.9  $$
+   144   CUP    46?  0.96   0.43  11.06   2.9  $$
 *    4     0     2 "$$"                        small $$
 *    8     0     4 "$$"                        medium $$
 *   12     0     6 "$$"                        large $$
@@ -716,56 +725,96 @@
      0   CUP    53 "$$"                        sliced $$
    231   CUP    74 "$$"                        pureed $$
 :
-*    8     0    20   0.18   0.03   5.37   0.6  dried prune
-   100     0   240   2.18   0.38  63.88   7.1  dried prunes
-*   65     0    30   0.46   0.18   7.54   0.9  plum
-   100     0    46   0.70   0.28  11.42   1.4  plums
-*   41     0    30   0.30   0.12   7.67   1.2  small fig
-*   50     0    37   0.38   0.15   9.59   1.4  medium fig
-*   64     0    47   0.48   0.19  12.28   1.9  large fig
-*   50     0    37   0.38   0.15   9.59   1.4  fig
-   100     0    74   0.75   0.30  19.18   2.9  figs
-*   19     0    47   0.63   0.18  12.14   1.9  dried fig
-   100     0   249   3.30   0.93  63.87   9.8  dried figs
-*    8    12    22   0.20   0      5.20   1    mission fig
-*    8    12    22   0.20   0      5.20   1    black mission fig
-*    8     0    23   0.20   0.03   6.23   0.7  date
-   100     0   282   2.45   0.39  75.03   8    dates
-    43  QCUP   120   1.05   0.17  32.26   3.44 chopped dates
+   100     0   240   2.18   0.38  63.88   7.1  prune
+*    0     0    20 "prune"                     prune fruit
+     = "prune" dried prune
+*    = "prune fruit" dried prune fruit
+   174   CUP   418 "prune"                     pitted prune
+   156   CUP   182   1.56   0.08  44.67   2.6  prune juice
+   100     0    46   0.70   0.28  11.42   1.4  plum
+*   65     0    30 "plum"                      plum fruit
+   249   CUP   102   0.97   0.02  27.46   2.2  canned plums in water
+     = "canned plums in water" canned plums
+   252   CUP   146   1.29   0.05  38.18   2.3  canned plums in juice
+   252   CUP   159   0.93   0.25  41.03   2.3  canned plums in light syrup
+   258   CUP   230   0.93   0.26  59.96   2.3  canned plums in heavy syrup
+   100     0    74   0.75   0.30  19.18   2.9  fig
+*    0     0    30 "fig"                       small fig
+*    0     0    37 "fig"                       medium fig
+*    0     0    47 "fig"                       large fig
+*    = "medium fig" fig fruit
+   247   CUP   131   0.99   0.25  34.70   5.5  canned figs in water
+     = "canned figs in water" canned figs
+   252   CUP   174   0.98   0.25  45.23   4.5  canned figs in light syrup
+   259   CUP   228   0.98   0.26  59.31   5.7  canned figs in heavy syrup
+   100     0   249   3.30   0.93  63.87   9.8  dried fig
+*    0     0    47 "dried fig"                 dried fig fruit
+   259    CUP  277   3.68   1.04  71.41  10.9  cooked dried fig
+*   40   QCUP  110?  1      0     26      5    serving black mission fig
+*    0     0    22 "serving black mission fig" black mission fig
+*    = "black mission fig" mission fig
+*    = "serving black mission fig" serving mission fig
+   100     0   282   2.45   0.39  75.03   8    date
+*    0     0    23 "date"                      date fruit
+   147   CUP   415 "date"                      chopped date
+   100     0   277   1.81   0.15  74.97   6.7  medjool date
+*    0     0    66 "medjool date"              medjool date fruit
+: deglet noor date
+: dried = dried $$s
+   100     0   282   2.45   0.39  75.03   8    $$
+*    0     0    23 "$$"                        $$ fruit
+   160   CUP   520   2      0    128      8    chopped $dried sun-maid
+     = "chopped $dried sun-maid" chopped $dried
+   160   CUP   440   4      0    120      16   $dried sun-maid
+     = "$dried sun-maid"                       $dried
+:
+   100   150    48   1.40   0.39  11.12   2    apricot
+*    0     0    17 "apricot"                   apricot fruit
+   100     0   241   3.39   0.51  62.64   7.3  dried apricot
+: canned apricots
+   244   CUP    66?  1.73   0.39  15.53   3.9  $$ in water
+     = "$$ in water" $$
+   244   CUP   117   1.54   0.10  30.11   3.9  $$ in juice
+   247   CUP   121   1.48   0.25  30.88   4    $$ in xlight syrup
+   252   CUP   159   1.34   0.13  41.72   4    $$ in light syrup
+   258   CUP   214   1.37   0.21  55.39   4.1  $$ in heavy syrup
+   246   CUP   236   1.35   0.10  61.13   3.9  $$ in xheavy syrup
+   219   CUP   182   1.40   0.24  46.67   5.9  $$ in heavy syrup drained
+:
 *   14     0     2   0.12   0.03   0.50   0.3  small celery stalk
-*   43     0     6   0.28   0.07   1.19   0.6  medium stalk
-*   43     0     6   0.28   0.07   1.19   0.6  celery stalk
-*   64     0     9   0.43   0.11   1.84   1    large celery stalk
-   100   CUP    14   0.70   0.17   3      1.6  chopped celery
-   100   CUP    14   0.70   0.17   3      1.6  sliced celery
+*   43     0     6?  0.28   0.07   1.19   0.6  medium stalk
+*   43     0     6?  0.28   0.07   1.19   0.6  celery stalk
+*   64     0     9?  0.43   0.11   1.84   1    large celery stalk
+   100   CUP    14?  0.70   0.17   3      1.6  chopped celery
+   100   CUP    14?  0.70   0.17   3      1.6  sliced celery
 *   10     0     4   0.06   0.01   0.82   0.2  baby carrot
-   100     0    35   0.64   0.13   8.24   1.8  baby carrots
-*   49     0    20   0.46   0.12   4.79   1.4  small carrot
-*   61     0    25   0.57   0.15   5.84   1.7  medium carrot
-*   73     0    30   0.67   0.17   6.90   2    large carrot
-*   73     0    30   0.67   0.17   6.90   2    carrot
-   110   CUP    45   1.02   0.26  10.54   3.1  grated carrot
-   122   CUP    50   1.13   0.29  11.69   3.4  sliced carrot
-   127   CUP    52   1.19   0.31  12.26   3.6  chopped carrot
+   100     0    35?  0.64   0.13   8.24   1.8  baby carrots
+*   49     0    20?  0.46   0.12   4.79   1.4  small carrot
+*   61     0    25?  0.57   0.15   5.84   1.7  medium carrot
+*   73     0    30?  0.67   0.17   6.90   2    large carrot
+*   73     0    30?  0.67   0.17   6.90   2    carrot
+   110   CUP    45?  1.02   0.26  10.54   3.1  grated carrot
+   122   CUP    50?  1.13   0.29  11.69   3.4  sliced carrot
+   127   CUP    52?  1.19   0.31  12.26   3.6  chopped carrot
    100     0    34   2.82   0.37   6.64   2.6  broccoli
-    91   CUP    31   2.57   0.34   6.04   2.4  chopped broccoli
-    71   CUP    20   2.12   0.25   3.72   0    broccoli flowers
+    91   CUP    31?  2.57   0.34   6.04   2.4  chopped broccoli
+    71   CUP    20?  2.12   0.25   3.72   0    broccoli flowers
 *    6     0     1   0.07   0.02   0.31   0.1  grape tomato
 *   17    27     3   0.15   0.03   0.67   0.2  cherry tomato
-   150   CUP    27   1.31   0.30   5.84   1.8  cherry tomatoes
+   150   CUP    27?  1.31   0.30   5.84   1.8  cherry tomatoes
 *   61     0    11   0.55   0.12   2.43   0.7  plum tomato
 *   89     0    16   0.80   0.18   3.57   1.1  small tomato
 *  122     0    22   1.08   0.25   4.82   1.5  medium tomato
 *  122     0    22   1.08   0.25   4.82   1.5  tomato
-*  183     0    33   1.60   0.36   7.13   2.2  large tomato
+*  183     0    33?  1.60   0.36   7.13   2.2  large tomato
 *   61     0    11   0.55   0.12   2.43   0.7  italian tomato
 *   22     0     4   0.18   0.04   0.78   0.2  tomato slice
    178   CUP    32   1.58   0.36   7.06   2.2  chopped tomato
    100   100    32   1.64   0.28   7.29   1.9  crushed tomato
-   260   CUP    90   3.17   0.49  18.08   3.7  tomato sauce
+   260   CUP    90?  3.17   0.49  18.08   3.7  tomato sauce
    262   CUP   215  11.32   1.23  49.54  11.8  tomato paste
     54   CUP   139   8      2     30      7    dried tomato
-*  148     0    35   1      1      2      0    roma tomato
+*  148     0    35?  1      1      2      0    roma tomato
 *  122   164    28   1.48   0.25   6.27   1.4  green tomato
 *    3     0     4   0.19   0.02   0.99   0.1  garlic clove
 *    3     0     4   0.19   0.02   0.99   0.1  clove garlic
@@ -792,30 +841,30 @@
 *   16     0     5   0.27   0.03   1.10   0.4  medium scallion
 *   16     0     5   0.27   0.03   1.10   0.4  scallion
 *   25     0     8   0.46   0.05   1.84   0.6  large scallion
-   100   CUP    32   1.83   0.19   7.34   2.6  chopped scallion
+   100   CUP    32?  1.83   0.19   7.34   2.6  chopped scallion
 *    6     0     2   0.09   0.01   0.37   0.1  small green onion
 *   16     0     5   0.27   0.03   1.10   0.4  medium green onion
 *   16     0     5   0.27   0.03   1.10   0.4  green onion
 *   25     0     8   0.46   0.05   1.84   0.6  large green onion
-   100   CUP    32   1.83   0.19   7.34   2.6  chopped green onion
+   100   CUP    32?  1.83   0.19   7.34   2.6  chopped green onion
    100   152    72   2.50   0.10  16.80   3.2  chopped shallot
-   100  1380    23   2.13   0.52   3.67   2.8  cilantro
-   100  1380    23   2.13   0.52   3.67   2.8  chopped cilantro
+   100  1380    23?  2.13   0.52   3.67   2.8  cilantro
+   100  1380    23?  2.13   0.52   3.67   2.8  chopped cilantro
     89   CUP    54   1.34   0.27  12.59   1.6  leek
    100   249    80   1.82   0.75  17.77   2    ginger
    100   249    80   1.82   0.75  17.77   2    ginger root
    100   249    80   1.82   0.75  17.77   2    sliced ginger
-*  158     0    19   0.93   0.25   3.41   1.1  small cucumber
-*  200     0    24   1.19   0.32   4.34   1.4  medium cucumber
-*  200     0    24   1.19   0.32   4.34   1.4  cucumber
-*  283     0    34   1.65   0.45   6.05   2    large cucumber
-   117   CUP    14   0.70   0.19   2.57   0.8  sliced cucumber
-   133   CUP    16   0.78   0.21   2.87   0.9  pared chopped cucumber
-   142   CUP    17   0.84   0.23   3.07   1    chopped cucumber
+*  158     0    19?  0.93   0.25   3.41   1.1  small cucumber
+*  200     0    24?  1.19   0.32   4.34   1.4  medium cucumber
+*  200     0    24?  1.19   0.32   4.34   1.4  cucumber
+*  283     0    34?  1.65   0.45   6.05   2    large cucumber
+   117   CUP    14?  0.70   0.19   2.57   0.8  sliced cucumber
+   133   CUP    16?  0.78   0.21   2.87   0.9  pared chopped cucumber
+   142   CUP    17?  0.84   0.23   3.07   1    chopped cucumber
 *  300     0    45   1.96   0.33  10.93   1.5  large cucumber with peel
 *  300     0    45   1.96   0.33  10.93   1.5  cucumber with peel
     53  HCUP     8   0.34   0.06   1.89   0.3  sliced cucumber with peel
-*   67     0    12   0.40   0.12   2.68   0.8  dill pickle
+*   67     0    12?  0.40   0.12   2.68   0.8  dill pickle
 *    0     0     7 "dill pickle"               small dill pickle
 *    0     0    12 "dill pickle"               medium dill pickle
 *    0     0    24 "dill pickle"               large dill pickle
@@ -838,60 +887,60 @@
 *    0    26     2 "zucchini"                  zucchini slice
      0   CUP    18 "zucchini"                  sliced zucchini
      0   CUP    20 "zucchini"                  chopped zucchini
-*  458     0   110   4.63   0.87  26.11  15.6  peeled eggplant
+*  458     0   110?  4.63   0.87  26.11  15.6  peeled eggplant
 *    = "peeled eggplant"                       eggplant
 *  550     0   132 "peeled eggplant"           unpeeled eggplant
      0   CUP    20 "peeled eggplant"           chopped eggplant
 *   12 2TBSP     3   0.10   0.03   0.60   0.2  bell pepper slice
 *   12 2TBSP     3   0.10   0.03   0.60   0.2  bell pepper ring
-    90   CUP    18   0.79   0.16   4.27   1.6  sliced bell pepper
-*   75     0    15   0.64   0.13   3.43   1.3  small bell pepper
-*  120     0    24   1.02   0.20   5.52   2    medium bell pepper
-*  120     0    24   1.02   0.20   5.52   2    bell pepper
-*  165     0    33   1.41   0.28   7.61   2.8  large bell pepper
-   150   CUP    30   1.28   0.25   6.91   2.5  chopped bell pepper
-*   75     0    15   0.64   0.13   3.43   1.3  small green pepper
-*  120     0    24   1.02   0.20   5.52   2    medium green pepper
-*  120     0    24   1.02   0.20   5.52   2    green pepper
-*  165     0    33   1.41   0.28   7.61   2.8  large green pepper
+    90   CUP    18?  0.79   0.16   4.27   1.6  sliced bell pepper
+*   75     0    15?  0.64   0.13   3.43   1.3  small bell pepper
+*  120     0    24?  1.02   0.20   5.52   2    medium bell pepper
+*  120     0    24?  1.02   0.20   5.52   2    bell pepper
+*  165     0    33?  1.41   0.28   7.61   2.8  large bell pepper
+   150   CUP    30?  1.28   0.25   6.91   2.5  chopped bell pepper
+*   75     0    15?  0.64   0.13   3.43   1.3  small green pepper
+*  120     0    24?  1.02   0.20   5.52   2    medium green pepper
+*  120     0    24?  1.02   0.20   5.52   2    green pepper
+*  165     0    33?  1.41   0.28   7.61   2.8  large green pepper
 *   10    26     2   0.09   0.02   0.46   0.2  green pepper slice
 *   10    26     2   0.09   0.02   0.46   0.2  green pepper ring
-   150   CUP    30   1.28   0.25   6.91   2.5  chopped green pepper
-*   75     0    15   0.64   0.13   3.43   1.3  small green bell pepper
-*  120     0    24   1.02   0.20   5.52   2    medium green bell pepper
-*  120     0    24   1.02   0.20   5.52   2    green bell pepper
-*  165     0    33   1.41   0.28   7.61   2.8  large green bell pepper
+   150   CUP    30?  1.28   0.25   6.91   2.5  chopped green pepper
+*   75     0    15?  0.64   0.13   3.43   1.3  small green bell pepper
+*  120     0    24?  1.02   0.20   5.52   2    medium green bell pepper
+*  120     0    24?  1.02   0.20   5.52   2    green bell pepper
+*  165     0    33?  1.41   0.28   7.61   2.8  large green bell pepper
 *   10    26     2   0.09   0.02   0.46   0.2  green bell pepper slice
 *   10    26     2   0.09   0.02   0.46   0.2  green bell pepper ring
-   150   CUP    30   1.28   0.25   6.91   2.5  chopped green bell pepper
+   150   CUP    30?  1.28   0.25   6.91   2.5  chopped green bell pepper
 *   12 2TBSP     3   0.10   0.03   0.60   0.2  red bell pepper slice
 *   12 2TBSP     3   0.10   0.03   0.60   0.2  red bell pepper ring
-*   73     0    19   0.73   0.22   4.46   1.5  small red bell pepper
-*  119     0    31   1.18   0.36   7.18   2.4  medium red bell pepper
-*  119     0    31   1.18   0.36   7.18   2.4  red bell pepper
-*  165     0    43   1.62   0.49   9.89   3.3  large red bell pepper
-   150     0    39   1.48   0.45   8.98   3    chopped red bell pepper
+*   73     0    19?  0.73   0.22   4.46   1.5  small red bell pepper
+*  119     0    31?  1.18   0.36   7.18   2.4  medium red bell pepper
+*  119     0    31?  1.18   0.36   7.18   2.4  red bell pepper
+*  165     0    43?  1.62   0.49   9.89   3.3  large red bell pepper
+   150     0    39?  1.48   0.45   8.98   3    chopped red bell pepper
 *  185     0    50   1.86   0.39  11.76   1.7  yellow bell pepper
 *  185     0    50   1.86   0.39  11.76   1.7  large yellow bell pepper
-*   33     0     9   0.55   0.15   1.77   1.1  small banana pepper
-*   44     0    12   0.76   0.21   2.46   1.6  medium banana pepper
-*   44     0    12   0.76   0.21   2.46   1.6  banana pepper
-*   74     0    20   1.24   0.34   4.01   2.6  large banana pepper
-   122   CUP    33   2.06   0.56   6.63   4.2  chopped banana pepper
-   122   CUP    33   2.06   0.56   6.63   4.2  sliced banana pepper
+*   33     0     9?  0.55   0.15   1.77   1.1  small banana pepper
+*   44     0    12?  0.76   0.21   2.46   1.6  medium banana pepper
+*   44     0    12?  0.76   0.21   2.46   1.6  banana pepper
+*   74     0    20?  1.24   0.34   4.01   2.6  large banana pepper
+   122   CUP    33?  2.06   0.56   6.63   4.2  chopped banana pepper
+   122   CUP    33?  2.06   0.56   6.63   4.2  sliced banana pepper
 *   13     0     4   0.19   0.09   0.83   0.4  jalapeno
 *   13     0     4   0.19   0.09   0.83   0.4  jalapeno pepper
-    90   CUP    27   1.22   0.56   5.32   2.5  sliced jalapeno
-    90   CUP    27   1.22   0.56   5.32   2.5  sliced jalapeno pepper
-*   65     0    13   0.55   0.11   2.97   1.1  poblano
-*   65     0    13   0.55   0.11   2.97   1.1  poblano pepper
-   120   CUP    24   1.01   0.20   5.48   2    chopped poblano
-   120   CUP    24   1.01   0.20   5.48   2    chopped poblano pepper
+    90   CUP    27?  1.22   0.56   5.32   2.5  sliced jalapeno
+    90   CUP    27?  1.22   0.56   5.32   2.5  sliced jalapeno pepper
+*   65     0    13?  0.55   0.11   2.97   1.1  poblano
+*   65     0    13?  0.55   0.11   2.97   1.1  poblano pepper
+   120   CUP    24?  1.01   0.20   5.48   2    chopped poblano
+   120   CUP    24?  1.01   0.20   5.48   2    chopped poblano pepper
 *    6     0     2   0.11   0.03   0.41   0.2  serrano
 *    6     0     2   0.11   0.03   0.41   0.2  serrano pepper
-   106   CUP    34   1.83   0.46   7.04   3.9  chopped serrano
-   106   CUP    34   1.83   0.46   7.04   3.9  chopped serrano pepper
-*   75  HCUP     7   1.50   0.15   7.10   1.1  anaheim pepper
+   106   CUP    34?  1.83   0.46   7.04   3.9  chopped serrano
+   106   CUP    34?  1.83   0.46   7.04   3.9  chopped serrano pepper
+*   75  HCUP     7?  1.50   0.15   7.10   1.1  anaheim pepper
    100   277   318  12.01  17.27  56.63  27.2  cayenne pepper
 *   45     0    18   0.84   0.20   3.96   0.7  red hot chili pepper
 *   45     0    18   0.84   0.20   3.96   0.7  habenero
@@ -905,10 +954,10 @@
    146   CUP   234   2.92  21.40  12.45   9.8  sliced avocado
    150   CUP   240   3     21.99  12.80  10    chopped avocado
    230   CUP   368   4.60  33.72  19.62  15.4  pureed avocado
-   144   CUP   117   7.86   0.58  20.97   7.4  peas
-   144   CUP   117   7.86   0.58  20.97   7.4  frozen peas
-*  130     0   112   2.04   0.06  26.16   3.9  sweet potato
-   133   CUP   114   2.09   0.07  26.76   4    chopped sweet potato
+   144   CUP   117?  7.86   0.58  20.97   7.4  peas
+   144   CUP   117?  7.86   0.58  20.97   7.4  frozen peas
+*  130     0   112?  2.04   0.06  26.16   3.9  sweet potato
+   133   CUP   114?  2.09   0.07  26.76   4    chopped sweet potato
 *  125     0   130   2.07   3     24.20   2.1  small potato
 *  167     0   174   2.77   4.01  32.33   2.8  medium potato
 *  167     0   174   2.77   4.01  32.33   2.8  potato
@@ -917,58 +966,58 @@
    158   CUP   204   4.20   0.44  44.08   0.6  white rice
    158   CUP   204   4.20   0.44  44.08   0.6  rice
    195   CUP   215   4.99   1.74  44.42   3.5  brown rice
-     5   TSP    10   0      0      1      0    basil paste
-     5   TSP    10   0      0      2      0    ginger paste
-     5   TSP    15   0      0      2      0    garlic paste
-*  321     0    45   2.92   0.45   9.62   3.9  small lettuce head
-*  536     0    75   4.85   0.75  16.01   6.5  medium lettuce head
-*  536     0    75   4.85   0.75  16.01   6.5  lettuce head
-*  779     0   109   7.02   1.09  23.17   9.4  large lettuce head
-    57   CUP     8   0.50   0.08   1.63   0.7  chopped lettuce
-    57   CUP     8   0.50   0.08   1.63   0.7  shredded lettuce
+     5   TSP    10?  0      0      1      0    basil paste
+     5   TSP    10?  0      0      2      0    ginger paste
+     5   TSP    15?  0      0      2      0    garlic paste
+*  321     0    45?  2.92   0.45   9.62   3.9  small lettuce head
+*  536     0    75?  4.85   0.75  16.01   6.5  medium lettuce head
+*  536     0    75?  4.85   0.75  16.01   6.5  lettuce head
+*  779     0   109?  7.02   1.09  23.17   9.4  large lettuce head
+    57   CUP     8?  0.50   0.08   1.63   0.7  chopped lettuce
+    57   CUP     8?  0.50   0.08   1.63   0.7  shredded lettuce
    100     0    50   3.30   0.70  10.01   2    kale
     68   CUP    34   2.21   0.47   6.71   1.3  chopped kale
     30   CUP     7   0.86   0.12   1.09   0.7  spinach
     30   CUP     7   0.86   0.12   1.09   0.7  baby spinach
-    61   CUP    22   1.78   0.47   3.80   2    parsley
+    61   CUP    22?  1.78   0.47   3.80   2    parsley
    100   444    30   3.27   0.73   4.35   2.5  chives
-   100   969   131   3.31   5.86  20.70  14.1  rosemary
-   164   CUP   295  15.65   4.90  49.17  14.1  garbanzos
-   164   CUP   295  15.65   4.90  49.17  14.1  garbanzo beans
-   130  HCUP   120   6      2     20      4    canned garbanzos
-   130  HCUP   120   6      2     20      4    canned garbanzo beans
-   164   CUP   295  15.65   4.90  49.17  14.1  chickpeas
-   130  HCUP   120   6      2     20      4    canned chickpeas
-   130  HCUP   120   7      1     21      7    canned mixed chili beans
+   100   969   131?  3.31   5.86  20.70  14.1  rosemary
+   164   CUP   295? 15.65   4.90  49.17  14.1  garbanzos
+   164   CUP   295? 15.65   4.90  49.17  14.1  garbanzo beans
+   130  HCUP   120?  6      2     20      4    canned garbanzos
+   130  HCUP   120?  6      2     20      4    canned garbanzo beans
+   164   CUP   295? 15.65   4.90  49.17  14.1  chickpeas
+   130  HCUP   120?  6      2     20      4    canned chickpeas
+   130  HCUP   120?  7      1     21      7    canned mixed chili beans
    = "canned mixed chili beans" mixed chili beans
    = "canned mixed chili beans" chili beans
-   173   CUP   199  12.27   0.71  35.79   8.8  pinto beans
-   454   422   355  21.91   1.27  63.91  15.8  canned pinto beans
-   172   CUP   227  15.24   0.93  40.78  15    black beans
-   240   CUP   218  14.47   0.70  39.74  16.6  canned black beans
-   184   CUP   613  43.39   1.53 110.42  45.8  kidney beans
-   256   CUP   218  13.44   0.87  39.91  16.4  canned kidney beans
-   177   CUP   255  16.21   1.91  44.73  18.4  yellow beans
+   173   CUP   199? 12.27   0.71  35.79   8.8  pinto beans
+   454   422   355? 21.91   1.27  63.91  15.8  canned pinto beans
+   172   CUP   227? 15.24   0.93  40.78  15    black beans
+   240   CUP   218? 14.47   0.70  39.74  16.6  canned black beans
+   184   CUP   613? 43.39   1.53 110.42  45.8  kidney beans
+   256   CUP   218? 13.44   0.87  39.91  16.4  canned kidney beans
+   177   CUP   255? 16.21   1.91  44.73  18.4  yellow beans
 *    5     0     2   0.10   0.01   0.39   0.19 green bean
-   110   CUP    34   2      0.13   7.84   3.7  cut green beans
-   121  HCUP    20   1      0      3      1    canned green beans
-   183   CUP   620  40      2.09 114.14  37    dried great northern beans
-   208   CUP   701  46.45   3.12 126.36  50.8  dried navy beans
-   184   CUP   613  43.39   1.53 110.42  46.8  dried kidney beans
-   193   CUP   670  41.34   2.37 120.72  29.9  dried pinto beans
-   194   CUP   662  41.90   2.75 120.98  29.5  dried black beans
-   207   CUP   718  49.39   2.38 129.62  33.7  dried mung beans
-   196   CUP   676  43.12   5.10 118.97  49.2  dried yellow beans
-   210   CUP   720  44.02   2.37 134.80  26.7  dried pink beans
-   202   CUP   673  47.12   1.72 121.75  30.7  dried white beans
+   110   CUP    34?  2      0.13   7.84   3.7  cut green beans
+   121  HCUP    20?  1      0      3      1    canned green beans
+   183   CUP   620? 40      2.09 114.14  37    dried great northern beans
+   208   CUP   701? 46.45   3.12 126.36  50.8  dried navy beans
+   184   CUP   613? 43.39   1.53 110.42  46.8  dried kidney beans
+   193   CUP   670? 41.34   2.37 120.72  29.9  dried pinto beans
+   194   CUP   662? 41.90   2.75 120.98  29.5  dried black beans
+   207   CUP   718? 49.39   2.38 129.62  33.7  dried mung beans
+   196   CUP   676? 43.12   5.10 118.97  49.2  dried yellow beans
+   210   CUP   720? 44.02   2.37 134.80  26.7  dried pink beans
+   202   CUP   673? 47.12   1.72 121.75  30.7  dried white beans
 *   10     0     2   0.26   0.01   0.47   0.3  small asparagus spear
 *   15     0     3   0.35   0.02   0.62   0.3  medium asparagus spear
 *   15     0     3   0.35   0.02   0.62   0.3  asparagus spear
 *   20     0     4   0.44   0.02   0.78   0.4  large asparagus spear
 *   25     0     5   0.53   0.03   0.93   0.5  xlarge asparagus spear
-   135   CUP    27   2.95   0.16   5.20   2.8  chopped asparagus
-   115   CUP    30   1.16   0.12   7.54   0.6  chopped pumpkin
-   244   CUP    83   2.70   0.69  19.82   7.1  canned pumpkin
+   135   CUP    27?  2.95   0.16   5.20   2.8  chopped asparagus
+   115   CUP    30?  1.16   0.12   7.54   0.6  chopped pumpkin
+   244   CUP    83?  2.70   0.69  19.82   7.1  canned pumpkin
    140   CUP    63   1.40   0.14  16.37   2.8  chopped butternut squash
 *  456     0   204   4.50   0.50  53      9.1  butternut squash
 *  430     0   172   3.45   0.43  44.91   6.5  acorn squash
@@ -978,7 +1027,7 @@
 *  194     0    31   2.37   0.35   6.57   2.2  yellow squash
 *  325     0    52   3.91   0.58  10.82   3.5  large yellow squash
    113   CUP    18   1.37   0.20   3.79   1.2  sliced yellow sqash
-   244   CUP    83   2.70   0.69  19.82   7.1  pumpkin
+   244   CUP    83?  2.70   0.69  19.82   7.1  pumpkin
 *   73     0    63   2.35   0.86  13.88   2    small corn ear
 *   90     0    77   2.90   1.06  17.12   2.4  medium corn ear
 *  143     0   123   4.60   1.69  27.20   3.9  large corn ear
@@ -993,9 +1042,9 @@
 *   18    46     4   0.56   0.06   0.59   0.2  medium mushroom
 *   18    46     4   0.56   0.06   0.59   0.2  mushroom
 *   23     0     5   0.71   0.08   0.75   0.2  large mushroom
-    68   CUP    15   2.16   0.24   2.30   0.7  sliced mushroom
-    68   CUP    15   2.16   0.24   2.30   0.7  chopped mushroom
-   156   CUP    39   2.92   0.45   7.94   3.7  canned mushroom
+    68   CUP    15?  2.16   0.24   2.30   0.7  sliced mushroom
+    68   CUP    15?  2.16   0.24   2.30   0.7  chopped mushroom
+   156   CUP    39?  2.92   0.45   7.94   3.7  canned mushroom
 *  150    80    52   4.94   0.65   9.52   3.6  oyster mushroom
 *  150    80    52   4.94   0.65   9.52   3.6  large oyster mushroom
 *   85   CUP    22   2.10   0.17   4.26   1.3  portabella mushroom
@@ -1010,14 +1059,14 @@
    100     0   296   9.58   0.99  75.37  11.5  sliced dried shiitake
 *   19     0     7   0.4    0.1    1.3    0.5  shiitake mushroom
 *   19     0     7   0.4    0.1    1.3    0.5  shiitake
-    70   CUP    24   1.6    0.3    4.7    1.7  chopped shiitake
-    70   CUP    24   1.6    0.3    4.7    1.7  chopped shiitake mushroom
-    70   CUP    24   1.6    0.3    4.7    1.7  sliced shiitake
-    70   CUP    24   1.6    0.3    4.7    1.7  sliced shiitake mushroom
+    70   CUP    24?  1.6    0.3    4.7    1.7  chopped shiitake
+    70   CUP    24?  1.6    0.3    4.7    1.7  chopped shiitake mushroom
+    70   CUP    24?  1.6    0.3    4.7    1.7  sliced shiitake
+    70   CUP    24?  1.6    0.3    4.7    1.7  sliced shiitake mushroom
    119  HCUP    80   2      3.5   10      1    golden mushroom soup
 *  298   300   200   5      8.75  25      2.5  can golden mushroom soup
-   119  HCUP   100   1      6      9      2    cream of mushroom soup
-*  298   300   250   2.5   15     22.5    5    can cream of mushroom soup
+   119  HCUP   100?  1      6      9      2    cream of mushroom soup
+*  298   300   250?  2.5   15     22.5    5    can cream of mushroom soup
 #Bread
 *   36     0   100   4      2     18      1    slider bun
 : whole wheat cracker
@@ -1027,7 +1076,7 @@
      = "crushed $$"                            crushed $wgc
 *    = "$$"                                    $wgc
 :
-*   15     0    70   1      2.5   10      1    serving ritz
+*   15     0    70?  1      2.5   10      1    serving ritz
 *    0     0    14 "serving ritz"              ritz
 *    = "serving ritz" serving ritz cracker
 *    = "ritz"         ritz cracker
@@ -1043,7 +1092,7 @@
 *  200     0   800   1     48     96      0    pie crust pillsbury
 *   28     0   120   1      7     13      0    mini pie crust pillsbury
 #Misc
-*    1     0    18   0      1.5    0.5    0    pill fish oil (1200 mg)
+*    1     0    18?  0      1.5    0.5    0    pill fish oil (1200 mg)
     39   360   140   5      2.5   29      4    cheerios
 
 # Baked
@@ -1068,8 +1117,8 @@
 *    = "12 inch $$" 12" $$
 : // flour tortilla
 # Beverages
-*  355   355   103   0.85   0      5.81   0    light beer
-*  360   355   155   1.66   0     12.78   0    beer
+*  355   355   103?  0.85   0      5.81   0    light beer
+*  360   355   155?  1.66   0     12.78   0    beer
 
 # Branded
 

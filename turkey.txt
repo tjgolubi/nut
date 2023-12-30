@@ -15,7 +15,7 @@
      =             "turkey breast meat"        cooked turkey breast
    100     0   157  21.89   7.02   0      0    turkey breast meat and skin
    100     0   112  13.50   3.00   7.70   0.40 smoked turkey breast
-   112     0    90  21.00   1.00   3.00   0    turkey tenderloin
+   112     0    90? 21.00   1.00   3.00   0    turkey tenderloin
    127   CUP   296  34.46  16.56   0      0    cooked ground turkey
     OZ     0    35 "cooked ground turkey"      raw ground turkey
      =             "raw ground turkey"         ground turkey
