@@ -612,6 +612,8 @@
 *    = "peeled apple fruit" apple fruit
    255   CUP   194   0.46   0.46  50.77   3.1  applesauce
     86   CUP   209   0.80   0.28  56.67   7.5  dried apple
+   249   CUP   117   0.15   0.27  28.97   0.2  apple juice
+     = "apple juice" apple cider
    100     0    58   0.38   0.12  15.46   3.1  pear
 *  151     0    81 "pear"                      small pear
 *  181     0    96 "pear"                      medium pear
@@ -620,6 +622,7 @@
 *    = "medium pear" pear fruit
    245   CUP    71   0.46   0.07  19.06   3.9  canned pear
    180   CUP   472   3.37   1.13 125.46  13.5  dried pear
+   249   CUP   117   0.15   0.27  28.97   0.2  apple pear juice
    100     0    39   0.91   0.25   9.54   1.5  peach
 *   91     0    31 "peach"                     small peach
 *  113     0    38 "peach"                     medium peach
@@ -633,10 +636,12 @@
    252   CUP   136   1.13   0.08  36.52   3.3  canned peaches in light syrup
    250   CUP   110   1.58   0.08  28.92   3.2  canned peaches in juice
    262   CUP   194   1.18   0.26  52.24   3.4  canned peaches in heavy syrup
+   248   CUP   134   0.67   0.05  34.66   1.5  peach juice
    100     0    65   0.51   0.27  17.00   1.8  mango
 *  336     0   202 "mango"                     mango fruit
      0   CUP   107 "mango"                     sliced mango
    101   CUP   317   1.49   0.79  82.43   5.3  dried mango
+   250   CUP   145   0.50   0.28  37.90   1.8  mango nectar
    100     0    89   1.09   0.33  22.84   2.6  banana
 *   81     0    72 "banana"                    xsmall banana
 *  101     0    90 "banana"                    small banana
@@ -649,13 +654,39 @@
    100     0   147   0.65   9.53  16.56   2.2  dried banana
      = "dried banana" banana chip
 *   67     0    20   0.47   0.13   7.06   1.9  lime
-*   59     0    17   0.64   0.17   5.41   1.6  small lemon
-*   83     0    24   0.92   0.25   7.83   2.4  lemon
-   100   246    97   1.50   0.20  25     10.7  orange zest
-*  140     0    69   1.30   0.20  18      3.1  orange
-*   96     0    45   0.90   0.12  11.28   2.3  small orange
-*  132     0    62   1.23   0.16  15.39   3.1  medium orange
-*  183     0    86   1.73   0.22  21.62   4.4  large orange
+   236   CUP    62   1.03   0.17  20.71   1    lime juice
+*    0     0    10 "lime juice"                fruit lime juice
+     0   TSP     0      0      0      0   0    realime
+    96   CUP    45   1.4    0.3   15     10    lime peel
+     = "lime peel" lime zest
+   100     0    29   1.10   0.30   9.32   2.8  lemon
+*   60     0    17 "lemon"                     small lemon
+*   84     0    24 "lemon"                     medium lemon
+*    = "medium lemon" lemon fruit
+   244   CUP    61   0.93      0  21.06   1    lemon juice
+*    0     0    12 "lemon juice"               fruit lemon juice
+     0   TSP     0   0      0      1      0    realemon
+   100   232    47   1.5    0.3   16     10.6  lemon peel
+     = "lemon peel" lemon zest
+    96   CUP    93   1.4    0.2   24     10    orange peel
+     = "orange peel" orange zest
+   100     0    47   0.94   0.12  11.75   2.4  orange
+*    0     0    45 "orange"                    small orange
+*    0     0    62 "orange"                    medium orange
+*    0     0    86 "orange"                    large orange
+*    = "medium orange" orange fruit
+   249   CUP   112   1.74   0.50  25.79   0.5  orange juice
+*    0     0    39 "orange juice"              fruit orange juice
+   100     0    53   0.81   0.31  13.34   1.8  tangerine
+*    0     0    37 "tangerine"                 small tangerine
+*    0     0    45 "tangerine"                 medium tangerine
+*    0     0    52 "tangerine"                 large tangerine
+     = "tangerine" mandarin orange
+     = "small tangerine"  small mandarin orange
+     = "medium tangerine" medium mandarin orange
+     = "large tangerine"  large mandarin orange
+   252   CUP   154   1.13   0.25  40.80   1.8  canned tangerines in light syrup
+   249   CUP    92   1.54   0.07  23.83   1.7  canned tangerines in juice
    146   CUP    83   1.07   0.48  21.01   3.5  blueberry
    123   CUP    64   1.48   0.80  14.69   8    raspberry
    144   CUP    62   2      0.71  13.84   7.6  blackberry
@@ -890,12 +921,6 @@
     61   CUP    22   1.78   0.47   3.80   2    parsley
    100   444    30   3.27   0.73   4.35   2.5  chives
    100   969   131   3.31   5.86  20.70  14.1  rosemary
-   248   CUP    62   1.03   0.17  20.71   1    lime juice
-   100   232    47   1.50   0.30  16     10.6  lime peel
-   100   232    47   1.50   0.30  16     10.6  lime zest
-   244   CUP    61   0.93   0     21.06   1    lemon juice
-   100   232    47   1.50   0.30  16     10.6  lemon peel
-   100   232    47   1.50   0.30  16     10.6  lemon zest
    164   CUP   295  15.65   4.90  49.17  14.1  garbanzos
    164   CUP   295  15.65   4.90  49.17  14.1  garbanzo beans
    130  HCUP   120   6      2     20      4    canned garbanzos
@@ -1011,7 +1036,6 @@
 # Beverages
 *  355   355   103   0.85   0      5.81   0    light beer
 *  360   355   155   1.66   0     12.78   0    beer
-   248   CUP   112   1.7    0.5   26      0.50 orange juice
 
 # Branded
 
