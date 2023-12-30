@@ -319,17 +319,22 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
       rng::transform(iter, name.end(), iter, to_lower);
     }
 
-    if (!kcal_range_error && !is_equal && key.empty()) {
+    if (!is_equal && key.empty()) {
       using std::abs;
       using std::round;
-      auto kcal = 4 * (nutr.prot + nutr.carb - nutr.fiber) + 9 * nutr.fat;
+      // auto kcal = 4 * (nutr.prot + nutr.carb - nutr.fiber) + 9 * nutr.fat;
+      auto kcal = 4 * (nutr.prot + nutr.carb) + 9 * nutr.fat;
       auto err = abs(kcal - nutr.kcal);
       if (nutr.kcal != 0.0)
         err /= nutr.kcal;
-      if (abs(err) > 0.1 && abs(round(kcal) - round(nutr.kcal)) > 1) {
-	cout << fname << ':' << linenum << ": kcal warning: "
-	    << round(kcal) << " != " << round(nutr.kcal)
-	    << ' ' << name << '\n';
+      bool error = (abs(err) > 0.1 && abs(round(kcal) - round(nutr.kcal)) > 1);
+      if (!error && kcal_range_error) {
+        COUT << "? not needed\n";
+      }
+      else if (error && !kcal_range_error) {
+	COUT << "kcal warning: "
+	     << round(kcal) << " != " << round(nutr.kcal)
+	     << ' ' << name << '\n';
       }
     }
 
