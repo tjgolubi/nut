@@ -30,6 +30,18 @@ using VarMap = std::map<std::string, VarItem>;
 bool Contains(const std::string& str1, const auto& str2)
 { return (str1.find(str2) != std::string::npos); }
 
+struct Atwater {
+  double prot = 4.0;
+  double fat  = 9.0;
+  double carb = 4.0;
+}; // Atwater
+
+auto Calories(const Nutrition& nutr, const Atwater& factors) {
+  return nutr.prot * factors.prot
+      +  nutr.fat  * factors.fat
+      +  nutr.carb * factors.carb;
+} // Calories
+
 void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 {
   using std::cout;
@@ -70,6 +82,7 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
     explicit IfBlock(bool ignore) : was_ignore(ignore) { }
   }; // IfBlock
   std::stack<IfBlock> if_blocks;
+  Atwater atwater;
   while (std::getline(input, line)) {
     ++linenum;
 
@@ -258,6 +271,17 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
       continue;
     }
 
+    if (istr.peek() == '[') {
+      istr.ignore();
+      char c;
+      atwater = Atwater();
+      istr >> atwater.prot >> atwater.fat >> atwater.carb >> std::ws
+           >> c >> std::ws;
+      if (!istr || c != ']' || !istr.eof())
+        COUT << "invalid Atwater factors\n";
+      continue;
+    }
+
     allow_each = (istr.peek() == '*');
     if (allow_each) {
       istr.ignore();
@@ -322,19 +346,40 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
     if (!is_equal && key.empty()) {
       using std::abs;
       using std::round;
-      // auto kcal = 4 * (nutr.prot + nutr.carb - nutr.fiber) + 9 * nutr.fat;
-      auto kcal = 4 * (nutr.prot + nutr.carb) + 9 * nutr.fat;
-      auto err = abs(kcal - nutr.kcal);
-      if (nutr.kcal != 0.0)
-        err /= nutr.kcal;
-      bool error = (abs(err) > 0.1 && abs(round(kcal) - round(nutr.kcal)) > 1);
-      if (!error && kcal_range_error) {
-        COUT << "? not needed\n";
+      auto kcal = Calories(nutr, atwater);
+      if (nutr.kcal == 0.0) {
+        nutr.kcal = kcal;
       }
-      else if (error && !kcal_range_error) {
-	COUT << "kcal warning: "
-	     << round(kcal) << " != " << round(nutr.kcal)
-	     << ' ' << name << '\n';
+      else {
+	auto err = abs(kcal - nutr.kcal) / nutr.kcal;
+	bool error =
+		  (abs(err) > 0.1 && abs(round(kcal) - round(nutr.kcal)) > 1);
+	if (error) {
+	  auto kcal2 = kcal - atwater.carb * nutr.fiber;
+	  auto err2 = abs(kcal2 - nutr.kcal) / nutr.kcal;
+	  bool error2 =
+		(abs(err2) > 0.1 && abs(round(kcal2) - round(nutr.kcal)) > 1);
+	  if (error2 < error) {
+	    auto new_kcal = nutr.kcal + atwater.carb * nutr.fiber;
+	    if (new_kcal >= 10.0)
+	      new_kcal = round(new_kcal);
+	    else
+	      new_kcal = round(10 * new_kcal) / 10;
+	    COUT << "kcal adjusted: " << nutr.kcal << " --> " << new_kcal << ' '
+		 << name << '\n';
+	    nutr.kcal = new_kcal;
+	    err = abs(kcal - nutr.kcal) / nutr.kcal;
+	    error = (abs(err) > 0.1 && abs(round(kcal) - round(nutr.kcal)) > 1);
+	  }
+	}
+	if (!error && kcal_range_error) {
+	  COUT << "? not needed\n";
+	}
+	else if (error && !kcal_range_error) {
+	  COUT << "kcal warning: "
+	       << round(nutr.kcal) << " != " << round(kcal)
+	       << ' ' << name << '\n';
+	}
       }
     }
 
