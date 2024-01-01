@@ -2,6 +2,8 @@
 
 #define 2_5_OZ 70.87
 
+[fish]
+
 : packet_in_water = packet light tuna in water $$
  2_5_OZ    0    70  17      0      0      0    $packet_in_water
 *2_5_OZ    0    70 "$packet_in_water"          2.5-oz $packet_in_water
@@ -37,7 +39,7 @@
 : in_water = albacore in water
 : drained  = $in_water drained
 : canned_drained = canned $drained $$
-  4_OZ     0   100? 20      1      0      0    $canned_drained
+  4_OZ     0   100  20      1      0      0    $canned_drained
 * 4_OZ     0   100 "$canned_drained"           5-oz can $drained $$
 * 5_OZ     0   100 "$canned_drained"           5-oz can $in_water $$
 *  =               "5-oz can $drained $$"      can $drained $$
@@ -66,6 +68,8 @@
 *  =               "5-oz can $drained $$"      can $drained $$
 *  =               "5-oz can $in_water $$"     can $in_water $$
    =               "can $in_water $$"          canned $in_water $$
+
+[shellfish]
 
 : in_water = lump crabmeat in water
 : drained  = $in_water drained

@@ -1,5 +1,6 @@
 #  g     ml  kcal   prot  fat     carb  fiber desc
 # Poultry
+[meat]
 : chicken thigh with skin // roasted or baked
 : meat = $$ meat
    100     0   245  24.85  15.36   0      0    $meat

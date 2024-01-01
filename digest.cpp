@@ -1,6 +1,7 @@
 // Copyright 2023 Terry Golubiewski, all rights reserved.
 
 #include "Nutrition.h"
+#include "Atwater.h"
 
 #include <gsl/gsl>
 
@@ -13,6 +14,7 @@
 #include <regex>
 #include <ranges>
 #include <algorithm>
+#include <cmath>
 
 namespace rng = std::ranges;
 
@@ -29,18 +31,6 @@ using VarMap = std::map<std::string, VarItem>;
 
 bool Contains(const std::string& str1, const auto& str2)
 { return (str1.find(str2) != std::string::npos); }
-
-struct Atwater {
-  double prot = 4.0;
-  double fat  = 9.0;
-  double carb = 4.0;
-}; // Atwater
-
-auto Calories(const Nutrition& nutr, const Atwater& factors) {
-  return nutr.prot * factors.prot
-      +  nutr.fat  * factors.fat
-      +  nutr.carb * factors.carb;
-} // Calories
 
 void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 {
@@ -272,12 +262,8 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
     }
 
     if (istr.peek() == '[') {
-      istr.ignore();
-      char c;
-      atwater = Atwater();
-      istr >> atwater.prot >> atwater.fat >> atwater.carb >> std::ws
-           >> c >> std::ws;
-      if (!istr || c != ']' || !istr.eof())
+      istr >> atwater;
+      if (!istr)
         COUT << "invalid Atwater factors\n";
       continue;
     }
@@ -346,14 +332,17 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
     if (!is_equal && key.empty()) {
       using std::abs;
       using std::round;
-      auto kcal = Calories(nutr, atwater);
-      if (nutr.kcal == 0.0) {
+      auto kcal = atwater.kcal(nutr);
+      if (nutr.fiber < 0.0)
+        nutr.fiber = 0.0;
+      if (nutr.kcal < 0.0) {
         nutr.kcal = kcal;
       }
       else {
 	auto err = abs(kcal - nutr.kcal) / nutr.kcal;
 	bool error =
 		  (abs(err) > 0.1 && abs(round(kcal) - round(nutr.kcal)) > 1);
+#if 0
 	if (error) {
 	  auto kcal2 = kcal - atwater.carb * nutr.fiber;
 	  auto err2 = abs(kcal2 - nutr.kcal) / nutr.kcal;
@@ -372,6 +361,7 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 	    error = (abs(err) > 0.1 && abs(round(kcal) - round(nutr.kcal)) > 1);
 	  }
 	}
+#endif
 	if (!error && kcal_range_error) {
 	  COUT << "? not needed\n";
 	}

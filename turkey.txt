@@ -1,4 +1,5 @@
 //  g     ml  kcal   prot   fat   carb  fiber  description
+[meat]
    100     0   187  28.9    7.02   0      0    turkey
     OZ     0    37 "turkey"                    boneless turkey
     OZ     0    53 "turkey"                    cooked boneless turkey

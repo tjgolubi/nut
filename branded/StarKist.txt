@@ -1,5 +1,7 @@
 : starkist
 
+[fish]
+
 : in_water = light tuna in water
 : pouch_in_water = pouch $in_water $$
     56    60    60  13      0.5    0      0        $pouch_in_water

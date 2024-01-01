@@ -4,6 +4,8 @@
 #define 48_OZ   1361
 #define 66_5_OZ 1885
 
+[fish]
+
 : in_water = light tuna in water
 : drained  = $in_water drained
 : canned_drained = canned $drained $$
@@ -100,6 +102,8 @@
 *  =               "5-oz can $drained $$"  can $drained $$
 *  =               "5-oz can $in_water $$" can $in_water $$
    =               "can $in_water $$"      canned $in_water $$
+
+[shellfish]
 
 : in_water = shrimp in water
 : drained  = $in_water drained
