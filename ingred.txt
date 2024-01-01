@@ -449,63 +449,64 @@
    163   CUP     0   0      0      0      0    baking soda
 [wheat]
     30  QCUP   130   2      3     23      1    graham cracker crumbs
-    28  HCUP   100   3      0     20      1    panko
+[bread]
+    30  1_3C   110   3      0     23      1    panko
     28  HCUP   110   3      3.5   17      1    italian panko
    108   CUP   427  14.42   5.72  77.74   4.9  bread crumbs
    120   CUP   460  16.96   6.58  82.19   5.9  seasoned bread crumbs
      = "seasoned bread crumbs"                 italian bread crumbs
-    30  QCUP   120   4      1.5   18      2    whole wheat bread crumbs
+    30  QCUP   120   4      1.5   21      2    whole wheat bread crumbs
      = "whole wheat bread crumbs"              whole grain bread crumbs
      = "whole wheat bread crumbs"              italian whole wheat bread crumbs
      = "whole wheat bread crumbs"              italian whole grain bread crumbs
-[general]
-   100   193   314  12.26  16.76  54.66  34.2  chili powder
+[vegetable]
+   100   181   282? 13.46  14.28  49.7   34.8  chili powder
    288   CUP     0   0      0      0      0    salt
      = "salt"                                  sea salt
    230   CUP     0   0      0      0      0    kosher salt
    173   CUP     0   0      0      0      0    garlic salt
 [vegetable]
-   100   236   255  10.95   3.26  64.81  26.5  ground black pepper
+   100   236   255? 10.95   3.26  64.81  26.5  ground black pepper
      = "ground black pepper"                   pepper
      = "ground black pepper"                   ground pepper
      = "ground black pepper"                   black pepper
      = "ground black pepper"                   crushed black pepper
    100   208   296  10.40   2.12  68.61  26.2  ground white pepper
      = "ground white pepper"                   white pepper
-   100   277   318  12.01  17.27  56.63  27.2  ground cayenne pepper
+   100   277   318? 12.01  17.27  56.63  27.2  ground cayenne pepper
      = "ground cayenne pepper"                 crushed red pepper
-   130  HCUP    25   0      0      5      1    roasted red pepper
-   100   214   252  10.40   3.50  65.30  25.2  ground peppercorn
+*  117     0    62   1      3.6    7.6    1.4  roasted red pepper
+   100   214   252? 10.40   3.50  65.30  25.2  ground peppercorn
      = "ground peppercorn"                     peppercorn
    163   223     0   0      0      0      0    lemon pepper
    100   252   375  17.81  22.27  44.24  10.5  ground cumin
      = "ground cumin"                          cumin
-   100   214   289  14.76  12.95  55.74  37.4  paprika
+   100   214   289? 14.76  12.95  55.74  37.4  paprika
    100   218   354   7.83   9.88  64.93  21.1  turmeric
-   100   251   306  11.00  10.25  64.43  42.8  ground oregano
+   100   251   306? 11.00  10.25  64.43  42.8  ground oregano
      = "ground oregano"                        oregano
-   100   801   271  12.66   7.04  60.56  40.3  marjoram
-   100   776   315  10.63  12.75  60.73  40.3  ground sage
+   100   801   271? 12.66   7.04  60.56  40.3  marjoram
+   100   776   315? 10.63  12.75  60.73  40.3  ground sage
      = "ground sage"                           dried sage
      = "ground sage"                           sage
-   100     0    24   4      0      2      2    sage leaf
+   100     0    24?  4      0      2      2    sage leaf
      = "sage leaf"                             sage leaves
      = "sage leaf"                             leaf sage
      = "sage leaf"                             leaves sage
    100  1017   276  22.42   4.43  51.66  30.4  dried parsley
-   100   445   331   4.88  15.22  64.06  42.6  dried rosemary
-   100   340   276   9.11   7.43  63.94  37.0  thyme
+   100   445   331?  4.88  15.22  64.06  42.6  dried rosemary
+   100   340   276?  9.11   7.43  63.94  37.0  thyme
    100   260    44   3.29   0.73   8.41   6.8  spearmint
    100   547   285  19.93   6.03  52.04  29.8  dried spearmint
    100  2543    43   3.46   1.12   7.02   2.1  dill sprigs
      = "dill sprigs"                           dill
-   100  7482   253  19.96   4.36  55.82  13.6  dried dill
-   100   214   261   3.89   3.19  79.85  54.3  ground cinnamon
+   100  7482   253? 19.96   4.36  55.82  13.6  dried dill
+   100   214   261?  3.89   3.19  79.85  54.3  ground cinnamon
      = "ground cinnamon"                       cinnamon
    200   CUP   758   0.50   0.42 197.36   7    cinnamon sugar
-   100   243   263   6.09   8.69  72.12  21.6  ground allspice
+   100   243   263?  6.09   8.69  72.12  21.6  ground allspice
      = "ground allspice"                       allspice
-   100     0   251  14.37   3.98  60.96  40.5  dried basil
+   100     0   251? 14.37   3.98  60.96  40.5  dried basil
      0   TSP     4 "dried basil"               ground basil
      0  TBSP     5 "dried basil"               dried basil leaves
    100     0    27   2.54   0.61   4.34   3.9  fresh basil
@@ -520,33 +521,35 @@
    100   266   342   5.76  12.60  69.28  14.8  pumpkin pie spice
      = "pumpkin pie spice"                     pumpkin spice
    100   CUP   325  12.66  13.81  58.15  33.2  curry powder
-     5  TBSP    25   1      1      3      0    garam masala
+   100     0   307  11.3   12.7   56.7   24    garam masala
    453   466     0   0      0      0      0    lawry's seasoned salt
      = "lawry's seasoned salt"                 lawry's salt
      = "lawry's seasoned salt"                 lawry's
     57   117     0   0      0      0      0    italian seasoning
    100   413   307   9.59   7.53  65.59  11.3  poultry seasoning
-     9    20    30   0      0      4      0    pork rub
-   208   CUP   599   0.12   0.12  26.31   0    vanilla extract
+     9    20    30?  0      0      4      0    pork rub
+[general]
+   100   117   288   0.06   0.06  12.65 -34.65 vanilla extract
      = "vanilla extract"                       vanilla
     21    25     0   0      0      0      0    lemon extract
 [root]
-   136   CUP   181   8.61   0.91  44.88   4.5  dried minced garlic
+   134   CUP   202   8.61   0.5   44.6    2.9  dried minced garlic
    100   306   349   8.95   0.46  83.28   9.2  dried onion
    100   214   347  10.12   1.05  80.67   5.7  onion powder
    100   175   332  16.80   0.76  72.71   9.9  garlic powder
 [cocoa]
-   168   CUP   805   7.06  50.40 106.01   9.9  chocolate chip
    100     0   501  12.90  52.31  29.84  16.6  baking chocolate
      = "baking chocolate"                      chocolate
-   100     0   535   7.65  29.66  59.40   3.4  milk chocolate
-   300   CUP   837   6.30   3.39 195.3    7.8  chocolate syrup
    100   279   229  19.6   13.7   54.3   33.2  cocoa powder
    = "cocoa powder" cocoa
+[general]
+   168   CUP   805?  7.06  50.4  106.01   9.9  chocolate chip
+   100     0   535   7.65  29.66  59.40   3.4  milk chocolate
+   300   CUP   837   6.30   3.39 195.3    7.8  chocolate syrup
     38 2TBSP   120   2      4     20      1    hot fudge
 [vegetable]
      9  TBSP    30   1      0.5    6      0    chili seasoning
-     9    20    30   0      0      6      0    taco seasoning
+   100   174   188   0      0     56.29  18.8  taco seasoning
 [cornmeal]
     78  HCUP   320   4      9     56      2    jiffy corn muffin mix
 *    0     0   960  "jiffy corn muffin mix"    box jiffy corn muffin mix
@@ -619,17 +622,19 @@
      = "mayonnaise"                            mayo
 [vegetable]
    240   CUP   233   4.18   0.91  60.19   0.7  ketchup
+[general]
    251   CUP   188   4.50   4.50  32      3    barbecue sauce
      = "barbecue sauce"                        bbq sauce
 [meat]
    238   CUP    38   4.85   1.37   0.91   0    chicken broth
    240   CUP    12   0.95   0.29   1.51   0    chicken stock
-*    4     0     5   0      0      1      0    chicken boullion cube
-     6   TSP    10   1      0      2      0    chicken boullion
    246   CUP    17   2.74   0.53   0.10   0    beef broth
    233   CUP     7   0.84   0.19   0.80   0    beef stock
+[general]
+*    4     0     5   0      0      1      0    chicken boullion cube
+     6   TSP    10?  1      0      2      0    chicken boullion
 *    4     0     5   0      0      1      0    beef boullion cube
-     6   TSP    15   1      0      2      0    beef boullion
+     6   TSP    15?  1      0      2      0    beef boullion
 [vinegar]
    238   CUP    50?  0      0      2.22   0    cider vinegar
    239   CUP    43?  0      0      0.10   0    vinegar
@@ -645,7 +650,8 @@
    250   CUP   165   9.88   7.78  19.45   8    yellow mustard
      = "yellow mustard"                        mustard
    300   CUP   198  11.85   9.33  23.34   9.6  dijon mustard
-   275   CUP   184   0      0     53.52   0    worcestershire sauce
+[general]
+   275   CUP   215   0      0     54      0    worcestershire sauce
      = "worcestershire sauce"                  worcestershire
      = "worcestershire sauce"                  wooster sauce
 # Fruit & Vegetables
@@ -786,7 +792,7 @@
    100   159   249   3.30   0.93  63.87   9.8  dried fig
 *    0     0    21 "dried fig"                 dried fig fruit
    259    CUP  277   3.68   1.04  71.41  10.9  cooked dried fig
-*   40   QCUP  110   1      0     26      5    serving black mission fig
+*   40   QCUP  110?  1      0     26      5    serving black mission fig
 *    0     0    22 "serving black mission fig" black mission fig
 *    = "black mission fig" mission fig
 *    = "serving black mission fig" serving mission fig
@@ -799,9 +805,9 @@
 : dried = dried $$s
    100     0   282   2.45   0.39  75.03   8    $$
 *    0     0    23 "$$"                        $$ fruit
-   160   CUP   520   2      0    128      8    chopped $dried sun-maid
+   160   CUP   520 "$$"                        chopped $dried sun-maid
      = "chopped $dried sun-maid" chopped $dried
-   160   CUP   440   4      0    120      16   $dried sun-maid
+   160   CUP   440 "$$"                        $dried sun-maid
      = "$dried sun-maid"                       $dried
 :
    100   150    48   1.40   0.39  11.12   2    apricot
@@ -818,7 +824,7 @@
    219   CUP   182   1.40   0.24  46.67   5.9  $$ in heavy syrup drained
 :
 [vegetable]
-   100     0    16   0.69   0.17   2.97   1.6  celery
+   100     0    15   0.49   0.16   3.32   1.6  celery
 *    0     0     1  "celery"                   celery strip
 *    0     0     2  "celery"                   small celery stalk
 *    0     0     6  "celery"                   medium celery stalk
@@ -862,10 +868,13 @@
 *   22     0     4   0.18   0.04   0.78   0.2  tomato slice
    178   CUP    32   1.58   0.36   7.06   2.2  chopped tomato
    100   100    32   1.64   0.28   7.29   1.9  crushed tomato
+[general]
    260   CUP    90   3.17   0.49  18.08   3.7  tomato sauce
+[vegetable]
    262   CUP   215  11.32   1.23  49.54  11.8  tomato paste
     54   CUP   139   8      2     30      7    dried tomato
-*  148     0    35   1      1      2      0    roma tomato
+   100     0    19   0.7    0.42   3.84   1    roma tomato
+*    0     0    35 "roma tomato"               roma tomato fruit
 *  122   164    28   1.48   0.25   6.27   1.4  green tomato
 [root]
 *    3     0     4   0.19   0.02   0.99   0.1  garlic clove
@@ -908,6 +917,7 @@
    100  1380    23   2.13   0.52   3.67   2.8  cilantro
    100  1380    23   2.13   0.52   3.67   2.8  chopped cilantro
 
+[2.44 8.37 3.7]
    100     0    12   0.59   0.16   2.16   0.7  peeled cucumber
 *    0     0    19 "peeled cucumber"           small cucumber
 *  200     0    24 "peeled cucumber"           medium cucumber
@@ -917,7 +927,7 @@
    142   CUP    17 "peeled cucumber"           chopped cucumber
 *    = "medium cucumber" cucumber
 :cucumber with peel
-   100     0    15   0.65   0.11   3.63   0.5  $$
+   100     0    14   0.62   0.18   2.95   0.5  $$
      0  HCUP     8 "$$"                        sliced $$
 *    0     0    45 "$$"                        large $$
 :
@@ -948,6 +958,7 @@
 *    = "peeled eggplant"                       eggplant
 *  550     0   132 "peeled eggplant"           unpeeled eggplant
      0   CUP    20 "peeled eggplant"           chopped eggplant
+[vegetable]
 *   12 2TBSP     3   0.10   0.03   0.60   0.2  bell pepper slice
 *   12 2TBSP     3   0.10   0.03   0.60   0.2  bell pepper ring
     90   CUP    18   0.79   0.16   4.27   1.6  sliced bell pepper
@@ -997,7 +1008,7 @@
 *    6     0     2   0.11   0.03   0.41   0.2  serrano pepper
    106   CUP    34   1.83   0.46   7.04   3.9  chopped serrano
    106   CUP    34   1.83   0.46   7.04   3.9  chopped serrano pepper
-*   75  HCUP     7   1.50   0.15   7.10   1.1  anaheim pepper
+*   64     0    13   0.6    0.1    3      1.1  anaheim pepper
    100   277   318  12.01  17.27  56.63  27.2  cayenne pepper
 *   45     0    18   0.84   0.20   3.96   0.7  red hot chili pepper
 *   45     0    18   0.84   0.20   3.96   0.7  habenero
@@ -1164,8 +1175,8 @@
 #Misc
 [fish]
 *    1     0    18   0      1.5    0.5    0    pill fish oil (1200 mg)
-[cereal]
-    39   360   140   5      2.5   29      4    cheerios
+[oat]
+    28   CUP   105   3.4    1.9   21      2.6  cheerios
 
 # Baked
 [bread]
@@ -1202,7 +1213,7 @@
 [lemon juice]
    244   CUP    61   0.93      0  21.06   1    lemon juice
 *    0     0    12 "lemon juice"               fruit lemon juice
-     0   TSP     0   0      0      1      0    realemon
+     0   TSP     0?  0      0      1      0    realemon
    236   CUP    62   1.03   0.17  20.71   1    lime juice
 *    0     0    10 "lime juice"                fruit lime juice
      0   TSP     0      0      0      0   0    realime
