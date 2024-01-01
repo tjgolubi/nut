@@ -20,6 +20,7 @@ ingred.dat: digest.exe ingred.txt defs.txt chicken.txt turkey.txt $(wildcard bra
 
 barf.txt: barf.exe ingred.dat
 	./barf.exe > barf.txt
+	diff -b tjg.txt barf.txt
 
 clean:
 	rm -f ingred.dat barf.txt
