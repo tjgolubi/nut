@@ -2,6 +2,7 @@
 
 #  g     ml  kcal   prot  fat     carb  fiber desc
      1     1     0   0      0      0      0    water
+
 # Oils
 [oil]
    100   110   884   0    100      0      0    oil
@@ -16,42 +17,47 @@
 *    =              "$$ spray"                 cooking spray
    100   109   884   0    100      0      0    sesame oil
    100   109   884   0    100      0      0    corn oil
+
 # Poultry
 [meat]
 #include "chicken.txt"
 #include "turkey.txt"
+
 # Egg
 [egg]
-   243   CUP   357  30.57  24.15   1.87   0    raw egg
-   242   CUP   126  26.49   0.41   1.77   0    raw egg white
-   243   CUP   782  38.54  64.49   8.72   0    raw egg yolk
+: raw egg
+   243   CUP   357  30.57  24.15   1.87   0    $$
+   242   CUP   126  26.49   0.41   1.77   0    $$ white
+   243   CUP   782  38.54  64.49   8.72   0    $$ yolk
+
+*    0     0    54 "$$"                   raw small egg
+*    0     0    65 "$$"                   raw medium egg
+*    0     0    74 "$$"                   raw large egg
+*    0     0    85 "$$"                   raw xlarge egg
+*    0     0    96 "$$"                   raw jumbo egg
+*    0     0    17 "$$ white"             raw large egg white
+*   17     0    55 "$$ yolk"              raw large egg yolk
+
     67   CUP   446  22.95  37.39   2.41   0    dried egg yolk
 
-*    0     0    54 "raw egg"                   raw small egg
-*    0     0    65 "raw egg"                   raw medium egg
-*    0     0    74 "raw egg"                   raw large egg
-*    0     0    85 "raw egg"                   raw xlarge egg
-*    0     0    96 "raw egg"                   raw jumbo egg
-*    0     0    17 "raw egg white"             raw large egg white
-*   17     0    55 "raw egg yolk"              raw large egg yolk
+: cooked egg
+   100     0   154  12.53  10.57   1.12   0    $$
+   163   CUP    85  17.70   0.28   1.19   0    $$ white
+   100     0   321  15.80  26.43   3.58   0    $$ yolk
 
-   100     0   154  12.53  10.57   1.12   0    cooked egg
-   163   CUP    85  17.70   0.28   1.19   0    cooked egg white
-   100     0   321  15.80  26.43   3.58   0    cooked egg yolk
+*   36     0    54 "$$"                        cooked small egg
+*   44     0    65 "$$"                        cooked medium egg
+*   50     0    74 "$$"                        cooked large egg
+*   57     0    85 "$$"                        cooked xlarge egg
+*   65     0    96 "$$"                        cooked jumbo egg
+   136   CUP   211 "$$"                        cooked chopped egg
+*   33     0    17 "$$ white"                  cooked large egg white
+*   17     0    55 "$$ yolk"                   cooked large egg yolk
 
-*   36     0    54 "cooked egg"                cooked small egg
-*   44     0    65 "cooked egg"                cooked medium egg
-*   50     0    74 "cooked egg"                cooked large egg
-*   57     0    85 "cooked egg"                cooked xlarge egg
-*   65     0    96 "cooked egg"                cooked jumbo egg
-*   33     0    17 "cooked egg white"          cooked large egg white
-*   17     0    55 "cooked egg yolk"           cooked large egg yolk
-   136   CUP   211 "cooked egg"                cooked chopped egg
-
-   =               "cooked egg"                egg
+   =               "$$"                        egg
    =               "cooked large egg"          boiled egg
-   =               "cooked egg white"          egg white
-   =               "cooked egg yolk"           egg yolk
+   =               "$$ white"                  egg white
+   =               "$$ yolk"                   egg yolk
    =               "cooked small egg"          small egg
    =               "cooked medium egg"         medium egg
    =               "cooked large egg"          large egg
@@ -60,6 +66,7 @@
    =               "cooked large egg white"    large egg white
    =               "cooked large egg yolk"     large egg yolk
    =               "cooked chopped egg"        chopped egg
+:
 # Fish
 [fish]
    100     0   146  21.62   4.93   0      0    salmon
@@ -352,71 +359,84 @@
      =             "$$ 1%"                     lowfat $$
      =             "$$ 0%"                     nonfat $$
      =             "$$ 0%"                     skim $$
-: // cottage cheese
-    30    70   120  24      1      3      0    whey protein powder
-   = "whey protein powder" whey protein
-*  = "whey protein powder" scoop whey protein powder
-*  = "whey protein powder" scoop whey protein
-    34    70   120  24      1      3      1    casein powder
-    =  "casein powder"  casein
-*   = "casein powder" casein powder scoop
-*   = "casein powder" casein scoop
-*   = "casein powder" scoop casein powder
-*   = "casein powder" scoop casein
-    33    70   110  25      0.5    1      1    isopure powder
-    = "isopure powder" isopure
-*   = "isopure powder" isopure powder scoop
-*   = "isopure powder" isopure scoop
-*   = "isopure powder" scoop isopure powder
-*   = "isopure powder" scoop isopure
+: whey protein
+: wpp = $$ powder
+    30    70   120  24      1      3      0    $wpp
+   = "$wpp" $$
+*  = "$wpp" scoop $wpp
+*  = "$wpp" scoop $$
+: casein powder
+    34    70   120  24      1      3      1    $$
+    = "$$"  casein
+*   = "$$" $$ scoop
+*   = "$$" casein scoop
+*   = "$$" scoop $$
+*   = "$$" scoop casein
+: isopure powder
+    33    70   110  25      0.5    1      1    $$
+    = "$$" isopure
+*   = "$$" $$ scoop
+*   = "$$" isopure scoop
+*   = "$$" scoop $$
+*   = "$$" scoop isopure
+:
 # Cheese
 [milk]
-   100     0   337  18.94  26.05   6.94   0    american cheese
-*   19     0    50   3      3.5    2      0    american cheese slice
-*    = "american cheese slice" slice american cheese
+: american cheese
+   100     0   337  18.94  26.05   6.94   0    $$
+*   19     0    50   3      3.5    2      0    slice $$
+*    = "slice $$"                              $$ slice
+   113   CUP   381  21.40  29.44   7.84   0    shredded $$
+     = "shredded $$"                           shredded cheese
 *   19     0    70   3      6      1      0    american deli slice
-*    = "american deli slice" slice american deli
-   113   CUP   381  21.40  29.44   7.84   0    shredded american cheese
-     = "shredded american cheese"              shredded cheese
-   100     0   380  26.93  27.80   5.38   0    swiss cheese
-*    0     0   106 "swiss cheese"              swiss cheese slice
-*    = "swiss cheese slice" slice swiss cheese
-   108   CUP   410  29.08  30.02   5.81   0    shredded swiss cheese
-   100     0   403  24.90  33.14   1.28   0    cheddar cheese
-     = "cheddar cheese"                        cheddar
-   113   CUP   455  28.14  37.45   1.45   0    shredded cheddar cheese
-     = "shredded cheddar cheese"               shredded cheddar
-   100     0   392  35.75  25.83   3.22   0    parmesan cheese
-     = "parmesan cheese"                       parmesan
-   100   292   415  37.86  27.34   3.41   0    shredded parmesan cheese
-     = "shredded parmesan cheese"              shredded parmesan
-   100   100   431  38.46  28.61   4.06   0    grated parmesan cheese
-     = "grated parmesan cheese"                grated parmesan
+*    = "american deli slice"                   slice american deli
+: swiss cheese
+   100     0   380  26.93  27.80   5.38   0    $$
+*    0     0   106 "$$"                        slice $$
+*    =             "slice $$"                  $$ slice
+   108   CUP   410  29.08  30.02   5.81   0    shredded $$
+: cheddar cheese
+   100     0   403  24.90  33.14   1.28   0    $$
+     =             "$$"                        cheddar
+   113   CUP   455  28.14  37.45   1.45   0    shredded $$
+     =             "shredded $$"               shredded cheddar
+: parmesan cheese
+   100     0   392  35.75  25.83   3.22   0    $$
+     =             "$$"                        parmesan
+   100   292   415  37.86  27.34   3.41   0    shredded $$
+     =             "shredded $$"               shredded parmesan
+   100   100   431  38.46  28.61   4.06   0    grated $$
+     =             "grated $$"                 grated parmesan
     28  QCUP   110   8      9      1      1    shredded asiago parmesan romano cheese
-   100     0   302  25.96  20.03   3.83   0    mozzarella cheese
-     = "mozzarella cheese"                     mozzarella
-   113   CUP   341  29.33  22.63   4.33   0    shredded mozzarella cheese
-     = "shredded mozzarella cheese"            shredded mozzarella
-   100     0   384  24.12  31.20   1.62   0    colby jack cheese
-     = "colby jack cheese"                     colby jack
-*    0     0   109 "colby jack cheese"         colby jack slice
-*    = "colby jack slice"                      colby jack cheese slice
-*    = "colby jack slice"                      slice colby jack
-*    = "colby jack slice"                      slice colby jack cheese
-   113   CUP   434  27.26  35.26   1.83   0    shredded colby jack cheese
-     = "shredded colby jack cheese"            shredded colby jack
+: mozzarella cheese
+   100     0   302  25.96  20.03   3.83   0    $$
+     =             "$$"                        mozzarella
+   113   CUP   341  29.33  22.63   4.33   0    shredded $$
+     =             "shredded $$"               shredded mozzarella
+: colby jack
+: cjc = $$ cheese
+   100     0   384  24.12  31.20   1.62   0    $cjc
+     =             "$cjc"                      $$
+*    0     0   109 "$cjc"                      slice $cjc
+*    =             "slice $cjc"                $cjc slice
+*    =             "slice $cjc"                $$ slice
+*    =             "slice $cjc"                slice $$
+   113   CUP   434  27.26  35.26   1.83   0    shredded $cjc
+     =             "shredded $cjc"             shredded $$
     28  QCUP    60   5      3      4      0    shredded velveeta
     28     0    70   4      4      3      0    slice velveeta
    232   CUP   810  17.52  80.90   6.17   0    cream cheese
     30    32   130   2     14      0      0    mascarpone
    100     0   356  24.94  27.44   2.22   0    gouda cheese
-     = "gouda cheese"                          gouda
-   100     0   351  25.58  26.62   2.14   0    provolone cheese
-     = "provolone cheese"                      provolone
-*    0     0    98 "provolone cheese"          provolone slice
-*    = "provolone slice"                       provolone cheese slice
-*    = "provolone slice"                       slice provolone
-*    = "provolone slice"                       slice provolone cheese
+     =             "gouda cheese"              gouda
+: provolone cheese
+   100     0   351  25.58  26.62   2.14   0    $$
+     =                     "$$"                provolone
+*    0     0    98 "$$"                        slice $$
+*    =             "slice $$"                  slice provolone
+*    =             "slice $$"                  provolone slice
+*    =             "slice $$"                  $$ slice
+:
 # Pantry
 [sugar]
    200   CUP   774   0      0    199.96   0    granulated sugar
@@ -452,13 +472,16 @@
 [bread]
     30  1_3C   110   3      0     23      1    panko
     28  HCUP   110   3      3.5   17      1    italian panko
-   108   CUP   427  14.42   5.72  77.74   4.9  bread crumbs
-   120   CUP   460  16.96   6.58  82.19   5.9  seasoned bread crumbs
-     = "seasoned bread crumbs"                 italian bread crumbs
-    30  QCUP   120   4      1.5   21      2    whole wheat bread crumbs
-     = "whole wheat bread crumbs"              whole grain bread crumbs
-     = "whole wheat bread crumbs"              italian whole wheat bread crumbs
-     = "whole wheat bread crumbs"              italian whole grain bread crumbs
+: bread crumbs
+   108   CUP   427  14.42   5.72  77.74   4.9  $$
+   120   CUP   460  16.96   6.58  82.19   5.9  seasoned $$
+     = "seasoned $$"                           italian $$
+: wwbc = whole wheat $$
+    30  QCUP   120   4      1.5   21      2    $wwbc
+     = "$wwbc"                                 whole grain $$
+     = "$wwbc"                                 italian $wwbc
+     = "$wwbc"                                 italian whole grain $$
+:
 [vegetable]
    100   181   282? 13.46  14.28  49.7   34.8  chili powder
    288   CUP     0   0      0      0      0    salt
@@ -466,11 +489,13 @@
    230   CUP     0   0      0      0      0    kosher salt
    173   CUP     0   0      0      0      0    garlic salt
 [vegetable]
-   100   236   255? 10.95   3.26  64.81  26.5  ground black pepper
-     = "ground black pepper"                   pepper
-     = "ground black pepper"                   ground pepper
-     = "ground black pepper"                   black pepper
-     = "ground black pepper"                   crushed black pepper
+: ground black pepper
+   100   236   255? 10.95   3.26  64.81  26.5  $$
+     = "$$"                                    pepper
+     = "$$"                                    ground pepper
+     = "$$"                                    black pepper
+     = "$$"                                    crushed black pepper
+:
    100   208   296  10.40   2.12  68.61  26.2  ground white pepper
      = "ground white pepper"                   white pepper
    100   277   318? 12.01  17.27  56.63  27.2  ground cayenne pepper
@@ -509,12 +534,14 @@
    100     0   251? 14.37   3.98  60.96  40.5  dried basil
      0   TSP     4 "dried basil"               ground basil
      0  TBSP     5 "dried basil"               dried basil leaves
+: fresh basil
    100     0    27   2.54   0.61   4.34   3.9  fresh basil
-     0   800    27 "fresh basil"               fresh basil leaves
-*    0     0   0.2 "fresh basil leaves"        fresh basil leaf
-*    = "fresh basil leaf" leaf fresh basil
-*    = "fresh basil leaf" leaves fresh basil
-    42   CUP    9.8  1.3    0.3    1.1    0.7  chopped fresh basil
+     0   800    27 "$$"                        $$ leaves
+*    0     0   0.2 "$$ leaves"                 $$ leaf
+*    =             "$$ leaf"                   leaf $$
+*    =             "$$ leaf"                   leaves $$
+    42   CUP    9.8  1.3    0.3    1.1    0.7  chopped $$
+:
    100   825   279  21.93   4.78  52.10  10.4  coriander
    100   255   345  15.80  14.87  52.29  39.8  fennel seed
    100   270   347   9.12   5.95  70.79  12.5  ground ginger
@@ -664,7 +691,7 @@
 *  151     0    61 "peeled apple"              peeled apple fruit
      0   CUP    53 "peeled apple"              sliced peeled apple
      0   CUP    65 "peeled apple"              chopped apple
-*    = "peeled apple fruit" apple fruit
+*    = "peeled apple fruit"                    apple fruit
    255   CUP   194   0.46   0.46  50.77   3.1  applesauce
     86   CUP   209   0.80   0.28  56.67   7.5  dried apple
    100     0    58   0.38   0.12  15.46   3.1  pear
@@ -672,7 +699,7 @@
 *  181     0    96 "pear"                      medium pear
 *  227     0   121 "pear"                      large pear
      0   CUP    96 "pear"                      sliced pear
-*    = "medium pear" pear fruit
+*    = "medium pear"                           pear fruit
 : canned pears
    245   CUP    71   0.46   0.07  19.06   3.9  $$ in water
    247   CUP   116   0.74   0.25  30.13   4    $$ in xlight syrup
@@ -687,15 +714,15 @@
 *  156     0    61 "peach"                     large peach
      0   CUP    66 "peach"                     sliced peach
    184   CUP    72 "peach"                     chopped peach
-*    = "medium peach" peach fruit
+*    = "medium peach"                          peach fruit
    100     0   239   3.61   0.76  61.33   8.2  dried peach
 : canned peaches
    246   CUP    59   1.07   0.15  14.91   3.2  $$ in water
+     = "$$ in water"                           $$
    248   CUP   104   0.99   0.25  27.42   2.5  $$ in xlight syrup
    252   CUP   136   1.13   0.08  36.52   3.3  $$ in light syrup
    250   CUP   110   1.58   0.08  28.92   3.2  $$ in juice
    262   CUP   194   1.18   0.26  52.24   3.4  $$ in heavy syrup
-     = "$$ in water" $$
 :
    100     0    65   0.51   0.27  17.00   1.8  mango
 *  336     0   202 "mango"                     mango fruit
@@ -709,22 +736,22 @@
 *  152     0   135 "banana"                    xlarge banana
    188   CUP   167 "banana"                    sliced banana
    225   CUP   200 "banana"                    mashed banana
-*    = "medium banana" banana fruit
+*    = "medium banana"                         banana fruit
    100     0   147   0.65   9.53  16.56   2.2  dried banana
-     = "dried banana" banana chip
+     = "dried banana"                          banana chip
 [lemon]
 *   67     0    20   0.47   0.13   7.06   1.9  lime
     96   CUP    45   1.4    0.3   15     10    lime peel
-     = "lime peel" lime zest
+     = "lime peel"                             lime zest
    100     0    29   1.10   0.30   9.32   2.8  lemon
 *   60     0    17 "lemon"                     small lemon
 *   84     0    24 "lemon"                     medium lemon
-*    = "medium lemon" lemon fruit
+*    = "medium lemon"                          lemon fruit
    100   232    47   1.5    0.3   16     10.6  lemon peel
-     = "lemon peel" lemon zest
+     = "lemon peel"                            lemon zest
 [fruit]
     96   CUP    93   1.4    0.2   24     10    orange peel
-     = "orange peel" orange zest
+     = "orange peel"                           orange zest
    100     0    47   0.94   0.12  11.75   2.4  orange
 *    0     0    45 "orange"                    small orange
 *    0     0    62 "orange"                    medium orange
@@ -734,10 +761,10 @@
 *    0     0    37 "tangerine"                 small tangerine
 *    0     0    45 "tangerine"                 medium tangerine
 *    0     0    52 "tangerine"                 large tangerine
-     = "tangerine" mandarin orange
-     = "small tangerine"  small mandarin orange
-     = "medium tangerine" medium mandarin orange
-     = "large tangerine"  large mandarin orange
+     = "tangerine"                             mandarin orange
+     = "small tangerine"                       small mandarin orange
+     = "medium tangerine"                      medium mandarin orange
+     = "large tangerine"                       large mandarin orange
    252   CUP   154   1.13   0.25  40.80   1.8  canned tangerines in light syrup
    249   CUP    92   1.54   0.07  23.83   1.7  canned tangerines in juice
    146   CUP    83   1.07   0.48  21.01   3.5  blueberry
@@ -762,31 +789,33 @@
 *    8     0     4 "$$"                        medium $$
 *   12     0     6 "$$"                        large $$
 *   18     0     9 "$$"                        xlarge $$
-     = "medium $$" $$ fruit
+     = "medium $$"                             $$ fruit
      0   CUP    49 "$$"                        half $$
-     = "half $$" "halved $$
+     = "half $$"                               halved $$
      0   CUP    53 "$$"                        sliced $$
    231   CUP    74 "$$"                        pureed $$
 :
    100     0   240   2.18   0.38  63.88   7.1  prune
 *    0     0    20 "prune"                     prune fruit
-     = "prune" dried prune
-*    = "prune fruit" dried prune fruit
+     = "prune"                                 dried prune
+*    = "prune fruit"                           dried prune fruit
    174   CUP   418 "prune"                     pitted prune
    100     0    46   0.70   0.28  11.42   1.4  plum
 *   65     0    30 "plum"                      plum fruit
-   249   CUP   102   0.97   0.02  27.46   2.2  canned plums in water
-     = "canned plums in water" canned plums
-   252   CUP   146   1.29   0.05  38.18   2.3  canned plums in juice
-   252   CUP   159   0.93   0.25  41.03   2.3  canned plums in light syrup
-   258   CUP   230   0.93   0.26  59.96   2.3  canned plums in heavy syrup
+: canned plums
+   249   CUP   102   0.97   0.02  27.46   2.2  $$ in water
+     = "$$ in water"                           $$
+   252   CUP   146   1.29   0.05  38.18   2.3  $$ in juice
+   252   CUP   159   0.93   0.25  41.03   2.3  $$ in light syrup
+   258   CUP   230   0.93   0.26  59.96   2.3  $$ in heavy syrup
+:
    100     0    74   0.75   0.30  19.18   2.9  fig
 *    0     0    30 "fig"                       small fig
 *    0     0    37 "fig"                       medium fig
 *    0     0    47 "fig"                       large fig
-*    = "medium fig" fig fruit
+*    = "medium fig"                            fig fruit
    247   CUP   131   0.99   0.25  34.70   5.5  canned figs in water
-     = "canned figs in water" canned figs
+     = "canned figs in water"                  canned figs
    252   CUP   174   0.98   0.25  45.23   4.5  canned figs in light syrup
    259   CUP   228   0.98   0.26  59.31   5.7  canned figs in heavy syrup
    100   159   249   3.30   0.93  63.87   9.8  dried fig
@@ -794,7 +823,7 @@
    259    CUP  277   3.68   1.04  71.41  10.9  cooked dried fig
 *   40   QCUP  110?  1      0     26      5    serving black mission fig
 *    0     0    22 "serving black mission fig" black mission fig
-*    = "black mission fig" mission fig
+*    = "black mission fig"                     mission fig
 *    = "serving black mission fig" serving mission fig
    100     0   282   2.45   0.39  75.03   8    date
 *    0     0    23 "date"                      date fruit
@@ -806,7 +835,7 @@
    100     0   282   2.45   0.39  75.03   8    $$
 *    0     0    23 "$$"                        $$ fruit
    160   CUP   520 "$$"                        chopped $dried sun-maid
-     = "chopped $dried sun-maid" chopped $dried
+     = "chopped $dried sun-maid"               chopped $dried
    160   CUP   440 "$$"                        $dried sun-maid
      = "$dried sun-maid"                       $dried
 :
@@ -815,7 +844,7 @@
    100     0   241   3.39   0.51  62.64   7.3  dried apricot
 : canned apricots
    244   CUP    66   1.73   0.39  15.53   3.9  $$ in water
-     = "$$ in water" $$
+     = "$$ in water"                           $$
    244   CUP   117   1.54   0.10  30.11   3.9  $$ in juice
    247   CUP   121   1.48   0.25  30.88   4    $$ in xlight syrup
    252   CUP   159   1.34   0.13  41.72   4    $$ in light syrup
@@ -829,9 +858,9 @@
 *    0     0     2  "celery"                   small celery stalk
 *    0     0     6  "celery"                   medium celery stalk
 *    0     0     9  "celery"                   large celery stalk
-*    = "medium celery stalk" celery stalk
+*    = "medium celery stalk"                   celery stalk
    100   CUP    14  "celery"                   chopped celery
-     = "chopped celery" sliced celery
+     = "chopped celery"                        sliced celery
 [root]
    100     0    35   0.64   0.13   8.24   1.8  baby carrot
 *    0     0     3 "baby carrot"               small baby carrot
@@ -850,7 +879,7 @@
 *    0     0    31 "$$"                        medium $$
 *    0     0    37 "$$"                        large $$
      0   CUP    82 "$$"                        sliced $$
-: // cooked carrot
+:
    155   CUP   109   1.4    5.8   14      4.2  roasted carrot
 [vegetable]
    100     0    32   2.57   0.34   6.27   2.4  broccoli
@@ -889,7 +918,7 @@
 *    0     0    28 "$$"                        medium $$
 *    0     0    42 "$$"                        large $$
 *    =             "medium $$"                 $$ fruit
-: // green tomato
+:
 [root]
 *    3     0     4   0.19   0.02   0.99   0.1  garlic clove
 *    3     0     4   0.19   0.02   0.99   0.1  clove garlic
@@ -917,11 +946,12 @@
 *   16     0     5   0.27   0.03   1.10   0.4  scallion
 *   25     0     8   0.46   0.05   1.84   0.6  large scallion
    100   CUP    32   1.83   0.19   7.34   2.6  chopped scallion
-*    6     0     2   0.09   0.01   0.37   0.1  small green onion
-*   16     0     5   0.27   0.03   1.10   0.4  medium green onion
-*   16     0     5   0.27   0.03   1.10   0.4  green onion
-*   25     0     8   0.46   0.05   1.84   0.6  large green onion
-   100   CUP    32   1.83   0.19   7.34   2.6  chopped green onion
+: green onion
+*    6     0     2   0.09   0.01   0.37   0.1  small $$
+*   16     0     5   0.27   0.03   1.10   0.4  medium $$
+*   16     0     5   0.27   0.03   1.10   0.4  $$
+*   25     0     8   0.46   0.05   1.84   0.6  large $$
+   100   CUP    32   1.83   0.19   7.34   2.6  chopped $$
    100   152    72   2.50   0.10  16.80   3.2  chopped shallot
     89   CUP    54   1.34   0.27  12.59   1.6  leek
    100   249    80   1.82   0.75  17.77   2    ginger
@@ -932,35 +962,37 @@
    100  1380    23   2.13   0.52   3.67   2.8  chopped cilantro
 
 [2.44 8.37 3.7]
-   100     0    12   0.59   0.16   2.16   0.7  peeled cucumber
-*    0     0    19 "peeled cucumber"           small cucumber
-*  200     0    24 "peeled cucumber"           medium cucumber
-*  283     0    34 "peeled cucumber"           large cucumber
-   117   CUP    14 "peeled cucumber"           sliced cucumber
-   133   CUP    16 "peeled cucumber"           pared chopped cucumber
-   142   CUP    17 "peeled cucumber"           chopped cucumber
-*    = "medium cucumber" cucumber
+: peeled cucumber
+   100     0    12   0.59   0.16   2.16   0.7  $$
+*    0     0    19 "$$"                        small cucumber
+*  200     0    24 "$$"                        medium cucumber
+*  283     0    34 "$$"                        large cucumber
+   117   CUP    14 "$$"                        sliced cucumber
+   133   CUP    16 "$$"                        pared chopped cucumber
+   142   CUP    17 "$$"                        chopped cucumber
+*    = "medium cucumber"                       cucumber
 :cucumber with peel
    100     0    14   0.62   0.18   2.95   0.5  $$
      0  HCUP     8 "$$"                        sliced $$
 *    0     0    45 "$$"                        large $$
-:
-*   67     0    12   0.40   0.12   2.68   0.8  dill pickle
-*    0     0     7 "dill pickle"               small dill pickle
-*    0     0    12 "dill pickle"               medium dill pickle
-*    0     0    24 "dill pickle"               large dill pickle
-*    1     4     1 "dill pickle"               dill pickle slice
-*    5     0     5 "dill pickle"               dill pickle spear
-     0   CUP    28 "dill pickle"               sliced dill pickle
-     0   CUP    26 "dill pickle"               chopped dill pickle
-*   25     0    29   0.09   0.06   7.95   0.3  sweet pickle
-*    0     0     7 "sweet pickle"              midget sweet pickle
-*    0     0    18 "sweet pickle"              small sweet pickle
-*    0     0    29 "sweet pickle"              medium sweet pickle
-*    0     0    41 "sweet pickle"              large sweet pickle
-*    0    10     8 "sweet pickle"              sweet pickle slice
-     0   CUP   199 "sweet pickle"              sliced sweet pickle
-     0   CUP   187 "sweet pickle"              chopped sweet pickle
+: dill pickle
+*   67     0    12   0.40   0.12   2.68   0.8  $$
+*    0     0     7 "$$"                        small $$
+*    0     0    12 "$$"                        medium $$
+*    0     0    24 "$$"                        large $$
+*    1     4     1 "$$"                        $$ slice
+*    5     0     5 "$$"                        $$ spear
+     0   CUP    28 "$$"                        sliced $$
+     0   CUP    26 "$$"                        chopped $$
+: sweet pickle
+*   25     0    29   0.09   0.06   7.95   0.3  $$
+*    0     0     7 "$$"                        midget $$
+*    0     0    18 "$$"                        small $$
+*    0     0    29 "$$"                        medium $$
+*    0     0    41 "$$"                        large $$
+*    0    10     8 "$$"                        $$ slice
+     0   CUP   199 "$$"                        sliced $$
+     0   CUP   187 "$$"                        chopped $$
 *  194     0    31   2.37   0.35   6.57   2.2  zucchini
 *    0     0    19 "zucchini"                  small zucchini
 *    0     0    31 "zucchini"                  medium zucchini
@@ -973,43 +1005,49 @@
 *  550     0   132 "peeled eggplant"           unpeeled eggplant
      0   CUP    20 "peeled eggplant"           chopped eggplant
 [vegetable]
-*   12 2TBSP     3   0.10   0.03   0.60   0.2  bell pepper slice
-*   12 2TBSP     3   0.10   0.03   0.60   0.2  bell pepper ring
-    90   CUP    18   0.79   0.16   4.27   1.6  sliced bell pepper
-*   75     0    15   0.64   0.13   3.43   1.3  small bell pepper
-*  120     0    24   1.02   0.20   5.52   2    medium bell pepper
-*  120     0    24   1.02   0.20   5.52   2    bell pepper
-*  165     0    33   1.41   0.28   7.61   2.8  large bell pepper
-   150   CUP    30   1.28   0.25   6.91   2.5  chopped bell pepper
-*   75     0    15   0.64   0.13   3.43   1.3  small green pepper
-*  120     0    24   1.02   0.20   5.52   2    medium green pepper
-*  120     0    24   1.02   0.20   5.52   2    green pepper
-*  165     0    33   1.41   0.28   7.61   2.8  large green pepper
-*   10    26     2   0.09   0.02   0.46   0.2  green pepper slice
-*   10    26     2   0.09   0.02   0.46   0.2  green pepper ring
-   150   CUP    30   1.28   0.25   6.91   2.5  chopped green pepper
-*   75     0    15   0.64   0.13   3.43   1.3  small green bell pepper
-*  120     0    24   1.02   0.20   5.52   2    medium green bell pepper
-*  120     0    24   1.02   0.20   5.52   2    green bell pepper
-*  165     0    33   1.41   0.28   7.61   2.8  large green bell pepper
-*   10    26     2   0.09   0.02   0.46   0.2  green bell pepper slice
-*   10    26     2   0.09   0.02   0.46   0.2  green bell pepper ring
-   150   CUP    30   1.28   0.25   6.91   2.5  chopped green bell pepper
-*   12 2TBSP     3   0.10   0.03   0.60   0.2  red bell pepper slice
-*   12 2TBSP     3   0.10   0.03   0.60   0.2  red bell pepper ring
-*   73     0    19   0.73   0.22   4.46   1.5  small red bell pepper
-*  119     0    31   1.18   0.36   7.18   2.4  medium red bell pepper
-*  119     0    31   1.18   0.36   7.18   2.4  red bell pepper
-*  165     0    43   1.62   0.49   9.89   3.3  large red bell pepper
-   150     0    39   1.48   0.45   8.98   3    chopped red bell pepper
-*  185     0    50   1.86   0.39  11.76   1.7  yellow bell pepper
-*  185     0    50   1.86   0.39  11.76   1.7  large yellow bell pepper
-*   33     0     9   0.55   0.15   1.77   1.1  small banana pepper
-*   44     0    12   0.76   0.21   2.46   1.6  medium banana pepper
-*   44     0    12   0.76   0.21   2.46   1.6  banana pepper
-*   74     0    20   1.24   0.34   4.01   2.6  large banana pepper
-   122   CUP    33   2.06   0.56   6.63   4.2  chopped banana pepper
-   122   CUP    33   2.06   0.56   6.63   4.2  sliced banana pepper
+: bell pepper
+*   12 2TBSP     3   0.10   0.03   0.60   0.2  $$ slice
+*   12 2TBSP     3   0.10   0.03   0.60   0.2  $$ ring
+    90   CUP    18   0.79   0.16   4.27   1.6  sliced $$
+*   75     0    15   0.64   0.13   3.43   1.3  small $$
+*  120     0    24   1.02   0.20   5.52   2    medium $$
+*  120     0    24   1.02   0.20   5.52   2    $$
+*  165     0    33   1.41   0.28   7.61   2.8  large $$
+   150   CUP    30   1.28   0.25   6.91   2.5  chopped $$
+: gp = green pepper
+*   75     0    15   0.64   0.13   3.43   1.3  small $gp
+*  120     0    24   1.02   0.20   5.52   2    medium $gp
+*  120     0    24   1.02   0.20   5.52   2    $gp
+*  165     0    33   1.41   0.28   7.61   2.8  large $gp
+*   10    26     2   0.09   0.02   0.46   0.2  $gp slice
+*   10    26     2   0.09   0.02   0.46   0.2  $gp ring
+   150   CUP    30   1.28   0.25   6.91   2.5  chopped $gp
+: gbp = green $$
+*   75     0    15   0.64   0.13   3.43   1.3  small $gbp
+*  120     0    24   1.02   0.20   5.52   2    medium $gbp
+*  120     0    24   1.02   0.20   5.52   2    $gbp
+*  165     0    33   1.41   0.28   7.61   2.8  large $gbp
+*   10    26     2   0.09   0.02   0.46   0.2  $gbp slice
+*   10    26     2   0.09   0.02   0.46   0.2  $gbp ring
+   150   CUP    30   1.28   0.25   6.91   2.5  chopped $gbp
+: rbp = red $$
+*   12 2TBSP     3   0.10   0.03   0.60   0.2  $rbp slice
+*   12 2TBSP     3   0.10   0.03   0.60   0.2  $rbp ring
+*   73     0    19   0.73   0.22   4.46   1.5  small $rbp
+*  119     0    31   1.18   0.36   7.18   2.4  medium $rbp
+*  119     0    31   1.18   0.36   7.18   2.4  $rbp
+*  165     0    43   1.62   0.49   9.89   3.3  large $rbp
+   150     0    39   1.48   0.45   8.98   3    chopped $rbp
+*  185     0    50   1.86   0.39  11.76   1.7  yellow $$
+*  185     0    50   1.86   0.39  11.76   1.7  large yellow $$
+: banana pepper
+*   33     0     9   0.55   0.15   1.77   1.1  small $$
+*   44     0    12   0.76   0.21   2.46   1.6  medium $$
+*   44     0    12   0.76   0.21   2.46   1.6  $$
+*   74     0    20   1.24   0.34   4.01   2.6  large $$
+   122   CUP    33   2.06   0.56   6.63   4.2  chopped $$
+   122   CUP    33   2.06   0.56   6.63   4.2  sliced $$
+:
 *   13     0     4   0.19   0.09   0.83   0.4  jalapeno
 *   13     0     4   0.19   0.09   0.83   0.4  jalapeno pepper
     90   CUP    27   1.22   0.56   5.32   2.5  sliced jalapeno
@@ -1080,8 +1118,8 @@
    164   CUP   295  15.65   4.90  49.17  14.1  chickpeas
    130  HCUP   120   6      2     20      4    canned chickpeas
    130  HCUP   120   7      1     21      7    canned mixed chili beans
-   = "canned mixed chili beans" mixed chili beans
-   = "canned mixed chili beans" chili beans
+   = "canned mixed chili beans"                mixed chili beans
+   = "mixed chili beans"                       chili beans
    173   CUP   199  12.27   0.71  35.79   8.8  pinto beans
    454   422   355  21.91   1.27  63.91  15.8  canned pinto beans
    172   CUP   227  15.24   0.93  40.78  15    black beans
@@ -1176,17 +1214,17 @@
 :
 *   15     0    70   1      2.5   10      1    serving ritz
 *    0     0    14 "serving ritz"              ritz
-*    = "serving ritz" serving ritz cracker
-*    = "ritz"         ritz cracker
+*    = "serving ritz"                          serving ritz cracker
+*    = "ritz"                                  ritz cracker
 *   28     0   120   3.00   3.50  20.00   3.0  serving triscuit // 6 crackers
 *    0     0    20 "serving triscuit"          triscuit
-*    = "serving triscuit" serving triscuit cracker
-*    = "triscuit"         triscuit cracker
+*    =             "serving triscuit"          serving triscuit cracker
+*    =             "triscuit"                  triscuit cracker
 : reduced fat triscuit
 *   28     0   110   3      2.5   21      4    serving $$
 *    0     0 18.33 "serving $$"                $$
-*    = "serving $$" serving $$ cracker
-*    = "$$"         $$ cracker
+*    =             "serving $$"                serving $$ cracker
+*    =             "$$"                        $$ cracker
 *  200     0   800   1     48     96      0    pie crust pillsbury
 *   28     0   120   1      7     13      0    mini pie crust pillsbury
 #Misc
@@ -1206,21 +1244,21 @@
 *    0     0   159 "$$"                        8 inch $$
 *    0     0   218 "$$"                        10 inch $$
 *    0     0   356 "$$"                        12 inch $$
-*    = "4 inch $$"  mini $$
-*    = "6 inch $$"  small $$
-*    = "7 inch $$"  medium $$
-*    = "10 inch $$" large $$
-*    = "12 inch $$" xlarge $$
-*    = "4 inch $$"  4" $$
-*    = "6 inch $$"  6" $$
-*    = "7 inch $$"  7" $$
-*    = "10 inch $$" 10" $$
-*    = "12 inch $$" 12" $$
-: // flour tortilla
+*    =             "4 inch $$"                 mini $$
+*    =             "6 inch $$"                 small $$
+*    =             "7 inch $$"                 medium $$
+*    =             "10 inch $$"                large $$
+*    =             "12 inch $$"                xlarge $$
+*    =             "4 inch $$"                 4" $$
+*    =             "6 inch $$"                 6" $$
+*    =             "7 inch $$"                 7" $$
+*    =             "10 inch $$"                10" $$
+*    =             "12 inch $$"                12" $$
+:
 # Beverages
 [juice]
    249   CUP   117   0.15   0.27  28.97   0.2  apple juice
-     = "apple juice" apple cider
+     =              "apple juice"              apple cider
    249   CUP   117   0.15   0.27  28.97   0.2  apple pear juice
    248   CUP   134   0.67   0.05  34.66   1.5  peach juice
    250   CUP   145   0.50   0.28  37.90   1.8  mango nectar
