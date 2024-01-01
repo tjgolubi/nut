@@ -856,26 +856,40 @@
    100     0    32   2.57   0.34   6.27   2.4  broccoli
      0   CUP    31  "broccoli"                 chopped broccoli
     76   CUP    24  "broccoli"                 broccoli flowers
-*    6     0     1   0.07   0.02   0.31   0.1  grape tomato
-*   17    27     3   0.15   0.03   0.67   0.2  cherry tomato
-   150   CUP    27   1.31   0.30   5.84   1.8  cherry tomatoes
-*   61     0    11   0.55   0.12   2.43   0.7  plum tomato
-*   89     0    16   0.80   0.18   3.57   1.1  small tomato
-*  122     0    22   1.08   0.25   4.82   1.5  medium tomato
-*  122     0    22   1.08   0.25   4.82   1.5  tomato
-*  183     0    33   1.60   0.36   7.13   2.2  large tomato
-*   61     0    11   0.55   0.12   2.43   0.7  italian tomato
-*   22     0     4   0.18   0.04   0.78   0.2  tomato slice
-   178   CUP    32   1.58   0.36   7.06   2.2  chopped tomato
+   152   CUP    41   1.26   0.96   8.38   3.19 grape tomato // usda
+*   10     0     0 "grape tomato"              grape tomato fruit
+   150   CUP    27   1.31   0.30   5.84   1.8  cherry tomato
+*   17     0     0 "cherry tomato"             cherry tomato fruit
+   180   CUP     0 "cherry tomato"             chopped cherry tomato
+   100     0    18   0.88   0.20   3.92   1.2  tomato
+*    0     0    11 "tomato"                    plum tomato
+*    0     0    16 "tomato"                    small tomato
+*    0     0    22 "tomato"                    medium tomato
+*    0     0    33 "tomato"                    large tomato
+*    0     0    11 "tomato"                    italian tomato
+*    = "medium tomato"                         tomato fruit
+*    0     0     3 "tomato"                    thin tomato slice
+*    0     0     4 "tomato"                    slice tomato
+*    = "slice tomato"                          tomato slice
+     0   CUP    32 "tomato"                    chopped tomato
    100   100    32   1.64   0.28   7.29   1.9  crushed tomato
+   245   CUP  44.1   2.06   1.22   8.13   2    canned diced tomato // usda
+   100    96    24   1.2    0.3    5.31   1.5  tomato sauce
 [general]
-   260   CUP    90   3.17   0.49  18.08   3.7  tomato sauce
+    62  QCUP    20   0.5    0      4      2    tomato sauce hunts
 [vegetable]
    262   CUP   215  11.32   1.23  49.54  11.8  tomato paste
-    54   CUP   139   8      2     30      7    dried tomato
-   100     0    19   0.7    0.42   3.84   1    roma tomato
+   100   215   213   5.06  14.08  23.33   5.8  sun dried tomato
+   100     0    19   0.7    0.42   3.84   1    roma tomato // usda
 *    0     0    35 "roma tomato"               roma tomato fruit
-*  122   164    28   1.48   0.25   6.27   1.4  green tomato
+: green tomato
+   178   CUP    41  2.16    0.36   9.18   2    $$
+*    0     0     5 "$$"                        slice $$
+*    0     0    21 "$$"                        small $$
+*    0     0    28 "$$"                        medium $$
+*    0     0    42 "$$"                        large $$
+*    =             "medium $$"                 $$ fruit
+: // green tomato
 [root]
 *    3     0     4   0.19   0.02   0.99   0.1  garlic clove
 *    3     0     4   0.19   0.02   0.99   0.1  clove garlic
