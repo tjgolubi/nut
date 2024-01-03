@@ -920,20 +920,76 @@
 *    =             "medium $$"                 $$ fruit
 :
 [root]
-*    3     0     4   0.19   0.02   0.99   0.1  garlic clove
-*    3     0     4   0.19   0.02   0.99   0.1  clove garlic
-   136   CUP   204   8.60   0.90  44.90   2.7  garlic
+   100   174   130   6.62   0.38   28.2   2.7  garlic // usda
+*    3     0     0  "garlic"                   clove garlic
+*    =              "clove garlic"             garlic clove
    100   176   150   6.40   0.40  33.20   2.1  minced garlic
-*   69     0    29   0.64   0.06   7.08   1    small onion
-*  110     0    46   1.01   0.09  11.12   1.5  medium onion
-*  110     0    46   1.01   0.09  11.12   1.5  onion
-*  150     0    63   1.38   0.12  15.16   2.1  large onion
-*   14     0     6   0.13   0.01   1.42   0.2  onion slice
-   160   CUP    67   1.47   0.13  16.18   2.2  chopped onion
-   107   CUP    45   0.98   0.09  10.82   1.47 sliced onion
-*   94     0    41   1.30   0.20   9.50   1.3  red onion
-*   94     0    41   1.30   0.20   9.50   1.3  yellow onion
-*   94     0    41   1.30   0.20   9.50   1.3  white onion
+: onion
+   100     0    40   1.1    0.1    9.34   1.7  $$    // usda
+*    6     0     0  "$$"                       $$ ring
+*    9     0     0  "$$"                       thin slice $$
+*   14     0     0  "$$"                       medium slice $$
+*   38     0     0  "$$"                       thick slice $$
+*    =              "thin slice $$"            thin $$ slice
+*    =              "medium slice $$"          medium $$ slice
+*    =              "thick slice $$"           thick $$ slice
+*    =              "medium slice $$"          slice $$
+*    =              "slice $$"                 $$ slice
+*   70     0     0  "$$"                       small $$
+*  110     0     0  "$$"                       medium $$
+*  150     0     0  "$$"                       large $$
+*    =              "medium $$"                $$ fruit
+   160   CUP     0  "$$"                       chopped $$
+   115   CUP     0  "$$"                       sliced $$
+: green onion
+   100     0    -1   1.1    0.1    5.7    1.8  $$    // foodstruct
+*    9     0     0  "$$"                       thin slice $$
+*    =              "thin slice $$"            thin $$ slice
+*   17     0     0  "$$"                       slice $$
+*    =              "slice $$"                 $$ slice
+*   70     0     0  "$$"                       small $$
+*  110     0     0  "$$"                       medium $$
+*  150     0     0  "$$"                       large $$
+*    =              "medium $$"                $$ fruit
+   160   CUP     0  "$$"                       chopped $$
+   115   CUP     0  "$$"                       sliced $$
+: yellow onion
+   100     0    36   0.83   0.05   8.61   1.9  $$       // usda
+*  143     0     0  "$$"                       $$ fruit // usda
+*    9     0     0  "$$"                       thin slice $$
+*    =              "thin slice $$"            thin $$ slice
+*   17     0     0  "$$"                       slice $$
+*    =              "slice $$"                 $$ slice
+*   70     0     0  "$$"                       small $$
+*  110     0     0  "$$"                       medium $$
+*  150     0     0  "$$"                       large $$
+   160   CUP     0  "$$"                       chopped $$
+   115   CUP     0  "$$"                       sliced $$
+: red onion
+   100     0    42   0.94   0.1    9.93   2.2  $$       // usda
+*  197     0     0  "$$"                       $$ fruit // usda
+*    9     0     0  "$$"                       thin slice $$
+*    =              "thin slice $$"            thin $$ slice
+*   17     0     0  "$$"                       slice $$
+*    =              "slice $$"                 $$ slice
+*   70     0     0  "$$"                       small $$
+*  110     0     0  "$$"                       medium $$
+*  150     0     0  "$$"                       large $$
+   160   CUP     0  "$$"                       chopped $$
+   115   CUP     0  "$$"                       sliced $$
+: white onion
+   100     0    33   0.89   0.13   7.68   1.2  $$       // usda
+*  197     0     0  "$$"                       $$ fruit // usda
+*    9     0     0  "$$"                       thin slice $$
+*    =              "thin slice $$"            thin $$ slice
+*   17     0     0  "$$"                       slice $$
+*    =              "slice $$"                 $$ slice
+*   70     0     0  "$$"                       small $$
+*  110     0     0  "$$"                       medium $$
+*  150     0     0  "$$"                       large $$
+   160   CUP     0  "$$"                       chopped $$
+   115   CUP     0  "$$"                       sliced $$
+:
 *  331     0   106   2.60   0.30  25      3    sweet onion
 *   33     0    11   0.26   0.03   2.50   0.3  sweet onion slice
    160   CUP    51   1.30   0.10  12      1.4  chopped sweet onion
@@ -946,7 +1002,7 @@
 *   16     0     5   0.27   0.03   1.10   0.4  scallion
 *   25     0     8   0.46   0.05   1.84   0.6  large scallion
    100   CUP    32   1.83   0.19   7.34   2.6  chopped scallion
-: green onion
+: green onion old
 *    6     0     2   0.09   0.01   0.37   0.1  small $$
 *   16     0     5   0.27   0.03   1.10   0.4  medium $$
 *   16     0     5   0.27   0.03   1.10   0.4  $$
@@ -1014,6 +1070,8 @@
 *  120     0    24   1.02   0.20   5.52   2    $$
 *  165     0    33   1.41   0.28   7.61   2.8  large $$
    150   CUP    30   1.28   0.25   6.91   2.5  chopped $$
+*  185     0    50   1.86   0.39  11.76   1.7  yellow $$
+*  185     0    50   1.86   0.39  11.76   1.7  large yellow $$
 : gp = green pepper
 *   75     0    15   0.64   0.13   3.43   1.3  small $gp
 *  120     0    24   1.02   0.20   5.52   2    medium $gp
@@ -1038,8 +1096,6 @@
 *  119     0    31   1.18   0.36   7.18   2.4  $rbp
 *  165     0    43   1.62   0.49   9.89   3.3  large $rbp
    150     0    39   1.48   0.45   8.98   3    chopped $rbp
-*  185     0    50   1.86   0.39  11.76   1.7  yellow $$
-*  185     0    50   1.86   0.39  11.76   1.7  large yellow $$
 : banana pepper
 *   33     0     9   0.55   0.15   1.77   1.1  small $$
 *   44     0    12   0.76   0.21   2.46   1.6  medium $$

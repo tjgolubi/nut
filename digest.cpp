@@ -390,7 +390,7 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
       if (nutr.kcal != 0.0)
 	scale = nutr.kcal / n.kcal;
       else if (nutr.g != 0.0 && n.g != 0.0)
-	scale = nutr.g / n.g;
+	scale = nutr.g / std::abs(n.g);
       else if (nutr.ml != 0.0 && n.ml != 0.0)
 	scale = nutr.ml / n.ml;
       if (scale == 0.0) {
