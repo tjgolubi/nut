@@ -7,6 +7,7 @@
 #include <map>
 #include <algorithm>
 #include <chrono>
+#include <regex>
 #include <limits>
 #include <cstdlib>
 
@@ -211,6 +212,7 @@ int main() {
   constexpr auto total_lines = 26235968;
   auto t = std::chrono::steady_clock::now();
   std::string line;
+  std::smatch m;
   std::getline(db, line); // discard heading
   while (std::getline(db, line)) {
     ++linenum;
@@ -219,16 +221,20 @@ int main() {
       auto percent = (100 * linenum) / total_lines;
       std::cout << '\r' << percent << "% complete" << std::flush;
     }
-    auto v = Parse<FoodNutrient>(line);
-    auto food = foods.find(v.at(FoodNutrient::fdc_id));
+    static const
+	std::regex e{"^\"[^\"]*\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\""};
+    // auto v = Parse<FoodNutrient>(line);
+    std::regex_search(line, m, e);
+    if (m.size() != 4)
+      continue;
+    auto food = foods.find(m[1]);
     if (food == foods.end())
       continue;
-    const auto& nutrient = v.at(FoodNutrient::nutrient_id);
-    auto iter = std::find(FieldIds.begin(), FieldIds.end(), nutrient);
+    auto iter = std::find(FieldIds.begin(), FieldIds.end(), m[2]);
     if (iter == FieldIds.end())
       continue;
     auto i = std::distance(FieldIds.begin(), iter);
-    food->second.values.at(i) = std::stof(v.at(FoodNutrient::amount));
+    food->second.values.at(i) = std::stof(m[3]);
   }
   std::cout << "\r100% complete\n";
   int last_group = 0;
