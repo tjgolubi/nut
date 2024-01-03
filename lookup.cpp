@@ -7,7 +7,6 @@
 #include <map>
 #include <algorithm>
 #include <chrono>
-#include <regex>
 #include <limits>
 #include <cstdlib>
 
@@ -211,30 +210,30 @@ int main() {
   long long linenum = 0;
   constexpr auto total_lines = 26235968;
   auto t = std::chrono::steady_clock::now();
-  std::string line;
-  std::smatch m;
-  std::getline(db, line); // discard heading
-  while (std::getline(db, line)) {
+  std::string id, fdc_id, nutrient_id, amount;
+  constexpr auto max_size = std::numeric_limits<std::streamsize>::max();
+  db.ignore(max_size, '\n');
+  char c1, c2, c3;
+  while (db >> std::quoted(id) >> c1 >> std::quoted(fdc_id) >> c2
+	    >> std::quoted(nutrient_id) >> c3 >> std::quoted(amount))
+  {
+    db.ignore(max_size, '\n');
     ++linenum;
     if (std::chrono::steady_clock::now() > t) {
       t += std::chrono::seconds(1);
       auto percent = (100 * linenum) / total_lines;
       std::cout << '\r' << percent << "% complete" << std::flush;
     }
-    static const
-	std::regex e{"^\"[^\"]*\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\""};
-    // auto v = Parse<FoodNutrient>(line);
-    std::regex_search(line, m, e);
-    if (m.size() != 4)
+    if (c1 != ',' || c2 != ',' || c3 != ',')
       continue;
-    auto food = foods.find(m[1]);
+    auto food = foods.find(fdc_id);
     if (food == foods.end())
       continue;
-    auto iter = std::find(FieldIds.begin(), FieldIds.end(), m[2]);
+    auto iter = std::find(FieldIds.begin(), FieldIds.end(), nutrient_id);
     if (iter == FieldIds.end())
       continue;
     auto i = std::distance(FieldIds.begin(), iter);
-    food->second.values.at(i) = std::stof(m[3]);
+    food->second.values.at(i) = std::stof(amount);
   }
   std::cout << "\r100% complete\n";
   int last_group = 0;
