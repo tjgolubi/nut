@@ -62,15 +62,14 @@ escape='\\')
       if (c != sep)
         break;
       if (iss.peek() == delim) {
-	iss >> std::quoted(s, delim, escape);
+	if (iss >> std::quoted(s, delim, escape))
+	  rval.push_back(s);
+	continue;
       }
-      else {
-        std::getline(iss, s, sep);
-	if (!iss.eof())
-	  iss.unget();
-      }
-      if (iss)
-	rval.push_back(s);
+      std::getline(iss, s, sep);
+      rval.push_back(s);
+      if (!iss.eof())
+	iss.unget();
     }
   }
   return rval;
@@ -469,18 +468,21 @@ int main() {
     food->second.values.at(i) = std::stof(amount);
   }
   std::cout << "\r100% complete\n";
+  auto output = std::ofstream("lookout.txt");
+  if (!output)
+    throw std::runtime_error("Could not write lookout.txt");
   const auto portions = LoadPortions(foods);
   std::multimap<int, const Ingred*> group;
   for (const auto& [id, ingred]: foods)
     group.emplace(ingred.atwater, &ingred);
-  std::cout << std::fixed << std::setprecision(2);
+  output << std::fixed << std::setprecision(2);
   int last_atwater = 0;
   for (const auto& [id, ingred]: group) {
     if (id != last_atwater) {
       last_atwater = id;
-      std::cout << '[' << atwaterDb.str(id) << "]\n";
+      output << '[' << atwaterDb.str(id) << "]\n";
     }
-    std::cout << "   100     0 " << (*ingred)
+    output << "   100     0 " << (*ingred)
               << " // usda " << ingred->id << '\n';
     {
       auto r = portions.equal_range(ingred->id);
@@ -490,11 +492,11 @@ int main() {
         const auto& p = it->second;
 	ostr << '*' << setw(5) << Round(p.g)
 	     << ' ' << setw(5) << Round(p.ml)
-	     << ' ' << setw(5) << Round(p.ingred.energy() * p.g / 100)
+	     << ' ' << setw(5) << 0 // Round(p.ingred.energy() * p.g / 100)
 	     << ' ' << left << setw(27) << quoted(p.ingred.desc)
 	     << right << ' ' << p.desc << '\n';
       }
-      std::cout << ostr.str();
+      output << ostr.str();
     }
   }
   return 0;
