@@ -10,6 +10,10 @@
 #include <limits>
 #include <cstdlib>
 
+const std::string UsdaPath = "c:/Users/tjgolubi/prj/usda/";
+const std::string FdcPath  = UsdaPath + "fdc/";
+const std::string SrPath   = UsdaPath + "sr/";
+
 template<class E>
 struct ParseVec: public std::vector<std::string> {
   using base_type = std::vector<std::string>;
@@ -17,34 +21,57 @@ struct ParseVec: public std::vector<std::string> {
     auto idx = static_cast<base_type::size_type>(e);
     return base_type::at(idx);
   }
+  const std::string& operator[](E e) const { return this->at(e); }
 }; // ParseVec
 
 template <class E>
 std::ostream& operator<<(std::ostream& os, const ParseVec<E>& v) {
   os << '<';
   for (const auto& s: v)
-    os << ' ' << s;
+    os << ' ' << std::quoted(s);
   return os << " >";
 } // << ParseVec
 
 template<class E>
-auto Parse(const std::string& str)
+auto Parse(const std::string& str, char sep=',', char delim='"', char
+escape='\\')
   -> ParseVec<E>
 {
   std::istringstream iss(str);
   std::string s;
   ParseVec<E> rval;
-  if (iss >> std::ws >> std::quoted(s)) {
-    rval.emplace_back(std::move(s));
+  if (iss >> std::ws) {
+    if (iss.peek() == delim) {
+      iss >> std::quoted(s, delim, escape);
+    }
+    else {
+      std::getline(iss, s, sep);
+      if (!iss.eof())
+	iss.unget();
+    }
+    if (iss)
+      rval.push_back(s);
     char c;
-    while (iss >> std::ws >> c >> std::ws >> std::quoted(s)) {
-      if (c != ',')
+    while (iss >> c) {
+      if (c != sep)
         break;
-      rval.emplace_back(std::move(s));
+      if (iss.peek() == delim) {
+	iss >> std::quoted(s, delim, escape);
+      }
+      else {
+        std::getline(iss, s, sep);
+	if (!iss.eof())
+	  iss.unget();
+      }
+      if (iss)
+	rval.push_back(s);
     }
   }
   return rval;
 } // Parse
+
+template<class E>
+auto ParseTxt(const std::string& str) { return Parse<E>(str, '^', '~'); }
 
 class StringDb {
 private:
@@ -71,6 +98,19 @@ std::ostream& operator<<(std::ostream& os, const StringDb& db) {
   return os;
 }
 
+auto AtwaterString(const std::string& prot, const std::string& fat, const
+std::string& carb)
+  -> std::string
+{
+  auto dashed_null = [](const std::string& s) {
+    static const std::string dash("-");
+    return s.empty() ? dash : s;
+  }; // dashed_null
+  if (prot.empty() && fat.empty() && carb.empty())
+    return std::string("");
+  return dashed_null(prot) + " " + dashed_null(fat) + " " + dashed_null(carb);
+} // AtwaterString
+
 auto ReadAtwaterFoods(StringDb& atwaterDb)
   -> std::map<std::string, int>
 {
@@ -79,20 +119,17 @@ auto ReadAtwaterFoods(StringDb& atwaterDb)
   std::string line;
   {
     enum class Fncf { id, protein, fat, carb };
-    auto input = std::ifstream("usda/food_calorie_conversion_factor.csv");
+    auto fname = FdcPath + "food_calorie_conversion_factor.csv";
+    auto input = std::ifstream(fname);
+    if (!input)
+      throw std::runtime_error("Cannot open " + fname);
     if (!std::getline(input, line)) // discard header
       return atwaterFoods;
     while (std::getline(input, line)) {
       auto v = Parse<Fncf>(line);
-      const auto& id = v.at(Fncf::id);
-      auto dashed_null = [](const std::string& s) -> const std::string& {
-        static const std::string& dash("-");
-        if (s.empty())
-	  return dash;
-	return s;
-      }; // dashed_null
-      auto atwater = dashed_null(v.at(Fncf::protein)) + " " +
-	  dashed_null(v.at(Fncf::fat)) + " " + dashed_null(v.at(Fncf::carb));
+      const auto& id = v[Fncf::id];
+      auto atwater =
+	  AtwaterString(v[Fncf::protein], v[Fncf::fat], v[Fncf::carb]);
       atwaterCodes.emplace(id, atwaterDb.get(atwater));
     }
     std::cout << "Read " << atwaterCodes.size() << " Atwater codes ("
@@ -100,24 +137,43 @@ auto ReadAtwaterFoods(StringDb& atwaterDb)
   }
   {
     enum Fncf { id, fdc_id };
-    auto input = std::ifstream("usda/food_nutrient_conversion_factor.csv");
+    auto fname = FdcPath + "food_nutrient_conversion_factor.csv";
+    auto input = std::ifstream(fname);
+    if (!input)
+      throw std::runtime_error("Cannot open " + fname);
     std::getline(input, line); // discard header
     while (std::getline(input, line)) {
       auto v = Parse<Fncf>(line);
-      auto iter = atwaterCodes.find(v.at(Fncf::id));
+      auto iter = atwaterCodes.find(v[Fncf::id]);
       if (iter != atwaterCodes.end())
-	atwaterFoods[v.at(Fncf::fdc_id)] = iter->second;
+	atwaterFoods[v[Fncf::fdc_id]] = iter->second;
     }
   }
   return atwaterFoods;
 } // ReadAtwaterFoods
 
+struct FormatSaver {
+  std::ostream& os;
+  std::ios::fmtflags flags;
+  std::streamsize prec;
+  std::streamsize width;
+  explicit FormatSaver(std::ostream& os_)
+    : os{os_}, flags{os_.flags()}, prec{os_.precision()}, width{os_.width()}
+    { }
+  ~FormatSaver() {
+    os.flags(flags);
+    os.precision(prec);
+    os.width(width);
+  }
+}; // FormatSaver
+
 enum class FieldIdx {
-  energy, atwater_general, atwater_specific, protein, fat, carb_diff, carb_sum,
-  fiber, alcohol, end
+  kJ, energy, atwater_general, atwater_specific, protein, fat,
+  carb_diff, carb_sum, fiber, alcohol, end
 }; // FieldIdx
 
 const std::vector<std::string> FieldIds = {
+  "1062", // kJ
   "1008", // kcal
   "2047", // atwater general
   "2048", // atwater specific
@@ -148,8 +204,12 @@ struct Ingred {
     kcal = value(FieldIdx::atwater_general);
     if (kcal != 0.0)
       return kcal;
-    return value(FieldIdx::energy);
-  }
+    kcal = value(FieldIdx::energy);
+    if (kcal != 0.0)
+      return kcal;
+    constexpr auto kcalPerKj = 0.239;
+    return kcalPerKj * value(FieldIdx::kJ);
+  } // energy
   float carb()    const {
     auto g = value(FieldIdx::carb_diff);
     if (g != 0.0)
@@ -164,19 +224,28 @@ struct Ingred {
 }; // Ingred
 
 std::ostream& operator<<(std::ostream& os, const Ingred& f) {
-  os << f.energy() << ' ' << f.protein() << ' ' << f.fat()
-      << ' ' << f.carb() << ' ' << f.fiber() << ' ' << f.alcohol()
-      << ' ' << f.atwater
-      << ' ' << f.desc;
-  return os;
-}
+  auto fiber = -f.alcohol();
+  if (fiber == 0.0)
+    fiber = f.fiber();
+  FormatSaver saver(os);
+  using namespace std;
+  os << fixed;
+  os.precision(2);
+  os << fixed << setw(7) << f.energy()
+     <<   ' ' << setw(7) << f.protein()
+     <<   ' ' << setw(7) << f.fat()
+     <<   ' ' << setw(7) << f.carb()
+     <<   ' ' << setw(7) << fiber;
+  return os << ' ' << f.desc;
+} // << Ingred
 
-auto ReadFoods(const std::map<std::string, int>& atwaterFoods,
-               std::multimap<int, std::string>& atwaterGroups)
+auto ReadFoods(const std::map<std::string, int>& atwaterFoods)
   -> std::map<std::string, Ingred>
 {
   std::map<std::string, Ingred> foods;
   auto input = std::ifstream{"lookup.txt"};
+  if (!input)
+    throw std::runtime_error("Cannot open lookup.txt");
   Ingred ingred;
   while (input >> ingred.id >> std::ws) {
     if (std::getline(input, ingred.desc)) {
@@ -185,12 +254,67 @@ auto ReadFoods(const std::map<std::string, int>& atwaterFoods,
       else
         ingred.atwater = 0;
       foods.emplace(ingred.id, ingred);
-      atwaterGroups.emplace(ingred.atwater, ingred.id);
     }
   }
   std::cout << "Read " << foods.size() << " foods.\n";
   return foods;
 } // ReadFoods
+
+void UpdateAtwaterFromLegacy(std::map<std::string, Ingred>& foods,
+			     StringDb& atwaterDb)
+{
+  std::cout << "Reading legacy Atwater codes.\n";
+  std::string line;
+  std::map<std::string, std::string> legacy;
+  {
+    enum class Legacy { fc_id, NDB_number };
+    auto fname = FdcPath + "sr_legacy_food.csv";
+    auto input = std::ifstream(fname);
+    if (!input)
+      throw std::runtime_error("Cannot open " + fname);
+    std::getline(input, line);  // discard headings
+    while (std::getline(input, line)) {
+      auto v = Parse<Legacy>(line);
+      if (foods.contains(v[Legacy::fc_id]))
+        legacy.emplace(v[Legacy::NDB_number], v[Legacy::fc_id]);
+    }
+  }
+  std::cout << "Found " << legacy.size() << " legacy foods.\n";
+  {
+    enum class FoodDesc {
+      NDB_No, FdGrp_Cd, Long_Desc, Shrt_Desc, ComName, ManufacName, Survey,
+      Ref_desc, Refuse, SciName, N_Factor, Pro_Factor, Fat_Factor, CHO_Factor
+    }; // FoodDesc
+    auto fname = SrPath + "FOOD_DES.txt";
+    auto input = std::ifstream(fname);
+    if (!input)
+      throw std::runtime_error("Cannot open " + fname);
+    std::getline(input, line);  // discard headings
+    int updateCount = 0;
+    int linenum = 1;
+    while (std::getline(input, line)) {
+      ++linenum;
+      try {
+	auto v = ParseTxt<FoodDesc>(line);
+	auto iter = legacy.find(v[FoodDesc::NDB_No]);
+	if (iter == legacy.end())
+	  continue;
+	auto& ingred = foods.at(iter->second);
+	if (ingred.atwater != 0)
+	  continue;
+	auto str = AtwaterString(v[FoodDesc::Pro_Factor],
+	                         v[FoodDesc::Fat_Factor],
+				 v[FoodDesc::CHO_Factor]);
+	ingred.atwater = atwaterDb.get(str);
+	++updateCount;
+      }
+      catch (const std::exception& x) {
+        std::cout << fname << '(' << linenum << ") " << x.what() << '\n';
+      }
+    }
+    std::cout << "Updated " << updateCount << " Atwater codes.\n";
+  }
+} // UpdateAtwaterFromLegacy
 
 int main() {
   std::cout << "Starting..." << std::endl;
@@ -198,15 +322,19 @@ int main() {
 
   auto atwaterFoods = ReadAtwaterFoods(atwaterDb);
 
-  std::multimap<int, std::string> atwaterGroups;
-  auto foods = ReadFoods(atwaterFoods, atwaterGroups);
+  auto foods = ReadFoods(atwaterFoods);
+
+  UpdateAtwaterFromLegacy(foods, atwaterDb);
 
   enum class FoodNutrient {
     id, fdc_id, nutrient_id, amount, data_points, derivation_id,
     min, max, median, log, footnote, min_year_acquired
   }; // FoodNutrient
 
-  auto db = std::ifstream{"usda/food_nutrient.csv"};
+  std::string fname = FdcPath + "food_nutrient.csv";
+  auto db = std::ifstream{fname};
+  if (!db)
+    throw std::runtime_error("Cannot open " + fname);
   long long linenum = 0;
   constexpr auto total_lines = 26235968;
   auto t = std::chrono::steady_clock::now();
@@ -236,13 +364,17 @@ int main() {
     food->second.values.at(i) = std::stof(amount);
   }
   std::cout << "\r100% complete\n";
-  int last_group = 0;
-  for (const auto& [group, id]: atwaterGroups) {
-    if (group != last_group) {
-      last_group = group;
-      std::cout << '[' << atwaterDb.str(group) << "]\n";
+  std::multimap<int, const Ingred*> group;
+  for (const auto& [id, ingred]: foods)
+    group.emplace(ingred.atwater, &ingred);
+  std::cout << std::fixed << std::setprecision(2);
+  int last_atwater = 0;
+  for (const auto& [id, ingred]: group) {
+    if (id != last_atwater) {
+      last_atwater = id;
+      std::cout << '[' << atwaterDb.str(id) << "]\n";
     }
-    std::cout << foods.at(id) << '\n';
+    std::cout << "    100     0 " << (*ingred) << " // " << ingred->id << '\n';
   }
   return 0;
 } // main
