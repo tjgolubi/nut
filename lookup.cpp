@@ -39,13 +39,13 @@ std::ostream& operator<<(std::ostream& os, const ParseVec<E>& v) {
 } // << ParseVec
 
 template<class E>
-auto Parse(const std::string& str, char sep=',', char delim='"', char
-escape='\\')
-  -> ParseVec<E>
+auto Parse(ParseVec<E>& v, const std::string& str,
+           char sep=',', char delim='"', char escape='\\')
+  -> ParseVec<E>&
 {
   std::istringstream iss(str);
   std::string s;
-  ParseVec<E> rval;
+  v.clear();
   if (iss >> std::ws) {
     if (iss.peek() == delim) {
       iss >> std::quoted(s, delim, escape);
@@ -56,27 +56,44 @@ escape='\\')
 	iss.unget();
     }
     if (iss)
-      rval.push_back(s);
+      v.push_back(s);
     char c;
     while (iss >> c) {
       if (c != sep)
         break;
       if (iss.peek() == delim) {
 	if (iss >> std::quoted(s, delim, escape))
-	  rval.push_back(s);
+	  v.push_back(s);
 	continue;
       }
       std::getline(iss, s, sep);
-      rval.push_back(s);
+      v.push_back(s);
       if (!iss.eof())
 	iss.unget();
     }
   }
-  return rval;
+  return v;
 } // Parse
 
 template<class E>
+auto ParseTxt(ParseVec<E>& v, const std::string& str) -> ParseVec<E>&
+  { return Parse<E>(v, str, '^', '~'); }
+
+#if 0
+template<class E>
+auto Parse(const std::string& str,
+           char sep=',', char delim='"', char escape='\\')
+  -> ParseVec<E>
+{
+  ParseVec<E> rval;
+  ParseVec<E>(rval, str, sep, delim, escape);
+  return rval;
+} // Parse
+
+
+template<class E>
 auto ParseTxt(const std::string& str) { return Parse<E>(str, '^', '~'); }
+#endif
 
 class StringDb {
 private:
@@ -123,35 +140,50 @@ auto ReadAtwaterFoods(StringDb& atwaterDb)
   std::map<std::string, int> atwaterCodes;
   std::string line;
   {
-    enum class Fncf { id, protein, fat, carb };
+    enum class Idx { id, protein, fat, carb, end };
     auto fname = FdcPath + "food_calorie_conversion_factor.csv";
     auto input = std::ifstream(fname);
     if (!input)
       throw std::runtime_error("Cannot open " + fname);
-    if (!std::getline(input, line)) // discard header
-      return atwaterFoods;
+    if (!std::getline(input, line))
+      throw std::runtime_error("Cannot read " + fname);
+    ParseVec<Idx> v;
+    Parse(v, line);
+    if (v.size() != std::size_t(Idx::end)
+        || v[Idx::id]      != "food_nutrient_conversion_factor_id"
+	|| v[Idx::protein] != "protein_value"
+	|| v[Idx::fat]     != "fat_value"
+	|| v[Idx::carb]    != "carbohydrate_value")
+      throw std::runtime_error(fname + ": invalid headings");
     while (std::getline(input, line)) {
-      auto v = Parse<Fncf>(line);
-      const auto& id = v[Fncf::id];
+      Parse(v, line);
+      const auto& id = v[Idx::id];
       auto atwater =
-	  AtwaterString(v[Fncf::protein], v[Fncf::fat], v[Fncf::carb]);
+	  AtwaterString(v[Idx::protein], v[Idx::fat], v[Idx::carb]);
       atwaterCodes.emplace(id, atwaterDb.get(atwater));
     }
     std::cout << "Read " << atwaterCodes.size() << " Atwater codes ("
 	<< atwaterDb.size() << " unique).\n";
   }
   {
-    enum Fncf { id, fdc_id };
+    enum Idx { id, fdc_id, end };
     auto fname = FdcPath + "food_nutrient_conversion_factor.csv";
     auto input = std::ifstream(fname);
     if (!input)
       throw std::runtime_error("Cannot open " + fname);
-    std::getline(input, line); // discard header
+    if (!std::getline(input, line))
+      throw std::runtime_error("Cannot read " + fname);
+    ParseVec<Idx> v;
+    Parse(v, line);
+    if (v.size() != std::size_t(Idx::end)
+	|| v[Idx::id]     != "id"
+	|| v[Idx::fdc_id] != "fdc_id")
+      throw std::runtime_error(fname + ": invalid headings");
     while (std::getline(input, line)) {
-      auto v = Parse<Fncf>(line);
-      auto iter = atwaterCodes.find(v[Fncf::id]);
+      Parse(v, line);
+      auto iter = atwaterCodes.find(v[Idx::id]);
       if (iter != atwaterCodes.end())
-	atwaterFoods[v[Fncf::fdc_id]] = iter->second;
+	atwaterFoods[v[Idx::fdc_id]] = iter->second;
     }
   }
   return atwaterFoods;
@@ -257,44 +289,58 @@ void UpdateAtwaterFromLegacy(std::map<std::string, Ingred>& foods,
   std::string line;
   std::map<std::string, std::string> legacy;
   {
-    enum class Legacy { fc_id, NDB_number };
+    enum class Idx { fdc_id, NDB_number, end };
     auto fname = FdcPath + "sr_legacy_food.csv";
     auto input = std::ifstream(fname);
     if (!input)
       throw std::runtime_error("Cannot open " + fname);
-    std::getline(input, line);  // discard headings
+    if (!std::getline(input, line))
+      throw std::runtime_error("Cannot read " + fname);
+    ParseVec<Idx> v;
+    Parse(v, line);
+    if (v.size() != std::size_t(Idx::end)
+        || v[Idx::fdc_id]     != "fdc_id"
+	|| v[Idx::NDB_number] != "NDB_number")
+      throw std::runtime_error(fname + ": invalid headings");
     while (std::getline(input, line)) {
-      auto v = Parse<Legacy>(line);
-      if (foods.contains(v[Legacy::fc_id]))
-        legacy.emplace(v[Legacy::NDB_number], v[Legacy::fc_id]);
+      Parse(v, line);
+      if (foods.contains(v[Idx::fdc_id]))
+        legacy.emplace(v[Idx::NDB_number], v[Idx::fdc_id]);
     }
   }
   std::cout << "Found " << legacy.size() << " legacy foods.\n";
   {
-    enum class FoodDesc {
+    enum class Idx {
       NDB_No, FdGrp_Cd, Long_Desc, Shrt_Desc, ComName, ManufacName, Survey,
-      Ref_desc, Refuse, SciName, N_Factor, Pro_Factor, Fat_Factor, CHO_Factor
-    }; // FoodDesc
+      Ref_desc, Refuse, SciName, N_Factor, Pro_Factor, Fat_Factor, CHO_Factor,
+      end
+    };
     auto fname = SrPath + "FOOD_DES.txt";
     auto input = std::ifstream(fname);
     if (!input)
       throw std::runtime_error("Cannot open " + fname);
-    std::getline(input, line);  // discard headings
+    if (!std::getline(input, line))
+      throw std::runtime_error("Cannot read " + fname);
+    ParseVec<Idx> v;
     int updateCount = 0;
     int linenum = 1;
     while (std::getline(input, line)) {
       ++linenum;
       try {
-	auto v = ParseTxt<FoodDesc>(line);
-	auto iter = legacy.find(v[FoodDesc::NDB_No]);
+	ParseTxt<Idx>(v, line);
+	if (v.size() != std::size_t(Idx::end)) {
+	  throw std::runtime_error(
+	      "invalid # columns: " + std::to_string(v.size()));
+	}
+	auto iter = legacy.find(v[Idx::NDB_No]);
 	if (iter == legacy.end())
 	  continue;
 	auto& ingred = foods.at(iter->second);
 	if (ingred.atwater != 0)
 	  continue;
-	auto str = AtwaterString(v[FoodDesc::Pro_Factor],
-	                         v[FoodDesc::Fat_Factor],
-				 v[FoodDesc::CHO_Factor]);
+	auto str = AtwaterString(v[Idx::Pro_Factor],
+	                         v[Idx::Fat_Factor],
+				 v[Idx::CHO_Factor]);
 	ingred.atwater = atwaterDb.get(str);
 	++updateCount;
       }
@@ -357,14 +403,21 @@ auto LoadPortions(const std::map<std::string, Ingred>& foods)
   units.emplace("9999", NullUnit);
   std::string line;
   {
-    enum class Idx { id, name };
+    enum class Idx { id, name, end };
     const auto fname = FdcPath + "measure_unit.csv";
     auto input = std::ifstream(fname);
     if (!input)
       throw std::runtime_error("Cannot open " + fname);
-    std::getline(input, line); // discard headings
+    if (!std::getline(input, line)) // discard headings
+      throw std::runtime_error("Cannot read " + fname);
+    ParseVec<Idx> v;
+    Parse(v, line);
+    if (v.size() != std::size_t(Idx::end)
+      || v[Idx::id]   != "id"
+      || v[Idx::name] != "name")
+    throw std::runtime_error(fname + ": invalid headings");
     while (std::getline(input, line)) {
-      auto v = Parse<Idx>(line);
+      Parse(v, line);
       if (v[Idx::id] != "9999")
 	units.emplace(v[Idx::id], Unit(v[Idx::name]));
     }
@@ -373,14 +426,25 @@ auto LoadPortions(const std::map<std::string, Ingred>& foods)
   std::multimap<std::string, Portion> rval;
   {
     enum class Idx { id, fdc_id, seq_num, amount, unit, desc,
-	modifier, grams, data_points, footnote, min_year_acquired };
+	modifier, grams, data_points, footnote, min_year_acquired, end };
     const auto fname = FdcPath + "food_portion.csv";
     auto input = std::ifstream(fname);
     if (!input)
       throw std::runtime_error("Cannot open " + fname);
-    std::getline(input, line); // discard headings
+    if (!std::getline(input, line)) // discard headings
+      throw std::runtime_error("Cannot read " + fname);
+    ParseVec<Idx> v;
+    Parse(v, line);
+    if (v.size() != std::size_t(Idx::end)
+	|| v[Idx::fdc_id]   != "fdc_id"
+	|| v[Idx::grams]    != "gram_weight"
+	|| v[Idx::amount]   != "amount"
+	|| v[Idx::unit]     != "measure_unit_id"
+	|| v[Idx::desc]     != "portion_description"
+	|| v[Idx::modifier] != "modifier")
+      throw std::runtime_error(fname + ": invalid headings");
     while (std::getline(input, line)) {
-      auto v = Parse<Idx>(line);
+      Parse(v, line);
       const auto& fdc_id = v[Idx::fdc_id];
       auto food = foods.find(fdc_id);
       if (food == foods.end())
@@ -430,21 +494,33 @@ int main() {
 
   UpdateAtwaterFromLegacy(foods, atwaterDb);
 
-  enum class FoodNutrient {
+  enum class Idx {
     id, fdc_id, nutrient_id, amount, data_points, derivation_id,
-    min, max, median, log, footnote, min_year_acquired
-  }; // FoodNutrient
+    min, max, median, log, footnote, min_year_acquired, end
+  }; // Idx
 
   std::string fname = FdcPath + "food_nutrient.csv";
   auto db = std::ifstream{fname};
   if (!db)
     throw std::runtime_error("Cannot open " + fname);
+  {
+    std::string line;
+    if (!std::getline(db, line))
+      throw std::runtime_error("Cannot read " + fname);
+    ParseVec<Idx> v;
+    Parse(v, line);
+    if (v.size() != std::size_t(Idx::end)
+        || v[Idx::id]          != "id"
+	|| v[Idx::fdc_id]      != "fdc_id"
+	|| v[Idx::nutrient_id] != "nutrient_id"
+	|| v[Idx::amount]      != "amount")
+      throw std::runtime_error(fname + ": invalid headings");
+  }
   long long linenum = 0;
   constexpr auto total_lines = 26235968;
   auto t = std::chrono::steady_clock::now();
   std::string id, fdc_id, nutrient_id, amount;
   constexpr auto max_size = std::numeric_limits<std::streamsize>::max();
-  db.ignore(max_size, '\n');
   char c1, c2, c3;
   while (db >> std::quoted(id) >> c1 >> std::quoted(fdc_id) >> c2
 	    >> std::quoted(nutrient_id) >> c3 >> std::quoted(amount))
