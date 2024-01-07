@@ -569,7 +569,7 @@ int main() {
 	ostr << '*' << setw(5) << Round(p.g)
 	     << ' ' << setw(5) << Round(p.ml)
 	     << ' ' << setw(5) << 0 // Round(p.ingred.energy() * p.g / 100)
-	     << ' ' << left << setw(27) << quoted(p.ingred.desc)
+	     << ' ' << left << setw(27) << "this"
 	     << right << ' ' << p.desc << '\n';
       }
       output << ostr.str();

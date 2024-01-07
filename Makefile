@@ -35,7 +35,7 @@ lookout.txt: lookup.exe lookup.txt
 getfood.exe: getfood.cpp
 	g++ -I $(INCL) -std=c++20 $(OPT) getfood.cpp -o getfood.exe
 
-food.txt: getfood.exe
+food.txt: getfood.exe ../usda/fdc/food.csv
 	./getfood.exe
 
 clean:

@@ -34,3 +34,196 @@
 170426  canned seedless green hot chili pepper
 170497  raw green hot chili pepper
 171604  canned mature red hot chili pepper sauce
+171059	cooked chicken heart
+171060	raw chicken liver
+171061	cooked chicken liver
+171062	raw light chicken meat with skin, broiled
+171063	fried chicken dark meat with skin
+171065	roasted chicken dark meat with skin
+171066	stewed chicken dark meat with skin
+171067	raw skinless dark chicken meat
+171068	fried chicken dark meat, skinless
+171069	roasted chicken dark meat, skinless
+171070	stewed chicken dark meat, skinless
+171071	roasted chicken back meat with skin
+171072	stewed chicken back meat with skin
+171073	raw chicken back meat only
+171074	fried chicken back meat only
+171075	roasted chicken breast meat with skin
+171076	stewed chicken breast meat with skin
+171077	Chicken, broiler or fryers, breast, skinless, boneless, meat only, raw
+171078	Chicken, broilers or fryers, breast, meat only, cooked, fried
+171099	Chicken, canned, meat only, with broth
+171107	Chicken, cornish game hens, meat and skin, cooked, roasted
+171108	Chicken, cornish game hens, meat only, raw
+171109	Chicken, cornish game hens, meat only, cooked, roasted
+171110	Chicken, canned, no broth
+171111	Chicken, wing, frozen, glazed, barbecue flavored
+171114	Chicken, broiler, rotisserie, BBQ, drumstick, meat only
+171115	Chicken, wing, frozen, glazed, barbecue flavored, heated (conventional oven)
+171116	Chicken, ground, raw
+171117	Chicken, ground, crumbles, cooked, pan-browned
+171118	Chicken, broiler, rotisserie, BBQ, thigh, meat only
+171119	Chicken, feet, boiled
+171120	Chicken, broilers or fryers, rotisserie, original seasoning, thigh, meat only, cooked
+171121	Chicken, broilers or fryers, rotisserie, original seasoning, wing, meat only, cooked
+171122	Chicken, broilers or fryers, rotisserie, original seasoning, back, meat and skin, cooked
+171123	Chicken, broilers or fryers, rotisserie, original seasoning, breast, meat and skin, cooked
+171124	Chicken, broiler, rotisserie, BBQ, back, meat and skin
+171125	Chicken, broiler, rotisserie, BBQ, breast, meat and skin
+171126	Chicken, broiler, rotisserie, BBQ, drumstick, meat and skin
+171127	Chicken, broiler, rotisserie, BBQ, thigh, meat and skin
+171140	Chicken, broiler or fryers, breast, skinless, boneless, meat only, cooked, braised
+171445	Chicken, broiler, rotisserie, BBQ, breast, meat only
+171446	Chicken, broilers or fryers, meat and skin and giblets and neck, stewed
+171447	Chicken, broilers or fryers, meat and skin, raw
+171448	Chicken, broilers or fryers, meat and skin, cooked, fried, batter
+171449	Chicken, broilers or fryers, meat and skin, cooked, fried, flour
+171450	Chicken, broilers or fryers, meat and skin, cooked, roasted
+171451	Chicken, broilers or fryers, meat only, cooked, stewed
+171452	Chicken, broilers or fryers, skin only, raw
+171453	Chicken, broilers or fryers, skin only, cooked, fried, batter
+171454	Chicken, broilers or fryers, skin only, cooked, fried, flour
+171455	Chicken, broilers or fryers, giblets, cooked, simmered
+171456	Chicken, gizzard, all classes, raw
+171457	Chicken, gizzard, all classes, cooked, simmered
+171458	Chicken, heart, all classes, raw
+171459	Chicken, broilers or fryers, light meat, meat and skin, cooked, fried, batter
+171460	Chicken, broilers or fryers, light meat, meat and skin, cooked, fried, flour
+171461	Chicken, broilers or fryers, light meat, meat and skin, cooked, roasted
+171462	Chicken, broilers or fryers, light meat, meat and skin, cooked, stewed
+171463	Chicken, broilers or fryers, dark meat, meat and skin, raw
+171464	Chicken, broilers or fryers, light meat, meat only, raw
+171465	Chicken, broilers or fryers, light meat, meat only, cooked, fried
+171466	Chicken, broilers or fryers, light meat, meat only, cooked, roasted
+171467	Chicken, broilers or fryers, light meat, meat only, cooked, stewed
+171468	Chicken, broilers or fryers, separable fat, raw
+171469	Chicken, broilers or fryers, back, meat and skin, raw
+171470	Chicken, broilers or fryers, back, meat and skin, cooked, fried, batter
+171471	Chicken, broilers or fryers, back, meat and skin, cooked, fried, flour
+171472	Chicken, broilers or fryers, back, meat only, cooked, roasted
+171473	Chicken, broilers or fryers, back, meat only, cooked, stewed
+171474	Chicken, broilers or fryers, breast, meat and skin, raw
+171475	Chicken, broilers or fryers, breast, meat and skin, cooked, fried, batter
+171476	Chicken, broilers or fryers, breast, meat and skin, cooked, fried, flour
+171477	Chicken, broilers or fryers, breast, meat only, cooked, roasted
+171478	Chicken, broilers or fryers, breast, meat only, cooked, stewed
+171507	Chicken, cornish game hens, meat and skin, raw
+171508	Chicken, wing, frozen, glazed, barbecue flavored, heated (microwave)
+171509	Chicken, broilers or fryers, breast, skinless, boneless, meat only, with added solution, raw
+171516	Chicken, broiler, rotisserie, BBQ, wing, meat only
+171517	Chicken, broilers or fryers, rotisserie, original seasoning, back, meat only, cooked
+171518	Chicken, broilers or fryers, rotisserie, original seasoning, breast, meat only, cooked
+171519	Chicken, broilers or fryers, drumstick, rotisserie, original seasoning, meat only, cooked
+171520	Chicken, broilers or fryers, rotisserie, original seasoning, skin only, cooked
+171521	Chicken, broilers or fryers,  rotisserie, original seasoning, drumstick, meat and skin, cooked
+171522	Chicken, broilers or fryers, rotisserie, original seasoning, thigh, meat and skin, cooked
+171523	Chicken, broilers or fryers, rotisserie, original seasoning, wing, meat and skin, cooked
+171524	Chicken, broiler, rotisserie, BBQ, skin
+171534	Chicken, broiler or fryers, breast, skinless, boneless, meat only, cooked, grilled
+171535	Chicken, broiler or fryers, breast, skinless, boneless, meat only, with added solution, cooked, braised
+171536	Chicken, broiler or fryers, breast, skinless, boneless, meat only, with added solution, cooked, grilled
+172111	Chicken, nuggets, dark and white meat, precooked, frozen, not reheated
+172112	Chicken, nuggets, white meat, precooked, frozen, not reheated
+172373	Chicken, broilers or fryers, drumstick, meat and skin, raw
+172374	Chicken, broilers or fryers, drumstick, meat and skin, cooked, fried, batter
+172375	Chicken, broilers or fryers, drumstick, meat only, cooked, fried
+172376	Chicken, broilers or fryers, dark meat, drumstick, meat only, cooked, roasted
+172377	Chicken, broilers or fryers, drumstick, meat only, cooked, stewed
+172378	Chicken, broilers or fryers, leg, meat and skin, raw
+172379	Chicken, broilers or fryers, leg, meat only, cooked, fried
+172380	Chicken, broilers or fryers, leg, meat only, cooked, roasted
+172381	Chicken, broilers or fryers, leg, meat only, cooked, stewed
+172382	Chicken, broilers or fryers, neck, meat and skin, raw
+172383	Chicken, broilers or fryers, neck, meat only, cooked, fried
+172384	Chicken, broilers or fryers, neck, meat only, cooked, simmered
+172385	Chicken, broilers or fryers, thigh, meat and skin, raw
+172386	Chicken, broilers or fryers, thigh, meat and skin, cooked, fried, batter
+172387	Chicken, broilers or fryers, thigh, meat only, cooked, fried
+172388	Chicken, broilers or fryers, thigh, meat only, cooked, roasted
+172389	Chicken, broilers or fryers, thigh, meat only, cooked, stewed
+172390	Chicken, broilers or fryers, wing, meat and skin, raw
+172391	Chicken, broilers or fryers, wing, meat only, cooked, fried
+172392	Chicken, broilers or fryers, wing, meat only, cooked, roasted
+172393	Chicken, broilers or fryers, wing, meat only, cooked, stewed
+172394	Chicken, roasting, meat and skin and giblets and neck, raw
+172395	Chicken, roasting, meat only, cooked, roasted
+172396	Chicken, roasting, giblets, raw
+172397	Chicken, roasting, giblets, cooked, simmered
+172398	Chicken, roasting, light meat, meat only, raw
+172399	Chicken, stewing, meat and skin, and giblets and neck, cooked, stewed
+172400	Chicken, stewing, meat and skin, raw
+172401	Chicken, stewing, meat and skin, cooked, stewed
+172402	Chicken, stewing, meat only, raw
+172403	Chicken, stewing, meat only, cooked, stewed
+172404	Chicken, stewing, dark meat, meat only, raw
+172405	Chicken, stewing, dark meat, meat only, cooked, stewed
+172406	Chicken, capons, meat and skin and giblets and neck, raw
+172407	Chicken, capons, meat and skin and giblets and neck, cooked, roasted
+172830	Chicken, broiler, rotisserie, BBQ, wing, meat and skin
+172852	Chicken, broilers or fryers, dark meat, drumstick, meat only, cooked, braised
+172853	Chicken, broilers or fryers, dark meat, thigh, meat only, cooked, braised
+172854	Chicken, skin (drumsticks and thighs), cooked, braised
+172855	Chicken, skin (drumsticks and thighs), raw
+172856	Chicken, dark meat, drumstick, meat only, with added solution, cooked, roasted
+172857	Chicken, dark meat, drumstick, meat only, with added solution, cooked, braised
+172858	Chicken, dark meat, thigh, meat only, with added solution, cooked, braised
+172859	Chicken, dark meat, thigh, meat only, with added solution, raw
+172860	Chicken, dark meat, drumstick, meat and skin, with added solution, raw
+172861	Chicken, dark meat, drumstick, meat and skin, with added solution, cooked, roasted
+172862	Chicken, dark meat, thigh, meat and skin, with added solution, cooked, braised
+172863	Chicken, dark meat, thigh, meat and skin, with added solution, raw
+173611	Chicken, broilers or fryers, drumstick, meat and skin, cooked, fried, flour
+173612	Chicken, broilers or fryers, drumstick, meat and skin, cooked, roasted
+173613	Chicken, broilers or fryers, drumstick, meat and skin, cooked, stewed
+173614	Chicken, broilers or fryers, dark meat, drumstick, meat only, raw
+173615	Chicken, broilers or fryers, leg, meat and skin, cooked, fried, batter
+173616	Chicken, broilers or fryers, leg, meat and skin, cooked, fried, flour
+173617	Chicken, broilers or fryers, leg, meat and skin, cooked, roasted
+173618	Chicken, broilers or fryers, leg, meat and skin, cooked, stewed
+173619	Chicken, broilers or fryers, leg, meat only, raw
+173620	Chicken, broilers or fryers, neck, meat and skin, cooked, fried, batter
+173621	Chicken, broilers or fryers, neck, meat and skin, cooked, fried, flour
+173622	Chicken, broilers or fryers, neck, meat and skin, cooked simmered
+173623	Chicken, broilers or fryers, neck, meat only, raw
+173624	Chicken, broilers or fryers, thigh, meat and skin, cooked, fried, flour
+173625	Chicken, broilers or fryers, thigh, meat and skin, cooked, roasted
+173626	Chicken, broilers or fryers, thigh, meat and skin, cooked, stewed
+173627	Chicken, broilers or fryers, dark meat, thigh, meat only, raw
+173628	Chicken, broilers or fryers, wing, meat and skin, cooked, fried, batter
+173629	Chicken, broilers or fryers, wing, meat and skin, cooked, fried, flour
+173630	Chicken, broilers or fryers, wing, meat and skin, cooked, roasted
+173631	Chicken, broilers or fryers, wing, meat and skin, cooked, stewed
+173632	Chicken, broilers or fryers, wing, meat only, raw
+173633	Chicken, roasting, meat and skin and giblets and neck, cooked, roasted
+173635	Chicken, roasting, meat and skin, cooked, roasted
+173636	Chicken, roasting, meat only, raw
+173637	Chicken, roasting, light meat, meat only, cooked, roasted
+173638	Chicken, roasting, dark meat, meat only, raw
+173639	Chicken, roasting, dark meat, meat only, cooked, roasted
+173640	Chicken, stewing, meat and skin, and giblets and neck, raw
+173641	Chicken, stewing, giblets, raw
+173642	Chicken, stewing, giblets, cooked, simmered
+173643	Chicken, stewing, light meat, meat only, raw
+173644	Chicken, stewing, light meat, meat only, cooked, stewed
+173645	Chicken, capons, meat and skin, raw
+173646	Chicken, capons, meat and skin, cooked, roasted
+174465	Chicken, capons, giblets, raw
+174466	Chicken, capons, giblets, cooked, simmered
+174491	Chicken, liver, all classes, cooked, pan-fried
+174496	Chicken, skin (drumsticks and thighs), cooked, roasted
+174497	Chicken, broilers or fryers, dark meat, drumstick, meat and skin, cooked, braised
+174498	Chicken, broilers or fryers, dark meat, thigh, meat and skin, cooked, braised
+174499	Chicken, dark meat, drumstick, meat only, with added solution, raw
+174500	Chicken, dark meat, thigh, meat only, with added solution, cooked, roasted
+174501	Chicken, skin (drumsticks and thighs), with added solution, cooked, braised
+174502	Chicken, skin (drumsticks and thighs), with added solution, raw
+174503	Chicken, skin (drumsticks and thighs), with added solution, cooked, roasted
+174504	Chicken, dark meat, drumstick, meat and skin, with added solution, cooked, braised
+174505	Chicken, dark meat, thigh, meat and skin, with added solution, cooked, roasted
+174506	Chicken, broiler, rotisserie, BBQ, back meat only
+331897	Chicken, broilers or fryers, drumstick, meat only, cooked, braised
+331960	Chicken, broiler or fryers, breast, skinless, boneless, meat only, cooked, braised
+2514746	Chicken, ground, with additives, raw
+2646170	Chicken, breast, boneless, skinless, raw
+2646171	Chicken, thigh, boneless, skinless, raw

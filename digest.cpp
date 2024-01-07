@@ -73,6 +73,7 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
   }; // IfBlock
   std::stack<IfBlock> if_blocks;
   Atwater atwater;
+  Nutrition this_nutr;
   while (std::getline(input, line)) {
     ++linenum;
 
@@ -284,12 +285,17 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 	continue;
       }
       subst_vars(key);
-      auto iter = nuts.find(key);
-      if (iter == nuts.end()) {
-	COUT << "key not found: " << std::quoted(key) << '\n';
-	continue;
+      if (key == "this") {
+        nutr = this_nutr;
       }
-      nutr = iter->second;
+      else {
+	auto iter = nuts.find(key);
+	if (iter == nuts.end()) {
+	  COUT << "key not found: " << std::quoted(key) << '\n';
+	  continue;
+	}
+	nutr = iter->second;
+      }
       key.clear();
     }
     else {
@@ -342,26 +348,6 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 	auto err = abs(kcal - nutr.kcal) / nutr.kcal;
 	bool error =
 		  (abs(err) > 0.1 && abs(round(kcal) - round(nutr.kcal)) > 1);
-#if 0
-	if (error) {
-	  auto kcal2 = kcal - atwater.carb * nutr.fiber;
-	  auto err2 = abs(kcal2 - nutr.kcal) / nutr.kcal;
-	  bool error2 =
-		(abs(err2) > 0.1 && abs(round(kcal2) - round(nutr.kcal)) > 1);
-	  if (error2 < error) {
-	    auto new_kcal = nutr.kcal + atwater.carb * nutr.fiber;
-	    if (new_kcal >= 10.0)
-	      new_kcal = round(new_kcal);
-	    else
-	      new_kcal = round(10 * new_kcal) / 10;
-	    COUT << "kcal adjusted: " << nutr.kcal << " --> " << new_kcal << ' '
-		 << name << '\n';
-	    nutr.kcal = new_kcal;
-	    err = abs(kcal - nutr.kcal) / nutr.kcal;
-	    error = (abs(err) > 0.1 && abs(round(kcal) - round(nutr.kcal)) > 1);
-	  }
-	}
-#endif
 	if (!error && kcal_range_error) {
 	  COUT << "? not needed\n";
 	}
@@ -371,16 +357,28 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 	       << ' ' << name << '\n';
 	}
       }
+
+      vars["this"] = VarItem{std::regex{"\\$this\\b"}, name};
+      this_nutr = nutr;
     }
 
     if (!key.empty()) {
       subst_vars(key);
-      auto iter = nuts.find(key);
-      if (iter == nuts.end()) {
-	COUT << "key not found: " << std::quoted(key) << '\n';
-	continue;
+
+      Nutrition* nptr = nullptr;;
+      if (key == "this") {
+        nptr = &this_nutr;
       }
-      const auto& n = iter->second;
+      else {
+	auto iter = nuts.find(key);
+	if (iter == nuts.end()) {
+	  COUT << "key not found: " << std::quoted(key) << '\n';
+	  continue;
+	}
+        nptr = &iter->second;
+      }
+      auto const& n = *nptr;
+
       if (n.kcal == 0.0) {
         COUT << "zero base kcal\n";
 	continue;
