@@ -55,6 +55,7 @@ void ReadIngredients(NutrVec& ingredients) {
   Ingredient ingr;
   while (std::getline(input, ingr.name, '\0')) {
     input.read(reinterpret_cast<char*>(&ingr.nutr), sizeof(ingr.nutr));
+    ingr.nutr.fiber = std::max(0.0f, ingr.nutr.fiber); // remove alcohol
     ingredients.push_back(ingr);
   }
   if (!rng::is_sorted(ingredients))

@@ -74,6 +74,7 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
   }; // IfBlock
   std::stack<IfBlock> if_blocks;
   Atwater atwater;
+  std::string this_name;
   Nutrition this_nutr;
   while (std::getline(input, line)) {
     ++linenum;
@@ -340,8 +341,6 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
       using std::abs;
       using std::round;
       auto kcal = atwater.kcal(nutr);
-      if (nutr.fiber < 0.0)
-        nutr.fiber = 0.0;
       if (nutr.kcal < 0.0) {
         nutr.kcal = kcal;
       }
@@ -360,6 +359,7 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
       }
 
       vars["this"] = VarItem{std::regex{"\\$this\\b"}, name};
+      this_name = name;
       this_nutr = nutr;
     }
 
@@ -419,17 +419,24 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
       cout << std::left << std::setw(40) << std::quoted(name) << ' '
 		<< std::right << nutr << '\n';
 #endif
+
+    if (key == "this" && name == "replace") {
+      nuts[this_name] = this_nutr = nutr;
+      continue;
+    }
+
     if (!nuts.try_emplace(name, nutr).second)
       COUT << "duplicate: " << name << '\n';
   }
 } // ReadIngredients
 
-int main() {
+int main(int argc, char* argv[]) {
   using std::cout;
   try {
+    std::string input_file = (argc == 1) ? "ingred.txt" :  argv[1];
     NutritionMap ingredients;
     VarMap defs;
-    ReadIngredients("ingred.txt", ingredients, defs);
+    ReadIngredients(input_file, ingredients, defs);
     cout << "Read " << ingredients.size() << " ingredients." << std::endl;
 
     std::ofstream output{"ingred.dat", std::ios::binary};

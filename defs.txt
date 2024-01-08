@@ -36,6 +36,7 @@
 #define 5FLOZ 147.9
 #define 6FLOZ 177.4
 #define 7FLOZ 207.0
+#define 12FLOZ 354.9
 #define PINT  473.2
 #define QT    946.4
 #define GAL  3785
