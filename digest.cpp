@@ -7,6 +7,7 @@
 
 #include <string>
 #include <map>
+#include <stack>
 #include <iostream>
 #include <iomanip>
 #include <fstream>

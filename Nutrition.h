@@ -4,6 +4,7 @@
 #pragma once
 
 #include <iosfwd>
+#include <compare>
 
 struct Nutrition {
   float g     = 0.0;
