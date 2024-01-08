@@ -6,7 +6,7 @@ OPT=
 
 .PHONY: all clean scour
 
-all: nut.exe digest.exe ingred.dat barf.txt # lookout.txt food.txt
+all: nut.exe digest.exe ingred.dat barf.txt food.txt
 
 nut.exe: nut.cpp Nutrition.h
 	g++ -I $(INCL) -std=c++20 $(OPT) nut.cpp -o nut.exe
@@ -17,7 +17,7 @@ digest.exe: digest.cpp Atwater.cpp Atwater.h Nutrition.h
 barf.exe: barf.cpp Nutrition.cpp Nutrition.h
 	g++ -I $(INCL) -std=c++20 $(OPT) barf.cpp Nutrition.cpp -o barf.exe
 
-ingred.dat: digest.exe ingred.txt defs.txt chicken.txt turkey.txt $(wildcard branded/*.txt)
+ingred.dat: digest.exe ingred.txt defs.txt chicken.txt turkey.txt lookout.txt $(wildcard branded/*.txt)
 	./digest.exe
 
 barf.txt: barf.exe ingred.dat
@@ -26,8 +26,8 @@ barf.txt: barf.exe ingred.dat
 	then diff -b tjg.txt barf.txt
 	fi
 
-lookup.exe: lookup.cpp
-	g++ -I $(INCL) -std=c++20 $(OPT) lookup.cpp -o lookup.exe
+lookup.exe: lookup.cpp Atwater.cpp
+	g++ -I $(INCL) -std=c++20 $(OPT) lookup.cpp Atwater.cpp -o lookup.exe
 
 lookout.txt: lookup.exe lookup.txt
 	./lookup.exe

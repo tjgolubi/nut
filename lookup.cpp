@@ -1,3 +1,8 @@
+// Copyright 2023 Terry Golubiewski, all rights reserved.
+
+#include "Atwater.h"
+
+#include <system_error>
 #include <iostream>
 #include <iomanip>
 #include <fstream>
@@ -8,6 +13,7 @@
 #include <map>
 #include <algorithm>
 #include <chrono>
+#include <charconv>
 #include <limits>
 #include <cstdlib>
 #include <cmath>
@@ -121,13 +127,21 @@ std::ostream& operator<<(std::ostream& os, const StringDb& db) {
   return os;
 }
 
-auto AtwaterString(const std::string& prot, const std::string& fat, const
-std::string& carb)
+auto ToStr(float x) {
+  std::array<char, 16> buf;
+  auto [ptr, ec] = std::to_chars(buf.data(), buf.data() + buf.size(), x,
+				 std::chars_format::fixed, 2);
+  if (ec != std::errc())
+    throw std::system_error(std::make_error_code(ec));
+  return std::string(buf.data(), ptr);
+}
+
+auto AtwaterString(const std::string& prot, const std::string& fat,
+                   const std::string& carb)
   -> std::string
 {
   auto dashed_null = [](const std::string& s) {
-    static const std::string dash("-");
-    return s.empty() ? dash : s;
+    return s.empty() ? "-" : ToStr(std::stof(s));
   }; // dashed_null
   if (prot.empty() && fat.empty() && carb.empty())
     return std::string("");
@@ -476,13 +490,24 @@ auto LoadPortions(const std::map<std::string, Ingred>& foods)
       }
       if (!desc.str().empty())
         desc << ' ';
-      desc << ingred.desc;
+      desc << "$this";
       rval.emplace(fdc_id, Portion{ingred, desc.str(), g, ml});
     }
   }
   std::cout << "Loaded " << rval.size() << " portions.\n";
   return rval;
 } // LoadPortions
+
+auto MakeAtwaterNames() {
+  std::map<std::string, std::string> rval;
+  for (const auto& [name, atwater]: Atwater::Names) {
+    auto str =       ToStr(atwater.prot)
+             + " " + ToStr(atwater.fat)
+             + " " + ToStr(atwater.carb);
+    rval.emplace(str, name);
+  }
+  return rval;
+}
 
 int main() {
   DefaultCoutFlags = std::cout.flags();
@@ -552,12 +577,16 @@ int main() {
   std::multimap<int, const Ingred*> group;
   for (const auto& [id, ingred]: foods)
     group.emplace(ingred.atwater, &ingred);
+  auto atwaterNames = MakeAtwaterNames();
   output << std::fixed << std::setprecision(2);
   int last_atwater = 0;
   for (const auto& [id, ingred]: group) {
     if (id != last_atwater) {
       last_atwater = id;
-      output << '[' << atwaterDb.str(id) << "]\n";
+      auto str = atwaterDb.str(id);
+      if (auto iter = atwaterNames.find(str); iter != atwaterNames.end())
+        str = iter->second;
+      output << '[' << str << "]\n";
     }
     output << "   100     0 " << (*ingred)
               << " // usda " << ingred->id << '\n';

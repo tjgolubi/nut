@@ -25,9 +25,7 @@ std::istream& SetFail(std::istream& is) {
   return is;
 } // SetFail
 
-using Map = std::map<std::string, Atwater>;
-
-static const Map Names = {
+const std::map<std::string, Atwater> Atwater::Names = {
   { "egg",         { 4.36, 9.02, 3.68 } },
   { "gelatin",     { 3.90, 9.02, 3.87 } },
   { "glycogen",    { 4.27, 9.02, 4.11 } },
@@ -78,7 +76,7 @@ static const Map Names = {
   { "vinegar",     { 3.95, 8.37, 2.40 } },
   { "yeast",       { 3.00, 8.37, 3.35 } },
   { "general",     { 4.00, 9.00, 4.00 } }
-}; // Names
+}; // Atwater::Names
 
 using SynMap = std::map<std::string, std::string>;
 static const SynMap Synonyms = {
@@ -121,7 +119,7 @@ std::istream& operator>>(std::istream& is, Atwater& atwater) {
       return is;
     if (auto iter = Synonyms.find(name); iter != Synonyms.end())
       name = iter->second;
-    if (auto iter = Names.find(name); iter != Names.end()) {
+    if (auto iter = Atwater::Names.find(name); iter != Atwater::Names.end()) {
       atwater = iter->second;
       return is;
     }

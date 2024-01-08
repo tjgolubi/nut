@@ -5,9 +5,12 @@
 
 #include "Nutrition.h"
 
-#include <iostream>
+#include <iosfwd>
+#include <string>
+#include <map>
 
 struct Atwater {
+  static const std::map<std::string, Atwater> Names;
   static constexpr double alcohol = 6.93;
   double prot  = 4.0;
   double fat   = 9.0;
