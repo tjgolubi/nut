@@ -491,7 +491,7 @@ auto LoadPortions(const std::map<std::string, Ingred>& foods)
 	  val = 0.0;
 	  constexpr auto npos = std::string::npos;
 	  modifier = (pos != npos && pos+1 < v[Idx::modifier].size())
-	           ? modifier.substr(pos+1)
+	           ? v[Idx::modifier].substr(pos+1)
 	           : std::string{};
 	  if (!modifier.empty()) {
 	    pos = modifier.find_first_not_of(" ");
@@ -509,10 +509,16 @@ auto LoadPortions(const std::map<std::string, Ingred>& foods)
       std::string comment;
       if (!modifier.empty()) {
         std::smatch m;
-        const std::regex e{"(.*) *\\((.*)\\)(.*)"};
-	if (std::regex_match(modifier, m, e)) {
-	  modifier = m[1].str() + m[3].str();
-	  comment = m[2].str();
+        static const std::regex e{"\\(.*\\)"};
+	if (std::regex_search(modifier, m, e)) {
+	  static const std::regex e1{" *$"};
+	  auto pfx = std::regex_replace(m.prefix().str(), e1, "");
+	  static const std::regex e2{"^ *"};
+	  auto sfx = std::regex_replace(m.suffix().str(), e2, "");
+	  comment = modifier.substr(m.position(0)+1, m.length(0)-2);
+	  modifier = pfx;
+	  if (!sfx.empty())
+	    modifier += " " + sfx;
 	}
       }
       if (!modifier.empty()) {
