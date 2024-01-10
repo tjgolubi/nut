@@ -1,48 +1,11 @@
-790577  red onion
-790646  yellow onion
-1104962 white onion
-170000  raw onion
-170410  frozen chopped onion
-2345475 pearl onion
-170005	scallion/spring onion
-170082  freeze-dried shallot
-170499  raw shallot
-168426  cooked leek
-169246  raw leek
-170485  freeze-dried leek
-169231  raw ginger root
-169765  canned pickled ginger root
-170926  ground ginger
-172701  gingerbread cake mix
-172702  gingerbread cake
-174846  ginger ale
-174956  ginger snap
-175077  reduced fat ginger snap
-169997  fresh cilantro
-2258588 raw green bell pepper
-2258589 raw yellow bell pepper
-2258590 raw red bell pepper
-2258591 raw orange bell pepper
-169394  raw banana pepper
-168576  raw jalapeno pepper
-170080  canned jalapeno pepper
-169395  raw serrano pepper
-170932  red/cayenne pepper spice
-168577  canned green chili pepper
-170106  raw red hot chili pepper
-170107  canned seedless red hot chili pepper
-170426  canned seedless green hot chili pepper
-170497  raw green hot chili pepper
-171604  canned mature red hot chili pepper sauce
-
-168746	beer
-168747	beer budweiser
-168748	light beer budweiser select
-168749	light beer
-169572	light beer bud light
-169575	low-carb light beer
-171871	root beer
-171906	high-alcohol beer
-174141	hard lemonade
-174145	high-alcohol light beer
-174863	malt beverage
+168469	frozen zucchini
+168470	frozen boiled zucchini
+168471	canned italian-style zucchini
+168565	baby zucchini
+169291	zucchini
+169292	boiled zucchini
+169228	eggplant
+169229	boiled eggplant
+169892	pickled eggplant
+169378	sweet pickle
+169397	chowchow

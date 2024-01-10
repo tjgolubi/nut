@@ -271,6 +271,30 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
       continue;
     }
 
+    if (istr.peek() == '/') {
+      static const std::regex e{"^\\s*/([^/]*)/([^/]*)/$"};
+      subst_vars(line);
+      std::smatch m;
+      if (!std::regex_match(line, m, e)) {
+        COUT << "invalid search and replace\n";
+	continue;
+      }
+      std::regex s{"\\b" + m[1].str() + "\\b"};
+      const auto& r = m[2].str();
+      std::vector<NutritionMap::value_type> add;
+      for (const auto& n: nuts) {
+        if (std::regex_search(n.first, s))
+	  add.emplace_back(std::regex_replace(n.first, s, r), n.second);
+      }
+      for (auto& v: add)
+        nuts.emplace(std::move(v));
+#if 0
+      COUT << std::quoted(m[1].str()) << " --> " << std::quoted(m[2].str())
+           << " " << add.size() << " times\n";
+#endif
+      continue;
+    }
+
     allow_each = (istr.peek() == '*');
     if (allow_each) {
       istr.ignore();
@@ -420,7 +444,7 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 		<< std::right << nutr << '\n';
 #endif
 
-    if (key == "this" && name == "replace") {
+    if (name == "replace") {
       nuts[this_name] = this_nutr = nutr;
       continue;
     }
