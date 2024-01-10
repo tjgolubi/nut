@@ -3,6 +3,7 @@
 #include "Atwater.h"
 
 #include <system_error>
+#include <regex>
 #include <iostream>
 #include <iomanip>
 #include <fstream>
@@ -370,18 +371,23 @@ void UpdateAtwaterFromLegacy(std::map<std::string, Ingred>& foods,
 float ConversionFactor(const std::string& unit) {
   constexpr float Cup = 236.6;
   static const std::map<std::string, float> FactorMap = {
-    { "cup",        Cup     },
-    { "tablespoon", Cup/16  },
-    { "teaspoon",   Cup/48  },
-    { "liter",      1000.0  },
-    { "milliliter", 1.0     },
-    { "cubic inch", 16.39   },
+    { "cup",         Cup     },
+    { "tablespoon",  Cup/16  },
+    { "tbsp",        Cup/16  },
+    { "Tablespoons", Cup/16  },
+    { "teaspoon",    Cup/48  },
+    { "tsp",         Cup/48  },
+    { "liter",       1000.0  },
+    { "milliliter",  1.0     },
+    { "ml",          1.0     },
+    { "cubic inch",  16.39   },
     { "cubic centimeter", 1.0 },
+    { "cc",              1.0 },
     { "gallon",     16 * Cup },
     { "pint",        2 * Cup },
     { "fl oz",       Cup / 8 },
-    { "quart",       4 * Cup },
-    { "Tablespoons", Cup/16  }
+    { "floz",        Cup / 8 },
+    { "quart",       4 * Cup }
   }; // FactorMap
   if (unit.empty())
     return 0.0f;
@@ -465,32 +471,60 @@ auto LoadPortions(const std::map<std::string, Ingred>& foods)
       if (food == foods.end())
         continue;
       const Ingred& ingred = food->second;
-      float ml = 0.0;
+      float ml = 0.0f;
       float g  = std::stof(v[Idx::grams]);
       std::ostringstream desc;
       const auto& amount = v[Idx::amount];
       float val = amount.empty() ? 0.0 : std::stof(amount);
-      if (val != 0.0 && val != 1.0)
-        desc << val << 'x';
       auto iter = units.find(v[Idx::unit]);
       const auto& unit = (iter != units.end()) ? iter->second : NullUnit;
       if (!unit.name.empty()) {
         desc << unit.name;
 	ml = val * unit.ml_factor;
+	val = 0.0;
       }
+      auto modifier{v[Idx::modifier]};
+      if (val != 0.0f && !modifier.empty()) {
+        auto pos = modifier.find(',');
+	ml = val * ConversionFactor(modifier.substr(0, pos));
+	if (ml != 0.0f) {
+	  val = 0.0;
+	  constexpr auto npos = std::string::npos;
+	  modifier = (pos != npos && pos+1 < v[Idx::modifier].size())
+	           ? modifier.substr(pos+1)
+	           : std::string{};
+	  if (!modifier.empty()) {
+	    pos = modifier.find_first_not_of(" ");
+	    modifier = (pos != npos) ? modifier.substr(pos) : std::string{};
+	  }
+	}
+      }
+      if (val != 0.0 && val != 1.0)
+        desc << val << 'x';
       if (!v[Idx::desc].empty()) {
         if (!desc.str().empty())
 	  desc << ' ';
 	desc << v[Idx::desc];
       }
-      if (!v[Idx::modifier].empty()) {
+      std::string comment;
+      if (!modifier.empty()) {
+        std::smatch m;
+        const std::regex e{"(.*) *\\((.*)\\)(.*)"};
+	if (std::regex_match(modifier, m, e)) {
+	  modifier = m[1].str() + m[3].str();
+	  comment = m[2].str();
+	}
+      }
+      if (!modifier.empty()) {
         if (!desc.str().empty())
 	  desc << ' ';
-	desc << v[Idx::modifier];
+	desc << modifier;
       }
       if (!desc.str().empty())
         desc << ' ';
       desc << "$this";
+      if (!comment.empty())
+        desc << " // " << comment;
       rval.emplace(fdc_id, Portion{ingred, desc.str(), g, ml});
     }
   }
@@ -508,6 +542,50 @@ auto MakeAtwaterNames() {
   }
   return rval;
 }
+
+class MlText {
+private:
+  static constexpr float Round(float x) {
+    return (std::abs(x) >= 100.0f) ? (std::round(x * 10) / 10)
+				   : (std::round(x * 100) / 100);
+  }
+  std::map<float, std::string> dict;
+public:
+  MlText() {
+    constexpr auto FlOz = 29.5735f;
+    constexpr auto Cup  = 8 * FlOz;
+    constexpr auto Tbsp = Cup / 16;
+    constexpr auto Tsp  = Tbsp / 3;
+    constexpr auto Pint = 2 * Cup;
+    constexpr auto Quart = 4 * Cup;
+    constexpr auto Gallon = 4 * Quart;
+    dict.emplace(Round(FlOz),   "FLOZ");
+    dict.emplace(Round(Cup),    "CUP");
+    dict.emplace(Round(Cup/2),  "HCUP");
+    dict.emplace(Round(Cup/4),  "QCUP");
+    dict.emplace(Round(Cup/3),  "1_3C");
+    dict.emplace(Round(Pint),   "PINT");
+    dict.emplace(Round(Quart),  "QT");
+    dict.emplace(Round(Gallon), "GAL");
+    dict.emplace(Round(Tbsp),   "TBSP");
+    dict.emplace(Round(2*Tbsp), "2TBSP");
+    dict.emplace(Round(3*Tbsp), "3TBSP");
+    dict.emplace(Round(Tsp),    "TSP");
+    dict.emplace(Round(2*Tsp),  "2TSP");
+    for (int i = 2; i < 16; ++i)
+      dict.emplace(Round(i * FlOz), std::to_string(i) + "FLOZ");
+  }
+  std::string operator()(float x) const {
+    x = Round(x);
+    if (auto iter = dict.find(x); iter != dict.end())
+      return iter->second;
+    if (std::abs(x) < 0.05f)
+      return "0";
+    std::ostringstream oss;
+    oss << x;
+    return oss.str();
+  }
+}; // MlText
 
 int main() {
   DefaultCoutFlags = std::cout.flags();
@@ -573,6 +651,7 @@ int main() {
   auto output = std::ofstream("lookout.txt");
   if (!output)
     throw std::runtime_error("Could not write lookout.txt");
+  const MlText mlStr;
   const auto portions = LoadPortions(foods);
   std::multimap<int, const Ingred*> group;
   for (const auto& [id, ingred]: foods)
@@ -596,8 +675,8 @@ int main() {
       std::ostringstream ostr;
       for (auto it = r.first; it != r.second; ++it) {
         const auto& p = it->second;
-	ostr << '*' << setw(5) << Round(p.g)
-	     << ' ' << setw(5) << Round(p.ml)
+	ostr << ((p.ml == 0.0f) ? '*' : ' ')<< setw(5) << Round(p.g)
+	     << ' ' << setw(5) << mlStr(p.ml)
 	     << ' ' << setw(5) << 0 // Round(p.ingred.energy() * p.g / 100)
 	     << ' ' << left << setw(27) << "this"
 	     << right << ' ' << p.desc << '\n';

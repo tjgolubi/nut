@@ -968,10 +968,10 @@
 *   17     0     0 "sliced $this"              medium slice $this
 *   38     0     0 "sliced $this"              thick slice $this // 1/4"
 *    = "medium slice $this"                    slice $this
-*   70     0     0 this                       small $this
-*  110     0     0 this                       medium $this
-*  150     0     0 this                       large $this
-*    =             "medium $this"             replace
+*   70     0     0 this                        small $this
+*  110     0     0 this                        medium $this
+*  150     0     0 this                        large $this
+*    =             "medium $this"              replace
 
    100     0    32   1.83   0.19   7.34   2.60 scallion // usda 170005
    100   CUP     0 this                        chopped $this
