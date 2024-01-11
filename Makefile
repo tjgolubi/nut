@@ -6,7 +6,7 @@ OPT=
 
 .PHONY: all clean scour
 
-all: nut.exe digest.exe ingred.dat barf.txt food.txt lookup.exe
+all: nut.exe digest.exe ingred.dat barf.txt lookup.exe
 
 nut.exe: nut.cpp Nutrition.h
 	g++ -I $(INCL) -std=c++20 $(OPT) nut.cpp -o nut.exe

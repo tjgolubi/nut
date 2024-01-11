@@ -663,20 +663,29 @@ int main() {
   for (const auto& [id, ingred]: foods)
     group.emplace(ingred.atwater, &ingred);
   auto atwaterNames = MakeAtwaterNames();
+  std::vector<const Ingred*> v;
+  for (const auto& [id, ingred]: foods)
+    v.push_back(&ingred);
+  auto lt = [atwaterDb](const Ingred* lhs, const Ingred* rhs) {
+    if (auto cmp = (atwaterDb.str(lhs->atwater) <=> atwaterDb.str(rhs->atwater)); cmp != 0)
+      return (cmp < 0);
+    return (lhs->desc < rhs->desc);
+  };
+  std::sort(v.begin(), v.end(), lt);
   output << std::fixed << std::setprecision(2);
   int last_atwater = 0;
-  for (const auto& [id, ingred]: group) {
-    if (id != last_atwater) {
-      last_atwater = id;
-      auto str = atwaterDb.str(id);
+  for (const auto& ptr: v) {
+    if (ptr->atwater != last_atwater) {
+      last_atwater = ptr->atwater;
+      auto str = atwaterDb.str(ptr->atwater);
       if (auto iter = atwaterNames.find(str); iter != atwaterNames.end())
         str = iter->second;
       output << '[' << str << "]\n";
     }
-    output << "   100     0 " << (*ingred)
-              << " // usda " << ingred->id << '\n';
+    output << "   100     0 " << (*ptr)
+              << " // usda " << ptr->id << '\n';
     {
-      auto r = portions.equal_range(ingred->id);
+      auto r = portions.equal_range(ptr->id);
       using std::setw, std::left, std::right, std::quoted;
       std::ostringstream ostr;
       for (auto it = r.first; it != r.second; ++it) {
