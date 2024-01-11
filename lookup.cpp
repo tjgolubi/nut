@@ -659,15 +659,14 @@ int main() {
     throw std::runtime_error("Could not write lookout.txt");
   const MlText mlStr;
   const auto portions = LoadPortions(foods);
-  std::multimap<int, const Ingred*> group;
-  for (const auto& [id, ingred]: foods)
-    group.emplace(ingred.atwater, &ingred);
   auto atwaterNames = MakeAtwaterNames();
   std::vector<const Ingred*> v;
   for (const auto& [id, ingred]: foods)
     v.push_back(&ingred);
   auto lt = [atwaterDb](const Ingred* lhs, const Ingred* rhs) {
-    if (auto cmp = (atwaterDb.str(lhs->atwater) <=> atwaterDb.str(rhs->atwater)); cmp != 0)
+    if (auto cmp =
+		  (atwaterDb.str(lhs->atwater) <=> atwaterDb.str(rhs->atwater));
+	cmp != 0)
       return (cmp < 0);
     return (lhs->desc < rhs->desc);
   };
@@ -686,15 +685,27 @@ int main() {
               << " // usda " << ptr->id << '\n';
     {
       auto r = portions.equal_range(ptr->id);
+      std::vector<const Portion*> v2;
+      for (auto it = r.first; it != r.second; ++it)
+        v2.push_back(&it->second);
+      auto lt2 = [](const Portion* lhs, const Portion* rhs) {
+        if (auto cmp = (lhs->g <=> rhs->g); cmp != 0)
+	  return (cmp < 0);
+	if (auto cmp = (lhs->ml <=> rhs->ml); cmp != 0)
+	  return (cmp < 0);
+	return (lhs->desc < rhs->desc);
+      };
+      std::sort(v2.begin(), v2.end(), lt2);
+
       using std::setw, std::left, std::right, std::quoted;
+
       std::ostringstream ostr;
-      for (auto it = r.first; it != r.second; ++it) {
-        const auto& p = it->second;
-	ostr << ((p.ml == 0.0f) ? '*' : ' ')<< setw(5) << Round(p.g)
-	     << ' ' << setw(5) << mlStr(p.ml)
+      for (const auto p: v2) {
+	ostr << ((p->ml == 0.0f) ? '*' : ' ')<< setw(5) << Round(p->g)
+	     << ' ' << setw(5) << mlStr(p->ml)
 	     << ' ' << setw(5) << 0 // Round(p.ingred.energy() * p.g / 100)
 	     << ' ' << left << setw(27) << "this"
-	     << right << ' ' << p.desc << '\n';
+	     << right << ' ' << p->desc << '\n';
       }
       output << ostr.str();
     }
