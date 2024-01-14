@@ -82,6 +82,8 @@ auto Parse(ParseVec<E>& v, const std::string& str,
 	iss.unget();
     }
   }
+  if (v.size() != static_cast<ParseVec<E>::size_type>(E::end))
+    throw std::runtime_error("invalid number of columns");
   return v;
 } // Parse
 
@@ -498,6 +500,7 @@ void ProcessNutrients(std::vector<Ingred>& foods) {
   auto output = std::ofstream(outname);
   if (!output)
     throw std::runtime_error("Could not write " + outname);
+  output << "fdc_id\tkcal\tprot\tfat\tcarb\tfiber\talc\tatwater\tdesc\n";
   output << std::fixed << std::setprecision(2);
   using std::setw;
   for (const auto& ingred: foods) {
@@ -604,6 +607,7 @@ void ProcessPortions(const std::vector<Ingred>& foods) {
       throw std::runtime_error(fname + ": invalid headings");
     FdcId last_fdc_id;
     bool known_fdc_id = false;
+    output << "fdc_id\tg\tml\tdesc\n";
     output << std::fixed << std::setprecision(2);
     int count = 0;
     while (std::getline(input, line)) {
