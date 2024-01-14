@@ -607,7 +607,7 @@ void ProcessPortions(const std::vector<Ingred>& foods) {
       throw std::runtime_error(fname + ": invalid headings");
     FdcId last_fdc_id;
     bool known_fdc_id = false;
-    output << "fdc_id\tg\tml\tdesc\n";
+    output << "fdc_id\tg\tml\tdesc\tcomment\n";
     output << std::fixed << std::setprecision(2);
     int count = 0;
     while (std::getline(input, line)) {
@@ -723,11 +723,6 @@ void ProcessPortions(const std::vector<Ingred>& foods) {
 	  desc << ' ';
 	desc << modifier;
       }
-      if (!comment.empty()) {
-        if (!desc.view().empty())
-	  desc << ' ';
-        desc << "// " << comment;
-      }
       constexpr auto GramsPerOz = 28.34952f;
       constexpr auto GramsPerLb = 16 * GramsPerOz;
       if (ml == 0.0f) {
@@ -752,7 +747,9 @@ void ProcessPortions(const std::vector<Ingred>& foods) {
       output << setw(6) << fdc_id
 	     << '\t' << setw(6) << g
              << '\t' << setw(6) << ml
-	     << '\t' << desc.view() << '\n';
+	     << '\t' << desc.view()
+	     << '\t' << comment
+	     << '\n';
       ++count;
     }
     std::cout << "Wrote " << count << " portions to " << outname << ".\n";
