@@ -420,22 +420,8 @@ void UpdateAtwaterFromLegacy(std::vector<Ingred>& foods, AtwaterDb& atwaterDb) {
   }
 } // UpdateAtwaterFromLegacy
 
-auto MakeAtwaterNames() {
-  std::map<std::string, std::string> rval;
-  for (const auto& [name, atwater]: Atwater::Names) {
-    auto str =       ToStr(atwater.prot)
-             + " " + ToStr(atwater.fat)
-             + " " + ToStr(atwater.carb);
-    rval.emplace(str, name);
-  }
-  return rval;
-}
-
-int main() {
-  DefaultCoutFlags = std::cout.flags();
-  std::cout << "Starting..." << std::endl;
-
-  auto foods = GetFoods();
+void ProcessNutrients(std::vector<Ingred>& foods) {
+  std::cout << "Processing nutrients.\n";
 
   AtwaterDb atwaterDb;
   ReadAtwaterFoods(foods, atwaterDb);
@@ -508,9 +494,10 @@ int main() {
     ingred->value(i) = std::stof(amount);
   }
   std::cerr << "\r100% complete\n";
-  auto output = std::ofstream("usda_foods.tsv");
+  const std::string outname{"usda_foods.tsv"};
+  auto output = std::ofstream(outname);
   if (!output)
-    throw std::runtime_error("Could not write usda_foods.tsv");
+    throw std::runtime_error("Could not write " + outname);
   output << std::fixed << std::setprecision(2);
   using std::setw;
   for (const auto& ingred: foods) {
@@ -525,5 +512,255 @@ int main() {
 	<< '\t' << ingred.desc
 	<< '\n';
   }
+  std::cout << "Wrote " << foods.size() << " foods to " << outname << ".\n";
+} // ProcessNutrients
+
+constexpr float Cup = 236.6;
+
+const std::map<std::string, float> FactorMap = {
+  { "cup",         Cup     },
+  { "tablespoon",  Cup/16  },
+  { "tbsp",        Cup/16  },
+  { "Tablespoons", Cup/16  },
+  { "teaspoon",    Cup/48  },
+  { "tsp",         Cup/48  },
+  { "liter",       1000.0  },
+  { "milliliter",  1.0     },
+  { "ml",          1.0     },
+  { "cubic inch",  16.39   },
+  { "cubic centimeter", 1.0 },
+  { "cc",              1.0 },
+  { "gallon",     16 * Cup },
+  { "pint",        2 * Cup },
+  { "fl oz",       Cup / 8 },
+  { "floz",        Cup / 8 },
+  { "quart",       4 * Cup }
+}; // FactorMap
+
+float ConversionFactor(const std::string& unit) {
+  if (unit.empty())
+    return 0.0f;
+  if (auto iter = FactorMap.find(unit); iter != FactorMap.end())
+    return iter->second;
+  return 0.0f;
+} // ConversionFactor
+
+void ProcessPortions(const std::vector<Ingred>& foods) {
+  std::cout << "Processing portions.\n";
+  struct Unit {
+    const std::string name;
+    float ml_factor = 0.0;
+    explicit Unit(const std::string& n)
+      : name{n}, ml_factor{ConversionFactor(n)} { }
+    Unit() { }
+  }; // Unit
+  static const Unit NullUnit;
+  std::map<std::string, Unit> units;
+  units.emplace("9999", NullUnit);
+  std::string line;
+  {
+    enum class Idx { id, name, end };
+    const auto fname = FdcPath + "measure_unit.csv";
+    auto input = std::ifstream(fname);
+    if (!input)
+      throw std::runtime_error("Cannot open " + fname);
+    if (!std::getline(input, line)) // discard headings
+      throw std::runtime_error("Cannot read " + fname);
+    ParseVec<Idx> v;
+    Parse(v, line);
+    if (v.size() != std::size_t(Idx::end)
+      || v[Idx::id]   != "id"
+      || v[Idx::name] != "name")
+    throw std::runtime_error(fname + ": invalid headings");
+    while (std::getline(input, line)) {
+      Parse(v, line);
+      if (v[Idx::id] != "9999")
+	units.emplace(v[Idx::id], Unit(v[Idx::name]));
+    }
+    std::cout << "Loaded " << units.size() << " units of measure.\n";
+  }
+  {
+    std::string outname = "usda_portions.tsv";
+    auto output = std::ofstream(outname);
+    if (!output)
+      throw std::runtime_error("Cannot write to " + outname);
+    enum class Idx { id, fdc_id, seq_num, amount, unit, desc,
+	modifier, grams, data_points, footnote, min_year_acquired, end };
+    const auto fname = FdcPath + "food_portion.csv";
+    auto input = std::ifstream(fname);
+    if (!input)
+      throw std::runtime_error("Cannot open " + fname);
+    if (!std::getline(input, line)) // discard headings
+      throw std::runtime_error("Cannot read " + fname);
+    ParseVec<Idx> v;
+    Parse(v, line);
+    if (v.size() != std::size_t(Idx::end)
+	|| v[Idx::fdc_id]   != "fdc_id"
+	|| v[Idx::grams]    != "gram_weight"
+	|| v[Idx::amount]   != "amount"
+	|| v[Idx::unit]     != "measure_unit_id"
+	|| v[Idx::desc]     != "portion_description"
+	|| v[Idx::modifier] != "modifier")
+      throw std::runtime_error(fname + ": invalid headings");
+    FdcId last_fdc_id;
+    bool known_fdc_id = false;
+    output << std::fixed << std::setprecision(2);
+    int count = 0;
+    while (std::getline(input, line)) {
+      Parse(v, line);
+      auto fdc_id = FdcId{v[Idx::fdc_id]};
+      if (fdc_id != last_fdc_id) {
+        last_fdc_id = fdc_id;
+	auto food = rng::lower_bound(foods, fdc_id, {}, &Ingred::id);
+	known_fdc_id = (food != foods.end() && food->id == fdc_id);
+      }
+      if (!known_fdc_id)
+        continue;
+      float ml = 0.0f;
+      float g  = std::stof(v[Idx::grams]);
+      std::ostringstream desc;
+      const auto& amount = v[Idx::amount];
+      float val = amount.empty() ? 0.0 : std::stof(amount);
+      auto iter = units.find(v[Idx::unit]);
+      const auto& unit = (iter != units.end()) ? iter->second : NullUnit;
+      if (!unit.name.empty()) {
+        if (unit.ml_factor) {
+	  ml = val * unit.ml_factor;
+	}
+	else {
+	  if (val != 0.0f && val != 1.0f)
+	    desc << val << "x ";
+	  desc << unit.name;
+	}
+	val = 0.0f;
+      }
+      auto modifier{v[Idx::modifier]};
+      if (val != 0.0f && !modifier.empty()) {
+        auto pos = modifier.find(',');
+	ml = val * ConversionFactor(modifier.substr(0, pos));
+	if (ml != 0.0f) {
+	  val = 0.0f;
+	  constexpr auto npos = std::string::npos;
+	  modifier = (pos != npos && pos+1 < v[Idx::modifier].size())
+	           ? v[Idx::modifier].substr(pos+1)
+	           : std::string{};
+	  if (!modifier.empty()) {
+	    pos = modifier.find_first_not_of(" ");
+	    modifier = (pos != npos) ? modifier.substr(pos) : std::string{};
+	  }
+	}
+	else {
+	  auto m = std::string_view(modifier);
+	  for (const auto& [unit, factor]: FactorMap) {
+	    if (m.starts_with(unit)) {
+	      ml = val * factor;
+	      val = 0.0f;
+	      m.remove_prefix(unit.size());
+	      if (!m.empty() && m[0] == ',')
+	        m.remove_prefix(1);
+	      auto pos = m.find_first_not_of(" ");
+	      if (pos != std::string_view::npos)
+	        m.remove_prefix(pos);
+	      modifier = std::string(m);
+	      break;
+	    }
+	  }
+	}
+      }
+      if (val != 0.0f && val != 1.0f)
+        desc << val << 'x';
+      if (!v[Idx::desc].empty()) {
+        auto d = std::string_view(v[Idx::desc]);
+        if (amount.empty() && ml == 0.0f) {
+	  float value = 1.0f;
+	  if (std::isdigit(d[0])) {
+	    std::size_t pos = 0;
+	    value = std::stof(v[Idx::desc], &pos);
+	    pos = d.find_first_not_of(" ", pos);
+	    if (pos != std::string_view::npos)
+	      d.remove_prefix(pos);
+	  }
+	  for (const auto& [unit, factor]: FactorMap) {
+	    if (d.starts_with(unit)) {
+	      ml = value * factor;
+	      d.remove_prefix(unit.size());
+	      if (!d.empty() && d[0] == ',')
+	        d.remove_prefix(1);
+	      auto pos = d.find_first_not_of(" ");
+	      if (pos != std::string_view::npos)
+	        d.remove_prefix(pos);
+	      break;
+	    }
+	  }
+	  if (ml == 0.0f)
+	    d = std::string_view(v[Idx::desc]);
+	}
+        if (!desc.view().empty())
+	  desc << ' ';
+	desc << d;
+      }
+      std::string comment;
+      if (!modifier.empty()) {
+        std::smatch m;
+        static const std::regex e{"\\(.*\\)"};
+	if (std::regex_search(modifier, m, e)) {
+	  static const std::regex e1{" *$"};
+	  auto pfx = std::regex_replace(m.prefix().str(), e1, "");
+	  static const std::regex e2{"^ *"};
+	  auto sfx = std::regex_replace(m.suffix().str(), e2, "");
+	  comment = modifier.substr(m.position(0)+1, m.length(0)-2);
+	  modifier = pfx;
+	  if (!sfx.empty())
+	    modifier += " " + sfx;
+	}
+      }
+      if (!modifier.empty()) {
+        if (!desc.view().empty())
+	  desc << ' ';
+	desc << modifier;
+      }
+      if (!comment.empty()) {
+        if (!desc.view().empty())
+	  desc << ' ';
+        desc << "// " << comment;
+      }
+      constexpr auto GramsPerOz = 28.34952f;
+      constexpr auto GramsPerLb = 16 * GramsPerOz;
+      if (ml == 0.0f) {
+        if (desc.view() == "oz" && std::abs(g-GramsPerOz)/GramsPerOz < 0.02)
+	  continue;
+	if (desc.view() == "lb" && std::abs(g-GramsPerLb)/GramsPerLb < 0.02)
+	  continue;
+	std::smatch m;
+	static const std::regex e{"([0-9.]+)x (oz|lb)"};
+	auto str = desc.str();
+	if (std::regex_match(str, m, e)) {
+	  auto valstr = m.str(1);
+	  float v = std::stof(m.str(1));
+	  if (v != 0.0f) {
+	    auto expect = v * ((m[2] == "oz") ? GramsPerOz : GramsPerLb);
+	    if (std::abs(g - expect) / expect < 0.02)
+	      continue;
+	  }
+	}
+      }
+      using std::setw;
+      output << setw(6) << fdc_id
+	     << '\t' << setw(6) << g
+             << '\t' << setw(6) << ml
+	     << '\t' << desc.view() << '\n';
+      ++count;
+    }
+    std::cout << "Wrote " << count << " portions to " << outname << ".\n";
+  }
+} // ProcessPortions
+
+int main() {
+  DefaultCoutFlags = std::cout.flags();
+  std::cout << "Starting..." << std::endl;
+
+  auto foods = GetFoods();
+  ProcessNutrients(foods);
+  ProcessPortions(foods);
   return 0;
 } // main
