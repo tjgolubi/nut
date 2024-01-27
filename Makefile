@@ -42,4 +42,4 @@ clean:
 	rm -f ingred.dat barf.txt
 
 scour: clean
-	rm -f nut.exe digest.exe barf.exe lookup.exe usda_foods.tsv usda_portions.tsv food.txt tjg.txt
+	rm -f nut.exe digest.exe barf.exe lookup.exe tabulate.exe usda_foods.tsv usda_portions.tsv food.txt tjg.txt
