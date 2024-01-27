@@ -1,4 +1,4 @@
-// Copyright 2023 Terry Golubiewski, all rights reserved.
+// Copyright 2023-2024 Terry Golubiewski, all rights reserved.
 #ifndef NUTRITION_H
 #define NUTRITION_H
 #pragma once
@@ -14,6 +14,7 @@ struct Nutrition {
   float fat   = 0.0;
   float carb  = 0.0;
   float fiber = 0.0;
+  float alcohol = 0.0;
 
   void zero() {
     g     = 0.0;
@@ -23,16 +24,22 @@ struct Nutrition {
     fat   = 0.0;
     carb  = 0.0;
     fiber = 0.0;
+    alcohol = 0.0;
+  }
+
+  void scaleMacros(float ratio) {
+    prot  *= ratio;
+    fat   *= ratio;
+    carb  *= ratio;
+    fiber *= ratio;
+    alcohol *= ratio;
   }
 
   void scale(float ratio) {
     g     *= ratio;
     ml    *= ratio;
     kcal  *= ratio;
-    prot  *= ratio;
-    fat   *= ratio;
-    carb  *= ratio;
-    fiber *= ratio;
+    scaleMacros(ratio);
   }
 
   Nutrition& operator+=(const Nutrition& rhs) {
@@ -43,6 +50,7 @@ struct Nutrition {
     fat   += rhs.fat;
     carb  += rhs.carb;
     fiber += rhs.fiber;
+    alcohol += rhs.alcohol;
     return *this;
   }
 

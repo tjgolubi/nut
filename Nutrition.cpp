@@ -15,7 +15,8 @@ std::ostream& operator<<(std::ostream& output, const Nutrition& nutr) {
 	   << ' ' << setw(6) << nutr.prot
 	   << ' ' << setw(6) << nutr.fat
 	   << ' ' << setw(6) << nutr.carb
-	   << ' ' << setw(6) << nutr.fiber;
+	   << ' ' << setw(6) << nutr.fiber
+	   << ' ' << setw(6) << nutr.alcohol;
     output.precision(prec);
     output.flags(flags);
     return output;
@@ -30,5 +31,6 @@ std::ostream& operator<<(std::ostream& output, const Nutrition& nutr) {
 std::istream& operator>>(std::istream& input, Nutrition& nutr) {
   nutr = Nutrition{};
   return input >> nutr.g >> nutr.ml >> nutr.kcal
-	       >> nutr.prot >> nutr.fat >> nutr.carb >> nutr.fiber;
+	       >> nutr.prot >> nutr.fat >> nutr.carb >> nutr.fiber
+	       >> nutr.alcohol;
 } // >> Nutrition

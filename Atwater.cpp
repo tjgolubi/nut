@@ -1,24 +1,23 @@
 // Copyright 2023 Terry Golubiewski, all rights reserved.
 #include "Atwater.h"
 
-#include <map>
+#include "To.h"
+
+// #include <ranges>
+// #include <charconv>
+
+#include <array>
+#include <optional>
 #include <iomanip>
 
-double Atwater::kcal(const Nutrition& nutr) const {
-  double rval = prot * nutr.prot + fat * nutr.fat;
-  if (nutr.fiber < 0.0)
-    return rval + carb * nutr.carb + alcohol * -nutr.fiber;
-  if (fiber == 0.0)
+namespace rng = std::ranges;
+
+float Atwater::kcal(const Nutrition& nutr) const {
+  float rval = prot * nutr.prot + fat * nutr.fat + alcohol * nutr.alcohol;;
+  if (fiber == 0.0f)
     return rval + carb * nutr.carb;
   return rval + carb * (nutr.carb - nutr.fiber) + fiber * nutr.fiber;
 }  // kcal
-
-std::ostream& operator<<(std::ostream& os, const Atwater& atwater) {
-  os << '[' << atwater.prot << ' ' << atwater.fat << ' ' << atwater.carb;
-  if (atwater.fiber != 0.0)
-    os << ' ' << atwater.fiber;
-  return os << ']';
-} // operator << Atwater
 
 std::istream& SetFail(std::istream& is) {
   is.setstate(std::ios_base::failbit);
@@ -78,6 +77,15 @@ const std::map<std::string, Atwater> Atwater::Names = {
   { "general",     { 4.00, 9.00, 4.00 } }
 }; // Atwater::Names
 
+auto GenerateReverseMap() {
+  std::map<Atwater, std::string> rval;
+  for (const auto& [name, atwater]: Atwater::Names)
+    rval[atwater] = name;
+  return rval;
+} // GenerateReverseMap
+
+const std::map<Atwater, std::string> ReverseMap = GenerateReverseMap();
+
 using SynMap = std::map<std::string, std::string>;
 static const SynMap Synonyms = {
   { "fish",    "meat" },
@@ -105,6 +113,55 @@ static const SynMap Synonyms = {
   { "wine",     "juice"  }
 }; // Synonyms
 
+std::string Atwater::values_str(gsl::not_null<gsl::czstring> delim) const {
+  std::ostringstream oss;
+  oss << std::fixed << std::setprecision(2);
+  oss << prot << delim << fat << delim << carb;
+  if (fiber != 0.0f)
+    oss << delim << fiber;
+  return oss.str();
+} // values_str
+
+std::string Atwater::str(gsl::not_null<gsl::czstring> delim) const {
+  auto iter = ReverseMap.find(*this);
+  if (iter != ReverseMap.end())
+    return iter->second;
+  return values_str(delim);
+} // str
+
+Atwater::Atwater(const std::string& str) {
+  static const std::range_error error{"Invalid Atwater initialization string"};
+  if (str.empty()) {
+    *this = Atwater{};
+    return;
+  }
+  if (auto iter = Names.find(str); iter != Names.end()) {
+    *this = iter->second;
+    return;
+  }
+  if (auto iter = Synonyms.find(str); iter != Synonyms.end()) {
+    *this = Atwater(iter->second);
+    return;
+  }
+  auto result = rng::views::split(str, ' ');
+  if (!result || rng::contains(result.front(), ','))
+    result = rng::views::split(str, ',');
+  if (!result)
+    throw error;
+  *this = Atwater{};
+  std::array<float*, 4> m {
+    &prot, &fat, &carb, &fiber
+  };
+  auto iter = std::begin(m);
+  for (auto v: result) {
+    auto x = To<float>(v);
+    if (iter == std::end(m))
+      throw error;
+    **iter = x;
+    ++iter;
+  }
+} // ctor(string)
+
 std::istream& operator>>(std::istream& is, Atwater& atwater) {
   is >> std::ws;
   if (is.peek() != '[')
@@ -112,27 +169,14 @@ std::istream& operator>>(std::istream& is, Atwater& atwater) {
   is.ignore();
   is >> std::ws;
   atwater = Atwater();
-  if (!std::isdigit(is.peek())) {
-    std::string name;
-    std::getline(is, name, ']');
-    if (!is)
-      return is;
-    if (auto iter = Synonyms.find(name); iter != Synonyms.end())
-      name = iter->second;
-    if (auto iter = Atwater::Names.find(name); iter != Atwater::Names.end()) {
-      atwater = iter->second;
-      return is;
-    }
-    return SetFail(is);
-  }
-  is >> atwater.prot >> atwater.fat >> atwater.carb >> std::ws;
-  if (!is)
+  std::string name;
+  if (!std::getline(is, name, ']'))
     return is;
-  if (is.peek() != ']')
-    is >> atwater.fiber >> std::ws;
-  else
-    atwater.fiber = 0.0;
-  if (is.peek() != ']')
-    return SetFail(is);
-  return is.ignore();
+  try { atwater = Atwater(name); }
+  catch (...) { SetFail(is); }
+  return is;
 } // operator >> Atwater
+
+std::ostream& operator<<(std::ostream& os, const Atwater& atwater)
+{ return os << '[' << atwater.str(" ") << ']'; }
+

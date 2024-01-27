@@ -58,3 +58,4 @@
 170071	yam
 170072	cooked yam
 170551	cooked yam with salt
+171906  strong beer

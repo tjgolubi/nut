@@ -335,10 +335,16 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
         istr.ignore();
       istr >> std::ws;
       key.clear();
-      if (auto c = istr.peek(); std::isdigit(c) || c == '.')
+      if (auto c = istr.peek(); std::isdigit(c) || c == '.') {
 	istr >> nutr.prot >> nutr.fat >> nutr.carb >> nutr.fiber;
-      else
+	if (nutr.fiber < 0.0f) {
+	  nutr.alcohol = -nutr.fiber;
+	  nutr.fiber = 0.0f;
+	}
+      }
+      else {
 	istr >> std::quoted(key);
+      }
       if (!istr) {
 	COUT << "invalid macros\n";
 	continue;
@@ -371,7 +377,7 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
       else {
 	auto err = abs(kcal - nutr.kcal) / nutr.kcal;
 	bool error =
-		  (abs(err) > 0.1 && abs(round(kcal) - round(nutr.kcal)) > 1);
+		  (abs(err) > 0.11 && abs(round(kcal) - round(nutr.kcal)) > 1);
 	if (!error && kcal_range_error) {
 	  COUT << "? not needed\n";
 	}
@@ -379,6 +385,8 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 	  COUT << "kcal warning: "
 	       << round(nutr.kcal) << " != " << round(kcal)
 	       << ' ' << name << '\n';
+	  COUT << '[' << atwater.values_str() << "] "
+	       << nutr << '\n';
 	}
       }
 
@@ -420,10 +428,11 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 	COUT << "0 scale: " << std::quoted(key) << '\n';
 	continue;
       }
-      nutr.prot  = scale * n.prot;
-      nutr.fat   = scale * n.fat;
-      nutr.carb  = scale * n.carb;
-      nutr.fiber = scale * n.fiber;
+      nutr.prot    = scale * n.prot;
+      nutr.fat     = scale * n.fat;
+      nutr.carb    = scale * n.carb;
+      nutr.fiber   = scale * n.fiber;
+      nutr.alcohol = scale * n.alcohol;
       if (nutr.kcal == 0.0)
 	nutr.kcal = scale * n.kcal;
       if (nutr.g == 0.0)

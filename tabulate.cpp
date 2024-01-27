@@ -1,6 +1,7 @@
 // Copyright 2023-2024 Terry Golubiewski, all rights reserved.
 
 #include "Atwater.h"
+#include "To.h"
 
 #include <gsl/gsl>
 
@@ -148,9 +149,10 @@ private:
   gsl::index idx = 0;
 public:
   FdcId() : idx{} { }
-  explicit FdcId(const std::string& str)   : idx(std::stoi(str)) { }
-  explicit FdcId(const gsl::czstring& str) : idx(std::atoi(str)) { }
-  explicit FdcId(const gsl::zstring& str)  : idx(std::atoi(str)) { }
+  explicit FdcId(const std::string_view& sv) : idx{To<int>(sv)}  { }
+  explicit FdcId(const std::string& str)   : idx{std::stoi(str)} { }
+  explicit FdcId(const gsl::czstring& str) : idx{std::atoi(str)} { }
+  explicit FdcId(const gsl::zstring& str)  : idx{std::atoi(str)} { }
   operator gsl::index() const { return idx; }
 }; // FdcId
 
@@ -286,12 +288,9 @@ auto AtwaterString(const std::string& prot, const std::string& fat,
                    const std::string& carb)
   -> std::string
 {
-  auto dashed_null = [](const std::string& s) {
-    return s.empty() ? "-" : ToStr(std::stof(s));
-  }; // dashed_null
   if (prot.empty() && fat.empty() && carb.empty())
-    return std::string("");
-  return dashed_null(prot) + " " + dashed_null(fat) + " " + dashed_null(carb);
+    return "";
+  return prot + "," + fat + "," + carb;
 } // AtwaterString
 
 void ReadAtwaterFoods(std::vector<Ingred>& foods, AtwaterDb& atwaterDb) {
@@ -621,7 +620,7 @@ void ProcessPortions(const std::vector<Ingred>& foods) {
       if (!known_fdc_id)
         continue;
       float ml = 0.0f;
-      float g  = std::stof(v[Idx::grams]);
+      auto g  = std::stof(v[Idx::grams]);
       std::ostringstream desc;
       const auto& amount = v[Idx::amount];
       float val = amount.empty() ? 0.0 : std::stof(amount);

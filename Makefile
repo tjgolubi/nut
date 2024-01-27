@@ -6,16 +6,16 @@ OPT=
 
 .PHONY: all clean scour
 
-all: nut.exe digest.exe ingred.dat barf.txt lookup.exe tabulate.exe
+all: nut.exe digest.exe ingred.dat barf.txt lookup.exe usda_foods.tsv usda_portions.tsv food.txt
 
 nut.exe: nut.cpp Nutrition.h
-	g++ -I $(INCL) -std=c++20 $(OPT) nut.cpp -o nut.exe
+	g++ -I $(INCL) -std=c++23 $(OPT) nut.cpp -o nut.exe
 
-digest.exe: digest.cpp Atwater.cpp Atwater.h Nutrition.h
-	g++ -I $(INCL) -std=c++20 $(OPT) digest.cpp Atwater.cpp -o digest.exe
+digest.exe: digest.cpp Atwater.cpp Atwater.h To.h Nutrition.h
+	g++ -I $(INCL) -std=c++23 $(OPT) digest.cpp Atwater.cpp Nutrition.cpp -o digest.exe
 
 barf.exe: barf.cpp Nutrition.cpp Nutrition.h
-	g++ -I $(INCL) -std=c++20 $(OPT) barf.cpp Nutrition.cpp -o barf.exe
+	g++ -I $(INCL) -std=c++23 $(OPT) barf.cpp Nutrition.cpp -o barf.exe
 
 ingred.dat: digest.exe ingred.txt defs.txt chicken.txt turkey.txt $(wildcard branded/*.txt)
 	./digest.exe
@@ -26,20 +26,20 @@ barf.txt: barf.exe ingred.dat
 	then diff -b tjg.txt barf.txt
 	fi
 
-lookup.exe: lookup.cpp Atwater.cpp
-	g++ -I $(INCL) -std=c++20 $(OPT) lookup.cpp Atwater.cpp -o lookup.exe
+lookup.exe: lookup.cpp Atwater.cpp Atwater.h To.h
+	g++ -I $(INCL) -std=c++23 $(OPT) lookup.cpp Atwater.cpp -o lookup.exe
 
-getfood.exe: getfood.cpp
-	g++ -I $(INCL) -std=c++20 $(OPT) getfood.cpp -o getfood.exe
+tabulate.exe: tabulate.cpp Atwater.cpp Atwater.h To.h
+	g++ -I $(INCL) -std=c++23 $(OPT) tabulate.cpp Atwater.cpp -o tabulate.exe
 
-tabulate.exe: tabulate.cpp
-	g++ -I $(INCL) -std=c++20 $(OPT) tabulate.cpp Atwater.cpp -o tabulate.exe
+usda_foods.tsv usda_portions.tsv: tabulate.exe
+	./tabulate.exe
 
-food.txt: getfood.exe ../usda/fdc/food.csv
-	./getfood.exe
+food.txt: mkfood.awk usda_foods.tsv
+	awk -f mkfood.awk usda_foods.tsv > food.txt
 
 clean:
 	rm -f ingred.dat barf.txt
 
 scour: clean
-	rm -f nut.exe digest.exe barf.exe lookup.exe getfood.exe food.txt tjg.txt
+	rm -f nut.exe digest.exe barf.exe lookup.exe usda_foods.tsv usda_portions.tsv food.txt tjg.txt

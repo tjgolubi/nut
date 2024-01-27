@@ -331,8 +331,8 @@
    244   CUP    60   1      2.5    8      0    almond milk
    244   CUP    30   1      2.5    1      0    almond milk unsweet
    244   CUP    70   0      5      6      0    coconut milk
-   244   CUP    40   0      4      2      0    coconut milk unsweet
-   244   CUP    25   1      2      1      0    cashew milk unsweet
+   244   240    40   0      4      2      0    coconut milk unsweet
+   244   240    25   1      2      1      0    cashew milk unsweet
 [milk]
    113   160   230   5     11     26      0    ice cream
 : cottage cheese
@@ -493,7 +493,7 @@
    100   251   306? 11.00  10.25  64.43  42.8  ground oregano
      = this                                    oregano
    100   801   271? 12.66   7.04  60.56  40.3  marjoram
-   100   776   315? 10.63  12.75  60.73  40.3  ground sage
+   100   776   315  10.63  12.75  60.73  40.3  ground sage
      = this                                    dried sage
      = this                                    sage
    100     0    24?  4      0      2      2    sage leaf
