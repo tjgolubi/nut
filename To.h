@@ -9,6 +9,7 @@
 #include <string_view>
 #include <ranges>
 #include <charconv>
+#include <limits>
 #include <system_error>
 #include <type_traits>
 #include <cctype>
@@ -27,6 +28,35 @@ constexpr auto To(const U& x) -> T {
     throw std::system_error{std::make_error_code(result.ec)};
   return std::string{buf.data(), result.ptr};
 }
+
+#ifndef STD_HAS_FROM_CHARS_FLOAT
+
+#include <cmath>
+
+namespace std {
+
+template<typename T>
+requires (std::is_floating_point_v<T>)
+auto from_chars(const char* first, const char* last, T& x) -> from_chars_result {
+  char* ptr;
+  auto y = T{};
+  if constexpr (std::is_same_v<T, float>)
+    y = std::strtof(first, &ptr);
+  else if (std::is_same_v<T, double>)
+    y = std::strtod(first, &ptr);
+  else if (std::is_same_v<T, long double>)
+    y = std::strtold(first, &ptr);
+  if (ptr == first)
+    return from_chars_result{ptr, std::errc::invalid_argument};
+  if (y == std::numeric_limits<T>::infinity())
+    return from_chars_result{ptr, std::errc::result_out_of_range};
+  x = y;
+  return from_chars_result{ptr, std::errc{}};
+} // from_chars floating-point
+
+} // std
+
+#endif
 
 template<typename T, std::ranges::contiguous_range R>
 requires (std::is_arithmetic_v<T>) && std::ranges::sized_range<R>
