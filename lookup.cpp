@@ -349,8 +349,10 @@ int main() {
 	ostr << ((p.ml == 0.0f) ? '*' : ' ') << setw(5) << Round(p.g)
 	     << ' ' << setw(5) << mlStr(p.ml)
 	     << ' ' << setw(5) << 0
-	     << ' ' << left << setw(27) << "this"
-	     << right << ' ' << p.desc << " $this";
+	     << ' ' << left << setw(27) << "this" << right;
+	if (!p.desc.empty())
+	  ostr << ' ' << p.desc;
+	ostr << " $this";
 	if (!p.comment.empty())
 	  ostr << " // " << p.comment;
 	ostr << '\n';
