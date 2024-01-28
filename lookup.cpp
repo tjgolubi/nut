@@ -43,8 +43,6 @@ private:
 public:
   FdcId() : idx{} { }
   explicit FdcId(int id) : idx{id} { }
-  template <typename T>
-  explicit FdcId(const T& x) : idx{To<int>(x)} { }
   operator gsl::index() const { return idx; }
 }; // FdcId
 
@@ -53,7 +51,7 @@ std::istream& operator>>(std::istream& is, FdcId& id) {
   if (is.peek() == '"') {
     std::string str;
     is >> std::quoted(str);
-    id = FdcId{str};
+    id = FdcId{To<int>(str)};
   }
   else {
     int idx;
@@ -185,7 +183,7 @@ void LoadNutrients(std::vector<Ingred>& foods) {
     try {
       ++linenum;
       Parse(line, v);
-      auto fdc_id = FdcId{v[Idx::fdc_id]};
+      auto fdc_id = FdcId{To<int>(v[Idx::fdc_id])};
       auto food = food_map.find(fdc_id);
       if (food == food_map.end())
 	continue;
@@ -255,7 +253,7 @@ auto LoadPortions(const std::vector<Ingred>& foods)
     try {
       ++linenum;
       Parse(line, v);
-      auto fdc_id = FdcId{v[Idx::fdc_id]};
+      auto fdc_id = FdcId{To<int>(v[Idx::fdc_id])};
       if (!rng::binary_search(fdc_ids, fdc_id))
 	continue;
       rval.emplace_back(fdc_id, To<float>(v[Idx::g]), To<float>(v[Idx::ml]),

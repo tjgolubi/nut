@@ -135,24 +135,12 @@ std::ostream& operator<<(std::ostream& os, const StringDb& db) {
   return os;
 }
 
-auto ToStr(float x) {
-  std::array<char, 16> buf;
-  auto [ptr, ec] = std::to_chars(buf.data(), buf.data() + buf.size(), x,
-				 std::chars_format::fixed, 2);
-  if (ec != std::errc())
-    throw std::system_error(std::make_error_code(ec));
-  return std::string(buf.data(), ptr);
-}
-
 class FdcId {
 private:
   gsl::index idx = 0;
 public:
   FdcId() : idx{} { }
-  explicit FdcId(const std::string_view& sv) : idx{To<int>(sv)}  { }
-  explicit FdcId(const std::string& str)   : idx{std::stoi(str)} { }
-  explicit FdcId(const gsl::czstring& str) : idx{std::atoi(str)} { }
-  explicit FdcId(const gsl::zstring& str)  : idx{std::atoi(str)} { }
+  explicit FdcId(int id) : idx(id) { }
   operator gsl::index() const { return idx; }
 }; // FdcId
 
@@ -270,7 +258,7 @@ auto GetFoods() -> std::vector<Ingred> {
       const auto& data_type = v[Idx::data_type];
       if (data_type != "foundation_food" && data_type != "sr_legacy_food")
 	continue;
-      rval.emplace_back(FdcId{v[Idx::fdc_id]}, v[Idx::desc]);
+      rval.emplace_back(FdcId{To<int>(v[Idx::fdc_id])}, v[Idx::desc]);
       output << v[Idx::fdc_id] << "\t|" << v[Idx::desc] << '\n';
     }
     catch (const std::exception& x) {
@@ -341,7 +329,7 @@ void ReadAtwaterFoods(std::vector<Ingred>& foods, AtwaterDb& atwaterDb) {
       auto iter = atwaterCodes.find(v[Idx::id]);
       if (iter == atwaterCodes.end())
         continue;
-      auto id = FdcId{v[Idx::fdc_id]};
+      auto id = FdcId{To<int>(v[Idx::fdc_id])};
       auto food = rng::lower_bound(foods, id, {}, &Ingred::id);
       if (food == foods.end() || food->id != id)
         continue;
@@ -370,7 +358,7 @@ void UpdateAtwaterFromLegacy(std::vector<Ingred>& foods, AtwaterDb& atwaterDb) {
       throw std::runtime_error(fname + ": invalid headings");
     while (std::getline(input, line)) {
       Parse(v, line);
-      auto fdc_id = FdcId{v[Idx::fdc_id]};
+      auto fdc_id = FdcId{To<int>(v[Idx::fdc_id])};
       auto food = rng::lower_bound(foods, fdc_id, {}, &Ingred::id);
       if (food == foods.end() || food->id != fdc_id)
         continue;
@@ -472,7 +460,7 @@ void ProcessNutrients(std::vector<Ingred>& foods) {
     }
     if (c1 != ',' || c2 != ',' || c3 != ',')
       continue;
-    auto id = FdcId{fdc_id};
+    auto id = FdcId{To<int>(fdc_id)};
     Ingred* ingred = nullptr;
     if (id == last_id) {
       ingred = last_ingred;
@@ -611,7 +599,7 @@ void ProcessPortions(const std::vector<Ingred>& foods) {
     int count = 0;
     while (std::getline(input, line)) {
       Parse(v, line);
-      auto fdc_id = FdcId{v[Idx::fdc_id]};
+      auto fdc_id = FdcId{To<int>(v[Idx::fdc_id])};
       if (fdc_id != last_fdc_id) {
         last_fdc_id = fdc_id;
 	auto food = rng::lower_bound(foods, fdc_id, {}, &Ingred::id);
