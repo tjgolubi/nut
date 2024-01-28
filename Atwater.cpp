@@ -24,7 +24,7 @@ std::istream& SetFail(std::istream& is) {
   return is;
 } // SetFail
 
-const std::map<std::string, Atwater> Atwater::Names = {
+const std::map<std::string_view, Atwater> Atwater::Names = {
   { "egg",         { 4.36, 9.02, 3.68 } },
   { "gelatin",     { 3.90, 9.02, 3.87 } },
   { "glycogen",    { 4.27, 9.02, 4.11 } },
@@ -86,7 +86,7 @@ auto GenerateReverseMap() {
 
 const std::map<Atwater, std::string> ReverseMap = GenerateReverseMap();
 
-using SynMap = std::map<std::string, std::string>;
+using SynMap = std::map<std::string_view, std::string_view>;
 static const SynMap Synonyms = {
   { "fish",    "meat" },
   { "poultry", "meat" },
@@ -113,7 +113,7 @@ static const SynMap Synonyms = {
   { "wine",     "juice"  }
 }; // Synonyms
 
-std::string Atwater::values_str(gsl::not_null<gsl::czstring> delim) const {
+std::string Atwater::values_str(std::string_view delim) const {
   std::ostringstream oss;
   oss << std::fixed << std::setprecision(2);
   oss << prot << delim << fat << delim << carb;
@@ -122,14 +122,14 @@ std::string Atwater::values_str(gsl::not_null<gsl::czstring> delim) const {
   return oss.str();
 } // values_str
 
-std::string Atwater::str(gsl::not_null<gsl::czstring> delim) const {
+std::string Atwater::str(std::string_view delim) const {
   auto iter = ReverseMap.find(*this);
   if (iter != ReverseMap.end())
     return iter->second;
   return values_str(delim);
 } // str
 
-Atwater::Atwater(const std::string& str) {
+Atwater::Atwater(const std::string_view& str) {
   static const std::range_error error{"Invalid Atwater initialization string"};
   if (str.empty()) {
     *this = Atwater{};
@@ -160,7 +160,7 @@ Atwater::Atwater(const std::string& str) {
     **iter = x;
     ++iter;
   }
-} // ctor(string)
+} // ctor(string_view)
 
 std::istream& operator>>(std::istream& is, Atwater& atwater) {
   is >> std::ws;
