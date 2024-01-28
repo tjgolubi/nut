@@ -128,7 +128,6 @@ auto ReadFoods()
     if (std::getline(input, ingred.desc))
       foods.push_back(ingred);
   }
-  std::cout << "Read " << foods.size() << " foods.\n";
   return foods;
 } // ReadFoods
 
@@ -207,7 +206,6 @@ void LoadNutrients(std::vector<Ingred>& foods) {
       std::cerr << fname << '(' << linenum << ") " << x.what() << '\n';
     }
   }
-  std::cout << "Scanned " << linenum << " nutrients, found " << found << '\n';
 } // LoadNutrients
 
 struct Portion {
@@ -235,7 +233,6 @@ auto LoadPortions(const std::vector<Ingred>& foods)
   auto input = std::ifstream(fname);
   if (!input)
     throw std::runtime_error("Cannot open " + fname);
-  std::cout << "Reading " << fname << '\n';
   std::vector<FdcId> fdc_ids;
   fdc_ids.reserve(foods.size());
   rng::transform(foods, std::back_inserter(fdc_ids), &Ingred::id);
@@ -270,8 +267,6 @@ auto LoadPortions(const std::vector<Ingred>& foods)
     }
   }
   rng::sort(rval);
-  std::cout << "Scanned " << linenum << " portions, read " << rval.size()
-            << ".\n";
   return rval;
 } // LoadPortions
 
@@ -322,7 +317,6 @@ public:
 int main() {
   using namespace std::literals;
   DefaultCoutFlags = std::cout.flags();
-  std::cout << "Starting..." << std::endl;
 
   auto foods = ReadFoods();
 
