@@ -1,6 +1,7 @@
-// Copyright 2023 Terry Golubiewski, all rights reserved.
+// Copyright 2023-2024 Terry Golubiewski, all rights reserved.
 
 #include "Atwater.h"
+#include "To.h"
 
 #include <system_error>
 #include <ranges>
@@ -36,48 +37,14 @@ auto ToStr(float x) {
   return std::string(buf.data(), ptr);
 }
 
-
-#if 0
-template<class T>
-T To(const std::string_view& sv) {
-  auto rval = T{};
-  auto result = std::from_chars(sv.begin(), sv.end(), rval);
-  if (result.ec != std::errc{})
-    throw std::system_error{std::make_error_code(result.ec)};
-  return rval;
-} // To
-
-int Stoi(const std::string_view& sv)   { return To<int>(sv); }
-float Stof(const std::string_view& sv) { return To<float>(sv); }
-#endif
-
-int   Stoi(const std::string_view& sv) { return std::stoi(std::string{sv}); }
-float Stof(const std::string_view& sv) { return std::stof(std::string{sv}); }
-
-#if 0
-auto AtwaterString(const std::string& prot, const std::string& fat,
-                   const std::string& carb)
-  -> std::string
-{
-  auto dashed_null = [](const std::string& s) {
-    return s.empty() ? "-" : ToStr(std::stof(s));
-  }; // dashed_null
-  if (prot.empty() && fat.empty() && carb.empty())
-    return std::string("");
-  return dashed_null(prot) + " " + dashed_null(fat) + " " + dashed_null(carb);
-} // AtwaterString
-#endif
-
 class FdcId {
 private:
   gsl::index idx = 0;
 public:
   FdcId() : idx{} { }
   explicit FdcId(int id) : idx{id} { }
-  explicit FdcId(const std::string_view& sv) : idx{Stoi(sv)} { }
-  explicit FdcId(const std::string& str)   : idx{std::stoi(str)} { }
-  explicit FdcId(const gsl::czstring& str) : idx{std::atoi(str)} { }
-  explicit FdcId(const gsl::zstring& str)  : idx{std::atoi(str)} { }
+  template <typename T>
+  explicit FdcId(const T& x) : idx{To<int>(x)} { }
   operator gsl::index() const { return idx; }
 }; // FdcId
 
@@ -200,15 +167,6 @@ void LoadNutrients(std::vector<Ingred>& foods) {
       { fdc_id, kcal, prot, fat, carb, fiber, alc, atwater, desc, end };
   std::string line;
   ParseVec<Idx> v;
-#if 0
-  auto parse = [](const std::string& line, ParseVec<Idx>& v) {
-    v.clear();
-    for (const auto col: rng::views::split(line, '\t'))
-      v.emplace_back(col);
-    if (v.size() != std::size_t(Idx::end))
-      throw std::runtime_error("invalid number of columns");
-  }; // parse
-#endif
   if (!std::getline(db, line))
     throw std::runtime_error("Cannot read " + fname);
   Parse(line, v);
@@ -235,14 +193,15 @@ void LoadNutrients(std::vector<Ingred>& foods) {
       ++found;
       auto ingred = food->second;
       ingred->id      = fdc_id;
-      ingred->kcal    = Stof(v[Idx::kcal]);
-      ingred->protein = Stof(v[Idx::prot]);
-      ingred->fat     = Stof(v[Idx::fat]);
-      ingred->carb    = Stof(v[Idx::carb]);
-      ingred->fiber   = Stof(v[Idx::fiber]);
-      ingred->alcohol = Stof(v[Idx::alc]);
+      ingred->kcal    = To<float>(v[Idx::kcal]);
+      ingred->protein = To<float>(v[Idx::prot]);
+      ingred->fat     = To<float>(v[Idx::fat]);
+      ingred->carb    = To<float>(v[Idx::carb]);
+      ingred->fiber   = To<float>(v[Idx::fiber]);
+      ingred->alcohol = To<float>(v[Idx::alc]);
       ingred->atwater = Atwater{v[Idx::atwater]};
-      ingred->desc    = std::string(v[Idx::desc]);
+      if (ingred->desc.empty())
+        ingred->desc    = std::string(v[Idx::desc]);
     }
     catch (std::exception& x) {
       std::cerr << fname << '(' << linenum << ") " << x.what() << '\n';
@@ -285,15 +244,6 @@ auto LoadPortions(const std::vector<Ingred>& foods)
   std::vector<Portion> rval;
   std::string line;
   ParseVec<Idx> v;
-#if 0
-  auto parse = [](const std::string& line, ParseVec& v) {
-    v.clear();
-    for (const auto col: rng::views::split(line, '\t'))
-      v.emplace_back(col);
-    if (v.size() != Idx::end)
-      throw std::runtime_error("invalid number of columns");
-  }; // parse
-#endif
   if (!std::getline(input, line))
     throw std::runtime_error("Cannot read " + fname);
   Parse(line, v);
@@ -311,7 +261,7 @@ auto LoadPortions(const std::vector<Ingred>& foods)
       auto fdc_id = FdcId{v[Idx::fdc_id]};
       if (!rng::binary_search(fdc_ids, fdc_id))
 	continue;
-      rval.emplace_back(fdc_id, Stof(v[Idx::g]), Stof(v[Idx::ml]),
+      rval.emplace_back(fdc_id, To<float>(v[Idx::g]), To<float>(v[Idx::ml]),
 			std::string{v[Idx::desc]},
 			std::string{v[Idx::comment]});
     }
@@ -370,6 +320,7 @@ public:
 }; // MlText
 
 int main() {
+  using namespace std::literals;
   DefaultCoutFlags = std::cout.flags();
   std::cout << "Starting..." << std::endl;
 
@@ -379,44 +330,23 @@ int main() {
 
   const auto portions = LoadPortions(foods);
 
-  auto output = std::ofstream("lookout.txt");
+  const auto fname = "lookout.txt"s;
+  auto output = std::ofstream(fname);
+  output << "#include \"defs.h\"\n";
   if (!output)
-    throw std::runtime_error("Could not write lookout.txt");
+    throw std::runtime_error("Could not write " + fname);
   const MlText mlStr;
-  std::vector<const Ingred*> v;
-  for (const auto& ingred: foods)
-    v.push_back(&ingred);
-  auto lt = [](const Ingred* lhs, const Ingred* rhs) {
-    if (auto cmp = (lhs->atwater <=> rhs->atwater); cmp != 0)
-      return (cmp < 0);
-    return (lhs->desc < rhs->desc);
-  };
-  rng::sort(v, lt);
   output << std::fixed << std::setprecision(2);
-  Atwater last_atwater;
-  for (const auto& ptr: v) {
-    if (ptr->atwater != last_atwater) {
-      last_atwater = ptr->atwater;
+  auto last_atwater = Atwater{0, 0, 0, 0};
+  for (const auto& ingred: foods) {
+    if (ingred.atwater != last_atwater) {
+      last_atwater = ingred.atwater;
       output << '[' << last_atwater.str() << "]\n";
     }
-    output << "   100     0 " << OutIngred(*ptr)
-              << " // usda " << ptr->id << '\n';
+    output << "   100     0 " << OutIngred(ingred)
+           << " // usda " << ingred.id << '\n';
     {
-      auto r = rng::equal_range(portions, ptr->id, rng::less{}, &Portion::id);
-#if 0
-      std::vector<const Portion*> v2;
-      v2.reserve(r.size());
-      for (auto it = r.begin(); it != r.end(); ++it)
-        v2.push_back(&*it);
-      auto lt2 = [](const Portion* lhs, const Portion* rhs) {
-        if (auto cmp = (lhs->g <=> rhs->g); cmp != 0)
-	  return (cmp < 0);
-	if (auto cmp = (lhs->ml <=> rhs->ml); cmp != 0)
-	  return (cmp < 0);
-	return (lhs->desc < rhs->desc);
-      };
-      rng::sort(v2, lt2);
-#endif
+      auto r = rng::equal_range(portions, ingred.id, rng::less{}, &Portion::id);
 
       using std::setw, std::left, std::right, std::quoted;
 
@@ -434,5 +364,5 @@ int main() {
       output << ostr.str();
     }
   }
-  return 0;
+  return EXIT_SUCCESS;
 } // main
