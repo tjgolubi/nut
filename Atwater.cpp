@@ -7,10 +7,19 @@
 // #include <charconv>
 
 #include <array>
-#include <optional>
+#include <sstream>
+#include <algorithm>
 #include <iomanip>
 
 namespace rng = std::ranges;
+
+namespace std::ranges {
+
+template<typename R>
+constexpr bool contains(const R& r, const auto& x)
+{ return (find(r, x) != end(r)); }
+
+} // std::ranges
 
 float Atwater::kcal(const Nutrition& nutr) const {
   float rval = prot * nutr.prot + fat * nutr.fat + alcohol * nutr.alcohol;;
