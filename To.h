@@ -15,6 +15,10 @@
 #include <cstring>
 
 template<typename T, typename U>
+requires requires (U x) { static_cast<T>(x); }
+constexpr auto To(U x) -> T { return static_cast<T>(x); }
+
+template<typename T, typename U>
 requires (std::is_same_v<T, std::string> && std::is_arithmetic_v<U>)
 constexpr auto To(const U& x) -> T {
   std::array<char, 32> buf;

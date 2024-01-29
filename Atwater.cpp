@@ -3,11 +3,10 @@
 
 #include "To.h"
 
-// #include <ranges>
-// #include <charconv>
-
+#include <ranges>
 #include <array>
-#include <optional>
+#include <sstream>
+#include <algorithm>
 #include <iomanip>
 
 namespace rng = std::ranges;
