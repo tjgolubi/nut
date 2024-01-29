@@ -324,7 +324,7 @@ int main() {
 
   const auto fname = "lookout.txt"s;
   auto output = std::ofstream(fname);
-  output << "#include \"defs.h\"\n";
+  output << "#include \"defs.txt\"\n";
   if (!output)
     throw std::runtime_error("Could not write " + fname);
   const MlText mlStr;

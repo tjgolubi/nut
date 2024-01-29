@@ -85,6 +85,18 @@
 *    0     0    23  "smoked salmon"            piece smoked salmon
     OZ     0    33  "smoked salmon"            boneless smoked salmon
      0   CUP   159  "smoked salmon"            flaked smoked salmon
+
+[fish]
+   100     0   345  60.62  11.43   0.00   0.00 smoked sockeye salmon // usda 169813
+*  108     0     0 this                        filet $this
+*  136     0     0 this                        strip $this
+   100     0   158  26.33   5.87   0.00   0.00 canned sockeye salmon // usda 173723
+*  247     0     0 this                        can sockeye salmon
+[gland]
+   100     0   153  20.63   7.17   0.00   0.00 canned sockeye salmon, undrained // usda 175174
+*  417     0     0 this                        can sockeye salmon, undrained
+
+
    100     0    96  20.08   1.7    0      0    tilapia
 *  170     0   218  44      4.5    0      0    tilapia fillet
    100     0    82  17.9    0.63   0      0    pacific cod
@@ -141,6 +153,10 @@
    100     0    97  18.43   2      0      0    sea bass mixed species
 *    0     0   125 this                        $this fillet
      =             "$this fillet"              fillet $this
+
+[general]
+   100     0   212  12.69  11.72  13.96   0.00 breaded salmon nuggets // usda 173721
+   100     0   189  11.97  10.43  11.85   0.00 cooked salmon nuggets // usda 173722
 
 [shellfish]
    100     0   144  27.59   2.35   1.24   0    shrimp
@@ -579,18 +595,18 @@
    100     0   553  18.22  43.85  30.19   3.3  raw cashew
    137   CUP   786  20.97  63.50  44.79   4.1  cashews
 *    0     0     9 this                        cashew
-   138   CUP   824  30.48  72.91  26.62  16.3  dry roasted almonds
-*    0     0     8 this                        dry roasted almond
+   138   CUP   824  30.48  72.91  26.62  16.3  dry-roasted almonds
+*    0     0     8 this                        dry-roasted almond
      =             this                        almonds
-*    =             "dry roasted almond"        almond
+*    =             "dry-roasted almond"        almond
    143   CUP   827  30.40  72.42  28.23  16.9  raw almonds
 *    0     0     7 this                        raw almond
      0   CUP   624 this                        slivered almond
      0   CUP   532 this                        sliced almond
    145   CUP   842  31.81  73.40  28.91  15.1  blanched almond
    146   CUP   828  37.67  71.89  23.55  12.4  raw peanut
-   146   CUP   854  34.57  72.5   31.4   11.7  dry roasted peanuts
-*    0     0     6 this                        dry roasted peanut
+   146   CUP   854  34.57  72.5   31.4   11.7  dry-roasted peanuts
+*    0     0     6 this                        dry-roasted peanut
    100     0   318  13.5   22.01  21.26   8.8  boiled peanut
      0   CUP   200 this                        boiled peanut in shell
      0   CUP   572 this                        shelled boiled peanut
@@ -601,8 +617,8 @@
 *    0     0   8.8 this                        raw hazelnut
      0   CUP   722 this                        chopped raw hazelnut
      =             "chopped raw hazelnut"      chopped hazelnut
-   100     0   646 this                        dry roasted hazelnut
-     =             "dry roasted hazelnut"      hazelnut
+   100     0   646 this                        dry-roasted hazelnut
+     =             "dry-roasted hazelnut"      hazelnut
    134   CUP   959  10.44 101.95  17.19  10.7  macadamia nuts
 *    0     0  18.5 this                        macadamia nut
 [seed]
@@ -1243,46 +1259,338 @@
    100     0    20   0.70   0.10   5.00   1.90 canned immature $$ sauce // usda 171605
    245   CUP     0 this                        replace
 :
-*  201     0   322   4.02  29.47  17.15  13.5  avocado
-   146   CUP   234   2.92  21.40  12.45   9.8  sliced avocado
-   150   CUP   240   3     21.99  12.80  10    chopped avocado
-   230   CUP   368   4.60  33.72  19.62  15.4  pureed avocado
+
+[general]
+   100     0   160   2.00  14.66   8.53   6.70 avocado // usda 171705
+*   50     0     0 this                        serving $this
+   146   CUP     0 this                        sliced $this
+   150   CUP     0 this                        cubed $this
+   230   CUP     0 this                        pureed $this
+*  201     0     0 this                        replace
+   100     0   167   1.96  15.41   8.64   6.80 california avocado // usda 171706
+*   50     0     0 this                        serving $this
+*  136     0     0 this                        peeled pitted $this
+   230   CUP     0 this                        pureed $this
+   100     0   120   2.23  10.06   7.82   5.60 florida avocado // usda 171707
+*   50     0     0 this                        serving $this
+   230   CUP     0 this                        pureed $this
+*  304     0     0 this                        peeled pitted $this
+
 [legume]
-   144   CUP   117   7.86   0.58  20.97   7.4  peas
-   144   CUP   117   7.86   0.58  20.97   7.4  frozen peas
-[root]
-*  130     0   112   2.04   0.06  26.16   3.9  sweet potato
-   133   CUP   114   2.09   0.07  26.76   4    chopped sweet potato
+   100     0    42   2.80   0.20   7.55   2.60 pea pod // usda 170010
+    63   CUP     0 this                        replace
+    98   CUP     0 this                        chopped $this
+*  3.4     0     0 this                        replace
+   100     0    81   5.42   0.40  14.45   5.70 green peas // usda 170419
+   145   CUP     0 this                        replace
+   100     0    84   5.36   0.22  15.63   5.50 boiled green peas // usda 170420
+   160   CUP     0 this                        replace
+   100     0    77   5.22   0.40  13.62   4.50 frozen green peas // usda 170016
+   134   CUP     0 this                        replace
+   100     0    69   4.42   0.35  12.58   4.10 canned green peas // usda 170104
+    85  HCUP     0 this                        replace
+*  313     0     0 this                        can green peas // 303 x 406
+   100     0    53   3.19   0.30   9.75   3.30 canned green peas, undrained // usda 170103
+   124  HCUP     0 this                        replace
+*  482     0     0 this                        can green peas, undrained // 303 x 406
+   100     0    68   4.47   0.80  11.36   4.90 canned baby green peas // usda 170013
+   175   CUP     0 this                        replace
+*  313     0     0 this                        can baby green peas // 303 x 406
+/green peas/peas/
+   100     0   364  23.12   3.89  61.63  22.20 split peas // usda 172428
+   196   CUP     0 this                        replace
+   100     0   118   8.34   0.39  21.10   8.30 boiled split peas // usda 172429
+   196   CUP     0 this                        replace
+[vegetable]
+   100     0   124   8.80   0.68  27.11   0.00 sprouted peas // usda 170422
+   120   CUP     0 this                        replace
+[legume]
+   100     0    98   7.05   0.51  17.08   0.00 boiled sprouted peas // usda 170423
+[3.98 8.37 3.16]
+   100     0    53   3.40   0.47  11.15   3.40 frozen peas and carrots // usda 170425
+    70  HCUP     0 this                        replace
+   100     0    38   2.17   0.27   8.48   3.30 canned peas and carrots, undrained // usda 170512
+   255   CUP     0 this                        replace
+[3.40 8.37 4.00]
+   100     0    70   3.98   0.32  13.51   3.50 frozen peas and onions // usda 170020
+    69  HCUP     0 this                        replace
+   100     0    51   3.28   0.38   8.57   2.30 canned peas and onions, undrained // usda 170019
+   120   CUP     0 this                        replace
+
+[vegetable]
+   100     0    42   2.49   0.51   8.82   5.30 sweet potato leaves // usda 169303
+    35   CUP     0 this                        chopped $this
+*   16     0     0 this                        sweet potato leaf // 12-1/4" long
+   100     0    35   2.18   0.34   7.38   1.90 steamed sweet potato leaves // usda 169304
+    64   CUP     0 this                        replace
 [potato]
-*  125     0   130   2.07   3     24.20   2.1  small potato
-*  167     0   174   2.77   4.01  32.33   2.8  medium potato
-*  167     0   174   2.77   4.01  32.33   2.8  potato
-*  300     0   312   4.98   7.20  58.08   5.1  large potato
-   161   CUP   167   2.67   3.86  31.17   2.7  chopped potato
+   100     0    86   1.57   0.05  20.12   3.00 sweet potato // usda 168482
+*  130     0     0 this                        replace // 5" long
+   133   CUP     0 this                        cubed $this
+   100     0    77   1.58   0.38  17.33   0.00 peeled sweet potato // usda 2346404
+   100     0    90   2.01   0.15  20.71   3.30 baked sweet potato // usda 168483
+   200   CUP     0 this                        replace
+*   60     0     0 this                        small $this
+*  114     0     0 this                        medium $this // 2" dia, 5" long, raw
+*  180     0     0 this                        large $this
+*    = "medium $this"                          replace
+   100     0    76   1.37   0.14  17.72   2.50 boiled peeled sweet potato // usda 168484
+*  151     0     0 this                        replace
+   328   CUP     0 this                        mashed $this
+   100     0   101   1.98   0.20  23.19   1.70 canned sweet potato // usda 169305
+   255   CUP     0 this                        mashed $this
+*  496     0     0 this                        can sweet potato // 404 x 307
+   100     0    91   1.65   0.20  21.12   1.80 canned sweet potato, vacuum pack // usda 168485
+   200   CUP     0 this                        pieces $this
+   255   CUP     0 this                        mashed $this
+   100     0   108   1.28   0.32  25.36   3.00 canned sweet potato, syrup pack // usda 170084
+   196   CUP     0 this                        replace
+   100     0    89   0.98   0.20  20.93   2.50 canned sweet potato, syrup pack, undrained // usda 170083
+   228   CUP     0 this                        replace
+*  638     0     0 this                        can sweet potato, syrup pack, undrained // 404 x 307
+   100     0    96   1.71   0.18  22.22   1.70 frozen sweet potato // usda 169306
+   176   CUP     0 this                        cubed $this
+   100     0   100   1.71   0.12  23.40   1.80 baked frozen sweet potato // usda 169307
+   176   CUP     0 this                        cubed $this
+[general]
+   100     0   209   1.70  11.10  25.52   3.40 frozen sweet potato fries // usda 168015
+   100     0   161   1.36   3.58  30.72   1.90 frozen sweet potato puffs // usda 168016
+
+[potato]
+   100     0    77   2.05   0.09  17.49   2.10 potato // usda 170026
+    75  HCUP     0 this                        diced $this
+*  170     0     0 this                        small $this  // 1-3/4" to 2-1/2" dia
+*  213     0     0 this                        medium $this // 2-1/4" to 3-1/4" dia
+*  369     0     0 this                        large $this  // 3" to 4-1/4" dia
+*    = "medium $this"                          replace
+   100     0    58   2.57   0.10  12.44   2.50 potato skin // usda 170032
+*   38     0     0 this                        replace
+   100     0    93   2.50   0.13  21.15   2.20 baked potato with skin // usda 170093
+*  148     0     0 this                        serving $this
+*  138     0     0 this                        small $this
+*  173     0     0 this                        medium $this
+*  299     0     0 this                        large $this
+*    = "serving $this"                         replace
+   100     0    93   1.96   0.10  21.55   1.50 baked potato // usda 170033
+    61  HCUP     0 this                        replace
+*  156     0     0 this                        replace // 2-1/3" x 4-3/4"
+   100     0   198   4.29   0.10  46.06   7.90 baked potato skin // usda 170034
+*   58     0     0 this                        replace
+   100     0    87   1.87   0.10  20.13   1.80 boiled unpeeled potato // usda 170438
+    78  HCUP     0 this                        replace
+*  136     0     0 this                        replace // 2-1/2" dia, sphere
+   100     0    78   2.86   0.10  17.21   3.30 boiled potato skin // usda 170439
+*   34     0     0 this                        replace
+   100     0    86   1.71   0.10  20.01   1.80 boiled peeled potato // usda 170440
+    78  HCUP     0 this                        replace
+*  125     0     0 this                        small $this  // 1-3/4" to 2-1/2" dia.
+*  167     0     0 this                        medium $this // 2-1/4" to 3-1/4" dia.
+*  300     0     0 this                        large $this  // 3" to 4-1/4" dia.
+*    = "medium $this"                          replace
+   100     0    65   1.98   0.13  14.52   1.40 boiled frozen potato // usda 170049
+   100     0    60   1.41   0.21  13.61   2.30 canned potato // usda 170444
+   180   CUP     0 this                        replace
+*   35     0     0 this                        replace
+   100     0    44   1.20   0.11   9.89   1.40 canned potato, undrained // usda 170443
+   300   CUP     0 this                        replace
+*  454     0     0 this                        can potato, undrained // 303 x 406
+   100     0   105   2.44   0.10  24.24   2.30 microwaved potato with skin // usda 170094
+*  202     0     0 this                        replace // 2-3/4" dia by 4-3/4" long
+   100     0   100   2.10   0.10  23.28   1.60 microwaved potato // usda 170441
+    78  HCUP     0 this                        replace
+*  156     0     0 this                        replace // 2-1/3" x 4-3/4"
+   100     0   132   4.39   0.10  29.63   5.50 microwaved potato skin // usda 170035
+*   58     0     0 this                        replace
+   100     0    72   1.81   0.26  15.96   0.00 peeled gold potato // usda 2346403
+   100     0    73   2.06   0.25  16.27   0.00 peeled red potato // usda 2346402
+   100     0    70   1.89   0.14  15.90   1.70 red potato with skin // usda 170029
+    75  HCUP     0 this                        diced $this
+*  170     0     0 this                        small $this  // 1-3/4" to 2-1/4" dia
+*  213     0     0 this                        medium $this // 2-1/4" to 3-1/4" dia
+*  369     0     0 this                        large $this  // 3" to 4-1/4" dia
+*    = "medium $this"                          replace
+   100     0    87   2.30   0.15  19.59   1.80 baked red potato with skin // usda 170435
+*  138     0     0 this                        small $this  // 1-3/4" to 2-1/2" dia.
+*  173     0     0 this                        medium $this // 2-1/4" to 3-1/4" dia.
+*  299     0     0 this                        large $this  // 3" to 4-1/4" dia.
+*    = "medium $this"                          replace
+   100     0    95   2.63   0.13  21.44   2.30 baked russet potato with skin // usda 170030
+*  138     0     0 this                        small $this  // 1-3/4" to 2-1/2" dia.
+*  173     0     0 this                        medium $this // 2-1/4" to 3-1/4" dia.
+*  299     0     0 this                        large $this  // 3" to 4-1/4" dia.
+*    = "medium $this"                          replace
+   100     0    79   2.14   0.08  18.07   1.30 russet potato with skin // usda 170027
+    75  HCUP     0 this                        diced $this
+*  170     0     0 this                        small $this  // 1-3/4" to 2-1/4" dia
+*  213     0     0 this                        medium $this // 2-1/4" to 3-1/4" dia
+*  369     0     0 this                        large $this  // 3" to 4-1/4" dia
+*    = "medium $this"                          replace
+   100     0    81   2.27   0.36  17.77   0.00 peeled russet potato // usda 2346401
+   100     0    92   2.10   0.15  21.08   2.10 baked white potato with skin // usda 170434
+*  138     0     0 this                        small $this  // 1-3/4" to 2-1/2" dia
+*  173     0     0 this                        medium $this // 2-1/4" to 3-1/4" dia
+*  299     0     0 this                        large $this  // 3" to 4-1/4" dia
+*    = "medium $this"                          replace
+   100     0    69   1.68   0.10  15.71   2.40 white potato with skin // usda 170028
+    75  HCUP     0 this                        diced $this
+*   92     0     0 this                        small $this  // 1-3/4" to 2-1/4" dia.
+*  213     0     0 this                        medium $this // 2+-1/4" to 3-1/4" dia.
+*  369     0     0 this                        large $this  // 3" to 4-1/4" dia.
+*    = "medium $this"                          replace
+[general]
+   100     0   127   2.22   1.81  26.15   2.60 roasted frozen potato // usda 170031
+   100     0   119   1.99   1.85  23.44   2.60 roasted frozen yellow potato // usda 169763
+
 [white rice]
-   158   CUP   204   4.20   0.44  44.08   0.6  white rice
-   158   CUP   204   4.20   0.44  44.08   0.6  rice
+   100     0   358   6.50   0.52  79.15   2.80 short-grain white rice // usda 168881
+   200   CUP     0 this                        replace
+   100     0   130   2.36   0.19  28.73   0.00 cooked short-grain white rice // usda 168882
+   186   CUP     0 this                        replace
+   100     0   360   6.61   0.58  79.34   1.40 medium-grain white rice // usda 168879
+   195   CUP     0 this                        replace
+   100     0   130   2.38   0.21  28.59   0.30 cooked medium-grain white rice // usda 168880
+   186   CUP     0 this                        replace
+   100     0   365   7.13   0.66  79.95   1.30 long-grain white rice // usda 168877
+   185   CUP     0 this                        replace
+   100     0   130   2.69   0.28  28.17   0.40 cooked long-grain white rice // usda 168878
+   158   CUP     0 this                        replace
+   100     0   374   7.51   1.03  80.89   1.80 parboiled long-grain white rice // usda 169707
+   185   CUP     0 this                        replace
+   100     0   123   2.91   0.37  26.05   0.90 cooked parboiled long-grain white rice // usda 169759
+   158   CUP     0 this                        replace
+   100     0   380   7.82   0.94  82.32   1.90 instant long-grain white rice // usda 169709
+    95   CUP     0 this                        replace
+   100     0   124   2.18   0.50  26.76   0.60 cooked instant long-grain white rice // usda 169710
+   165   CUP     0 this                        replace
+   100     0   151   3.20   0.27  33.88   0.90 steamed white rice // usda 169712
+   132   CUP     0 this                        replace // loosely-packed
+   100     0   370   6.81   0.55  81.68   2.80 glutinous white rice // usda 168883
+   185   CUP     0 this                        replace
+   100     0    97   2.02   0.19  21.09   1.00 cooked glutinous white rice // usda 169711
+   174   CUP     0 this                        replace
+   100     0   366   5.95   1.42  80.13   2.40 white rice flour // usda 169714
+   158   CUP     0 this                        replace
+   100     0   364   5.95   0.56  80.18   1.60 dry rice noodles // usda 169742
+   100     0   108   1.79   0.20  24.01   1.00 cooked rice noodles // usda 168914
+   176   CUP     0 this                        replace
+/long-grain white rice/rice/
+
 [brown rice]
-   195   CUP   215   4.99   1.74  44.42   3.5  brown rice
+   100     0   362   7.50   2.68  76.17   3.40 medium-grain brown rice // usda 169706
+   190   CUP     0 this                        replace
+   100     0   112   2.32   0.83  23.51   1.80 cooked medium-grain brown rice // usda 168875
+   195   CUP     0 this                        replace
+   100     0   367   7.54   3.20  76.25   3.60 long-grain brown rice // usda 169703
+   185   CUP     0 this                        replace
+   100     0   123   2.74   0.97  25.58   1.60 cooked long-grain brown rice // usda 169704
+   202   CUP     0 this                        replace
+   100     0   370   7.60   2.75  78.68   3.50 parboiled brown rice // usda 168876
+    48  QCUP     0 this                        replace
+   100     0   147   3.09   0.85  31.33   1.70 cooked parboiled brown rice // usda 173263
+   155   CUP     0 this                        replace
+   100     0   363   7.23   2.78  76.48   4.60 brown rice flour // usda 168898
+   158   CUP     0 this                        replace
+
+[wheat bran]
+   100     0   316  13.35  20.85  49.69  21.00 rice bran // usda 169713
+   118   CUP     0 this                        replace
+[general]
+   100     0   416  10.00   5.00  82.64   0.00 rice cracker // usda 173161
+*   30     0     0 this                        serving $this
+
 [vegetable]
      6   TSP    10?  0      0      2      0    basil paste
 [root]
      6   TSP    10?  0      0      2      0    ginger paste
      6   TSP    15?  0      0      2      1    garlic paste
+
 [vegetable]
-*  321     0    45   2.92   0.45   9.62   3.9  small lettuce head
-*  536     0    75   4.85   0.75  16.01   6.5  medium lettuce head
-*  536     0    75   4.85   0.75  16.01   6.5  lettuce head
-*  779     0   109   7.02   1.09  23.17   9.4  large lettuce head
-    57   CUP     8   0.50   0.08   1.63   0.7  chopped lettuce
-    57   CUP     8   0.50   0.08   1.63   0.7  shredded lettuce
-   100     0    50   3.30   0.70  10.01   2    kale
-    68   CUP    34   2.21   0.47   6.71   1.3  chopped kale
-    30   CUP     7   0.86   0.12   1.09   0.7  spinach
-     = this                                    baby spinach
-    61   CUP    22   1.78   0.47   3.80   2    parsley
-   100   444    30   3.27   0.73   4.35   2.5  chives
-   100   969   131   3.31   5.86  20.70  14.1  rosemary
+   100     0    14   0.90   0.14   2.97   1.20 iceberg lettuce // usda 169248
+*    5     0     0 this                        small leaf $this
+*    8     0     0 this                        medium leaf $this
+*   15     0     0 this                        large leaf $this
+    57   CUP     0 this                        chopped $this // 1/2" pieces, loosely packed
+    72   CUP     0 this                        shredded $this
+*   89     0     0 this                        serving $this
+*  324     0     0 this                        small head $this
+*  539     0     0 this                        medium head $this // 6" dia
+*  755     0     0 this                        large head $this
+*    = "medium leaf $this"                     leaf $this
+*    = "medium head $this"                     head $this
+/iceberg lettuce/lettuce/
+   100     0    17   1.23   0.30   3.29   2.10 romaine lettuce // usda 169247
+*    6     0     0 this                        inner leaf $this
+*   28     0     0 this                        outer leaf $this
+    47   CUP     0 this                        shredded $this
+*   85     0     0 this                        serving $this
+*  626     0     0 this                        head $this
+*    = "outer leaf $this"                      leaf $this
+/romaine lettuce/cos lettuce/
+   100     0    13   1.35   0.22   2.23   1.10 butterhead lettuce // usda 168429
+*    5     0     0 this                        leaf $this
+*  7.5     0     0 this                        medium leaf $this
+*   15     0     0 this                        large leaf $this
+    55   CUP     0 this                        chopped $this
+     = "chopped $this"                         shredded $this
+*  163     0     0 this                        head $this // 5" dia
+/butterhead lettuce/boston lettuce/
+/butterhead lettuce/bibb lettuce/
+   100     0    15   1.36   0.15   2.87   1.30 green leaf lettuce // usda 169249
+*  4.8     0     0 this                        inner leaf $this
+*   24     0     0 this                        outer leaf $this
+*    = "outer leaf $this"                      leaf $this
+    36   CUP     0 this                        chopped $this
+     = "chopped $this"                         shredded $this
+*  360     0     0 this                        head $this
+   100     0    13   1.33   0.22   2.26   0.90 red leaf lettuce // usda 168431
+*  2.6     0     0 this                        inner leaf $this
+*   17     0     0 this                        outer leaf $this
+*    = "outer leaf $this"                      leaf $this
+    28   CUP     0 this                        chopped $this
+     = "chopped $this"                         shredded $this
+*   85     0     0 this                        serving $this
+*  309     0     0 this                        head $this
+
+   100     0    35   2.92   1.49   4.42   4.10 kale // usda 168421
+    68   CUP     0 this                        chopped kale
+    21   CUP     0 this                        replace
+   100     0    36   2.94   1.21   5.30   4.00 boiled kale // usda 169238
+   118   CUP     0 this                        replace
+   100     0    28   2.66   0.46   4.88   2.00 frozen kale // usda 169239
+    67 78.08     0 this                        replace
+   100     0    36   2.94   1.21   5.30   2.30 boiled frozen kale // usda 169240
+   118   CUP     0 this                        replace
+
+   100     0    23   2.86   0.39   3.63   2.20 spinach // usda 168462
+    30   CUP     0 this                        replace
+*   10     0     0 this                        leaf $this
+*  340     0     0 this                        bunch $this
+   100     0    21   2.85   0.62   2.41   1.56 baby spinach // usda 1750352
+   100     0    22   2.91   0.60   2.64   1.59 mature spinach // usda 1750353
+   100     0    23   2.97   0.26   3.75   2.40 boiled spinach // usda 168463
+   180   CUP     0 this                        replace
+   100     0    29   3.63   0.57   4.21   2.90 frozen spinach // usda 169287
+   156   CUP     0 this                        replace
+   100     0    34   4.01   0.87   4.80   3.70 boiled frozen spinach // usda 169288
+    95  HCUP     0 this                        replace
+   100     0    23   2.81   0.50   3.40   2.40 canned spinach // usda 169286
+   214   CUP     0 this                        replace
+   100     0    19   2.11   0.37   2.92   1.60 canned spinach, undrained // usda 169285
+   234   CUP     0 this                        replace
+
+   100     0   271  31.30   5.20  42.38  32.70 freeze-dried parsley // usda 170486
+   1.4  QCUP     0 this                        replace
+   100     0    36   2.97   0.79   6.33   3.30 fresh parsley // usda 170416
+    60   CUP     0 this                        chopped $this
+   3.8  TBSP     0 this                        replace
+*  1.0     0     0 this                        sprig $this
+   100     0   311  21.20   3.50  64.29  26.20 freeze-dried chives // usda 170075
+   0.8  QCUP     0 this                        replace
+   100     0    30   3.27   0.73   4.35   2.50 fresh chives // usda 169994
+     3  TBSP     0 this                        replace
+   100     0   131   3.31   5.86  20.70  14.10 fresh rosemary // usda 173473
+   1.7  TBSP     0 this                        replace
+
 [bean]
    164   CUP   295  15.65   4.90  49.17  14.1  garbanzos
    164   CUP   295  15.65   4.90  49.17  14.1  garbanzo beans
@@ -1429,6 +1737,10 @@
 *    =             "10 inch $this"             10" $this
 *    =             "12 inch $this"             12" $this
 :
+
+[general]
+   100     0    47   0.85   0.33  10.05   1.90 salmonberries // usda 168048
+
 # Beverages
 [juice]
    249   CUP   117   0.15   0.27  28.97   0.2  apple juice

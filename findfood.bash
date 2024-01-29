@@ -1,1 +1,1 @@
-grep -i "$1" food.txt | sed -e's/|//'
+grep -i "$1" food.txt | sed -e's/|//' | sort +1

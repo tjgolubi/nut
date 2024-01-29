@@ -1,61 +1,52 @@
-171705	avocado
-171706	california avocado
-171707	florida avocado
-170010	edible-podded peas
-170011	cooked edible-podded peas drained
-170012	frozen edible-podded peas
-170013	canned green peas drained
-170014	canned seasoned green peas
-170015	canned green peas drained rinsed
-170016	frozen green peas
-170017	frozen cooked green peas drained
-170018	cooked frozen peas and carrots drained
-170019	canned peas and onions
-170020	frozen peas and onions
-170021	cooked frozen peas and onions drained
-170102	cooked green peas drained with salt
-170103	canned green peas undrained, no salt added
-170104	canned green peas drained, no salt added
-170105	cooked frozen green peas with salt
-170418	cooked frozen edible-podded peas
-170419	green peas
-170420	cooked green peas drained
-170421	canned green peas regular pack
-170422	sprouted peas
-170423	cooked sprouted peas drained
-170424	canned peas and carrots regular pack
-170425	frozen peas and carrots
-170509	cooked edible-podded peas drained with salt
-170510	cooked frozen edible-podded peas drained with salt
-170511	cooked sprouted peas drained with salt
-170512	canned peas and carrots undrained, no salt added
-170513	cooked frozen peas and carrots with salt
-170514	cooked frozen peas and onions with salt
-172428	split green peas
-172429	cooked split peas
-175257	cooked split peas with salt
-2644291	canned sweet green peas drained with salt and sugar
-167606	frozen sweet potato fries with salt
-168015	frozen sweet potato fries
-168016	frozen sweet potato puffs
-168482	sweet potato
-168483	baked sweet potato
-168484	boiled sweet potato
-168485	canned sweet potato vacuum pack
-169303	sweet potato leaves
-169304	steamed sweet potato leaves
-169305	mashed canned sweet potato
-169306	frozen sweet potato
-169307	baked frozen sweet potato
-170083	canned sweet potato syrup pack
-170084	canned sweet potato syrup pack drained
-170088	candied sweet potato
-170133	steamed sweet potato leaves with salt
-170134	baked sweet potato with salt
-170541	boiled sweet potato with salt
-170542	baked frozen sweet potato with salt
-2346404	peeled sweet potato
-170071	yam
-170072	cooked yam
-170551	cooked yam with salt
-171906  strong beer
+168652	ground beef 30%
+169473	pan-browned ground beef 30%
+169474	baked ground beef loaf 30%
+168650	pan-broiled ground beef patty 30%
+168651	broiled ground beef patty 30%
+
+174037	ground beef 25%
+174040	pan-browned ground beef 25%
+171801	baked ground beef loaf 25%
+174038	broiled ground beef patty 25%
+174039	pan-boiled ground beef patty 25%
+
+174036	ground beef 20%
+2514744	ground beef 20%
+171799	pan-browned ground beef 20%
+171800	baked ground beef loaf 20%
+171797	broiled ground beef patty 20%
+171798	pan-broiled ground beef patty 20%
+
+171796	ground beef 15%
+174034	pan-browned ground beef 15%
+174035	baked ground beef loaf 15%
+174032	broiled ground beef patty 15%
+174033	pan-broiled ground beef patty 15%
+
+174030	ground beef 10%
+2514743	ground beef 10%
+171794	pan-browned ground beef 10%
+171795	baked ground beef loaf 10%
+174031	broiled ground beef patty 10%
+171793	pan-broiled ground beef patty 10%
+
+173110	ground beef 7%
+174755	pan-browned ground beef 7%
+174754	baked ground beef 7%, loaf
+174752	broiled ground beef patty 7%
+174753	pan-broiled ground beef patty 7%
+
+171790	ground beef 5%
+174028	pan-browned ground beef 5%
+174029	baked ground beef loaf 5%
+171791	broiled ground beef patty 5%
+171792	pan-broiled ground beef patty 5%
+
+173111	ground beef 3%
+174756	pan-browned ground beef 3%
+173114	baked ground beef loaf 3%
+173112	broiled ground beef patty 3%
+173113	pan-broiled ground beef patty 3%
+
+169447	broiled frozen ground beef patty
+172161	cooked ground beef
