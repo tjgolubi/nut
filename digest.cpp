@@ -491,7 +491,7 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
       }
 
       { // detect punctuation
-	const auto punct = "!$()*+/:;<=>?@[]^{|}~";
+	const auto punct = "!$()*+:;<=>?@[]^{|}~";
 	if (auto i = name.find_first_of(punct); i != std::string::npos) {
 	  COUT << "Invalid punctuation erased: " << name.substr(i) << '\n';
 	  name.erase(i);

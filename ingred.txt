@@ -277,10 +277,9 @@
      0   CUP   338 this                        chopped $this
     OZ     0    55 this                        boneless $this
     OZ     0    71 this                        cooked $this
-   100     0   201  20.30  12.71   0      0    sirloin steak
-   100     0   260  18.7   20      0      0    ribeye steak
-   100     0   247  19.61  18.16   0      0    beef tenderloin
-   100     0   170  20.1    9.4    0      0    flank steak
+
+#include "steak.txt"
+
    100     0   292  24.32  20.77   0      0    lamb
    100     0   314  22.03  24.37   0      0    lamb chop
    100     0   263  16.88  21.19   0      0    ground pork
