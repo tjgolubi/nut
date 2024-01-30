@@ -86,16 +86,13 @@
     OZ     0    33  "smoked salmon"            boneless smoked salmon
      0   CUP   159  "smoked salmon"            flaked smoked salmon
 
-[fish]
    100     0   345  60.62  11.43   0.00   0.00 smoked sockeye salmon // usda 169813
 *  108     0     0 this                        filet $this
 *  136     0     0 this                        strip $this
    100     0   158  26.33   5.87   0.00   0.00 canned sockeye salmon // usda 173723
 *  247     0     0 this                        can sockeye salmon
-[gland]
    100     0   153  20.63   7.17   0.00   0.00 canned sockeye salmon, undrained // usda 175174
 *  417     0     0 this                        can sockeye salmon, undrained
-
 
    100     0    96  20.08   1.7    0      0    tilapia
 *  170     0   218  44      4.5    0      0    tilapia fillet
@@ -178,6 +175,15 @@
 * 1814     0   458 this                        large live $this
      0   CUP   141 this                        chopped $this
    170   CUP   165  34.56   0.99   2.16   0    canned $this
+
+   100     0    77  16.52   0.75   0.00   0.00 raw northern lobster     // usda 174208
+*  150     0     0 this                        replace
+   100     0    89  19.00   0.86   0.00   0.00 steamed northern lobster // usda 174209
+*  145     0     0 this                        replace
+   100     0   112  20.60   1.51   2.43   0.00 raw spiny lobster        // usda 174211
+*  209     0     0 this                        replace
+   100     0   143  26.41   1.94   3.12   0.00 steamed spiny lobster    // usda 172009
+*  163     0     0 this                        replace
 
 [fish]
    100     0    85  18.5    0.7    0      0    mahi mahi
