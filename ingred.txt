@@ -153,7 +153,7 @@
 
 [general]
    100     0   212  12.69  11.72  13.96   0.00 breaded salmon nuggets // usda 173721
-   100     0   189  11.97  10.43  11.85   0.00 cooked salmon nuggets // usda 173722
+   100     0   189  11.97  10.43  11.85   0.00 cooked salmon nuggets  // usda 173722
 
 [shellfish]
    100     0   144  27.59   2.35   1.24   0    shrimp
@@ -239,18 +239,32 @@
      0     0    41 this                        raw boneless swordfish baked
      0     0    50 this                        boneless $this
      0   CUP   241 this                        flaked $this
-   100     0   148  20.77   6.61   0      0    trout mixed species
-*    0     0   117 this                        $this fillet
-*    =             "$this fillet"              fillet $this
-   100     0   119  20.48   3.46   0      0   wild rainbow trout
-*    0     0   189 this                       $this fillet
-     =             "$this fillet"             fillet $this
-   100     0   138  20.87   5.4    0      0    rainbow trout // farmed
-*    0     0   109 this                        $this fillet
-     =             "$this fillet"              fillet $this
-   100     0   197  25.09   9.9    0.49   0    cooked trout
 
+[fish]
    100     0   264  37.04  11.79   0      0    smoked trout
+
+   100     0   104  16.74   3.61   0.00   0.00 raw seatrout               // usda 173695
+*  238     0     0 this                        fillet $this
+   100     0   133  21.46   4.63   0.00   0.00 baked seatrout             // usda 174242
+*  186     0     0 this                        fillet $this
+   100     0   110  21.23   2.73   0.00   0.00 raw brook trout            // usda 175181
+*  149     0     0 this                        filet $this
+*  332     0     0 this                        replace
+   100     0   190  26.63   8.47   0.00   0.00 baked trout                // usda 172004
+*   62     0     0 this                        fillet $this
+   100     0   148  20.77   6.61   0.00   0.00 raw trout                  // usda 175153
+*   79     0     0 this                        fillet $this
+   100     0   168  23.80   7.38   0.00   0.00 baked rainbow trout 	  // usda 173718
+*   71     0     0 this                        fillet $this
+   100     0   141  19.94   6.18   0.00   0.00 raw rainbow trout          // usda 173717
+*   79     0     0 this                        fillet $this
+   100     0   150  22.92   5.82   0.00   0.00 baked wild rainbow trout   // usda 175155
+*  143     0     0 this                        fillet $this
+   100     0   119  20.48   3.46   0.00   0.00 raw wild rainbow trout     // usda 175154
+*  159     0     0 this                        fillet $this
+   100     0   382  77.27   8.06   0.00   0.00 dried steelhead trout      // usda 168059
+   100     0   159  21.11   8.26   0.00   0.00 canned steelhead trout     // usda 168060
+
    100     0    93  19.14   1.22   0      0    raw walleye
 *    0     0   148 this                        $this fillet
 *    =             "$this fillet"              fillet $this
