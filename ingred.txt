@@ -229,18 +229,21 @@
 *    = "can $1 $$"                    can $2
      = "canned $1 $$"                 canned $2
 :
-   100     0   121  19.8    4.01   0      0    raw swordfish
+
+[fish]
+   100     0   144  19.66   6.65   0.00   0.00 raw swordfish   // usda 173703
+*  136     0     0 this                        serving $this // 4-1/2" x 2-1/8" x 7/8"
 *    0     0   165 this                        piece swordfish
    100     0   155  25.39   5.14   0      0    steamed swordfish
-*    0     0   164 this                        piece $this
+*    0     0   164 this                        serving $this
      0   CUP   208 this                        flaked $this
-   100     0   177  23.8    8.23   0      0    baked swordfish
+   100     0   172  23.45   7.93   0.00   0.00 baked swordfish // usda 173704
+*  106     0     0 this                        serving $this
      0     0    34 this                        raw swordfish with bone baked
      0     0    41 this                        raw boneless swordfish baked
      0     0    50 this                        boneless $this
      0   CUP   241 this                        flaked $this
 
-[fish]
    100     0   264  37.04  11.79   0      0    smoked trout
 
    100     0   104  16.74   3.61   0.00   0.00 raw seatrout               // usda 173695
@@ -265,17 +268,20 @@
    100     0   382  77.27   8.06   0.00   0.00 dried steelhead trout      // usda 168059
    100     0   159  21.11   8.26   0.00   0.00 canned steelhead trout     // usda 168060
 
-   100     0    93  19.14   1.22   0      0    raw walleye
-*    0     0   148 this                        $this fillet
-*    =             "$this fillet"              fillet $this
-   100     0   119  24.54   1.56   0      0    walleye
-*    0     0   148 this                        $this fillet
-*    =             "$this fillet"              fillet $this
-   100     0    91  19.39   0.92   0      0    raw perch
-*    0     0    55 this                        fillet $this
-   100     0   117  24.86   1.18   0      0    perch
-*    0     0    54 this                        $this fillet
-*    =             "$this fillet"              fillet $this
+   100     0    93  19.14   1.22   0.00   0.00 raw walleye     // usda 175128
+*  159     0     0 this                        fillet $this
+   100     0   119  24.54   1.56   0.00   0.00 baked walleye   // usda 171997
+*  124     0     0 this                        fillet $this
+
+   100     0    79  15.31   1.54   0.00   0.00 raw atlantic perch   // usda 175125
+    28     0     0 this                        boneless $this
+*   64     0     0 this                        fillet $this
+   100     0    96  18.51   1.87   0.00   0.00 baked atlantic perch // usda 175126
+*   50     0     0 this                        fillet $this
+   100     0    91  19.39   0.92   0.00   0.00 raw perch            // usda 173678
+*   60     0     0 this                        fillet $this
+   100     0   117  24.86   1.18   0.00   0.00 baked perch          // usda 173679
+*   46     0     0 this                        fillet $this
 
 [shellfish]
    180   CUP   191  29.12   5.56   4.19   0    scallop
