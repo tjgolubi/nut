@@ -281,7 +281,8 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 	  COUT << "invalid search and replace\n";
 	  continue;
 	}
-	std::regex s{"\\b" + m[1].str() + "\\b"};
+	// std::regex s{"\\b" + m[1].str() + "\\b"};
+	std::regex s{m[1].str()};
 	const auto& r = m[2].str();
 	std::vector<NutritionMap::value_type> add;
 	for (const auto& n: nuts) {
