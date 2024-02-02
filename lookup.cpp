@@ -2,6 +2,7 @@
 
 #include "Atwater.h"
 #include "To.h"
+#include "Parse.h"
 
 #include <system_error>
 #include <ranges>
@@ -129,28 +130,6 @@ auto ReadFoods()
   return foods;
 } // ReadFoods
 
-template <class E>
-struct ParseVec: std::vector<std::string_view> {
-private:
-  using base_type = std::vector<std::string_view>;
-  const base_type* base() const { return static_cast<const base_type*>(this); }
-        base_type* base()       { return static_cast<      base_type*>(this); }
-public:
-  const std::string_view& operator[](E idx) const
-      { return base()->operator[](static_cast<int>(idx)); }
-  std::string_view& operator[](E idx)
-      { return base()->operator[](static_cast<int>(idx)); }
-}; // ParseVec
-
-template<class E>
-void Parse(const std::string& line, ParseVec<E>& v) {
-  v.clear();
-  for (const auto col: rng::views::split(line, '\t'))
-    v.emplace_back(col);
-  if (v.size() != std::size_t(E::end))
-    throw std::runtime_error("invalid number of columns");
-}; // Parse
-
 void LoadNutrients(std::vector<Ingred>& foods) {
   std::map<FdcId, Ingred*> food_map;
   for (auto& ingred: foods)
@@ -162,27 +141,29 @@ void LoadNutrients(std::vector<Ingred>& foods) {
     throw std::runtime_error("Cannot open " + fname);
   enum class Idx
       { fdc_id, kcal, prot, fat, carb, fiber, alc, atwater, desc, end };
+  static const std::array<std::string_view, int(Idx::end)> headings = {
+    "fdc_id",
+    "kcal",
+    "prot",
+    "fat",
+    "carb",
+    "fiber",
+    "alc",
+    "atwater",
+    "desc"
+  }; // headings
   std::string line;
   ParseVec<Idx> v;
   if (!std::getline(db, line))
     throw std::runtime_error("Cannot read " + fname);
-  Parse(line, v);
-  if (   v[Idx::fdc_id]      != "fdc_id"
-      || v[Idx::kcal]        != "kcal"
-      || v[Idx::prot]        != "prot"
-      || v[Idx::fat]         != "fat"
-      || v[Idx::carb]        != "carb"
-      || v[Idx::fiber]       != "fiber"
-      || v[Idx::alc]         != "alc"
-      || v[Idx::atwater]     != "atwater"
-      || v[Idx::desc]        != "desc")
-    throw std::runtime_error(fname + ": invalid headings");
+  ParseTsv(v, line);
+  CheckHeadings(v, headings);
   int linenum = 1;
   int found = 0;
   while (std::getline(db, line)) {
     try {
       ++linenum;
-      Parse(line, v);
+      ParseTsv(v, line);
       auto fdc_id = FdcId{To<int>(v[Idx::fdc_id])};
       auto food = food_map.find(fdc_id);
       if (food == food_map.end())
@@ -236,23 +217,25 @@ auto LoadPortions(const std::vector<Ingred>& foods)
   rng::transform(foods, std::back_inserter(fdc_ids), &Ingred::id);
   rng::sort(fdc_ids);
   enum class Idx { fdc_id, g, ml, desc, comment, end };
+  static const std::array<std::string_view, int(Idx::end)> headings = {
+    "fdc_id",
+    "g",
+    "ml",
+    "desc",
+    "comment"
+  }; // headings
   std::vector<Portion> rval;
   std::string line;
   ParseVec<Idx> v;
   if (!std::getline(input, line))
     throw std::runtime_error("Cannot read " + fname);
-  Parse(line, v);
-  if (   v[Idx::fdc_id]  != "fdc_id"
-      || v[Idx::g]       != "g"
-      || v[Idx::ml]      != "ml"
-      || v[Idx::desc]    != "desc"
-      || v[Idx::comment] != "comment")
-    throw std::runtime_error(fname + ": invalid heading");
+  ParseTsv(v, line);
+  CheckHeadings(v, headings);
   int linenum = 1;
   while (std::getline(input, line)) {
     try {
       ++linenum;
-      Parse(line, v);
+      ParseTsv(v, line);
       auto fdc_id = FdcId{To<int>(v[Idx::fdc_id])};
       if (!rng::binary_search(fdc_ids, fdc_id))
 	continue;
