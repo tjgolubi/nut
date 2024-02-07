@@ -1,6 +1,7 @@
 #include "Parse.h"
 #include "Progress.h"
 
+#include <regex>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -55,9 +56,27 @@ void ConvertFile(std::istream& input, std::ostream& output, long long filesize=0
   }
 } // ConvertFile
 
-int main() {
+int main(int argc, const char* const argv[]) {
   try {
-    ConvertFile(std::cin, std::cout);
+    if (argc == 1) {
+      ConvertFile(std::cin, std::cout);
+      return EXIT_SUCCESS;
+    }
+    for (int i = 1; i < argc; ++i) {
+      const auto ifname = std::string{argv[i]};
+      if (!ifname.ends_with(".csv")) {
+        std::cerr << std::quoted(ifname) << " requires .csv extension\n";
+	continue;
+      }
+      static const auto re = std::regex{"\\.csv$"};
+      const auto ofname = std::regex_replace(ifname, re, ".tsv");
+      auto input = std::ifstream{ifname, std::ios::ate};
+      auto filesize = input.tellg();
+      input.seekg(0);
+      auto output = std::ofstream{ofname};
+      std::cerr << std::quoted(ifname) << '(' << filesize << ") --> " << ofname << '\n';
+      ConvertFile(input, output, filesize);
+    }
   }
   catch (const std::exception& x) {
     std::cerr << "std::exception: " << x.what() << '\n';

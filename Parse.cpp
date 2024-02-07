@@ -16,8 +16,6 @@ void Parse(const std::string& line, std::vector<std::string>& row,
       col = std::prev(row.end());
     }
     col->clear();
-    while (std::isspace(*it))
-      ++it;
     if (*it == quote) {
       ++it;
       while (it != line.end()) {
@@ -46,8 +44,6 @@ void Parse(const std::string& line, std::vector<std::string>& row,
 	++it;
       }
     }
-    while (it != line.end() && std::isspace(*it))
-      ++it;
     if (it != line.end()) {
       if (*it != sep)
         throw std::runtime_error{"Parse: missing separator"};
