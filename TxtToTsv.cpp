@@ -25,7 +25,9 @@ std::ostream& Print(std::ostream& output, const std::vector<std::string>& row) {
   return output << '\n';
 } // Print
 
-void ConvertFile(std::istream& input, std::ostream& output, long long filesize=0) {
+void ConvertFile(std::istream& input, std::ostream& output,
+                 long long filesize=0)
+{
   auto line = std::string{};
   if (!std::getline(input, line))
     throw std::runtime_error{"ConvertFile: cannot read input"};
@@ -35,13 +37,13 @@ void ConvertFile(std::istream& input, std::ostream& output, long long filesize=0
   ParseTxt(line, row);
   const auto numCols = row.size();
   if (numCols == 0)
-    throw std::runtime_error{"ConvertFile: No column headings"};
+    throw std::runtime_error{"ConvertFile: no column headings"};
   Print(output, row);
   auto progress = ProgressMonitor{filesize};
   while (std::getline(input, line)) {
     try {
       ++linenum;
-      progress(input.tellg());
+      // progress(input.tellg());
       ParseTxt(line, row);
       if (row.size() != numCols)
         throw std::runtime_error{"invalid number of columns"};
