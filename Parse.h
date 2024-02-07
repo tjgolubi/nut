@@ -62,7 +62,7 @@ auto Parse(ParseVec<E>& v, const std::string& str,
   }
   if (iss)
     v.push_back(s);
-  char c = '\0';
+  char c ='\0';
   while (iss.get(c) && c == sep) {
     if (iss.peek() == delim) {
       if (iss >> std::quoted(s, delim, escape))
@@ -91,22 +91,6 @@ auto ParseCsv(ParseVec<E>& v, const std::string& str) -> ParseVec<E>&
 template<class E>
 auto ParseTxt(ParseVec<E>& v, const std::string& str) -> ParseVec<E>&
   { return Parse<E>(v, str, '^', '~'); }
-
-#if 0
-template<class E>
-auto Parse(const std::string& str,
-           char sep=',', char delim='"', char escape='\\')
-  -> ParseVec<E>
-{
-  ParseVec<E> rval;
-  ParseVec<E>(rval, str, sep, delim, escape);
-  return rval;
-} // Parse
-
-
-template<class E>
-auto ParseTxt(const std::string& str) { return Parse<E>(str, '^', '~'); }
-#endif
 
 template<class Idx, std::size_t N>
 void CheckHeadings(const ParseVec<Idx>& v,

@@ -28,7 +28,7 @@
 namespace rng = std::ranges;
 
 const std::string UsdaPath = "../usda/";
-const std::string FdcPath  = UsdaPath + "fdc/";
+const std::string FdcPath  = UsdaPath + "fdc/tsv/";
 const std::string SrPath   = UsdaPath + "sr/";
 
 std::ios::fmtflags DefaultCoutFlags;
