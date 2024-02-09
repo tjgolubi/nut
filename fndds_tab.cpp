@@ -3,12 +3,10 @@
 
 #include "To.h"
 #include "Parse.h"
-#include "Progress.h"
 
 #include <gsl/gsl>
 
 #include <system_error>
-#include <regex>
 #include <ranges>
 #include <iostream>
 #include <iomanip>
@@ -19,15 +17,13 @@
 #include <array>
 #include <map>
 #include <algorithm>
-#include <chrono>
 #include <charconv>
-#include <limits>
 #include <cstdlib>
 #include <cmath>
 
 namespace rng = std::ranges;
 
-const std::string UsdaPath = "../../usda/";
+const std::string UsdaPath = "../usda/";
 const std::string FnddsPath  = UsdaPath + "fndds/";
 
 std::ios::fmtflags DefaultCoutFlags;
@@ -46,6 +42,7 @@ public:
 
 struct Ingred {
   FdcId id;
+  FdcId code;
   std::string desc;
   float kcal    = 0.0f;
   float protein = 0.0f;
@@ -54,8 +51,10 @@ struct Ingred {
   float fiber   = 0.0f;
   float alcohol = 0.0f;
   Ingred() = default;
-  Ingred(FdcId id_, std::string desc_) : id{id_}, desc{desc_} { }
-  Ingred(FdcId id_, std::string_view desc_) : id{id_}, desc{desc_} { }
+  Ingred(FdcId id_, FdcId code_, std::string desc_)
+    : id{id_}, code{code_}, desc{desc_} { }
+  Ingred(FdcId id_, FdcId code_, std::string_view desc_)
+    : id{id_}, code{code_}, desc{desc_} { }
   auto operator<=>(const Ingred& rhs) const = default;
 }; // Ingred
 
@@ -92,6 +91,7 @@ std::ostream& operator<<(std::ostream& os, const Ingred& f) {
   using namespace std;
   ostr << fixed << setprecision(2)
               << setw(6) << f.id
+       << ' ' << setw(6) << f.code
        << ' ' << setw(6) << f.kcal
        << ' ' << setw(6) << f.protein
        << ' ' << setw(6) << f.fat
@@ -102,8 +102,67 @@ std::ostream& operator<<(std::ostream& os, const Ingred& f) {
   return os << ostr.str();
 } // << Ingred
 
-auto GetFoods() -> std::vector<Ingred> {
-  auto outname = std::string("food.txt");
+auto GetIngredFoods() -> std::map<FdcId, FdcId> {
+  const auto fname = FnddsPath + "fnddsingred.tsv";
+  auto input = std::ifstream(fname);
+  if (!input)
+    throw std::runtime_error("Cannot open " + fname);
+
+  enum class Idx {
+    fdc_id, seq_num, ingred_code, ingred_desc, amount, measure, portion,
+    retention, weight, start_date, end_date,
+    end
+  }; // Idx
+
+  static const std::array<std::string_view, int(Idx::end)> headings = {
+    "Food_code",
+    "Seq_num",
+    "Ingredient_code",
+    "Ingredient_description",
+    "Amount",
+    "Measure",
+    "Portion_code",
+    "Retention_code",
+    "Ingredient_weight",
+    "Start_date",
+    "End_date"
+  }; // headings
+
+  auto line = std::string{};
+  if (!std::getline(input, line))
+    throw std::runtime_error("Cannot read " + fname);
+
+  ParseVec<Idx> v;
+  ParseTsv(v, line);
+  CheckHeadings(v, headings);
+  using IdPair = std::pair<FdcId, FdcId>;
+  std::map<FdcId, FdcId> rval;
+  std::cout << "Reading " << fname << '\n';
+  long long linenum = 1;
+  while (std::getline(input, line)) {
+    ++linenum;
+    try {
+      ParseTsv(v, line);
+      auto id   = FdcId{To<int>(v[Idx::fdc_id])};
+      auto code = FdcId{To<int>(v[Idx::ingred_code])};
+      auto iter = rval.find(id);
+      if (iter == rval.end())
+        rval.emplace(id, code);
+      else
+        iter->second = FdcId{};
+    }
+    catch (const std::exception& x) {
+      std::cerr << fname << '(' << linenum << ") " << x.what() << '\n';
+    }
+  }
+  std::cout << "Read " << rval.size() << " ingredient foods\n";
+  return rval;
+} // GetIngredFoods
+
+auto GetFoods(const std::map<FdcId, FdcId>& ingredFoods)
+  -> std::vector<Ingred>
+{
+  auto outname = std::string("fndds_food.txt");
   auto output = std::ofstream(outname);
   if (!output)
     throw std::runtime_error("Cannot write " + outname);
@@ -134,18 +193,25 @@ auto GetFoods() -> std::vector<Ingred> {
   std::vector<Ingred> rval;
   std::cout << "Reading " << fname << '\n';
   {
-    auto progress = ProgressMonitor{5625};
     long long linenum = 1;
     while (std::getline(input, line)) {
       ++linenum;
-      progress(linenum);
       try {
 	ParseTsv(v, line);
-	rval.emplace_back(FdcId{To<int>(v[Idx::fdc_id])}, v[Idx::desc]);
-	output << v[Idx::fdc_id] << "\t|" << v[Idx::desc] << '\n';
+	auto id = FdcId{To<int>(v[Idx::fdc_id])};
+	auto iter = ingredFoods.find(id);
+	FdcId code;
+	if (iter == ingredFoods.end())
+	  ;
+	else if (iter->second == FdcId{} || iter->second >= 10000000)
+	  continue;
+	else
+	  code = iter->second;
+	rval.emplace_back(id, code, v[Idx::desc]);
+	output << id << "\t|" << v[Idx::desc] << '\n';
       }
       catch (const std::exception& x) {
-	std::cerr << '\r' << fname << '(' << linenum << ") " << x.what() << '\n';
+	std::cerr << fname << '(' << linenum << ") " << x.what() << '\n';
 	std::cerr << line << '\n';
       }
     }
@@ -181,48 +247,44 @@ void ProcessNutrients(std::vector<Ingred>& foods) {
   ParseTsv(v, line);
   CheckHeadings(v, headings);
   std::cout << "Reading " << fname << '\n';
-  {
-    auto progress = ProgressMonitor{365561};
-    long long linenum = 1;
-    FdcId last_id;
-    Ingred* last_ingred = nullptr;
-    while (std::getline(input, line)) {
-      ++linenum;
-      progress(linenum);
-      try {
-	ParseTsv(v, line);
-	auto id = FdcId{To<int>(v[Idx::fdc_id])};
-	Ingred* ingred = nullptr;
-	if (id == last_id) {
-	  ingred = last_ingred;
-	}
-	else {
-	  last_id = id;
-	  auto food = rng::lower_bound(foods, id, {}, &Ingred::id);
-	  if (food == foods.end() || food->id != id) {
-	    last_ingred = nullptr;
-	    continue;
-	  }
-	  ingred = last_ingred = &*food;
-	}
-	if (!ingred)
+  long long linenum = 1;
+  FdcId last_id;
+  Ingred* last_ingred = nullptr;
+  while (std::getline(input, line)) {
+    ++linenum;
+    try {
+      ParseTsv(v, line);
+      auto id = FdcId{To<int>(v[Idx::fdc_id])};
+      Ingred* ingred = nullptr;
+      if (id == last_id) {
+	ingred = last_ingred;
+      }
+      else {
+	last_id = id;
+	auto food = rng::lower_bound(foods, id, {}, &Ingred::id);
+	if (food == foods.end() || food->id != id) {
+	  last_ingred = nullptr;
 	  continue;
-	Update(*ingred, v[Idx::code], v[Idx::amount]);
+	}
+	ingred = last_ingred = &*food;
       }
-      catch (const std::exception& x) {
-	std::cerr << '\r' << fname << '(' << linenum << ") " << x.what() << '\n';
-	std::cerr << line << '\n';
-      }
+      if (!ingred)
+	continue;
+      Update(*ingred, v[Idx::code], v[Idx::amount]);
+    }
+    catch (const std::exception& x) {
+      std::cerr << fname << '(' << linenum << ") " << x.what() << '\n';
     }
   }
   const std::string outname{"fndds_foods.tsv"};
   auto output = std::ofstream(outname);
   if (!output)
     throw std::runtime_error("Could not write " + outname);
-  output << "fdc_id\tkcal\tprot\tfat\tcarb\tfiber\talc\tdesc\n";
+  output << "fdc_id\tcode\tkcal\tprot\tfat\tcarb\tfiber\talc\tdesc\n";
   output << std::fixed << std::setprecision(2);
   for (const auto& ingred: foods) {
     output << ingred.id
+        << '\t' << ingred.code
 	<< '\t' << ingred.kcal
 	<< '\t' << ingred.protein
 	<< '\t' << ingred.fat
@@ -238,7 +300,7 @@ void ProcessNutrients(std::vector<Ingred>& foods) {
 int main() {
   DefaultCoutFlags = std::cout.flags();
   std::cout << "Starting..." << std::endl;
-  auto foods = GetFoods();
+  auto foods = GetFoods(GetIngredFoods());
   ProcessNutrients(foods);
   return EXIT_SUCCESS;
 } // main
