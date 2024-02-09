@@ -15,7 +15,7 @@
 #include <exception>
 
 void Parse(const std::string& line, std::vector<std::string>& row,
-	   const char sep='\t', const char quote='"', const char escape='\\');
+	   const char sep='\t', const char quote='\0', const char escape='\0');
 
 inline
 void ParseTsv(const std::string& line, std::vector<std::string>& row)
@@ -23,7 +23,7 @@ void ParseTsv(const std::string& line, std::vector<std::string>& row)
 
 inline
 void ParseCsv(const std::string& line, std::vector<std::string>& row)
-  { Parse(line, row, ','); }
+  { Parse(line, row, ',', '"'); }
 
 inline
 void ParseTxt(const std::string& line, std::vector<std::string>& row)
@@ -46,14 +46,14 @@ std::ostream& operator<<(std::ostream& os, const ParseVec<E>& v) {
 
 template<class E>
 auto Parse(ParseVec<E>& v, const std::string& str,
-           char sep, char delim='"', char escape='\\')
+           const char sep, const char quote='\0', const char escape='\0')
   -> ParseVec<E>&
 {
   std::istringstream iss(str);
   std::string s;
   v.clear();
-  if (iss.peek() == delim) {
-    iss >> std::quoted(s, delim, escape);
+  if (iss.peek() == quote) {
+    iss >> std::quoted(s, quote, escape);
   }
   else {
     std::getline(iss, s, sep);
@@ -62,10 +62,10 @@ auto Parse(ParseVec<E>& v, const std::string& str,
   }
   if (iss)
     v.push_back(s);
-  char c ='\0';
+  char c = '\0';
   while (iss.get(c) && c == sep) {
-    if (iss.peek() == delim) {
-      if (iss >> std::quoted(s, delim, escape))
+    if (iss.peek() == quote) {
+      if (iss >> std::quoted(s, quote, escape))
 	v.push_back(s);
     }
     else {

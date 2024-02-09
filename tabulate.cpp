@@ -3,7 +3,6 @@
 #include "Atwater.h"
 #include "To.h"
 #include "Parse.h"
-#include "Progress.h"
 
 #include <gsl/gsl>
 
@@ -28,7 +27,7 @@
 namespace rng = std::ranges;
 
 const std::string UsdaPath = "../usda/";
-const std::string FdcPath  = UsdaPath + "fdc/tsv/";
+const std::string FdcPath  = UsdaPath + "fdc/";
 const std::string SrPath   = UsdaPath + "sr/";
 
 std::ios::fmtflags DefaultCoutFlags;
@@ -149,7 +148,7 @@ std::ostream& operator<<(std::ostream& os, const Ingred& f) {
 
 auto GetFoods() -> std::vector<Ingred> {
   auto outname = std::string("food.txt");
-  auto output = std::ofstream(outname);
+  auto output = std::ofstream{outname, std::ios::binary};
   if (!output)
     throw std::runtime_error("Cannot write " + outname);
   std::string line;
@@ -173,15 +172,13 @@ auto GetFoods() -> std::vector<Ingred> {
   std::vector<Ingred> rval;
   std::cout << "Reading " << fname << '\n';
   {
-    auto progress = ProgressMonitor{2021092};
     long long linenum = 1;
     while (std::getline(input, line)) {
       ++linenum;
-      progress(linenum);
       try {
 	ParseTsv(v, line);
 	if (v.size() != std::size_t(Idx::end))
-	  throw std::range_error("Invalid # records read: "
+	  throw std::range_error("Invalid # columns read: "
 				  + std::to_string(v.size()));
 	const auto& data_type = v[Idx::data_type];
 	if (data_type != "foundation_food" && data_type != "sr_legacy_food")
@@ -300,7 +297,7 @@ void UpdateAtwaterFromLegacy(std::vector<Ingred>& foods, AtwaterDb& atwaterDb) {
       Ref_desc, Refuse, SciName, N_Factor, Pro_Factor, Fat_Factor, CHO_Factor,
       end
     };
-    auto fname = SrPath + "FOOD_DES.txt";
+    auto fname = SrPath + "FOOD_DES.tsv";
     auto input = std::ifstream(fname);
     if (!input)
       throw std::runtime_error("Cannot open " + fname);
@@ -312,7 +309,7 @@ void UpdateAtwaterFromLegacy(std::vector<Ingred>& foods, AtwaterDb& atwaterDb) {
     while (std::getline(input, line)) {
       ++linenum;
       try {
-	ParseTxt<Idx>(v, line);
+	ParseTsv<Idx>(v, line);
 	if (v.size() != std::size_t(Idx::end)) {
 	  throw std::runtime_error(
 	      "invalid # columns: " + std::to_string(v.size()));
@@ -369,32 +366,23 @@ void ProcessNutrients(std::vector<Ingred>& foods) {
   auto db = std::ifstream{fname};
   if (!db)
     throw std::runtime_error("Cannot open " + fname);
+  std::string line;
+  ParseVec<Idx> v;
   {
-    std::string line;
     if (!std::getline(db, line))
       throw std::runtime_error("Cannot read " + fname);
-    ParseVec<Idx> v;
     ParseTsv(v, line);
     CheckHeadings(v, headings);
   }
   std::cout << "Reading " << fname << '\n';
   {
-    auto progress = ProgressMonitor{26235968};
     long long linenum = 0;
-    std::string id, fdc_id, nutrient_id, amount;
-    constexpr auto max_size = std::numeric_limits<std::streamsize>::max();
-    char c1, c2, c3;
     FdcId last_id;
     Ingred* last_ingred = nullptr;
-    while (db >> std::quoted(id) >> c1 >> std::quoted(fdc_id) >> c2
-	      >> std::quoted(nutrient_id) >> c3 >> std::quoted(amount))
-    {
-      db.ignore(max_size, '\n');
+    while (std::getline(db, line)) {
       ++linenum;
-      progress(linenum);
-      if (c1 != ',' || c2 != ',' || c3 != ',')
-	continue;
-      auto id = FdcId{To<int>(fdc_id)};
+      ParseTsv(v, line);
+      auto id = FdcId{To<int>(v[Idx::fdc_id])};
       Ingred* ingred = nullptr;
       if (id == last_id) {
 	ingred = last_ingred;
@@ -410,15 +398,15 @@ void ProcessNutrients(std::vector<Ingred>& foods) {
       }
       if (!ingred)
 	continue;
-      auto iter = rng::find(FieldIds, nutrient_id);
+      auto iter = rng::find(FieldIds, v[Idx::nutrient_id]);
       if (iter == FieldIds.end())
 	continue;
       auto i = FieldIdx(std::distance(FieldIds.begin(), iter));
-      ingred->value(i) = To<float>(amount);
+      ingred->value(i) = To<float>(v[Idx::amount]);
     }
   }
   const std::string outname{"usda_foods.tsv"};
-  auto output = std::ofstream(outname);
+  auto output = std::ofstream{outname, std::ios::binary};
   if (!output)
     throw std::runtime_error("Could not write " + outname);
   output << "fdc_id\tkcal\tprot\tfat\tcarb\tfiber\talc\tatwater\tdesc\n";
@@ -504,7 +492,7 @@ void ProcessPortions(const std::vector<Ingred>& foods) {
   }
   {
     std::string outname = "usda_portions.tsv";
-    auto output = std::ofstream(outname);
+    auto output = std::ofstream{outname, std::ios::binary};
     if (!output)
       throw std::runtime_error("Cannot write to " + outname);
     enum class Idx { id, fdc_id, seq_num, amount, unit, desc,
@@ -619,7 +607,7 @@ void ProcessPortions(const std::vector<Ingred>& foods) {
 	  if (ml == 0.0f)
 	    d = std::string_view(v[Idx::desc]);
 	}
-        if (!desc.str().empty())
+        if (!desc.view().empty())
 	  desc << ' ';
 	desc << d;
       }
@@ -639,16 +627,16 @@ void ProcessPortions(const std::vector<Ingred>& foods) {
 	}
       }
       if (!modifier.empty()) {
-        if (!desc.str().empty())
+        if (!desc.view().empty())
 	  desc << ' ';
 	desc << modifier;
       }
       constexpr auto GramsPerOz = 28.34952f;
       constexpr auto GramsPerLb = 16 * GramsPerOz;
       if (ml == 0.0f) {
-        if (desc.str() == "oz" && std::abs(g-GramsPerOz)/GramsPerOz < 0.02)
+        if (desc.view() == "oz" && std::abs(g-GramsPerOz)/GramsPerOz < 0.02)
 	  continue;
-	if (desc.str() == "lb" && std::abs(g-GramsPerLb)/GramsPerLb < 0.02)
+	if (desc.view() == "lb" && std::abs(g-GramsPerLb)/GramsPerLb < 0.02)
 	  continue;
 	std::smatch m;
 	static const std::regex e{"([0-9.]+)x (oz|lb)"};
@@ -667,7 +655,7 @@ void ProcessPortions(const std::vector<Ingred>& foods) {
       output << setw(6) << fdc_id
 	     << '\t' << setw(6) << g
              << '\t' << setw(6) << ml
-	     << '\t' << desc.str()
+	     << '\t' << desc.view()
 	     << '\t' << comment
 	     << '\n';
       ++count;

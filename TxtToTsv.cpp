@@ -1,5 +1,4 @@
-#include "../nut/Parse.h"
-#include "../nut/Progress.h"
+#include "Parse.h"
 
 #include <string>
 #include <string_view>
@@ -17,10 +16,7 @@ std::ostream& Print(std::ostream& output, const std::vector<std::string>& row) {
     if (!first)
       output << '\t';
     first = false;
-    if (col.find_first_of("\t\"") != std::string::npos)
-      output << std::quoted(col);
-    else
-      output << col;
+    output << col;
   }
   return output << '\n';
 } // Print
@@ -39,14 +35,24 @@ void ConvertFile(std::istream& input, std::ostream& output,
   if (numCols == 0)
     throw std::runtime_error{"ConvertFile: no column headings"};
   Print(output, row);
-  auto progress = ProgressMonitor{filesize};
+  auto empty = std::vector<int>(numCols);
   while (std::getline(input, line)) {
     try {
       ++linenum;
-      // progress(input.tellg());
       ParseTxt(line, row);
-      if (row.size() != numCols)
-        throw std::runtime_error{"invalid number of columns"};
+      if (row.size() > numCols) {
+        for (auto i = row.size() - 1; i != numCols; --i) {
+	  if (!row[i].empty()) {
+	    std::cerr << '(' << linenum << ") too many columns\n";
+	    break;
+	  }
+	}
+      }
+      row.resize(numCols);
+      for (int i = 0; i != numCols; ++i) {
+        if (row[i].empty())
+	  ++empty[i];
+      }
       Print(output, row);
     }
     catch (const std::exception& x) {
@@ -54,6 +60,10 @@ void ConvertFile(std::istream& input, std::ostream& output,
       if (++errCount > 10)
         return;
     }
+  }
+  for (int i=0; i != numCols; ++i) {
+    if (empty[i] >= linenum)
+      std::cerr << "********* Column " << i << " is always empty.\n";
   }
 } // ConvertFile
 
