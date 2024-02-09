@@ -607,7 +607,7 @@ void ProcessPortions(const std::vector<Ingred>& foods) {
 	  if (ml == 0.0f)
 	    d = std::string_view(v[Idx::desc]);
 	}
-        if (!desc.view().empty())
+        if (!desc.str().empty())
 	  desc << ' ';
 	desc << d;
       }
@@ -627,16 +627,16 @@ void ProcessPortions(const std::vector<Ingred>& foods) {
 	}
       }
       if (!modifier.empty()) {
-        if (!desc.view().empty())
+        if (!desc.str().empty())
 	  desc << ' ';
 	desc << modifier;
       }
       constexpr auto GramsPerOz = 28.34952f;
       constexpr auto GramsPerLb = 16 * GramsPerOz;
       if (ml == 0.0f) {
-        if (desc.view() == "oz" && std::abs(g-GramsPerOz)/GramsPerOz < 0.02)
+        if (desc.str() == "oz" && std::abs(g-GramsPerOz)/GramsPerOz < 0.02)
 	  continue;
-	if (desc.view() == "lb" && std::abs(g-GramsPerLb)/GramsPerLb < 0.02)
+	if (desc.str() == "lb" && std::abs(g-GramsPerLb)/GramsPerLb < 0.02)
 	  continue;
 	std::smatch m;
 	static const std::regex e{"([0-9.]+)x (oz|lb)"};
@@ -655,7 +655,7 @@ void ProcessPortions(const std::vector<Ingred>& foods) {
       output << setw(6) << fdc_id
 	     << '\t' << setw(6) << g
              << '\t' << setw(6) << ml
-	     << '\t' << desc.view()
+	     << '\t' << desc.str()
 	     << '\t' << comment
 	     << '\n';
       ++count;

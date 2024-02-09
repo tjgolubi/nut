@@ -11,7 +11,6 @@
 
 namespace rng = std::ranges;
 
-#if 0
 namespace std::ranges {
 
 template<typename R>
@@ -19,7 +18,6 @@ constexpr bool contains(const R& r, const auto& x)
 { return (find(r, x) != end(r)); }
 
 } // std::ranges
-#endif
 
 float Atwater::kcal(const Nutrition& nutr) const {
   float rval = prot * nutr.prot + fat * nutr.fat + alcohol * nutr.alcohol;;
