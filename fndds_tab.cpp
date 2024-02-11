@@ -33,19 +33,58 @@ constexpr auto Round(float x) -> float
   { return (std::abs(x) < 10) ? (std::round(10 * x) / 10) : std::round(x); }
 
 class FdcId {
+public:
+  static constexpr auto Min =   100000;
+  static constexpr auto Max = 3'000000 - 1;
 private:
   gsl::index idx = 0;
+  void check() {
+    if (idx < Min || idx > Max)
+      throw std::range_error{"FdcId: " + std::to_string(idx)};
+  }
 public:
   FdcId() : idx{} { }
   explicit FdcId(int id) : idx(id) { }
   operator gsl::index() const { return idx; }
 }; // FdcId
 
+class NdbId {
+public:
+  static constexpr auto Min =   1'000;
+  static constexpr auto Max = 100'000 - 1;
+private:
+  gsl::index idx = 0;
+  void check() {
+    if (idx < Min || idx > Max)
+      throw std::range_error{"NdbId: " + std::to_string(idx)};
+  }
+public:
+  NdbId() : idx{} { }
+  explicit NdbId(int id) : idx(id) { }
+  operator gsl::index() const { return idx; }
+}; // NdbId
+
+class FnddsId {
+public:
+  static constexpr auto Min =  10'000000;
+  static constexpr auto Max = 100'000000 - 1;
+private:
+  gsl::index idx = 0;
+  void check() {
+    if (idx < Min || idx > Max)
+      throw std::range_error{"FnddsId: " + std::to_string(idx)};
+  }
+public:
+  FnddsId() : idx{} { }
+  explicit FnddsId(int id) : idx(id) { check(); }
+  operator gsl::index() const { return idx; }
+}; // FnddsId
+
 auto GetLegacy() {
   const auto fname = FdcPath + "sr_legacy_food.tsv";
-  auto input = std::ifstream(fname);
+  auto input = std::ifstream{fname};
   if (!input)
-    throw std::runtime_error("Cannot open " + fname);
+    throw std::runtime_error{"Cannot open " + fname};
 
   enum class Idx { fdc_id, ndb_id, end };
 
@@ -56,12 +95,12 @@ auto GetLegacy() {
 
   auto line = std::string{};
   if (!std::getline(input, line))
-    throw std::runtime_error("Cannot read " + fname);
+    throw std::runtime_error{"Cannot read " + fname};
 
   ParseVec<Idx> v;
   ParseTsv(v, line);
   CheckHeadings(v, headings);
-  std::map<FdcId, FdcId> rval;
+  std::map<NdbId, FdcId> rval;
   std::cout << "Reading " << fname << '\n';
   long long linenum = 1;
   while (std::getline(input, line)) {
@@ -69,7 +108,7 @@ auto GetLegacy() {
     try {
       ParseTsv(v, line);
       auto fdc_id  = FdcId{To<int>(v[Idx::fdc_id])};
-      auto ndb_id  = FdcId{To<int>(v[Idx::ndb_id])};
+      auto ndb_id  = NdbId{To<int>(v[Idx::ndb_id])};
       auto result =rval.emplace(ndb_id, fdc_id);
       if (!result.second)
         throw std::runtime_error{"duplicate " + std::to_string(ndb_id)};
@@ -83,8 +122,8 @@ auto GetLegacy() {
 } // GetLegacy
 
 struct Ingred {
-  FdcId id;
-  FdcId code;
+  FnddsId fndds_id;
+  NdbId ndb_id;
   std::string desc;
   float kcal    = 0.0f;
   float protein = 0.0f;
@@ -93,15 +132,15 @@ struct Ingred {
   float fiber   = 0.0f;
   float alcohol = 0.0f;
   Ingred() = default;
-  Ingred(FdcId id_, FdcId code_, std::string desc_)
-    : id{id_}, code{code_}, desc{desc_} { }
-  Ingred(FdcId id_, FdcId code_, std::string_view desc_)
-    : id{id_}, code{code_}, desc{desc_} { }
+  Ingred(FnddsId id_, NdbId code_, std::string desc_)
+    : fndds_id{id_}, ndb_id{code_}, desc{desc_} { }
+  Ingred(FnddsId id_, NdbId code_, std::string_view desc_)
+    : fndds_id{id_}, ndb_id{code_}, desc{desc_} { }
   auto operator<=>(const Ingred& rhs) const = default;
 }; // Ingred
 
-void Update(Ingred& ingred, const auto& code, const auto& value) {
-  if (code.empty() || value.empty())
+void Update(Ingred& ingred, const auto& nutr_code, const auto& value) {
+  if (nutr_code.empty() || value.empty())
     return;
 
   static const std::array<std::string_view, 6> codes = {
@@ -112,8 +151,8 @@ void Update(Ingred& ingred, const auto& code, const auto& value) {
     "221", // alcohol
     "291"  // fiber
   }; // codes
-  auto iter = rng::lower_bound(codes, code);
-  if (iter == codes.end() || *iter != code)
+  auto iter = rng::lower_bound(codes, nutr_code);
+  if (iter == codes.end() || *iter != nutr_code)
     return;
   auto val = To<float>(value);
   switch (std::distance(codes.begin(), iter)) {
@@ -124,7 +163,7 @@ void Update(Ingred& ingred, const auto& code, const auto& value) {
     case 4: ingred.alcohol  = val; break;
     case 5: ingred.fiber    = val; break;
     default:
-      throw std::out_of_range("Update ingredient: code");
+      throw std::out_of_range{"Update ingredient nutrient code: " + nutr_code};
   }
 } // Update ingred
 
@@ -132,8 +171,8 @@ std::ostream& operator<<(std::ostream& os, const Ingred& f) {
   std::ostringstream ostr;
   using namespace std;
   ostr << fixed << setprecision(2)
-              << setw(6) << f.id
-       << ' ' << setw(6) << f.code
+              << setw(6) << f.fndds_id
+       << ' ' << setw(6) << f.ndb_id
        << ' ' << setw(6) << f.kcal
        << ' ' << setw(6) << f.protein
        << ' ' << setw(6) << f.fat
@@ -144,11 +183,11 @@ std::ostream& operator<<(std::ostream& os, const Ingred& f) {
   return os << ostr.str();
 } // << Ingred
 
-auto GetIngredFoods() -> std::map<FdcId, FdcId> {
+auto GetIngredFoods(const std::map<NdbId, FdcId>& legacy) -> std::map<FnddsId, NdbId> {
   const auto fname = FnddsPath + "fnddsingred.tsv";
-  auto input = std::ifstream(fname);
+  auto input = std::ifstream{fname};
   if (!input)
-    throw std::runtime_error("Cannot open " + fname);
+    throw std::runtime_error{"Cannot open " + fname};
 
   enum class Idx {
     fdc_id, seq_num, ingred_code, ingred_desc, amount, measure, portion,
@@ -172,25 +211,25 @@ auto GetIngredFoods() -> std::map<FdcId, FdcId> {
 
   auto line = std::string{};
   if (!std::getline(input, line))
-    throw std::runtime_error("Cannot read " + fname);
+    throw std::runtime_error{"Cannot read " + fname};
 
   ParseVec<Idx> v;
   ParseTsv(v, line);
   CheckHeadings(v, headings);
-  std::map<FdcId, FdcId> rval;
+  std::map<FnddsId, NdbId> rval;
   std::cout << "Reading " << fname << '\n';
   long long linenum = 1;
   while (std::getline(input, line)) {
     ++linenum;
     try {
       ParseTsv(v, line);
-      auto id   = FdcId{To<int>(v[Idx::fdc_id])};
-      auto code = FdcId{To<int>(v[Idx::ingred_code])};
-      auto iter = rval.find(id);
+      auto fndds_id = FnddsId{To<int>(v[Idx::fdc_id])};
+      auto ndb_id   =   NdbId{To<int>(v[Idx::ingred_code])};
+      auto iter = rval.find(fndds_id);
       if (iter == rval.end())
-        rval.emplace(id, code);
+        rval.emplace(fndds_id, ndb_id);
       else
-        iter->second = FdcId{};
+        iter->second = NdbId{};
     }
     catch (const std::exception& x) {
       std::cerr << fname << '(' << linenum << ") " << x.what() << '\n';
@@ -200,18 +239,18 @@ auto GetIngredFoods() -> std::map<FdcId, FdcId> {
   return rval;
 } // GetIngredFoods
 
-auto GetFoods(const std::map<FdcId, FdcId>& ingredFoods)
+auto GetFoods(const std::map<FnddsId, NdbId>& ingredFoods)
   -> std::vector<Ingred>
 {
   auto outname = std::string("fndds_food.txt");
-  auto output = std::ofstream(outname);
+  auto output = std::ofstream{outname};
   if (!output)
-    throw std::runtime_error("Cannot write " + outname);
+    throw std::runtime_error{"Cannot write " + outname};
   std::string line;
   const auto fname = FnddsPath + "mainfooddesc.tsv";
-  auto input = std::ifstream(fname);
+  auto input = std::ifstream{fname};
   if (!input)
-    throw std::runtime_error("Cannot open " + fname);
+    throw std::runtime_error{"Cannot open " + fname};
 
   enum class Idx {
     fdc_id, desc, cat_num, dat_desc, start_date, end_date, end
@@ -227,7 +266,7 @@ auto GetFoods(const std::map<FdcId, FdcId>& ingredFoods)
   }; // headings
 
   if (!std::getline(input, line))
-    throw std::runtime_error("Cannot read " + fname);
+    throw std::runtime_error{"Cannot read " + fname};
   ParseVec<Idx> v;
   ParseTsv(v, line);
   CheckHeadings(v, headings);
@@ -239,17 +278,17 @@ auto GetFoods(const std::map<FdcId, FdcId>& ingredFoods)
       ++linenum;
       try {
 	ParseTsv(v, line);
-	auto id = FdcId{To<int>(v[Idx::fdc_id])};
-	auto iter = ingredFoods.find(id);
-	FdcId code;
+	auto fndds_id = FnddsId{To<int>(v[Idx::fdc_id])};
+	auto iter = ingredFoods.find(fndds_id);
+	NdbId ndb_id;
 	if (iter == ingredFoods.end())
 	  ;
-	else if (iter->second == FdcId{} || iter->second >= 10000000)
+	else if (iter->second == NdbId{})
 	  continue;
 	else
-	  code = iter->second;
-	rval.emplace_back(id, code, v[Idx::desc]);
-	output << id << "\t|" << v[Idx::desc] << '\n';
+	  ndb_id = iter->second;
+	rval.emplace_back(fndds_id, ndb_id, v[Idx::desc]);
+	output << fndds_id << "\t|" << v[Idx::desc] << '\n';
       }
       catch (const std::exception& x) {
 	std::cerr << fname << '(' << linenum << ") " << x.what() << '\n';
@@ -266,7 +305,7 @@ void ProcessNutrients(std::vector<Ingred>& foods) {
   std::cout << "Processing nutrients.\n";
 
   enum class Idx {
-    fdc_id, code, amount, start_date, end_date, end
+    fndds_id, ndb_id, amount, start_date, end_date, end
   }; // Idx
 
   static const std::array<std::string_view, int(Idx::end)> headings = {
@@ -280,30 +319,30 @@ void ProcessNutrients(std::vector<Ingred>& foods) {
   const std::string fname = FnddsPath + "fnddsnutval.tsv";
   auto input = std::ifstream{fname};
   if (!input)
-    throw std::runtime_error("Cannot open " + fname);
+    throw std::runtime_error{"Cannot open " + fname};
   std::string line;
   if (!std::getline(input, line))
-    throw std::runtime_error("Cannot read " + fname);
+    throw std::runtime_error{"Cannot read " + fname};
   ParseVec<Idx> v;
   ParseTsv(v, line);
   CheckHeadings(v, headings);
   std::cout << "Reading " << fname << '\n';
   long long linenum = 1;
-  FdcId last_id;
+  FnddsId last_id;
   Ingred* last_ingred = nullptr;
   while (std::getline(input, line)) {
     ++linenum;
     try {
       ParseTsv(v, line);
-      auto id = FdcId{To<int>(v[Idx::fdc_id])};
+      auto fndds_id = FnddsId{To<int>(v[Idx::fndds_id])};
       Ingred* ingred = nullptr;
-      if (id == last_id) {
+      if (fndds_id == last_id) {
 	ingred = last_ingred;
       }
       else {
-	last_id = id;
-	auto food = rng::lower_bound(foods, id, {}, &Ingred::id);
-	if (food == foods.end() || food->id != id) {
+	last_id = fndds_id;
+	auto food = rng::lower_bound(foods, fndds_id, {}, &Ingred::fndds_id);
+	if (food == foods.end() || food->fndds_id != fndds_id) {
 	  last_ingred = nullptr;
 	  continue;
 	}
@@ -311,21 +350,21 @@ void ProcessNutrients(std::vector<Ingred>& foods) {
       }
       if (!ingred)
 	continue;
-      Update(*ingred, v[Idx::code], v[Idx::amount]);
+      Update(*ingred, v[Idx::ndb_id], v[Idx::amount]);
     }
     catch (const std::exception& x) {
       std::cerr << fname << '(' << linenum << ") " << x.what() << '\n';
     }
   }
   const std::string outname{"fndds_foods.tsv"};
-  auto output = std::ofstream(outname);
+  auto output = std::ofstream{outname};
   if (!output)
-    throw std::runtime_error("Could not write " + outname);
+    throw std::runtime_error{"Could not write " + outname};
   output << "fdc_id\tcode\tkcal\tprot\tfat\tcarb\tfiber\talc\tdesc\n";
   output << std::fixed << std::setprecision(2);
   for (const auto& ingred: foods) {
-    output << ingred.id
-        << '\t' << ingred.code
+    output << ingred.fndds_id
+        << '\t' << ingred.ndb_id
 	<< '\t' << ingred.kcal
 	<< '\t' << ingred.protein
 	<< '\t' << ingred.fat
@@ -338,8 +377,24 @@ void ProcessNutrients(std::vector<Ingred>& foods) {
   std::cout << "Wrote " << foods.size() << " foods to " << outname << ".\n";
 } // ProcessNutrients
 
+class PortionId {
+public:
+  static constexpr auto Min =  10'000;
+  static constexpr auto Max = 100'000 - 1;
+private:
+  gsl::index idx = 0;
+  void check() {
+    if (idx < Min || idx > Max)
+      throw std::range_error{"PortionId: " + std::to_string(idx)};
+  }
+public:
+  PortionId() : idx{} { }
+  explicit PortionId(int id) : idx(id) { check(); }
+  operator gsl::index() const { return idx; }
+}; // PortionId
+
 struct PortionDesc {
-  FdcId id;
+  PortionId id;
   std::string desc;
   friend
   auto operator<=>(const PortionDesc& lhs, const PortionDesc& rhs) = default;
@@ -348,9 +403,9 @@ struct PortionDesc {
 auto GetPortionDesc() {
   std::string line;
   const auto fname = FnddsPath + "foodportiondesc.tsv";
-  auto input = std::ifstream(fname);
+  auto input = std::ifstream{fname};
   if (!input)
-    throw std::runtime_error("Cannot open " + fname);
+    throw std::runtime_error{"Cannot open " + fname};
 
   enum class Idx {
     id, desc, start_date, end_date, end
@@ -364,7 +419,7 @@ auto GetPortionDesc() {
   }; // headings
 
   if (!std::getline(input, line))
-    throw std::runtime_error("Cannot read " + fname);
+    throw std::runtime_error{"Cannot read " + fname};
   ParseVec<Idx> v;
   ParseTsv(v, line);
   CheckHeadings(v, headings);
@@ -376,7 +431,7 @@ auto GetPortionDesc() {
       ++linenum;
       try {
 	ParseTsv(v, line);
-	rval.emplace_back(FdcId{To<int>(v[Idx::id])},
+	rval.emplace_back(PortionId{To<int>(v[Idx::id])},
 	                  To<std::string>(v[Idx::desc]));
       }
       catch (const std::exception& x) {
@@ -403,9 +458,9 @@ auto GetPortions(const std::vector<Ingred>& foods,
 {
   std::string line;
   const auto fname = FnddsPath + "foodweights.tsv";
-  auto input = std::ifstream(fname);
+  auto input = std::ifstream{fname};
   if (!input)
-    throw std::runtime_error("Cannot open " + fname);
+    throw std::runtime_error{"Cannot open " + fname};
 
   enum class Idx {
     food, seqn, portion, weight, start_date, end_date, end
@@ -421,7 +476,7 @@ auto GetPortions(const std::vector<Ingred>& foods,
   }; // headings
 
   if (!std::getline(input, line))
-    throw std::runtime_error("Cannot read " + fname);
+    throw std::runtime_error{"Cannot read " + fname};
   ParseVec<Idx> v;
   ParseTsv(v, line);
   CheckHeadings(v, headings);
@@ -432,11 +487,11 @@ auto GetPortions(const std::vector<Ingred>& foods,
     ++linenum;
     try {
       ParseTsv(v, line);
-      const auto food_id    = FdcId{To<int>(v[Idx::food])};
-      const auto portion_id = FdcId{To<int>(v[Idx::portion])};
+      const auto food_id    = FnddsId{To<int>(v[Idx::food])};
+      const auto portion_id = PortionId{To<int>(v[Idx::portion])};
       auto food_iter =
-	  rng::lower_bound(foods, food_id, rng::less{}, &Ingred::id);
-      if (food_iter == foods.end() || food_iter->id != food_id)
+	  rng::lower_bound(foods, food_id, rng::less{}, &Ingred::fndds_id);
+      if (food_iter == foods.end() || food_iter->fndds_id != food_id)
         continue;
       auto food = gsl::index{std::distance(foods.begin(), food_iter)};
       auto portion_iter =
@@ -462,7 +517,7 @@ auto GetPortions(const std::vector<Ingred>& foods,
 int main() {
   DefaultCoutFlags = std::cout.flags();
   std::cout << "Starting..." << std::endl;
-  auto foods = GetFoods(GetIngredFoods());
+  auto foods = GetFoods(GetIngredFoods(GetLegacy()));
   ProcessNutrients(foods);
   const auto portionDesc = GetPortionDesc();
   auto portions = GetPortions(foods, portionDesc);
@@ -473,7 +528,7 @@ int main() {
   for (const auto& p: portions) {
     const auto& food = foods[p.ingred];
     const auto& portion = portionDesc[p.desc];
-    output << food.id << '\t' << p.g << '\t' << portion.desc << '\n';
+    output << food.fndds_id << '\t' << p.g << '\t' << portion.desc << '\n';
   }
   return EXIT_SUCCESS;
 } // main
