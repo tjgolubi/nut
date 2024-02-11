@@ -24,6 +24,7 @@
 namespace rng = std::ranges;
 
 const std::string UsdaPath = "../usda/";
+const std::string FdcPath = UsdaPath + "fdc/";
 const std::string FnddsPath  = UsdaPath + "fndds/";
 
 std::ios::fmtflags DefaultCoutFlags;
@@ -39,6 +40,47 @@ public:
   explicit FdcId(int id) : idx(id) { }
   operator gsl::index() const { return idx; }
 }; // FdcId
+
+auto GetLegacy() {
+  const auto fname = FdcPath + "sr_legacy_food.tsv";
+  auto input = std::ifstream(fname);
+  if (!input)
+    throw std::runtime_error("Cannot open " + fname);
+
+  enum class Idx { fdc_id, ndb_id, end };
+
+  static const std::array<std::string_view, int(Idx::end)> headings = {
+    "fdc_id",
+    "NDB_number"
+  }; // headings
+
+  auto line = std::string{};
+  if (!std::getline(input, line))
+    throw std::runtime_error("Cannot read " + fname);
+
+  ParseVec<Idx> v;
+  ParseTsv(v, line);
+  CheckHeadings(v, headings);
+  std::map<FdcId, FdcId> rval;
+  std::cout << "Reading " << fname << '\n';
+  long long linenum = 1;
+  while (std::getline(input, line)) {
+    ++linenum;
+    try {
+      ParseTsv(v, line);
+      auto fdc_id  = FdcId{To<int>(v[Idx::fdc_id])};
+      auto ndb_id  = FdcId{To<int>(v[Idx::ndb_id])};
+      auto result =rval.emplace(ndb_id, fdc_id);
+      if (!result.second)
+        throw std::runtime_error{"duplicate " + std::to_string(ndb_id)};
+    }
+    catch (const std::exception& x) {
+      std::cerr << fname << '(' << linenum << ") " << x.what() << '\n';
+    }
+  }
+  std::cout << "Read " << rval.size() << " legacy foods\n";
+  return rval;
+} // GetLegacy
 
 struct Ingred {
   FdcId id;
