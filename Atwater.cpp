@@ -1,4 +1,4 @@
-// Copyright 2023 Terry Golubiewski, all rights reserved.
+// Copyright 2023-2024 Terry Golubiewski, all rights reserved.
 #include "Atwater.h"
 
 #include "To.h"
@@ -11,7 +11,7 @@
 
 namespace rng = std::ranges;
 
-#if 0
+#if defined(_LIBCPP_CLANG_VER) && (_LIBCPP_CLANG_VER <= 1700)
 namespace std::ranges {
 
 template<typename R>
