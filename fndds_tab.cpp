@@ -135,7 +135,6 @@ auto GetIngredFoods() -> std::map<FdcId, FdcId> {
   ParseVec<Idx> v;
   ParseTsv(v, line);
   CheckHeadings(v, headings);
-  using IdPair = std::pair<FdcId, FdcId>;
   std::map<FdcId, FdcId> rval;
   std::cout << "Reading " << fname << '\n';
   long long linenum = 1;
@@ -297,10 +296,142 @@ void ProcessNutrients(std::vector<Ingred>& foods) {
   std::cout << "Wrote " << foods.size() << " foods to " << outname << ".\n";
 } // ProcessNutrients
 
+struct PortionDesc {
+  FdcId id;
+  std::string desc;
+  friend
+  auto operator<=>(const PortionDesc& lhs, const PortionDesc& rhs) = default;
+}; // PortionDesc
+
+auto GetPortionDesc() {
+  std::string line;
+  const auto fname = FnddsPath + "foodportiondesc.tsv";
+  auto input = std::ifstream(fname);
+  if (!input)
+    throw std::runtime_error("Cannot open " + fname);
+
+  enum class Idx {
+    id, desc, start_date, end_date, end
+  }; // Idx
+
+  static const std::array<std::string_view, int(Idx::end)> headings = {
+    "Portion_code",
+    "Portion_description",
+    "Start_date",
+    "End_date"
+  }; // headings
+
+  if (!std::getline(input, line))
+    throw std::runtime_error("Cannot read " + fname);
+  ParseVec<Idx> v;
+  ParseTsv(v, line);
+  CheckHeadings(v, headings);
+  auto rval = std::vector<PortionDesc>{};
+  std::cout << "Reading " << fname << '\n';
+  {
+    long long linenum = 1;
+    while (std::getline(input, line)) {
+      ++linenum;
+      try {
+	ParseTsv(v, line);
+	rval.emplace_back(FdcId{To<int>(v[Idx::id])},
+	                  To<std::string>(v[Idx::desc]));
+      }
+      catch (const std::exception& x) {
+	std::cerr << fname << '(' << linenum << ") " << x.what() << '\n';
+	std::cerr << line << '\n';
+      }
+    }
+  }
+  rng::sort(rval);
+  std::cout << "Read " << rval.size() << " portion descriptions\n";
+  return rval;
+} // GetPortionDesc
+
+struct Portion {
+  gsl::index ingred;
+  float g;
+  gsl::index desc;
+  friend
+  auto operator<=>(const Portion& lhs, const  Portion& rhs) = default;
+}; // Portion
+
+auto GetPortions(const std::vector<Ingred>& foods,
+                 const std::vector<PortionDesc>& desc)
+{
+  std::string line;
+  const auto fname = FnddsPath + "foodweights.tsv";
+  auto input = std::ifstream(fname);
+  if (!input)
+    throw std::runtime_error("Cannot open " + fname);
+
+  enum class Idx {
+    food, seqn, portion, weight, start_date, end_date, end
+  }; // Idx
+
+  static const std::array<std::string_view, int(Idx::end)> headings = {
+    "Food_code",
+    "Seq_num",
+    "Portion_code",
+    "Portion_weight",
+    "Start_date",
+    "End_date"
+  }; // headings
+
+  if (!std::getline(input, line))
+    throw std::runtime_error("Cannot read " + fname);
+  ParseVec<Idx> v;
+  ParseTsv(v, line);
+  CheckHeadings(v, headings);
+  auto rval = std::vector<Portion>{};
+  std::cout << "Reading " << fname << '\n';
+  long long linenum = 1;
+  while (std::getline(input, line)) {
+    ++linenum;
+    try {
+      ParseTsv(v, line);
+      const auto food_id    = FdcId{To<int>(v[Idx::food])};
+      const auto portion_id = FdcId{To<int>(v[Idx::portion])};
+      auto food_iter =
+	  rng::lower_bound(foods, food_id, rng::less{}, &Ingred::id);
+      if (food_iter == foods.end() || food_iter->id != food_id)
+        continue;
+      auto food = gsl::index{std::distance(foods.begin(), food_iter)};
+      auto portion_iter =
+	  rng::lower_bound(desc, portion_id, rng::less{}, &PortionDesc::id);
+      if (portion_iter == desc.end() || portion_iter->id != portion_id) {
+	throw std::runtime_error{
+	    "Portion description not found: " + std::string{v[Idx::portion]}};
+      }
+      auto portion = gsl::index{std::distance(desc.begin(), portion_iter)};
+      rval.emplace_back(food, To<float>(v[Idx::weight]), portion);
+    }
+    catch (const std::exception& x) {
+      std::cerr << fname << '(' << linenum << ") " << x.what() << '\n';
+      std::cerr << line << '\n';
+    }
+  }
+  rng::sort(rval);
+  std::cout << "Read " << linenum << " portions, discarded "
+            << (linenum - rval.size()) << '\n';
+  return rval;
+} // GetPortions
+
 int main() {
   DefaultCoutFlags = std::cout.flags();
   std::cout << "Starting..." << std::endl;
   auto foods = GetFoods(GetIngredFoods());
   ProcessNutrients(foods);
+  const auto portionDesc = GetPortionDesc();
+  auto portions = GetPortions(foods, portionDesc);
+  auto fname = std::string{"fndds_portions.tsv"};
+  auto output = std::ofstream{fname, std::ios::binary};
+  if (!output)
+    throw std::runtime_error{"Cannot write " + fname};
+  for (const auto& p: portions) {
+    const auto& food = foods[p.ingred];
+    const auto& portion = portionDesc[p.desc];
+    output << food.id << '\t' << p.g << '\t' << portion.desc << '\n';
+  }
   return EXIT_SUCCESS;
 } // main
