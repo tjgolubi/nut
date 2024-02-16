@@ -42,7 +42,7 @@ CsvToTsv.exe: CsvToTsv.cpp Parse.cpp Parse.h Progress.h
 TxtToTsv.exe: TxtToTsv.cpp Parse.cpp Parse.h Progress.h
 	g++ -I $(INCL) -std=$(STD) $(OPT) TxtToTsv.cpp Parse.cpp -o TxtToTsv.exe
 
-fndds_tab.exe: fndds_tab.cpp Parse.h Progress.h To.h
+fndds_tab.exe: fndds_tab.cpp Parse.h Progress.h To.h variant_index.h
 	g++ -I $(INCL) -std=$(STD) $(OPT) fndds_tab.cpp -o fndds_tab.exe
 
 clean:

@@ -3,6 +3,7 @@
 
 #include "To.h"
 #include "Parse.h"
+#include "variant_index.h"
 
 #include <gsl/gsl>
 
@@ -32,53 +33,112 @@ std::ios::fmtflags DefaultCoutFlags;
 constexpr auto Round(float x) -> float
   { return (std::abs(x) < 10) ? (std::round(10 * x) / 10) : std::round(x); }
 
-class FdcId {
+class Id {
+private:
+  gsl::index idx=0;
+public:
+  constexpr Id() : idx{} { }
+  constexpr explicit Id(int id) : idx{id} { }
+  constexpr int value() const { return gsl::narrow_cast<int>(idx); }
+  constexpr operator int() const { return value(); }
+}; // Id
+
+namespace std {
+
+template<class T>
+constexpr auto get(const Id& id) { return T{id.value()}; };
+
+} // std
+
+template<class T>
+constexpr auto try_get(const Id& id) {
+  const int value = id.value();
+  return (value >= T::Min && value <= T::Max) ? T{value} : T{};
+}
+
+class FdcId: public Id {
 public:
   static constexpr auto Min =   150000;
   static constexpr auto Max = 3'000000 - 1;
 private:
-  gsl::index idx = 0;
   void check() {
-    if (idx < Min || idx > Max)
-      throw std::range_error{"FdcId: " + To<std::string>(idx)};
+    if (value() < Min || value() > Max)
+      throw std::range_error{"FdcId: " + To<std::string>(value())};
   }
 public:
-  FdcId() : idx{} { }
-  explicit FdcId(int id) : idx(id) { check(); }
-  operator gsl::index() const { return idx; }
+  FdcId() : Id{} { }
+  explicit FdcId(int id) : Id{id} { check(); }
 }; // FdcId
 
-class NdbId {
+class NdbId: public Id {
 public:
   static constexpr auto Min =   1'000;
   static constexpr auto Max = FdcId::Min - 1;
 private:
-  gsl::index idx = 0;
   void check() {
-    if (idx < Min || idx > Max)
-      throw std::range_error{"NdbId: " + To<std::string>(idx)};
+    if (value() < Min || value() > Max)
+      throw std::range_error{"NdbId: " + To<std::string>(value())};
   }
 public:
-  NdbId() : idx{} { }
-  explicit NdbId(int id) : idx(id) { check(); }
-  operator gsl::index() const { return idx; }
+  NdbId() : Id{} { }
+  explicit NdbId(int id) : Id{id} { check(); }
 }; // NdbId
 
-class FnddsId {
+class FnddsId: public Id {
 public:
   static constexpr auto Min =  10'000000;
   static constexpr auto Max = 100'000000 - 1;
 private:
-  gsl::index idx = 0;
   void check() {
-    if (idx < Min || idx > Max)
-      throw std::range_error{"FnddsId: " + To<std::string>(idx)};
+    if (value() < Min || value() > Max)
+      throw std::range_error{"FnddsId: " + To<std::string>(value())};
   }
 public:
-  FnddsId() : idx{} { }
-  explicit FnddsId(int id) : idx(id) { check(); }
-  operator gsl::index() const { return idx; }
+  FnddsId() : Id{} { }
+  explicit FnddsId(int id) : Id{id} { check(); }
 }; // FnddsId
+
+class AnyId: public std::variant<Id, NdbId, FdcId, FnddsId> {
+private:
+  using base_type = std::variant<Id, NdbId, FdcId, FnddsId>;
+  static auto Select(const Id& id) -> base_type {
+    if (id == Id{})
+      return Id{};
+    if (auto ndb_id = try_get<NdbId>(id); ndb_id != NdbId{})
+      return ndb_id;
+    if (auto fdc_id = try_get<FdcId>(id); fdc_id != FdcId{})
+      return fdc_id;
+    if (auto fndds_id = try_get<FnddsId>(id); fndds_id != FnddsId{})
+      return fndds_id;
+    return id;
+  } // Select
+  base_type& base() { return *static_cast<base_type*>(this); }
+  const base_type& base() const { return *static_cast<const base_type*>(this); }
+public:
+  template<class T>
+  static constexpr auto index_of() { return std::variant_index<base_type, T>(); }
+  constexpr AnyId() noexcept : base_type{} { }
+  explicit AnyId(int id) : base_type{Select(Id{id})} { }
+  template<class T>
+  explicit AnyId(T&& t) noexcept : base_type{std::forward<T>(t)} { }
+  template<class T>
+  AnyId& operator=(T x) { base().operator=(x); return *this; }
+  int value() const {
+    switch (index()) {
+      case index_of<Id>():      return std::get<Id>     (*this).value();
+      case index_of<NdbId>():   return std::get<NdbId>  (*this).value();
+      case index_of<FdcId>():   return std::get<FdcId>  (*this).value();
+      case index_of<FnddsId>(): return std::get<FnddsId>(*this).value();
+      default: return 0;
+    }
+  }
+  operator int() const { return value(); }
+}; // AnyId
+
+std::ostream& operator<<(std::ostream& os, const AnyId& x) {
+  static const char* const TypeName[] = { "Id{", "NdbId{", "FdcId{", "FnddsId{" };
+  return os << TypeName[x.index()] << x.value() << '}';
+} // << AnyId
 
 struct Food {
   FnddsId fndds_id;
@@ -141,45 +201,6 @@ std::ostream& operator<<(std::ostream& os, const Food& f) {
        << ' ' << f.desc;
   return os << ostr.str();
 } // << Food
-
-class AnyId: public std::variant<NdbId, FdcId, FnddsId> {
-private:
-  using base_type = std::variant<NdbId, FdcId, FnddsId>;
-  constexpr static auto Select(int id) -> base_type {
-    if (id >= NdbId::Min && id <= NdbId::Max)
-      return NdbId{id};
-    if (id >= FdcId::Min && id <= FdcId::Max)
-      return FdcId{id};
-    return FnddsId{id};
-  } // Select
-  base_type& base() { return *static_cast<base_type*>(this); }
-  const base_type& base() const { return *static_cast<const base_type*>(this); }
-public:
-  constexpr AnyId() noexcept : base_type{} { }
-  constexpr explicit AnyId(int id) : base_type{Select(id)} { }
-  template<class T>
-  constexpr explicit AnyId(T&& t) noexcept : base_type{std::forward<T>(t)} { }
-  template<class T>
-  AnyId& operator=(T x) { base().operator=(x); return *this; }
-  int value() const {
-    switch (index()) {
-      case 0: return std::get<NdbId>(*this);
-      case 1: return std::get<FdcId>(*this);
-      case 2: return std::get<FnddsId>(*this);
-      default: return 0;
-    }
-  }
-}; // AnyId
-
-std::ostream& operator<<(std::ostream& os, const AnyId& x) {
-  switch (x.index()) {
-    case 0: os << "NdbId{" << std::get<NdbId>(x) << '}'; break;
-    case 1: os << "FdcId{" << std::get<FdcId>(x) << '}'; break;
-    case 2: os << "FnddsId{" << std::get<FnddsId>(x) << '}'; break;
-    default: os << "AnyId{?}" ; break;
-  }
-  return os;
-} // << AnyId
 
 auto GetIngredFoods()
   -> std::map<FnddsId, AnyId>
@@ -249,7 +270,7 @@ auto GetIngredFoods()
   }
   for (auto& r: rval) {
     auto& id = r.second;
-    while (id.index() == 2) {
+    while (id.index() == AnyId::index_of<FnddsId>()) {
       auto iter = rval.find(std::get<FnddsId>(id));
       if (iter == rval.end())
         break;
@@ -439,9 +460,10 @@ FdcId ToFdcId(FnddsId id) {
 
 FdcId ToFdcId(const AnyId& id) {
   switch (id.index()) {
-  case 0: return ToFdcId(std::get<NdbId>(id));
-  case 1: return std::get<FdcId>(id);
-  case 2: return ToFdcId(std::get<FnddsId>(id));
+  case AnyId::index_of<Id>():      return FdcId{std::get<Id>(id)};
+  case AnyId::index_of<NdbId>():   return FdcId{std::get<NdbId>(id)};
+  case AnyId::index_of<FdcId>():   return std::get<FdcId>(id);
+  case AnyId::index_of<FnddsId>(): return FdcId{std::get<FnddsId>(id)};
   default: return FdcId{};
   }
 } // ToFdcId
@@ -539,7 +561,7 @@ private:
 public:
   PortionId() : idx{} { }
   explicit PortionId(int id) : idx(id) { check(); }
-  operator gsl::index() const { return idx; }
+  operator int() const { return idx; }
 }; // PortionId
 
 struct PortionDesc {
