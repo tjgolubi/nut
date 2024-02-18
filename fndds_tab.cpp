@@ -23,10 +23,11 @@
 #include <cmath>
 
 namespace rng = std::ranges;
+using namespace std::string_literals;
 
-const std::string UsdaPath = "../usda/";
-const std::string FdcPath = UsdaPath + "fdc/";
-const std::string FnddsPath  = UsdaPath + "fndds/";
+const auto UsdaPath  = "../usda/"s;
+const auto FdcPath   = UsdaPath + "fdc/";
+const auto FnddsPath = UsdaPath + "fndds/";
 
 std::ios::fmtflags DefaultCoutFlags;
 
@@ -140,6 +141,13 @@ std::ostream& operator<<(std::ostream& os, const AnyId& x) {
   return os << TypeName[x.index()] << x.value() << '}';
 } // << AnyId
 
+namespace std {
+
+constexpr auto to_string(const AnyId& x) { return to_string(x.value()); }
+
+} // std
+
+
 struct Food {
   FnddsId fndds_id;
   NdbId ndb_id;
@@ -202,7 +210,61 @@ std::ostream& operator<<(std::ostream& os, const Food& f) {
   return os << ostr.str();
 } // << Food
 
-auto GetIngredFoods()
+struct PortionVolume {
+  int id = 0;
+  float ml = 0.0f;
+  constexpr auto operator<=>(const PortionVolume& rhs) const = default;
+}; // PortionVolume
+
+auto GetPortionVolumes() -> std::vector<PortionVolume> {
+  const auto fname = "fndds_volumes.tsv"s;
+  auto input = std::ifstream{fname};
+  if (!input)
+    throw std::runtime_error{"Cannot open " + fname};
+
+  enum class Idx { id, ml, desc, end };
+
+  static const std::array<std::string_view, int(Idx::end)> Headings = {
+    "Code",
+    "Vol_ml",
+    "Description"
+  }; // Headings
+
+  auto line = ""s;
+  if (!std::getline(input, line))
+    throw std::runtime_error{"Cannot read " + fname};
+
+  ParseVec<Idx> v;
+  ParseTsv(v, line);
+  CheckHeadings(v, Headings);
+  auto rval = std::vector<PortionVolume>{};
+  std::cout << "Reading " << fname << '\n';
+  auto pv = PortionVolume{};
+  long long linenum = 1;
+  while (std::getline(input, line)) {
+    ++linenum;
+    try {
+      ParseTsv(v, line);
+      pv.id = To<int>(v[Idx::id]);
+      pv.ml = To<float>(v[Idx::ml]);
+      rval.push_back(pv);
+    }
+    catch (const std::exception& x) {
+      std::cerr << fname << '(' << linenum << ") " << x.what() << '\n';
+    }
+  }
+  rng::sort(rval);
+  std::cout << "Read " << rval.size() << " portion volumes.\n";
+  return rval;
+} // GetPortionVolumes
+
+struct Density {
+  float g;
+  float ml;
+}; // Density
+
+auto GetIngredFoods(const std::vector<PortionVolume>& portionVolumes,
+                    std::map<AnyId, Density>& density)
   -> std::map<FnddsId, AnyId>
 {
   const auto fname = FnddsPath + "fnddsingred.tsv";
@@ -230,7 +292,7 @@ auto GetIngredFoods()
     "End_date"
   }; // Headings
 
-  auto line = std::string{};
+  auto line = ""s;
   if (!std::getline(input, line))
     throw std::runtime_error{"Cannot read " + fname};
 
@@ -244,24 +306,59 @@ auto GetIngredFoods()
     ++linenum;
     try {
       ParseTsv(v, line);
-      const auto fndds_id = FnddsId{To<int>(v[Idx::fdc_id])};
-      const auto iter = rval.find(fndds_id);
-      if (iter == rval.end()) {
-        auto id = To<int>(v[Idx::ingred_code]);
-	if (id < FnddsId::Min) {
-	  if (id >= 1000000) {
-	    throw std::range_error{
-		"Invalid ingredient code: " + To<std::string>(id)};
+      const auto fndds_id  = FnddsId{To<int>(v[Idx::fdc_id])};
+      auto ingred_id = AnyId{To<int>(v[Idx::ingred_code])};
+      {
+	const auto iter = rval.find(fndds_id);
+	if (iter == rval.end()) {
+	  if (ingred_id < FnddsId::Min) {
+	    if (ingred_id >= 1'000'000) {
+	      throw std::range_error{
+		  "Invalid ingredient code: " + To<std::string>(ingred_id)};
+	    }
+	    if (ingred_id >=  999'000)
+	      continue;
+	    if (ingred_id >=  900'000)
+	      ingred_id = AnyId{ingred_id - 900'000};
 	  }
-	  if (id >=  999000)
-	    continue;
-	  if (id >=  900000)
-	    id -= 900000;
+	  rval.emplace(fndds_id, ingred_id);
 	}
-        rval.emplace(fndds_id, AnyId{id});
+	else {
+	  iter->second = AnyId{};
+	}
       }
-      else {
-        iter->second = AnyId{};
+      {
+	constexpr auto Cup = 236.59f;
+	static const std::map<std::string_view, float> Measures = {
+	  { "C",  Cup    },
+	  { "CP", Cup    },
+	  { "FO", Cup/8  },
+	  { "PT", Cup*2  },
+	  { "QT", Cup*4  },
+	  { "TB", Cup/16 },
+	  { "TS", Cup/48 }
+	}; // Measures
+	const auto amount = To<float>(v[Idx::amount]);
+        const auto g = To<float>(v[Idx::weight]);
+	auto ml = 0.0f;
+	if (auto iter = Measures.find(v[Idx::measure]); iter != Measures.end())
+	{
+	  ml = iter->second;
+	}
+	else {
+	  auto id = To<int>(v[Idx::portion]);
+	  auto it = rng::lower_bound(portionVolumes, id, rng::less{},
+	                               &PortionVolume::id);
+	  if (it != portionVolumes.end() && it->id == id)
+	    ml = it->ml;
+	}
+	if (ml != 0.0) {
+	  const auto iter = density.find(ingred_id);
+	  if (iter == density.end())
+	    density.emplace(ingred_id, Density{g, ml});
+	  else if (iter->second.g > g)
+	    iter->second = Density{g, ml};
+	}
       }
     }
     catch (const std::exception& x) {
@@ -286,7 +383,7 @@ auto GetIngredFoods()
   std::cout << "Read " << rval.size() << " ingredient foods\n";
 #if 0
   {
-    const auto outname = std::string{"fndds_ingred.tsv"};
+    const auto outname = "fndds_ingred.tsv"s;
     auto output = std::ofstream{outname, std::ios::binary};
     if (!output)
       throw std::runtime_error{"Cannot write to " + outname};
@@ -300,8 +397,8 @@ auto GetIngredFoods()
 auto GetFoods(const std::map<FnddsId, AnyId>& ingredFoods)
   -> std::vector<Food>
 {
-  auto outname = std::string("fndds_food.txt");
-  auto output = std::ofstream{outname};
+  auto outname = "fndds_food.txt"s;
+  auto output = std::ofstream{outname, std::ios::binary};
   if (!output)
     throw std::runtime_error{"Cannot write " + outname};
   std::string line;
@@ -371,7 +468,7 @@ auto GetLegacy() {
     "NDB_number"
   }; // Headings
 
-  auto line = std::string{};
+  auto line = ""s;
   if (!std::getline(input, line))
     throw std::runtime_error{"Cannot read " + fname};
 
@@ -414,7 +511,7 @@ auto GetSurvey() -> std::map<FnddsId, FdcId> {
     "end_date"
   }; // Headings
 
-  auto line = std::string{};
+  auto line = ""s;
   if (!std::getline(input, line))
     throw std::runtime_error{"Cannot read " + fname};
 
@@ -523,30 +620,39 @@ void ProcessNutrients(std::vector<Food>& foods) {
       std::cerr << fname << '(' << linenum << ") " << x.what() << '\n';
     }
   }
-  {
-    const std::string outname{"fndds_foods.tsv"};
-    auto output = std::ofstream{outname};
-    if (!output)
-      throw std::runtime_error{"Could not write " + outname};
-    output << "fdc_id\tkcal\tprot\tfat\tcarb\tfiber\talc\tdesc\n";
-    output << std::fixed << std::setprecision(2);
-    for (const auto& food: foods) {
-      auto any_id = AnyId{ToFdcId(food.ndb_id)};
-      if (std::get<FdcId>(any_id) == FdcId{})
-        any_id = food.ndb_id;
-      output << any_id.value()
-	  << '\t' << food.kcal
-	  << '\t' << food.protein
-	  << '\t' << food.fat
-	  << '\t' << food.carb
-	  << '\t' << food.fiber
-	  << '\t' << food.alcohol
-	  << '\t' << food.desc
-	  << '\n';
-    }
-    std::cout << "Wrote " << foods.size() << " foods to " << outname << ".\n";
-  }
 } // ProcessNutrients
+
+void PrintFoods(const std::vector<Food>& foods,
+                const std::map<AnyId, Density>& density)
+{
+  const auto outname = "fndds_foods.tsv"s;
+  auto output = std::ofstream{outname, std::ios::binary};
+  if (!output)
+    throw std::runtime_error{"Could not write " + outname};
+  output << "fdc_id\tg\tml\tkcal\tprot\tfat\tcarb\tfiber\talc\tdesc\n";
+  output << std::fixed << std::setprecision(2);
+  Density d;
+  for (const auto& food: foods) {
+    auto any_id = AnyId{ToFdcId(food.ndb_id)};
+    if (std::get<FdcId>(any_id) == FdcId{})
+      any_id = food.ndb_id;
+    if (auto iter = density.find(any_id); iter != density.end())
+      d = iter->second;
+    else
+      d = Density{100.0f, 0.0f};
+    output << any_id.value()
+        << '\t' << d.g << '\t' << d.ml
+	<< '\t' << food.kcal
+	<< '\t' << food.protein
+	<< '\t' << food.fat
+	<< '\t' << food.carb
+	<< '\t' << food.fiber
+	<< '\t' << food.alcohol
+	<< '\t' << food.desc
+	<< '\n';
+  }
+  std::cout << "Wrote " << foods.size() << " foods to " << outname << ".\n";
+} // PrintFoods
 
 class PortionId {
 public:
@@ -671,7 +777,7 @@ auto GetPortions(const std::vector<Food>& foods,
 	  rng::lower_bound(desc, portion_id, rng::less{}, &PortionDesc::id);
       if (portion_iter == desc.end() || portion_iter->id != portion_id) {
 	throw std::runtime_error{
-	    "Portion description not found: " + std::string{v[Idx::portion]}};
+	    "Portion description not found: "s + v[Idx::portion]};
       }
       auto portion = gsl::index{std::distance(desc.begin(), portion_iter)};
       rval.emplace_back(food, To<float>(v[Idx::weight]), portion);
@@ -687,21 +793,35 @@ auto GetPortions(const std::vector<Food>& foods,
   return rval;
 } // GetPortions
 
+void PrintDensity(const std::map<AnyId, Density>& density) {
+  const auto fname = "fndds_density.tsv"s;
+  auto output = std::ofstream{fname, std::ios::binary};
+  if (!output)
+    throw std::runtime_error{"Cannot write " + fname};
+  output << "id\tg\tml\n";
+  for (const auto& [id, d]: density)
+    output << id.value() << '\t' << d.g << '\t' << d.ml << '\n';
+  std::cout << "Wrote " << density.size() << " densities to " << fname << '\n';
+} // PrintDensity
+
 int main() {
   DefaultCoutFlags = std::cout.flags();
   std::cout << "Starting..." << std::endl;
-  auto foods = GetFoods(GetIngredFoods());
+  auto density = std::map<AnyId, Density>{};
+  auto foods = GetFoods(GetIngredFoods(GetPortionVolumes(), density));
+  PrintDensity(density);
   ProcessNutrients(foods);
+  PrintFoods(foods, density);
   const auto portionDesc = GetPortionDesc();
   auto portions = GetPortions(foods, portionDesc);
-  auto fname = std::string{"fndds_portions.tsv"};
+  auto fname = "fndds_portions.tsv"s;
   auto output = std::ofstream{fname, std::ios::binary};
   if (!output)
     throw std::runtime_error{"Cannot write " + fname};
   for (const auto& p: portions) {
     const auto& food = foods[p.food];
     const auto& portion = portionDesc[p.desc];
-    output << food.fndds_id << '\t' << p.g << '\t' << portion.desc << '\n';
+    output << food.ndb_id << '\t' << p.g << '\t' << portion.desc << '\n';
   }
   return EXIT_SUCCESS;
 } // main

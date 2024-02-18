@@ -7,7 +7,9 @@ OPT=
 
 .PHONY: all clean scour
 
-all: CsvToTsv.exe TxtToTsv.exe nut.exe digest.exe ingred.dat barf.txt lookup.exe usda_foods.tsv usda_portions.tsv food.txt fndds_tab.exe doit.exe
+all: CsvToTsv.exe TxtToTsv.exe nut.exe digest.exe ingred.dat barf.txt \
+     lookup.exe usda_foods.tsv usda_portions.tsv food.txt fndds_tab.exe \
+     fndds_vol.exe
 
 nut.exe: nut.cpp Nutrition.h
 	g++ -I $(INCL) -std=$(STD) $(OPT) nut.cpp -o nut.exe
@@ -45,11 +47,12 @@ TxtToTsv.exe: TxtToTsv.cpp Parse.cpp Parse.h
 fndds_tab.exe: fndds_tab.cpp Parse.h To.h variant_index.h
 	g++ -I $(INCL) -std=$(STD) $(OPT) fndds_tab.cpp -o fndds_tab.exe
 
-doit.exe: doit.cpp Parse.h To.h
-	g++ -I $(INCL) -std=$(STD) $(OPT) doit.cpp -o doit.exe
+fndds_vol.exe: fndds_vol.cpp Parse.h To.h
+	g++ -I $(INCL) -std=$(STD) $(OPT) fndds_vol.cpp -o fndds_vol.exe
 
 clean:
 	rm -f ingred.dat barf.txt
 
 scour: clean
-	rm -f nut.exe digest.exe barf.exe lookup.exe tabulate.exe food.txt tjg.txt CsvToTsv.exe TxtToTsv.exe fndds_tab.exe doit.exe
+	rm -f nut.exe digest.exe barf.exe lookup.exe tabulate.exe food.txt \
+	tjg.txt CsvToTsv.exe TxtToTsv.exe fndds_tab.exe fndds_vol.exe

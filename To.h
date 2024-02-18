@@ -17,7 +17,7 @@
 
 template<typename T, typename U>
 requires requires (U x) { static_cast<T>(x); }
-constexpr auto To(U x) -> T { return static_cast<T>(x); }
+constexpr auto To(U x) noexcept -> T { return static_cast<T>(x); }
 
 template<typename T, typename U>
 requires (std::is_same_v<T, std::string> && std::is_arithmetic_v<U>)
@@ -28,6 +28,11 @@ constexpr auto To(const U& x) -> T {
     throw std::system_error{std::make_error_code(result.ec)};
   return std::string{buf.data(), result.ptr};
 }
+
+template<typename T, typename U>
+requires (std::is_same_v<T, std::string> && !std::is_arithmetic_v<U>)
+  && requires (U x) { std::to_string(x); }
+constexpr auto To(U x) noexcept -> T { return std::to_string(x); }
 
 #ifndef STD_HAS_FROM_CHARS_FLOAT
 

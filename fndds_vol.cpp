@@ -22,9 +22,10 @@
 #include <cstdlib>
 
 namespace rng = std::ranges;
+using namespace std::string_literals;
 
 int main() {
-  const auto UsdaPath  = std::string{"../usda/"};
+  const auto UsdaPath  = "../usda/"s;
   const auto FnddsPath = UsdaPath + "fndds/";
   const auto ifname = FnddsPath + "foodportiondesc.tsv";
   auto input = std::ifstream{ifname};
@@ -46,7 +47,14 @@ int main() {
     throw std::runtime_error{"Cannot read " + ifname};
   ParseTsv(v, line);
   CheckHeadings(v, Headings);
-  auto desc = std::string{};
+
+  const auto ofname = "fndds_volumes.tsv"s;
+  auto output = std::ofstream{ofname, std::ios::binary};
+  if (!output)
+    throw std::runtime_error{"Cannot write " + ofname};
+  output << "Code\tVol_ml\tDescription\n";
+
+  auto desc = ""s;
   long long linenum = 1;
   while (std::getline(input, line)) {
     ++linenum;
@@ -118,7 +126,7 @@ int main() {
       if (ml == 0.0f)
         continue;
       ml *= value;
-      std::cout << v[Idx::code] << '\t' << ml << '\t' << v[Idx::desc] << '\n';
+      output << v[Idx::code] << '\t' << ml << '\t' << v[Idx::desc] << '\n';
     }
     catch (const std::exception& x) {
       std::cerr << ifname << '(' << linenum << ") " << x.what() << '\n';
