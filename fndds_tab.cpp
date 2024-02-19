@@ -147,6 +147,114 @@ constexpr auto to_string(const AnyId& x) { return to_string(x.value()); }
 
 } // std
 
+auto GetLegacy() {
+  const auto fname = FdcPath + "sr_legacy_food.tsv";
+  auto input = std::ifstream{fname};
+  if (!input)
+    throw std::runtime_error{"Cannot open " + fname};
+
+  enum class Idx { fdc_id, ndb_id, end };
+  static const std::array<std::string_view, int(Idx::end)> Headings = {
+    "fdc_id",
+    "NDB_number"
+  }; // Headings
+
+  auto line = ""s;
+  if (!std::getline(input, line))
+    throw std::runtime_error{"Cannot read " + fname};
+
+  ParseVec<Idx> v;
+  ParseTsv(v, line);
+  CheckHeadings(v, Headings);
+  std::map<NdbId, FdcId> rval;
+  std::cout << "Reading " << fname << '\n';
+  long long linenum = 1;
+  while (std::getline(input, line)) {
+    ++linenum;
+    try {
+      ParseTsv(v, line);
+      auto fdc_id  = FdcId{To<int>(v[Idx::fdc_id])};
+      auto ndb_id  = NdbId{To<int>(v[Idx::ndb_id])};
+      auto result =rval.emplace(ndb_id, fdc_id);
+      if (!result.second)
+        throw std::runtime_error{"duplicate " + std::to_string(ndb_id)};
+    }
+    catch (const std::exception& x) {
+      std::cerr << fname << '(' << linenum << ") " << x.what() << '\n';
+    }
+  }
+  std::cout << "Read " << rval.size() << " legacy foods\n";
+  return rval;
+} // GetLegacy
+
+auto GetSurvey() -> std::map<FnddsId, FdcId> {
+  const auto fname = FdcPath + "survey_fndds_food.tsv";
+  auto input = std::ifstream{fname};
+  if (!input)
+    throw std::runtime_error{"Cannot open " + fname};
+
+  enum class Idx { fdc_id, fndds_id, wweia_id, start_date, end_date, end };
+  static const std::array<std::string_view, int(Idx::end)> Headings = {
+    "fdc_id",
+    "food_code",
+    "wweia_category_code",
+    "start_date",
+    "end_date"
+  }; // Headings
+
+  auto line = ""s;
+  if (!std::getline(input, line))
+    throw std::runtime_error{"Cannot read " + fname};
+
+  ParseVec<Idx> v;
+  ParseTsv(v, line);
+  CheckHeadings(v, Headings);
+  std::map<FnddsId, FdcId> rval;
+  std::cout << "Reading " << fname << '\n';
+  long long linenum = 1;
+  while (std::getline(input, line)) {
+    ++linenum;
+    try {
+      ParseTsv(v, line);
+      auto fdc_id   =   FdcId{To<int>(v[Idx::fdc_id])};
+      auto fndds_id = FnddsId{To<int>(v[Idx::fndds_id])};
+      auto result =rval.emplace(fndds_id, fdc_id);
+      if (!result.second)
+        throw std::runtime_error{"duplicate " + std::to_string(fndds_id)};
+    }
+    catch (const std::exception& x) {
+      std::cerr << fname << '(' << linenum << ") " << x.what() << '\n';
+    }
+  }
+  std::cout << "Read " << rval.size() << " survey foods\n";
+  return rval;
+} // GetSurvey
+
+FdcId ToFdcId(NdbId id) {
+  static const auto legacy = GetLegacy();
+  const auto iter = legacy.find(id);
+  if (iter == legacy.end())
+    return FdcId{};
+  return iter->second;
+}
+
+FdcId ToFdcId(FnddsId id) {
+  static const auto survey = GetSurvey();
+  const auto iter = survey.find(id);
+  if (iter == survey.end())
+    return FdcId{};
+  return iter->second;
+}
+
+FdcId ToFdcId(const AnyId& id) {
+  switch (id.index()) {
+  case AnyId::index_of<Id>():      return FdcId{std::get<Id>(id)};
+  case AnyId::index_of<NdbId>():   return ToFdcId(std::get<NdbId>(id));
+  case AnyId::index_of<FdcId>():   return std::get<FdcId>(id);
+  case AnyId::index_of<FnddsId>(): return ToFdcId(std::get<FnddsId>(id));
+  default: return FdcId{};
+  }
+} // ToFdcId
 
 struct Food {
   FnddsId fndds_id;
@@ -264,7 +372,7 @@ struct Density {
 }; // Density
 
 auto GetIngredFoods(const std::vector<PortionVolume>& portionVolumes,
-                    std::map<AnyId, Density>& density)
+                    std::map<FdcId, Density>& density)
   -> std::map<FnddsId, AnyId>
 {
   const auto fname = FnddsPath + "fnddsingred.tsv";
@@ -352,13 +460,16 @@ auto GetIngredFoods(const std::vector<PortionVolume>& portionVolumes,
 	  if (it != portionVolumes.end() && it->id == id)
 	    ml = it->ml;
 	}
-	if (ml != 0.0) {
-	  const auto iter = density.find(ingred_id);
-	  if (iter == density.end())
-	    density.emplace(ingred_id, Density{g, ml});
-	  else if (iter->second.g > g)
-	    iter->second = Density{g, ml};
-	}
+	if (ml == 0.0)
+	  continue;
+	auto fdc_id = ToFdcId(ingred_id);
+	if (fdc_id == FdcId{})
+	  continue;
+	const auto iter = density.find(fdc_id);
+	if (iter == density.end())
+	  density.emplace(fdc_id, Density{g, ml});
+	else if (iter->second.g > g)
+	  iter->second = Density{g, ml};
       }
     }
     catch (const std::exception& x) {
@@ -456,115 +567,6 @@ auto GetFoods(const std::map<FnddsId, AnyId>& ingredFoods)
   return rval;
 } // GetFoods
 
-auto GetLegacy() {
-  const auto fname = FdcPath + "sr_legacy_food.tsv";
-  auto input = std::ifstream{fname};
-  if (!input)
-    throw std::runtime_error{"Cannot open " + fname};
-
-  enum class Idx { fdc_id, ndb_id, end };
-  static const std::array<std::string_view, int(Idx::end)> Headings = {
-    "fdc_id",
-    "NDB_number"
-  }; // Headings
-
-  auto line = ""s;
-  if (!std::getline(input, line))
-    throw std::runtime_error{"Cannot read " + fname};
-
-  ParseVec<Idx> v;
-  ParseTsv(v, line);
-  CheckHeadings(v, Headings);
-  std::map<NdbId, FdcId> rval;
-  std::cout << "Reading " << fname << '\n';
-  long long linenum = 1;
-  while (std::getline(input, line)) {
-    ++linenum;
-    try {
-      ParseTsv(v, line);
-      auto fdc_id  = FdcId{To<int>(v[Idx::fdc_id])};
-      auto ndb_id  = NdbId{To<int>(v[Idx::ndb_id])};
-      auto result =rval.emplace(ndb_id, fdc_id);
-      if (!result.second)
-        throw std::runtime_error{"duplicate " + std::to_string(ndb_id)};
-    }
-    catch (const std::exception& x) {
-      std::cerr << fname << '(' << linenum << ") " << x.what() << '\n';
-    }
-  }
-  std::cout << "Read " << rval.size() << " legacy foods\n";
-  return rval;
-} // GetLegacy
-
-auto GetSurvey() -> std::map<FnddsId, FdcId> {
-  const auto fname = FdcPath + "survey_fndds_food.tsv";
-  auto input = std::ifstream{fname};
-  if (!input)
-    throw std::runtime_error{"Cannot open " + fname};
-
-  enum class Idx { fdc_id, fndds_id, wweia_id, start_date, end_date, end };
-  static const std::array<std::string_view, int(Idx::end)> Headings = {
-    "fdc_id",
-    "food_code",
-    "wweia_category_code",
-    "start_date",
-    "end_date"
-  }; // Headings
-
-  auto line = ""s;
-  if (!std::getline(input, line))
-    throw std::runtime_error{"Cannot read " + fname};
-
-  ParseVec<Idx> v;
-  ParseTsv(v, line);
-  CheckHeadings(v, Headings);
-  std::map<FnddsId, FdcId> rval;
-  std::cout << "Reading " << fname << '\n';
-  long long linenum = 1;
-  while (std::getline(input, line)) {
-    ++linenum;
-    try {
-      ParseTsv(v, line);
-      auto fdc_id   =   FdcId{To<int>(v[Idx::fdc_id])};
-      auto fndds_id = FnddsId{To<int>(v[Idx::fndds_id])};
-      auto result =rval.emplace(fndds_id, fdc_id);
-      if (!result.second)
-        throw std::runtime_error{"duplicate " + std::to_string(fndds_id)};
-    }
-    catch (const std::exception& x) {
-      std::cerr << fname << '(' << linenum << ") " << x.what() << '\n';
-    }
-  }
-  std::cout << "Read " << rval.size() << " survey foods\n";
-  return rval;
-} // GetSurvey
-
-FdcId ToFdcId(NdbId id) {
-  static const auto legacy = GetLegacy();
-  const auto iter = legacy.find(id);
-  if (iter == legacy.end())
-    return FdcId{};
-  return iter->second;
-}
-
-FdcId ToFdcId(FnddsId id) {
-  static const auto survey = GetSurvey();
-  const auto iter = survey.find(id);
-  if (iter == survey.end())
-    return FdcId{};
-  return iter->second;
-}
-
-FdcId ToFdcId(const AnyId& id) {
-  switch (id.index()) {
-  case AnyId::index_of<Id>():      return FdcId{std::get<Id>(id)};
-  case AnyId::index_of<NdbId>():   return FdcId{std::get<NdbId>(id)};
-  case AnyId::index_of<FdcId>():   return std::get<FdcId>(id);
-  case AnyId::index_of<FnddsId>(): return FdcId{std::get<FnddsId>(id)};
-  default: return FdcId{};
-  }
-} // ToFdcId
-
 void ProcessNutrients(std::vector<Food>& foods) {
   std::cout << "Processing nutrients.\n";
 
@@ -623,25 +625,25 @@ void ProcessNutrients(std::vector<Food>& foods) {
 } // ProcessNutrients
 
 void PrintFoods(const std::vector<Food>& foods,
-                const std::map<AnyId, Density>& density)
+                const std::map<FdcId, Density>& density)
 {
   const auto outname = "fndds_foods.tsv"s;
   auto output = std::ofstream{outname, std::ios::binary};
   if (!output)
     throw std::runtime_error{"Could not write " + outname};
-  output << "fdc_id\tg\tml\tkcal\tprot\tfat\tcarb\tfiber\talc\tdesc\n";
+  output << "fdc_id\tml\tkcal\tprot\tfat\tcarb\tfiber\talc\tdesc\n";
   output << std::fixed << std::setprecision(2);
-  Density d;
   for (const auto& food: foods) {
-    auto any_id = AnyId{ToFdcId(food.ndb_id)};
-    if (std::get<FdcId>(any_id) == FdcId{})
-      any_id = food.ndb_id;
-    if (auto iter = density.find(any_id); iter != density.end())
-      d = iter->second;
-    else
-      d = Density{100.0f, 0.0f};
+    const auto fdc_id = ToFdcId(food.ndb_id);
+    auto any_id = AnyId{food.ndb_id};
+    auto d = Density{100.0f, 0.0f};
+    if (fdc_id != FdcId{}) {
+      any_id = fdc_id;
+      if (auto iter = density.find(fdc_id); iter != density.end())
+	d = iter->second;
+    }
     output << any_id.value()
-        << '\t' << d.g << '\t' << d.ml
+        << '\t' << (100 * d.ml/d.g)
 	<< '\t' << food.kcal
 	<< '\t' << food.protein
 	<< '\t' << food.fat
@@ -725,9 +727,9 @@ auto GetPortionDesc() {
 } // GetPortionDesc
 
 struct Portion {
-  gsl::index food;
+  gsl::index food; // index into foods vector
   float g;
-  gsl::index desc;
+  gsl::index desc; // index into PortionDesc vector
   friend
   auto operator<=>(const Portion& lhs, const  Portion& rhs) = default;
 }; // Portion
@@ -793,7 +795,7 @@ auto GetPortions(const std::vector<Food>& foods,
   return rval;
 } // GetPortions
 
-void PrintDensity(const std::map<AnyId, Density>& density) {
+void PrintDensity(const std::map<FdcId, Density>& density) {
   const auto fname = "fndds_density.tsv"s;
   auto output = std::ofstream{fname, std::ios::binary};
   if (!output)
@@ -807,7 +809,7 @@ void PrintDensity(const std::map<AnyId, Density>& density) {
 int main() {
   DefaultCoutFlags = std::cout.flags();
   std::cout << "Starting..." << std::endl;
-  auto density = std::map<AnyId, Density>{};
+  auto density = std::map<FdcId, Density>{};
   auto foods = GetFoods(GetIngredFoods(GetPortionVolumes(), density));
   PrintDensity(density);
   ProcessNutrients(foods);
@@ -818,10 +820,14 @@ int main() {
   auto output = std::ofstream{fname, std::ios::binary};
   if (!output)
     throw std::runtime_error{"Cannot write " + fname};
+  output << "fdc_id\tg\tdesc\n";
   for (const auto& p: portions) {
     const auto& food = foods[p.food];
     const auto& portion = portionDesc[p.desc];
-    output << food.ndb_id << '\t' << p.g << '\t' << portion.desc << '\n';
+    const auto fdc_id = ToFdcId(food.ndb_id);
+    if (fdc_id == FdcId{})
+      continue;
+    output << fdc_id << '\t' << p.g << '\t' << portion.desc << '\n';
   }
   return EXIT_SUCCESS;
 } // main
