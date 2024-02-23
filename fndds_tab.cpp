@@ -36,11 +36,11 @@ constexpr auto Round(float x) -> float
 
 class Id {
 private:
-  gsl::index idx=0;
+  int idx=0;
 public:
   constexpr Id() : idx{} { }
   constexpr explicit Id(int id) : idx{id} { }
-  constexpr int value() const { return gsl::narrow_cast<int>(idx); }
+  constexpr int value() const { return idx; }
   constexpr operator int() const { return value(); }
 }; // Id
 
@@ -661,7 +661,7 @@ public:
   static constexpr auto Min =  10'000;
   static constexpr auto Max = 100'000 - 1;
 private:
-  gsl::index idx = 0;
+  int idx = 0;
   void check() {
     if (idx < Min || idx > Max)
       throw std::range_error{"PortionId: " + To<std::string>(idx)};
