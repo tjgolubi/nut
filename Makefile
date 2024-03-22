@@ -19,7 +19,7 @@ digest.exe: digest.cpp Atwater.cpp Atwater.h To.h Nutrition.h
 barf.exe: barf.cpp Nutrition.cpp Nutrition.h
 	g++ -I $(INCL) -std=$(STD) $(OPT) barf.cpp Nutrition.cpp -o barf.exe
 
-ingred.dat: digest.exe ingred.txt defs.txt chicken.txt turkey.txt $(wildcard branded/*.txt)
+ingred.dat: digest.exe ingred.txt defs.txt chicken.txt turkey.txt $(wildcard branded/*.txt) lookout.txt
 	./digest.exe
 
 barf.txt: barf.exe ingred.dat

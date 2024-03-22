@@ -1610,22 +1610,122 @@
    1.7  TBSP     0 this                        replace
 
 [bean]
-   164   CUP   295  15.65   4.90  49.17  14.1  garbanzos
-   164   CUP   295  15.65   4.90  49.17  14.1  garbanzo beans
-   130  HCUP   120   6      2     20      4    canned garbanzos
-   130  HCUP   120   6      2     20      4    canned garbanzo beans
-   164   CUP   295  15.65   4.90  49.17  14.1  chickpeas
-   130  HCUP   120   6      2     20      4    canned chickpeas
+   100     0   378  20.47   6.04  62.95  12.20 raw chickpeas // usda 173756
+   200   CUP     0 this                        replace
+   100     0   164   8.86   2.59  27.42   7.60 boiled chickpeas // usda 173757
+   164   CUP     0 this                        replace
+   100     0   139   7.05   2.77  22.53   6.40 canned chickpeas // usda 173800
+   152   CUP     0 this                        replace
+   100     0   138   7.04   2.47  22.87   6.30 canned chickpeas, rinsed // usda 173801
+   152   CUP     0 this                        replace
+   100     0    88   4.92   1.95  13.49   4.40 canned chickpeas, undrained // usda 175206
+   240   CUP     0 this                        replace
+   100     0   372  21.27   6.27  60.36   0.00 dried chickpeas // usda 2644282
+/chickpea/garbanzo bean/
+/garbanzo bean/garbanzo/
+[4.27 8.37 4.07]
+   100     0   387  22.39   6.69  57.82  10.80 chickpea flour // usda 174288
+    92   CUP     0 this                        replace
+
    130  HCUP   120   7      1     21      7    canned mixed chili beans
    = this                                      mixed chili beans
    = this                                      chili beans
-   173   CUP   199  12.27   0.71  35.79   8.8  pinto beans
-   454   422   355  21.91   1.27  63.91  15.8  canned pinto beans
-   172   CUP   227  15.24   0.93  40.78  15    black beans
-   240   CUP   218  14.47   0.70  39.74  16.6  canned black beans
-   184   CUP   613  43.39   1.53 110.42  45.8  kidney beans
-   256   CUP   218  13.44   0.87  39.91  16.4  canned kidney beans
-   177   CUP   255  16.21   1.91  44.73  18.4  yellow beans
+
+   100     0   347  21.42   1.23  62.55  15.50 raw pinto beans // usda 175199
+   193   CUP     0 this                        replace
+   100     0    -1  23.70   1.24  42.60   4.10 dried pinto beans // usda 335695
+   193   CUP     0 this                        replace
+   100     0   114   6.99   0.90  20.22   5.50 canned pinto beans // usda 174286
+   169   CUP     0 this                        replace
+   100     0    82   4.60   0.56  15.18   4.60 canned pinto beans, undrained // usda 175201
+   240   CUP     0 this                        replace
+   100     0   143   9.01   0.65  26.22   9.00 boiled pinto beans // usda 175200
+   171   CUP     0 this                        replace
+   100     0   170   9.80   0.50  32.50   5.70 frozen immature pinto beans // usda 169958
+   100     0   162   9.31   0.48  30.87   5.40 boiled frozen immature pinto beans // usda 168501
+   284     0     0 this                        frozen immature pinto beans, boiled // 10 oz
+
+[vegetable]
+   100     0    62   5.25   0.90  11.60   0.00 raw sprouted pinto beans // usda 170086
+   100     0    22   1.86   0.32   4.10   0.00 boiled sprouted pinto beans // usda 170087
+
+[bean]
+   100     0    91   6.03   0.29  16.55   6.90 canned black turtle beans // usda 175188
+   240   CUP     0 this                        replace
+   100     0   130   8.18   0.35  24.35   8.30 boiled black turtle beans // usda 175239
+   185   CUP     0 this                        replace
+   100     0   339  21.25   0.90  63.25  15.50 raw black turtle beans // usda 175186
+   184   CUP     0 this                        replace
+   100     0    91   6.03   0.29  16.55   6.90 canned black beans // usda 175238
+   240   CUP     0 this                        replace
+   100     0   132   8.86   0.54  23.71   8.70 boiled black beans // usda 173735
+   172   CUP     0 this                        replace
+   100     0   341  21.60   1.42  62.36  15.50 raw black beans // usda 173734
+   194   CUP     0 this                        replace
+   100     0    -1  24.40   1.45  40.80   4.20 dried black beans // usda 335912
+   194   CUP     0 this                        replace
+
+   100     0    84   5.22   0.60  14.50   4.30 canned kidney beans // usda 173741
+   256   CUP     0 this                        replace
+   100     0   127   8.67   0.50  22.80   6.40 boiled kidney beans // usda 173740
+   177   CUP     0 this                        replace
+   100     0   333  23.58   0.83  60.01  24.90 raw kidney beans // usda 175193
+   184   CUP     0 this                        replace
+   100     0   124   9.13   0.09  22.41   9.30 boiled california red kidney beans // usda 173743
+   177   CUP     0 this                        replace
+   100     0   330  24.37   0.25  59.80  24.90 raw california red kidney beans // usda 173742
+   184   CUP     0 this                        replace
+   100     0   123   7.80   1.26  21.03   0.00 canned dark red kidney beans wth sugar // usda 2644289
+   100     0   124   7.31   1.30  21.45   0.00 canned light red kidney beans with sugar // usda 2644290
+[vegetable]
+   100     0    33   4.83   0.58   4.72   0.00 boiled sprouted kidney beans // usda 168395
+   100     0    29   4.20   0.50   4.10   0.00 raw sprouted kidney beans // usda 169213
+   184   CUP     0 this                        replace
+[bean]
+   100     0   124   7.98   1.05  21.49   5.50 canned red red kidney beans // usda 174285
+   158   CUP     0 this                        replace
+   100     0   121   8.12   0.93  20.80   6.00 canned red kidney beans, rinsed // usda 175243
+   158   CUP     0 this                        replace
+   100     0    81   5.22   0.36  14.83   4.30 canned red kidney beans, undrained // usda 175195
+   256   CUP     0 this                        replace
+   100     0   127   8.67   0.50  22.80   7.40 boiled red kidney beans // usda 175194
+   177   CUP     0 this                        replace
+   100     0   337  22.53   1.06  61.29  15.20 raw red kidney beans // usda 173744
+   184   CUP     0 this                        replace
+   100     0   123   9.49   0.17  21.85   9.30 boiled royal red kidney beans // usda 175197
+   177   CUP     0 this                        replace
+   100     0   329  25.33   0.45  58.33  24.90 raw royal red kidney beans // usda 175196
+   184   CUP     0 this                        replace
+   100     0    -1  25.90   1.31  41.00   4.30 dried dark red kidney beans // usda 335245
+   184   CUP     0 this                        replace
+   100     0    -1  25.00   1.03  41.10   4.50 dried light red kidney beans // usda 335422
+   184   CUP     0 this                        replace
+[general]
+   100     0    47   1.80   3.20   2.80   0.10 liquid from stewed kidney beans // usda 169885
+   240   CUP     0 this                        replace
+
+[bean]
+   100     0   144   9.16   1.08  25.28  10.40 boiled yellow beans // usda 173752
+   177   CUP     0 this                        replace
+   100     0   345  22.00   2.60  60.70  25.10 raw yellow beans // usda 173751
+   196   CUP     0 this                        replace
+
+[vegetable]
+   100     0    20   1.15   0.10   4.50   1.30 canned yellow snap beans // usda 169374
+*  6.2     0     0 this                        bean $this
+   153   CUP     0 this                        replace
+   100     0    15   0.80   0.10   3.50   1.50 canned yellow snap beans, undrained // usda 168503
+   120  HCUP     0 this                        replace
+   100     0    35   1.89   0.28   7.88   3.30 boiled yellow snap beans // usda 169322
+   125   CUP     0 this                        replace
+   100     0    33   1.80   0.21   7.58   2.80 frozen yellow snap beans // usda 169324
+   121   CUP     0 this                        replace
+   100     0    28   1.49   0.17   6.45   3.00 boiled frozen yellow snap beans // usda 169326
+   135   CUP     0 this                        replace
+   100     0    31   1.82   0.12   7.13   3.40 raw yellow snap beans // usda 169320
+*  5.5     0     0 this                        bean $this // 4" long
+   100   CUP     0 this                        1/2" pieces $this
+
 [vegetable]
    100   215    34   1.97   0.28   7.41   3    green bean
 *    5     0   1.7 this                        green bean fruit
@@ -1633,9 +1733,6 @@
 [bean]
    183   CUP   620  40      2.09 114.14  37    dried great northern beans
    208   CUP   701  46.45   3.12 126.36  50.8  dried navy beans
-   184   CUP   613  43.39   1.53 110.42  46.8  dried kidney beans
-   193   CUP   670  41.34   2.37 120.72  29.9  dried pinto beans
-   194   CUP   662  41.90   2.75 120.98  29.5  dried black beans
    207   CUP   718  49.39   2.38 129.62  33.7  dried mung beans
    196   CUP   676  43.12   5.10 118.97  49.2  dried yellow beans
    210   CUP   720  44.02   2.37 134.80  26.7  dried pink beans
@@ -1819,3 +1916,5 @@
 
 #include "branded/BumbleBee.txt"
 #include "branded/StarKist.txt"
+
+// #include "lookout.txt"
