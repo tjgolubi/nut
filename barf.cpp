@@ -1,4 +1,4 @@
-// Copyright 2023 Terry Golubiewski, all rights reserved.
+// Copyright 2023-24 Terry Golubiewski, all rights reserved.
 
 #include <gsl/gsl>
 
@@ -10,15 +10,16 @@
 
 #include "Nutrition.h"
 
-int main() {
+int main(int argc, const char* const argv[]) {
   using std::cout;
   try {
-    std::string name;
-    Nutrition nutr;
-
-    std::ifstream input{"ingred.dat", std::ios::binary};
+    const std::string input_file{(argc == 1) ? "ingred.dat" : argv[1]}; 
+    auto input = std::ifstream{input_file, std::ios::binary};
 
     std::vector<std::pair<std::string, Nutrition>> v;
+
+    std::string name;
+    Nutrition nutr;
 
     while (std::getline(input, name, '\0')) {
       input.read(reinterpret_cast<char*>(&nutr), sizeof(nutr));

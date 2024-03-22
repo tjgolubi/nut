@@ -535,7 +535,12 @@ int main(int argc, char* argv[]) {
     ReadIngredients(input_file, ingredients, defs);
     cout << "Read " << ingredients.size() << " ingredients." << std::endl;
 
-    std::ofstream output{"ingred.dat", std::ios::binary};
+    const auto dot_txt = std::regex{"\\.txt"};
+    auto output_file = std::regex_replace(input_file, dot_txt, ".dat");
+    if (output_file == input_file)
+      throw std::runtime_error{"output = input: " + output_file};
+
+    auto output = std::ofstream{output_file, std::ios::binary};
 
     for (const auto& [name, nutr]: ingredients) {
       output.write(name.c_str(), name.size()+1);
