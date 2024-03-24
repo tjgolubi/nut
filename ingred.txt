@@ -1802,12 +1802,35 @@
 *    1     0     0 this                        sprout, $this
 
 [vegetable]
-*   10     0     2   0.26   0.01   0.47   0.3  small asparagus spear
-*   15     0     3   0.35   0.02   0.62   0.3  medium asparagus spear
-*   15     0     3   0.35   0.02   0.62   0.3  asparagus spear
-*   20     0     4   0.44   0.02   0.78   0.4  large asparagus spear
-*   25     0     5   0.53   0.03   0.93   0.5  xlarge asparagus spear
-   135   CUP    27   2.95   0.16   5.20   2.8  chopped asparagus
+   100     0    19   2.14   0.65   2.46   1.60 canned asparagus // usda 169207
+   242   CUP     0 this                        replace
+*   18     0     0 this                        spear $this // about 5" long
+   100     0    15   1.80   0.18   2.48   1.00 canned asparagus, undrained // usda 169314
+   122  HCUP     0 this                        replace
+   100     0    22   2.40   0.22   4.11   2.00 boiled asparagus // usda 168390
+    90  HCUP     0 this                        replace
+*   15     0     0 this                        spear $this // 1/2" base
+   100     0    18   2.95   0.42   1.92   1.60 boiled frozen asparagus // usda 169209
+   180   CUP     0 this                        replace
+*   15     0     0 this                        spear $this
+   100     0    24   3.23   0.23   4.10   1.90 frozen asparagus // usda 169208
+* 14.5     0     0 this                        spear $this
+   100     0    20   2.20   0.12   3.88   2.10 asparagus // usda 168389
+*  3.5     0     0 this                        $this tip    // 2" long or less
+*   12     0     0 this                        small $this  // 5" long or less
+*   16     0     0 this                        medium $this // 5-1/4" to 7" long
+*   20     0     0 this                        large $this  // 7-1/4" to 8-1/2"
+*   24     0     0 this                        xlarge $this // 8-3/4" to 10" long
+   134   CUP     0 this                        chopped $this
+[general]
+   100     0    69   1.82   3.26   8.52   0.40 condensed cream of asparagus soup // usda 171537
+   126  HCUP     0 this                        replace
+   100     0    65   2.55   3.30   6.61   0.30 cooked cream of asparagus soup with milk // usda 172891
+   248   CUP     0 this                        replace
+   100     0    35   0.94   1.68   4.38   0.20 cooked cream of asparagus soup // usda 174549
+   244   CUP     0 this                        replace
+
+[vegetable]
    115   CUP    30   1.16   0.12   7.54   0.6  chopped pumpkin
    244   CUP    83   2.70   0.69  19.82   7.1  canned pumpkin
    140   CUP    63   1.40   0.14  16.37   2.8  chopped butternut squash
