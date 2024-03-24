@@ -80,7 +80,7 @@ public:
 
 enum class FieldIdx {
   kJ, energy, atwater_general, atwater_specific, protein, fat,
-  carb_diff, carb_sum, fiber, alcohol, end
+  carb_diff, carb_sum, carbohydrate, fiber, alcohol, end
 }; // FieldIdx
 
 const std::vector<std::string> FieldIds = {
@@ -92,6 +92,7 @@ const std::vector<std::string> FieldIds = {
   "1004", // fat
   "1005", // carb by diff
   "1050", // carb by sum
+  "2039", // carb
   "1079", // fiber
   "1018"  // alcohol
 }; // FieldIds
@@ -129,7 +130,10 @@ struct Ingred {
     auto g = value(FieldIdx::carb_diff);
     if (g != 0.0)
       return g;
-    return value(FieldIdx::carb_sum);
+    g = value(FieldIdx::carb_sum);
+    if (g != 0.0)
+      return g;
+    return value(FieldIdx::carbohydrate);
   }
   float protein() const { return value(FieldIdx::protein); }
   float fat()     const { return value(FieldIdx::fat);     }

@@ -1747,12 +1747,60 @@
    100   CUP     0 this                        chopped $this // 1/2" pieces
 
 [bean]
-   183   CUP   620  40      2.09 114.14  37    dried great northern beans
-   208   CUP   701  46.45   3.12 126.36  50.8  dried navy beans
-   207   CUP   718  49.39   2.38 129.62  33.7  dried mung beans
-   196   CUP   676  43.12   5.10 118.97  49.2  dried yellow beans
-   210   CUP   720  44.02   2.37 134.80  26.7  dried pink beans
-   202   CUP   673  47.12   1.72 121.75  30.7  dried white beans
+   100     0    -1  24.70   1.24  42.2    4.3  dried great northern beans // usda 336067
+   183   CUP     0 this replace
+   100     0    -1  24.10   1.51  42.4    4.30 dried navy beans // usda 335419
+   208   CUP     0 this replace
+   100     0    -1  23.40   1.20  42.2    4.10 dried pink beans // usda 335306
+   210   CUP     0 this replace
+   100     0    -1  21.30   1.16  43.7    4    dried red beans // usda 335930
+   100     0    -1  23.50   1.28  41.9    4.1  dried small red beans // usda 335774
+   100     0    -1  25.50   1.04  39.7    4.3  dried medium red beans // usda 747430
+   100     0    -1  24.50   1.32  41.8    4.3  dried small white beans // usda 335927
+   202   CUP     0 this replace
+
+[legume]
+   100     0   105   7.02   0.38  19.15   7.60 boiled mung beans // usda 174257
+   202   CUP     0 this                        replace
+   100     0   347  23.86   1.15  62.62  16.30 raw mung beans // usda 174256
+   207   CUP     0 this                        replace
+[vegetable]
+   100     0    12   1.40   0.06   2.14   0.80 canned sprouted mung beans // usda 170079
+   125   CUP     0 this                        replace
+   100     0    21   2.03   0.09   4.19   0.80 boiled sprouted mung beans // usda 169137
+   124   CUP     0 this                        replace
+   100     0    50   4.30   0.21  10.59   1.90 stir-fried sprouted mung beans // usda 169138
+   124   CUP     0 this                        replace
+   100     0    30   3.04   0.18   5.94   1.80 raw sprouted mung beans // usda 169957
+   104   CUP     0 this                        replace
+[legume]
+   100     0   105   7.54   0.55  18.34   6.40 boiled mungo beans // usda 172427
+  28.35    0  72.4 this                        dried mungo beans, boiled
+   180   CUP     0 this                        replace
+   100     0   341  25.21   1.64  58.99  18.30 raw mungo beans // usda 174259
+   207   CUP     0 this                        replace
+
+[bean]
+   100     0   141  12.35   6.40  11.05   4.20 boiled green soybeans // usda 169283
+   180   CUP     0 this                        replace
+   100     0   147  12.95   6.80  11.05   4.20 raw green soybeans // usda 169282
+   256   CUP     0 this                        replace
+   100     0   172  18.21   8.97   8.36   6.00 boiled soybeans // usda 174271
+   172   CUP     0 this                        replace
+   100     0   449  43.32  21.62  28.98   8.10 dry-roasted soybeans // usda 172441
+    93   CUP     0 this                        replace
+   100     0   446  36.49  19.94  30.16   9.30 raw soybeans // usda 174270
+   186   CUP     0 this                        replace
+   100     0   469  38.55  25.40  30.22  17.70 roasted soybeans // usda 174300
+   172   CUP     0 this                        replace
+[vegetable]
+   100     0    81   8.47   4.45   6.53   0.80 steamed sprouted soybeans // usda 168460
+    94   CUP     0 this                        replace
+   100     0   125  13.10   7.10   9.40   0.80 stir-fried sprouted soybeans // usda 168461
+   100     0   122  13.09   6.70   9.57   1.10 raw sprouted soybeans // usda 169284
+    35  HCUP     0 this                        replace
+*    1     0     0 this                        sprout, $this
+
 [vegetable]
 *   10     0     2   0.26   0.01   0.47   0.3  small asparagus spear
 *   15     0     3   0.35   0.02   0.62   0.3  medium asparagus spear

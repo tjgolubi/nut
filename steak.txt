@@ -157,7 +157,7 @@
 *  376     0     0 this                        steak $this
 * 2203     0     0 this                        replace
 
-   100     0   260  18.74  20.04  -0.31   0.00 raw choice ribeye steak				// usda 2646172
+   100     0   260  18.74  20.04   0      0    raw choice ribeye steak				// usda 2646172
 
    100     0   309  16.50  27.00   0.00   0.00 raw sandwich steak				// usda 170600
 *   56     0     0 this                        replace

@@ -359,6 +359,8 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 	    nutr.alcohol = -nutr.fiber;
 	    nutr.fiber = 0.0f;
 	  }
+	  else if (nutr.carb < nutr.fiber)
+	    throw std::runtime_error{"Invalid carbs: " + std::to_string(nutr.carb) + " < " + std::to_string(nutr.fiber)};
 	}
 	else {
 	  istr >> std::quoted(key);
