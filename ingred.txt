@@ -1861,15 +1861,92 @@
    100     0    26   1.00   0.10   6.50   0.50 pumpkin // usda 168448
    116   CUP     0 this                        chopped $this // 1" cubes
 
-   140   CUP    63   1.40   0.14  16.37   2.8  chopped butternut squash
-*  456     0   204   4.50   0.50  53      9.1  butternut squash
-*  430     0   172   3.45   0.43  44.91   6.5  acorn squash
-   140   CUP    56   1.12   0.14  14.59   2.1  chopped acorn squash
-*  119     0    19   1.43   0.21   3.95   1.3  small yellow squash
-*  194     0    31   2.37   0.35   6.57   2.2  medium yellow squash
+[general]
+   100     0    26   0.52   0.20   5.64   0.00 indian squash // usda 168040
+   100     0    16   0.31   0.15   3.22   1.50 boiled indian squash // usda 167632
+[vegetable]
+   100     0    20   0.91   0.31   4.31   1.40 boiled summer squash // usda 170488
+   180   CUP     0 this                        sliced $this
+   100     0    16   1.21   0.18   3.35   1.10 summer squash // usda 170487
+*  9.9     0     0 this                        slice $this
+   113   CUP     0 this                        sliced $this
+*  118     0     0 this                        small $this
+*  196     0     0 this                        medium $this
+*  323     0     0 this                        large $this
+   100     0    13   0.61   0.07   2.96   1.40 canned crookneck squash // usda 168466
+*    8     0     0 this                        slice $this
+   210   CUP     0 this                        diced $this
+   216   CUP     0 this                        sliced $this
+   240   CUP     0 this                        mashed $this
+   100     0    19   1.04   0.39   3.79   1.10 boiled crookneck squash // usda 168465
+   180   CUP     0 this                        sliced $this
+   100     0    25   1.28   0.20   5.54   1.40 boiled frozen crookneck squash // usda 168468
+   192   CUP     0 this                        sliced $this
+   100     0    20   0.83   0.14   4.80   1.20 frozen crookneck squash // usda 168467
+   130   CUP     0 this                        sliced $this
+   100     0    19   1.01   0.27   3.88   1.00 crookneck squash // usda 168464
+   127   CUP     0 this                        sliced $this
+   100     0    16   1.03   0.17   3.30   1.90 boiled scallop squash // usda 169290
+   180   CUP     0 this                        sliced $this
+   240   CUP     0 this                        mashed $this
+   100     0    18   1.20   0.20   3.84   1.20 scallop squash // usda 169289
+   130   CUP     0 this                        sliced $this
+   100     0    15   1.14   0.36   2.69   1.00 boiled zucchini squash // includes skin // usda 169292
+   120  HCUP     0 this                        mashed $this
+   180   CUP     0 this                        sliced $this
+   100     0    17   1.15   0.13   3.56   1.30 boiled frozen zucchini squash // includes skin // usda 168470
+   223   CUP     0 this                        replace
+   100     0    17   1.16   0.13   3.58   1.30 frozen zucchini squash // includes skin // usda 168469
+   100     0    17   1.21   0.32   3.11   1.00 zucchini squash // includes skin // usda 169291
+*  9.9     0     0 this                        slice $this
+   113   CUP     0 this                        sliced $this
+*  118     0     0 this                        small $this
+*  196     0     0 this                        medium $this
+*  323     0     0 this                        large $this
+   124   CUP     0 this                        chopped $this
+   100     0    21   2.71   0.40   3.11   1.10 baby zucchini squash // usda 168565
+*   11     0     0 this                        medium $this
+*   16     0     0 this                        large $this
+   100     0    56   1.12   0.14  14.58   4.40 baked acorn squash // usda 169293
+   205   CUP     0 this                        cubed $this
+   100     0    34   0.67   0.08   8.79   2.60 boiled acorn squash // usda 169294
+   245   CUP     0 this                        mashed $this
+   100     0    40   0.80   0.10  10.42   1.50 acorn squash // usda 168472
+   140   CUP     0 this                        cubed $this
+*  431     0     0 this                        fruit $this // 4" dia
+   100     0    37   0.89   0.35   8.85   2.80 baked winter squash // usda 170490
+   205   CUP     0 this                        cubed $this
+   100     0    34   0.95   0.13   8.59   1.50 winter squash // usda 170489
+   116   CUP     0 this                        cubed $this
+   100     0    40   0.90   0.09  10.49   3.20 baked butternut squash // usda 169296
+   205   CUP     0 this                        cubed $this
+   100     0    39   1.23   0.07  10.05   0.00 boiled frozen butternut squash // usda 168474
+   240   CUP     0 this                        mashed $this
+   100     0    57   1.76   0.10  14.41   1.30 frozen butternut squash // usda 168473
+   100     0    45   1.00   0.10  11.69   2.00 butternut squash // usda 169295
+   140   CUP     0 this                        cubed $this
+   100     0    50   2.48   0.62  10.81   4.90 baked hubbard squash // usda 168476
+   205   CUP     0 this                        cubed $this
+   100     0    30   1.48   0.37   6.46   2.90 boiled hubbard squash // usda 169297
+   236   CUP     0 this                        mashed $this
+   100     0    40   2.00   0.50   8.70   3.90 hubbard squash // usda 168475
+   116   CUP     0 this                        cubed $this
+   100     0    27   0.66   0.26   6.46   1.40 cooked spaghetti squash // usda 169299
+   155   CUP     0 this                        cubed $this
+   100     0    31   0.64   0.57   6.91   1.50 spaghetti squash // usda 169298
+   101   CUP     0 this                        cubed $this
+[2.50 8.40 3.70]
+   100     0    29   1.03   0.11   6.85   0.00 canned italian-style zucchini squash // usda 168471
+   227   CUP     0 this                        replace
+/zucchini squash/zucchini/
+/crookneck squash/straightneck squash/
+
 *  194     0    31   2.37   0.35   6.57   2.2  yellow squash
-*  325     0    52   3.91   0.58  10.82   3.5  large yellow squash
-   113   CUP    18   1.37   0.20   3.79   1.2  sliced yellow sqash
+*  119     0     0   this                      small $this
+*  194     0     0   this                      medium $this
+*  325     0     0   this                      large $this
+   113   CUP     0   this                      sliced $this
+
 *   73     0    63   2.35   0.86  13.88   2    small corn ear
 *   90     0    77   2.90   1.06  17.12   2.4  medium corn ear
 *  143     0   123   4.60   1.69  27.20   3.9  large corn ear
