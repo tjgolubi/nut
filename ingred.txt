@@ -150,21 +150,29 @@
    100     0    96  20.08   1.70   0.00   0.00 tilapia // usda 175176
 *  116     0     0 this                        fillet $this
 
-   100     0    82  17.9    0.63   0      0    pacific cod
-*    0     0    95  this                       fillet $this
-   100     0   211  19.2   10.84   8.25   0.5  cod
-    OZ     0    32 this                        cod with bone
-    OZ     0    49 this                        boneless cod
-    OZ     0    60 this                        cooked boneless cod
-*    0     0   196 this                        fillet $this
-     0   CUP   287 this                        flaked cod // cooked
-   100     0   122  20.91   3.59   0      0    baked cod
-    OZ     0    28 this                        raw boneless cod baked
-    OZ     0    35 this                        boneless $this
-
-   100     0    82  17.81   0.67   0      0    atlantic cod
-*    0     0   189 this                        fillet $this
+[oil]
+   100     0   902   0.00 100.00   0.00   0.00 cod liver oil // usda 173577
+   218   CUP     0 this                        replace
+[fish]
+   100     0    82  17.81   0.67   0.00   0.00 atlantic cod // usda 171955
+*  231     0     0 this                        fillet $this
+   100     0   105  22.83   0.86   0.00   0.00 baked atlantic cod // usda 171956
+*  180     0     0 this                        fillet $this
+   100     0   290  62.82   2.37   0.00   0.00 dried atlantic cod // usda 174190
+*   80     0     0 this                        piece $this // 5-1/2" x 1-1/2" x 1/2"
+   100     0   105  22.76   0.86   0.00   0.00 canned atlantic cod undrained // usda 174189
+   100     0    69  15.27   0.41   0.00   0.00 pacific cod // usda 174191
+*  116     0     0 this                        fillet $this
+   100     0    84  20.42   0.25   0.00   0.00 cooked pacific cod // usda 175178
+   100     0    85  18.73   0.50   0.00   0.00 baked pacific cod // usda 171990
+*   90     0     0 this                        fillet $this
+   100     0    85  17.66   1.06   0.00   0.00 lingcod // usda 173671
+*  386     0     0 this                        fillet $this
+   100     0   109  22.64   1.36   0.00   0.00 baked lingcod // usda 174235
+*  302     0     0 this                        fillet $this
+   100     0   424   5.60  42.00   6.00   0.00 lingcod liver // usda 169810
    100     0    84  17.76   0.92   0      0    fish
+
     OZ     0    24 this                        boneless fish
    100     0   109  22.6    1.18   0.28   0    grilled fish
    100     0    74 this                        fish with bone grilled
@@ -180,13 +188,17 @@
 
    100     0   123  18.74   4.74   0      0    smoked fish
     OZ     0    35 this                        boneless smoked fish
-   100     0   110  20.81   2.29   0      0    halibut
-*    0     0   448 this                        fillet $this
 
-: greenland halibut
-   100     0   186  14.37  13.84   0      0    $$
-   100     0   239  18.42  17.74   0      0    cooked $this
-    OZ     0   760 this                        cooked fillet $$
+   100     0    91  18.56   1.33   0.00   0.00 halibut // usda 174200
+*  408     0     0 this                        fillet $this
+   100     0   111  22.54   1.61   0.00   0.00 baked halibut // usda 174201
+*  318     0     0 this                        fillet $this
+   100     0   116  20.53   2.92   1.81   0.00 halibut with skin // usda 167638
+   100     0   113  22.13   2.73   0.00   0.00 baked halibut with skin // usda 169812
+   100     0   186  14.37  13.84   0.00   0.00 greenland halibut // usda 171965
+*  408     0     0 this                        fillet $this
+   100     0   239  18.42  17.74   0.00   0.00 baked greenland halibut // usda 174232
+*  318     0     0 this                        fillet $this
 
    100     0   104  11.00   4.40   5.10   0.00 whitefish liver // usda 167626
    100     0   371  62.44  13.44   0.00   0.00 dried whitefish // usda 168052
