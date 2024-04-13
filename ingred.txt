@@ -673,17 +673,24 @@
      6   TSP    10?  1      0      2      0    chicken boullion
 *    4     0     5   0      0      1      0    beef boullion cube
      6   TSP    15?  1      0      2      0    beef boullion
+
 [vinegar]
-   238   CUP    50?  0      0      2.22   0    cider vinegar
-   239   CUP    43?  0      0      0.10   0    vinegar
    239   CUP    43?  0      0      0      0    rice vinegar
-   239   CUP    43?  0      0      0      0    wine vinegar
-   239   CUP    43?  0      0      0      0    red vinegar
-   239   CUP    43?  0      0      0      0    red wine vinegar
-   239   CUP    43?  0      0      0      0    white vinegar
    239   CUP    43?  0      0      0      0    white wine vinegar
-   255   CUP   224?  1.25   0     43.4    0    balsamic vinegar
+   100     0    19?  0.04   0.00   0.27   0.00 red wine vinegar // usda 172240
+   239   CUP     0 this                        replace
+     = this                                    red vinegar
+     = this                                    wine vinegar
+   100     0    88?  0.49   0.00  17.03   0.00 balsamic vinegar // usda 172241
+   255   CUP     0 this                        replace
      = this                                    balsamic
+   100     0    21?  0.00   0.00   0.93   0.00 cider vinegar // usda 173469
+   239   CUP     0 this                        replace
+   100     0    18?  0.00   0.00   0.04   0.00 distilled vinegar // usda 172237
+   238   CUP     0 this                        replace
+   = this				       white vinegar
+   = this				       vinegar
+
 [seed]
    250   CUP   165   9.88   7.78  19.45   8    yellow mustard
      = this                                    mustard
@@ -2359,9 +2366,81 @@
 *  370 12FLOZ    0 this                        replace
 
 [wine]
-   100   100    84   0.07   0      2.72 -10.63 wine
-   100   100    85   0.07   0      2.61 -10.83 red wine
-   100   100    82   0.07   0      2.60 -10.47 white wine
+   100     0    85   0.07   0.00   2.79 -10.60 red wine, barbera // usda 173191
+    29 29.58     0 this                        replace
+   100     0    86   0.07   0.00   3.69 -10.30 red wine, burgundy // usda 173208
+    30 29.58     0 this                        replace
+   100     0    83   0.07   0.00   2.45 -10.60 red wine, cabernet franc // usda 174834
+    29 29.58     0 this                        replace
+   100     0    83   0.07   0.00   2.60 -10.50 red wine, cabernet sauvignon // usda 174833
+    29 29.58     0 this                        replace
+   100     0    74   0.07   0.00   2.40  -9.30 red wine, carignane // usda 174840
+    29 29.58     0 this                        replace
+   100     0    83   0.07   0.00   3.01 -10.20 red wine, claret // usda 173194
+    29 29.58     0 this                        replace
+   100     0    78   0.07   0.00   2.38  -9.80 red wine, gamay // usda 171872
+    29 29.58     0 this                        replace
+   100     0    80   0.07   0.00   2.46 -10.20 red wine, lemberger // usda 174838
+    29 29.58     0 this                        replace
+   100     0    83   0.07   0.00   2.51 -10.60 red wine, merlot // usda 171925
+    29 29.58     0 this                        replace
+   100     0    88   0.07   0.00   2.64 -11.20 red wine, mouvedre // usda 174109
+    29 29.58     0 this                        replace
+   100     0    85   0.07   0.00   2.68 -10.70 red wine, petite sirah // usda 173193
+    30 29.58     0 this                        replace
+   100     0    82   0.07   0.00   2.31 -10.40 red wine, pinot noir // usda 174835
+    29 29.58     0 this                        replace
+   100     0    86   0.07   0.00   2.62 -10.90 red wine, sangiovese // usda 174839
+    29 29.58     0 this                        replace
+   100     0    83   0.07   0.00   2.58 -10.50 red wine, syrah // usda 174836
+    29 29.58     0 this                        replace
+   100     0    88   0.07   0.00   2.86 -11.10 red wine, zinfandel // usda 173192
+    29 29.58     0 this                        replace
+   100     0    50   0.50   0.00   6.30  -3.30 cooking wine // usda 169070
+    29 29.58     0 this                        replace
+   100     0   152   0.20   0.00  11.67 -15.30 dry dessert wine // usda 175112
+    30 29.58     0 this                        replace
+   100     0   160   0.20   0.00  13.69 -15.30 sweet dessert wine // usda 173176
+    30 29.58     0 this                        replace
+   100     0    49   0.07   0.00   1.17  -6.40 light wine // usda 169071
+    30 29.58     0 this                        replace
+   100     0    83   0.07   0.00   2.72 -10.40 wine // usda 173185
+    30 29.58     0 this                        replace
+   100     0    85   0.07   0.00   2.61 -10.60 red wine // usda 173190
+    29 29.58     0 this                        replace
+   100     0    82   0.07   0.00   2.60 -10.30 white wine // usda 174837
+    29 29.58     0 this                        replace
+   100     0    84   0.07   0.00   2.16 -10.70 white wine, chardonnay // usda 174110
+    29 29.58     0 this                        replace
+   100     0    80   0.07   0.00   3.31  -9.60 white wine, chenin blanc // usda 173195
+    30 29.58     0 this                        replace
+   100     0    82   0.07   0.00   2.27 -10.50 white wine, fume blanc // usda 173196
+    29 29.58     0 this                        replace
+   100     0    76   0.07   0.00   3.48  -9.00 white wine, muller thurgau // usda 173198
+    30 29.58     0 this                        replace
+   100     0    82   0.07   0.00   5.23  -8.80 white wine, muscat // usda 174849
+    30 29.58     0 this                        replace
+   100     0    81   0.07   0.00   1.94 -10.60 white wine, pinot blanc // usda 174848
+    29 29.58     0 this                        replace
+   100     0    83   0.07   0.00   2.06 -10.70 white wine, pinot gris // usda 174841
+    29 29.58     0 this                        replace
+    = this                                     white wine, pinot grigio
+   100     0    80   0.07   0.00   3.74  -9.50 white wine, riesling // usda 173200
+    30 29.58     0 this                        replace
+   100     0    81   0.07   0.00   2.05 -10.50 white wine, sauvignon blanc // usda 173201
+    29 29.58     0 this                        replace
+   100     0    82   0.07   0.00   3.12 -10.10 white wine, semillon // usda 174845
+    30 29.58     0 this                        replace
+   100     0    81   0.07   0.00   2.60 -10.10 white wine, gewurztraminer // usda 174843
+    30 29.58     0 this                        replace
+   100     0   108   0.07   0.00  11.39  -8.90 white wine, late-harvest gewurztraminer // usda 174844
+    31 29.58     0 this                        replace
+   100     0   112   0.07   0.00  13.39  -8.50 white wine, late-harvest // usda 173202
+    31 29.58     0 this                        replace
+   100     0    83   0.36   0.00   3.80  -9.60 wine, rose // usda 171908
+    30 29.58     0 this                        replace
+   100     0     6   0.50   0.00   1.10   0.00 non-alcoholic wine // usda 174157
+    29 29.58     0 this                        replace
 
 # Branded
 
