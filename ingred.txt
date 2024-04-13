@@ -1958,36 +1958,106 @@
    100   145    88   3.02   0.77  20.80   2.4  frozen corn
 ## Mushroom
 [mushroom]
-*    9     0     2   0.31   0.03   0.33   0.1  small mushroom
-*   18    46     4   0.56   0.06   0.59   0.2  medium mushroom
-*   18    46     4   0.56   0.06   0.59   0.2  mushroom
-*   23     0     5   0.71   0.08   0.75   0.2  large mushroom
-    68   CUP    15   2.16   0.24   2.30   0.7  sliced mushroom
-    68   CUP    15   2.16   0.24   2.30   0.7  chopped mushroom
-   156   CUP    39   2.92   0.45   7.94   3.7  canned mushroom
-*  150    80    52   4.94   0.65   9.52   3.6  oyster mushroom
-*  150    80    52   4.94   0.65   9.52   3.6  large oyster mushroom
-*   85   CUP    22   2.10   0.17   4.26   1.3  portabella mushroom
-*   85   CUP    22   2.10   0.17   4.26   1.3  portabella
-    85   CUP    22   2.10   0.17   4.26   1.3  sliced portabella
-    85   CUP    22   2.10   0.17   4.26   1.3  chopped portabella
-*    4     0    11   0.36   0.04   2.83   0.43 dried shiitake mushroom
-   100     0   296   9.58   0.99  75.37  11.5  chopped dried shiitake mushroom
-   100     0   296   9.58   0.99  75.37  11.5  sliced dried shiitake mushroom
-*    4     0    11   0.36   0.04   2.83   0.43 dried shiitake
-   100     0   296   9.58   0.99  75.37  11.5  chopped dried shiitake
-   100     0   296   9.58   0.99  75.37  11.5  sliced dried shiitake
-*   19     0     7   0.4    0.1    1.3    0.5  shiitake mushroom
-*   19     0     7   0.4    0.1    1.3    0.5  shiitake
-    70   CUP    24   1.6    0.3    4.7    1.7  chopped shiitake
-    70   CUP    24   1.6    0.3    4.7    1.7  chopped shiitake mushroom
-    70   CUP    24   1.6    0.3    4.7    1.7  sliced shiitake
-    70   CUP    24   1.6    0.3    4.7    1.7  sliced shiitake mushroom
+   100     0    33   2.18   0.45   6.76   3.14 beech mushroom // usda 2003603
+   100     0    24   3.09   0.20   4.01   1.78 crimini mushroom // usda 2003601
+   100     0    35   2.50   0.26   7.59   4.38 lion's mane mushroom // usda 1999626
+   100     0    31   3.50   0.24   5.76   2.75 pioppini mushroom // usda 2003604
+   100     0    32   1.49   0.53   6.86   3.80 chanterelle mushroom // usda 168422
+    54   CUP     0 this                        replace
+   100     0    22   2.50   0.10   4.30   0.60 brown italian mushroom // usda 168434
+    87   CUP     0 this                        replace
+*   20     0     0 this                        replace
+    72   CUP     0 this                        sliced $this
+/brown italian mushroom/brown crimini mushroom/
+   100     0    25   1.87   0.29   5.09   2.40 canned mushroom // usda 169254
+*    7     0     0 this                        canned small mushroom
+*   12     0     0 this                        canned medium mushroom
+*   16     0     0 this                        canned large mushroom
+*    4     0     0 this                        slice $this
+* 0.59     0     0 this                        cap $this
+    78  HCUP     0 this                        sliced $this
+   156   CUP     0 this                        replace
+   100     0    37   2.66   0.29   7.81   2.70 enoki mushroom // usda 169382
+*    3     0     0 this                        medium $this
+*    5     0     0 this                        large $this
+    65   CUP     0 this                        sliced $this
+    64   CUP     0 this                        replace
+   100     0    31   1.94   0.19   6.97   2.70 maitake mushroom // usda 169403
+*  1.1     0     0 this                        whole $this
+    70   CUP     0 this                        diced $this
+   100     0    31   3.12   0.57   5.10   2.80 morel mushroom // usda 168423
+    66   CUP     0 this                        replace
+*   13     0     0 this                        replace
+   100     0    38   2.41   0.31   8.50   3.01 king oyster mushroom // usda 2003599
+   100     0    33   3.31   0.41   6.09   2.30 oyster mushroom // usda 168580
+*   15     0     0 this                        small $this
+*  148     0     0 this                        large $this
+    86   CUP     0 this                        sliced $this
+   100     0    29   3.28   0.58   4.44   2.20 grilled portabella mushroom // usda 169243
+   121   CUP     0 this                        sliced $this
+   100     0    22   2.11   0.35   3.87   1.30 portabella mushroom // usda 169255
+    86   CUP     0 this                        diced $this
+*   84     0     0 this                        replace
+   100     0    56   1.56   0.22  14.39   2.10 cooked shiitake mushroom // usda 168437
+   145   CUP     0 this                        sliced $this
+*   18     0     0 this                        replace
+   100     0   296   9.58   0.99  75.37  11.50 dried shiitake mushroom // usda 168436
+*  3.8     0     0 this                        replace
+   100     0    34   2.24   0.49   6.79   2.50 shiitake mushroom // usda 169242
+*   19     0     0 this                        replace
+   100     0    39   3.45   0.35   7.68   3.60 stir-fried shiitake mushroom // usda 168435
+    89   CUP     0 this                        replace
+*   19     0     0 this                        replace
+    97   CUP     0 this                        sliced $this
+   100     0    32   3.83   0.68   4.64   2.50 canned straw mushroom // usda 168582
+   182   CUP     0 this                        replace
+*  5.5     0     0 this                        replace
+   100     0    25   2.89   0.37   4.08   1.72 white button mushroom // usda 1999629
+   100     0    28   2.17   0.47   5.29   2.20 boiled white mushroom // usda 169252
+   156   CUP     0 this                        replace
+*   12     0     0 this                        replace
+   100     0    35   3.91   0.46   6.04   2.50 microwaved white mushroom // usda 169402
+   100     0    22   3.09   0.34   3.26   1.00 white mushroom // usda 169251
+*   10     0     0 this                        small $this
+*   18     0     0 this                        medium $this
+*   23     0     0 this                        large $this
+    96   CUP     0 this                        replace
+    70   CUP     0 this                        sliced $this
+*    6     0     0 "sliced $this"              slice $this
+   100     0    26   3.58   0.33   4.04   1.80 stir-fried white mushroom // usda 169253
+   108   CUP     0 this                        sliced $this
 [general]
    119  HCUP    80   2      3.5   10      1    golden mushroom soup
-*  298   300   200   5      8.75  25      2.5  can golden mushroom soup
-   119  HCUP   100   1      6      9      2    cream of mushroom soup
-*  298   300   250   2.5   15     22.5    5    can cream of mushroom soup
+   100     0    50   1.26   2.71   5.47   0.40 canned muchroom gravy // usda 171170
+   238   CUP     0 this                        replace
+   100     0   328  10.00   4.00  64.66   4.80 mushroom gravy powder // usda 171171
+    21   CUP     0 this                        replace
+   100     0    69   4.30   2.30   9.58   0.20 chunky beef and mushroom soup // usda 171611
+   251   CUP     0 this                        replace
+   100     0    61   4.60   2.40   5.20   0.20 condensed beef and mushroom soup // usda 171175
+   126  HCUP     0 this                        replace
+   100     0    30   2.37   1.23   2.60   0.10 cooked condensed beef and mushroom soup // usda 171572
+   244   CUP     0 this                        replace
+   100     0   100   1.61   4.84  11.95   3.20 condensed chicken and mushroom soup // usda 174522
+   124  HCUP     0 this                        replace
+   100     0    54   1.80   3.75   3.80   0.10 cooked condensed chicken and mushroom soup // usda 171573
+   244   CUP     0 this                        replace
+   100     0    79   1.35   5.30   6.80   0.70 condensed cream of mushroom soup // usda 171155
+   126  HCUP     0 this                        replace
+   100     0    39   0.66   2.59   3.33   0.30 cooked condensed cream of mushroom soup // usda 172915
+   248   CUP     0 this                        replace
+   100     0    65   2.36   3.58   5.76   0.30 cooked condensed cream of mushroom soup with 2% milk // usda 174540
+   252   CUP     0 this                        replace
+   100     0    53   1.00   3.70   4.53   0.20 canned cream of mushroom soup // usda 171607
+   244   CUP     0 this                        replace
+   100     0    61   1.50   1.80   9.60   0.00 condensed mushroom barley soup // usda 171154
+   126  HCUP     0 this                        replace
+   100     0    30   0.77   0.93   4.80   0.30 cooked condensed mushroom barley soup // usda 172914
+   244   CUP     0 this                        replace
+   100     0    68   2.51   3.21   7.41   0.10 condensed mushroom with beef stock // usda 171156
+   126  HCUP     0 this                        replace
+   100     0    35   1.29   1.65   3.81   0.30 cooked condensed mushroom with beef stock // usda 174558
+   244   CUP     0 this                        replace
 #Bread
 [bread]
 *   36     0   100   4      2     18      1    slider bun
