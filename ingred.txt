@@ -66,51 +66,101 @@
    =               "cooked chopped egg"        chopped egg
 :
 # Fish
-[fish]
-   100     0   146  21.62   4.93   0      0    salmon
-    OZ     0    41 this                        boneless salmon
-*  227     0   468  50     28      0      0    salmon fillet
-   100     0   171  23.97   7.56   0.49   0    baked salmon
-    OZ     0    39 this                        boneless salmon baked
-    OZ     0    48 this                        boneless $this
-*  227     0   418  62     17      0      0    wild salmon fillet
-   150   CUP   216  30.86   9.42   0      0    canned salmon
-   100     0   116  19.94   3.45   0      0    pink salmon
-*    0     0   368  "pink salmon"              pink salmon fillet
-   100     0   142  19.84   6.34   0      0    wild atlantic salmon
-*    0     0   562  "wild atlantic salmon"     wild atlantic salmon fillet
-   100     0   156  16.92   9.22   0      0    farmed atlantic salmon
-   100     0   117  18.28   4.32   0      0    smoked chinook salmon
-   =                "smoked chinook salmon"    smoked salmon
-*    0     0    23  "smoked salmon"            piece smoked salmon
-    OZ     0    33  "smoked salmon"            boneless smoked salmon
-     0   CUP   159  "smoked salmon"            flaked smoked salmon
 
-   100     0   345  60.62  11.43   0.00   0.00 smoked sockeye salmon // usda 169813
+## Salmon
+[oil]
+   100     0   902   0.00 100.00   0.00   0.00 salmon oil // usda 172343
+   218   CUP     0 this                        replace
+
+[general]
+   100     0   212  12.69  11.72  13.96   0.00 breaded salmon nuggets // usda 173721
+   100     0   189  11.97  10.43  11.85   0.00 cooked salmon nuggets  // usda 173722
+
+[fish]
+   100     0   206  22.10  12.35   0.00   0.00 baked farmed atlantic salmon // usda 175168
+*  356     0     0 this                        fillet $this
+   100     0   208  20.42  13.42   0.00   0.00 farmed atlantic salmon // usda 175167
+*  396     0     0 this                        fillet $this
+   100     0   182  25.44   8.13   0.00   0.00 baked wild atlantic salmon // usda 171998
+*  308     0     0 this                        fillet $this
+   100     0   142  19.84   6.34   0.00   0.00 wild atlantic salmon // usda 173686
+*  396     0     0 this                        fillet $this
+
+   100     0   231  25.72  13.38   0.00   0.00 baked chinook salmon // usda 171999
+*  308     0     0 this                        fillet $this
+   100     0   179  19.93  10.43   0.00   0.00 chinook salmon // usda 173688
+*  396     0     0 this                        fillet $this
+   100     0   117  18.28   4.32   0.00   0.00 smoked chinook salmon // usda 173687
+    17 16.39     0 this                        boneless $this
+   136   CUP     0 this                        baked $this
+   100     0   266  30.70  15.90   0.00   0.00 canned kippered chinook salmon // usda 168024
+   100     0   156  16.60   8.00   4.30   0.00 chinook salmon liver // usda 167616
+   100     0   150  23.20   5.90   0.00   0.00 canned smoked chinook salmon // usda 167614
+   100     0   430  39.90  30.00   0.00   0.00 brined smoked chinook salmon // usda 167615
+   100     0   209  23.19  12.95   0.00   0.00 kippered chinook salmon with skin // usda 167647
+/chinook salmon/king salmon/
+/smoked chinook salmon/smoked salmon/
+
+   100     0   141  21.43   5.50   0.00   0.00 canned chum salmon with bone // usda 174224
+   100     0   154  25.82   4.83   0.00   0.00 baked chum salmon // usda 172000
+*  308     0     0 this                        fillet $this
+   100     0   378  62.09  14.38   0.00   0.00 dried chum salmon // usda 168054
+   100     0   120  20.14   3.77   0.00   0.00 chum salmon // usda 173689
+*  396     0     0 this                        fillet $this
+
+   100     0   140  22.56   5.57   0.00   0.00 coho salmon // usda 167639
+   100     0   178  24.30   8.23   0.00   0.00 baked farmed coho salmon // usda 173716
+*  143     0     0 this                        fillet $this
+   100     0   160  21.27   7.67   0.00   0.00 farmed coho salmon // usda 173715
+*  159     0     0 this                        fillet $this
+   100     0   139  23.45   4.30   0.00   0.00 baked wild coho salmon // usda 173719
+*  356     0     0 this                        fillet $this
+   100     0   184  27.36   7.50   0.00   0.00 steamed wild coho salmon // usda 175137
+*  310     0     0 this                        fillet $this
+   100     0   146  21.62   5.93   0.00   0.00 wild coho salmon // usda 175136
+*  396     0     0 this                        fillet $this
+/coho salmon/silver salmon/
+
+   100     0   138  23.10   5.02   0.00   0.00 canned pink salmon // usda 175175
+   100     0   129  19.68   4.97   0.00   0.00 canned pink salmon undrained // usda 173690
+   100     0   139  19.78   6.05   0.00   0.00 canned pink salmon with bone undrained // usda 174225
+   100     0   153  24.58   5.28   0.00   0.00 baked pink salmon // usda 172001
+*  248     0     0 this                        fillet $this
+   100     0   127  20.50   4.40   0.00   0.00 pink salmon // usda 175138
+*  318     0     0 this                        fillet $this
+/pink salmon/humpback salmon/
+
+   100     0   131  22.25   4.69   0.00   0.00 sockeye salmon // usda 173691
+*  396     0     0 this                        fillet $this
+   100     0   156  26.48   5.57   0.00   0.00 baked sockeye salmon // usda 173692
+*  310     0     0 this                        fillet $this
+   100     0   159  15.90  10.60   0.00   0.00 fermented tipnuk salmon // usda 168023
+   100     0   345  60.62  11.43   0.00   0.00 smoked sockeye salmon with skin // usda 169813
 *  108     0     0 this                        filet $this
 *  136     0     0 this                        strip $this
    100     0   158  26.33   5.87   0.00   0.00 canned sockeye salmon // usda 173723
-*  247     0     0 this                        can sockeye salmon
-   100     0   153  20.63   7.17   0.00   0.00 canned sockeye salmon, undrained // usda 175174
-*  417     0     0 this                        can sockeye salmon, undrained
+   100     0   153  20.63   7.17   0.00   0.00 canned sockeye salmon undrained // usda 175174
+   100     0   153  20.47   7.31   0.00   0.00 canned sockeye salmon with bone // usda 174226
+   100     0   206  35.19   7.26   0.00   0.00 canned smoked sockeye salmon // usda 167645
+   100     0   141  24.50   4.75   0.00   0.00 kippered sockeye salmon // usda 167646
+/sockeye salmon/red salmon/
 
    100     0    96  20.08   1.7    0      0    tilapia
-*  170     0   218  44      4.5    0      0    tilapia fillet
+*  170     0     0  this                       fillet $this
    100     0    82  17.9    0.63   0      0    pacific cod
-*    0     0    95  "pacific cod"              pacific cod fillet
-*    =              "pacific cod fillet"       fillet pacific cod
+*    0     0    95  this                       fillet $this
    100     0   211  19.2   10.84   8.25   0.5  cod
-    OZ     0    32 "cod"                       cod with bone
-    OZ     0    49 "cod"                       boneless cod
-    OZ     0    60 "cod"                       cooked boneless cod
-*    0     0   196 "cod"                       pacific cod fillet 2
-     0   CUP   287 "cod"                       flaked cod // cooked
+    OZ     0    32 this                        cod with bone
+    OZ     0    49 this                        boneless cod
+    OZ     0    60 this                        cooked boneless cod
+*    0     0   196 this                        fillet $this
+     0   CUP   287 this                        flaked cod // cooked
    100     0   122  20.91   3.59   0      0    baked cod
     OZ     0    28 this                        raw boneless cod baked
     OZ     0    35 this                        boneless $this
 
    100     0    82  17.81   0.67   0      0    atlantic cod
-*    0     0   189 this                        $this fillet
+*    0     0   189 this                        fillet $this
    100     0    84  17.76   0.92   0      0    fish
     OZ     0    24 this                        boneless fish
    100     0   109  22.6    1.18   0.28   0    grilled fish
@@ -118,42 +168,31 @@
    100     0    88 this                        boneless fish grilled
    100     0   109 this                        boneless $this
 *    0     0   123 this                        fillet $this
-*    =             "fillet $this"              $this fillet
      0   CUP   148 this                        flaked $this
    100     0   126  21.94   3.44   0.33   0    baked fish
     OZ     0    29 this                        boneless fish baked
     OZ     0    38 this                        boneless $this
 *    0     0   142 this                        fillet $this
-*    =             "fillet $this"              $this fillet
      0   CUP   171 this                        flaked $this
 
    100     0   123  18.74   4.74   0      0    smoked fish
     OZ     0    35 this                        boneless smoked fish
    100     0   110  20.81   2.29   0      0    halibut
-*    0     0   448 this                        $this fillet
-*    =             "$this fillet"              fillet $this
+*    0     0   448 this                        fillet $this
 : greenland halibut
    100     0   186  14.37  13.84   0      0    $$
    100     0   239  18.42  17.74   0      0    cooked $this
-    OZ     0   760 this                        cooked $$ fillet
-     =             "$this fillet"              cooked fillet $$
+    OZ     0   760 this                        cooked fillet $$
 
    100     0   134  19.09   5.86   0      0    whitefish
-*    0     0   265 this                        $this fillet
-*    =             "$this fillet"              fillet $this
+*    0     0   265 this                        fillet $this
    100     0   148  22.16   5.82   0      0    sea bass
     OZ     0    28 this                        cooked $this with bone
     OZ     0    34 this                        boneless $this
     OZ     0    42 this                        cooked boneless $this
-*    0     0   152 this                        $this fillet
-     =             "$this fillet"              fillet $this
+*    0     0   152 this                        fillet $this
    100     0    97  18.43   2      0      0    sea bass mixed species
-*    0     0   125 this                        $this fillet
-     =             "$this fillet"              fillet $this
-
-[general]
-   100     0   212  12.69  11.72  13.96   0.00 breaded salmon nuggets // usda 173721
-   100     0   189  11.97  10.43  11.85   0.00 cooked salmon nuggets  // usda 173722
+*    0     0   125 this                        fillet $this
 
 [shellfish]
    100     0   144  27.59   2.35   1.24   0    shrimp
@@ -188,8 +227,7 @@
 [fish]
    100     0    85  18.5    0.7    0      0    mahi mahi
     OZ     0    24 this                        boneless $this
-*    0     0   100 this                        $this fillet
-     =             "$this fillet"          fillet $this
+*    0     0   100 this                        fillet $this
    100     0   153  27.3    3.96   0.41   0    cooked tuna
     OZ     0    29 this                        $this with bone
     OZ     0    36 this                        boneless tuna cooked
@@ -197,8 +235,7 @@
      0   CUP   208 this                        flaked $this
 *    0     0   228 this                        $this steak
      =             "$this steak"               tuna steak
-*    0     0   435 this                        small $this fillet
-*    =             "small $this fillet"        small fillet $this
+*    0     0   435 this                        small fillet $this
 
    100     0   144  23.33   4.9    0      0    bluefin tuna
    100     0   108  23.38   0.95   0      0    yellowfin tuna
