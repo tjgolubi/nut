@@ -223,6 +223,272 @@
    100     0   124  23.63   2.56   0.00   0.00 baked sea bass // usda 173694
 *  101     0     0 this                        fillet $this
 
+[general]
+   100     0    16   2.00   0.60   0.40   0.00 fish broth // usda 171606
+   244   CUP     0 this                        replace
+[oil]
+   100     0   902   0.00 100.00   0.00   0.00 herring oil // usda 172340
+   218   CUP     0 this                        replace
+   100     0   902   0.00 100.00   0.00   0.00 menhaden oil // usda 172341
+   218   CUP     0 this                        replace
+   100     0   902   0.00 100.00   0.00   0.00 sardine oil // usda 173578
+   218   CUP     0 this                        replace
+
+[4.20 8.94 3.97]
+   100     0   277  11.01  16.23  21.66   1.50 frozen fish sticks // usda 174195
+*   28     0     0 this                        stick $this // 4" x 1" x 1/2"
+*   57     0     0 this                        piece $this // 4" x 2" x 1/2"
+
+[4.27 8.92 3.87]
+   100     0   210  28.89   9.71   0.00   0.00 canned anchovy // usda 174183
+*    4     0     0 this                        fish $this
+[4.27 9.00 3.87]
+   100     0   208  24.62  11.45   0.00   0.00 canned atlantic sardine // usda 175139
+*   12     0     0 this                        fish $this // 2-2/3" x 1/2" x 1/4"
+   149   CUP     0 this                        drained $this
+    16 16.39     0 this                        replace
+[4.27 9.02 3.70]
+   100     0   185  20.86  10.45   0.54   0.10 canned pacific sardine // usda 175140
+*   38     0     0 this                        fish $this // sardine
+    89   CUP     0 this                        replace
+[3.57 9.02 3.68]
+   100     0   264  24.60  17.90   4.00   0.00 caviar // usda 174188
+    16  TBSP     0 this                        replace
+[general]
+   100     0    63  11.30   0.80   2.60   0.00 herring eggs on giant kelp // usda 168989
+   100     0   312  60.40   6.60   2.80   0.00 dry herring eggs // usda 168990
+   100     0    74   9.60   1.93   4.47   0.00 herring eggs // usda 169806
+[egg]
+   100     0   204  28.62   8.23   1.92   0.00 baked roe // usda 174239
+[3.57 9.02 3.68]
+   100     0   143  22.32   6.42   1.50   0.00 roe // usda 175132
+    14  TBSP     0 this                        replace
+
+[fish]
+   100     0   131  20.35   4.84   0.00   0.00 anchovy // usda 174182
+   100     0    82  15.50   1.75   0.00   0.00 blackfish // usda 169798
+   100     0   159  25.69   5.44   0.00   0.00 baked bluefish // usda 174229
+*  117     0     0 this                        fillet $this
+   100     0   124  20.04   4.24   0.00   0.00 bluefish // usda 171949
+*  150     0     0 this                        fillet $this
+   100     0   115  24.76   1.04   0.00   0.00 baked burbot // usda 174230
+*   90     0     0 this                        fillet $this
+   100     0    90  19.31   0.81   0.00   0.00 burbot // usda 171950
+*  116     0     0 this                        fillet $this
+   100     0   187  22.15  10.28   0.00   0.00 baked butterfish // usda 174231
+*   25     0     0 this                        fillet $this
+   100     0   146  17.28   8.02   0.00   0.00 butterfish // usda 171951
+*   32     0     0 this                        fillet $this
+   100     0   162  22.86   7.17   0.00   0.00 baked carp // usda 174185
+*  170     0     0 this                        fillet $this
+   100     0   127  17.83   5.60   0.00   0.00 carp // usda 171952
+*  218     0     0 this                        fillet $this
+   100     0   229  18.09  13.33   8.04   0.70 fried catfish // usda 174187
+*   87     0     0 this                        fillet $this
+   100     0   144  18.44   7.19   0.00   0.00 baked farmed catfish // usda 175166
+*  143     0     0 this                        fillet $this
+   100     0   119  15.23   5.94   0.00   0.00 farmed catfish // usda 175165
+*  159     0     0 this                        fillet $this
+   100     0   105  18.47   2.85   0.00   0.00 baked wild catfish // usda 173714
+*  143     0     0 this                        fillet $this
+   100     0    95  16.38   2.82   0.00   0.00 wild catfish // usda 174186
+*  159     0     0 this                        fillet $this
+   100     0    98  18.99   1.91   0.00   0.00 cisco // usda 171953
+*   79     0     0 this                        fillet $this
+   100     0   177  16.36  11.90   0.00   0.00 smoked cisco // usda 171954
+   100     0   221  18.20  12.67   7.54   0.40 fried croaker // usda 171957
+*   87     0     0 this                        fillet $this
+   100     0   104  17.78   3.17   0.00   0.00 croaker // usda 174192
+*   79     0     0 this                        fillet $this
+   100     0   112  24.35   0.88   0.00   0.00 baked cusk // usda 171991
+*   95     0     0 this                        fillet $this
+   100     0    87  18.99   0.69   0.00   0.00 cusk // usda 171958
+*  122     0     0 this                        fillet $this
+   100     0    97  11.70   5.30   0.00   0.00 devilfish // usda 168987
+   100     0   153  22.49   6.32   0.00   0.00 baked drum // usda 171993
+*  154     0     0 this                        fillet $this
+   100     0   119  17.54   4.93   0.00   0.00 drum // usda 171960
+*  198     0     0 this                        fillet $this
+   100     0   236  23.65  14.95   0.00   0.00 baked eel // usda 174194
+    17 16.39     0 this                        boneless $this
+    22     0     0 this                        $this with bone // yield after bone removed
+*  159     0     0 this                        fillet $this
+   100     0   184  18.44  11.66   0.00   0.00 eel // usda 174193
+*  204     0     0 this                        fillet $this
+   100     0    86  15.24   2.37   0.00   0.00 baked flatfish // usda 174197
+*  127     0     0 this                        fillet $this
+   100     0    70  12.41   1.93   0.00   0.00 flatfish // usda 174196
+    28     0     0 this                        boneless $this
+*  163     0     0 this                        fillet $this
+/flatfish/flounder/
+/flatfish/sole/
+   100     0   118  24.84   1.30   0.00   0.00 baked grouper // usda 171963
+*  202     0     0 this                        fillet $this
+   100     0    92  19.38   1.02   0.00   0.00 grouper // usda 171962
+*  259     0     0 this                        fillet $this
+   100     0    90  19.99   0.55   0.00   0.00 baked haddock // usda 174198
+*  150     0     0 this                        fillet $this
+   100     0    74  16.32   0.45   0.00   0.00 haddock // usda 171964
+*  193     0     0 this                        fillet $this
+   100     0   116  25.23   0.96   0.00   0.00 smoked haddock // usda 174199
+    17 16.39     0 this                        boneless $this
+   100     0   203  23.03  11.59   0.00   0.00 baked atlantic herring // usda 175117
+*  143     0     0 this                        fillet $this
+   100     0   217  24.58  12.37   0.00   0.00 kippered atlantic herring // usda 173668
+    17 16.39     0 this                        boneless $this
+*   20     0     0 this                        small fillet $this  // 2-3/8" x 1-3/8" x 1/4"
+*   40     0     0 this                        medium fillet $this // 5" x 1-3/4" x 1/4"
+*   65     0     0 this                        large fillet $this  // 7" x 2-1/4" x 1/4"
+   100     0   262  14.19  18.00   9.64   0.00 pickled atlantic herring // usda 175118
+   140   CUP     0 this                        replace
+*   15     0     0 this                        piece $this // 1-3/4" x 7/8" x 1/2"
+    28     0     0 this                        boneless $this
+   100     0   158  17.96   9.04   0.00   0.00 atlantic herring // usda 175116
+    28     0     0 this                        boneless $this
+*  184     0     0 this                        fillet $this
+   100     0   250  21.01  17.79   0.00   0.00 baked pacific herring // usda 174233
+*  144     0     0 this                        fillet $this
+   100     0   489  44.50  34.60   0.00   0.00 dried pacific herring // usda 169807
+   100     0   195  16.39  13.88   0.00   0.00 pacific herring // usda 173669
+*  184     0     0 this                        fillet $this
+   100     0   111  24.35   0.82   0.00   0.00 baked ling // usda 174234
+*  151     0     0 this                        fillet $this
+   100     0    87  18.99   0.64   0.00   0.00 ling // usda 173670
+*  193     0     0 this                        fillet $this
+   100     0   262  23.85  17.81   0.00   0.00 baked atlantic mackerel // usda 175120
+*   88     0     0 this                        fillet $this
+   100     0   205  18.60  13.89   0.00   0.00 atlantic mackerel // usda 175119
+*  112     0     0 this                        fillet $this
+   100     0   201  25.73  10.12   0.00   0.00 baked pacific mackerel // usda 171994
+    17 16.39     0 this                        boneless $this
+*  176     0     0 this                        fillet $this
+   100     0   158  20.07   7.89   0.00   0.00 pacific mackerel // usda 173672
+*  225     0     0 this                        fillet $this
+/pacific mackerel/jack mackerel/
+   100     0   156  23.19   6.30   0.00   0.00 canned jack mackerel // usda 175121
+   190   CUP     0 this                        replace
+    28     0     0 this                        boneless $this
+   100     0   134  26.00   2.56   0.00   0.00 baked king mackerel // usda 174236
+*  306     0     0 this                        fillet $this
+   100     0   105  20.28   2.00   0.00   0.00 king mackerel // usda 175122
+*  396     0     0 this                        fillet $this
+   100     0   305  18.50  25.10   0.00   0.00 salted mackerel // usda 168149
+    17 16.39     0 this                        boneless $this
+*   80     0     0 this                        piece $this // 5-1/2" x 1-1/2" x 1/2"
+   136   CUP     0 this                        cooked $this
+   100     0   158  23.59   6.32   0.00   0.00 baked spanish mackerel // usda 173674
+*  146     0     0 this                        fillet $this
+   100     0   139  19.29   6.30   0.00   0.00 spanish mackerel // usda 173673
+*  187     0     0 this                        fillet $this
+   100     0   109  23.72   0.90   0.00   0.00 baked mahimahi // usda 171992
+*  159     0     0 this                        fillet $this
+   100     0    85  18.50   0.70   0.00   0.00 mahimahi // usda 171959
+*  204     0     0 this                        fillet $this
+   100     0   190  26.32   8.63   0.00   0.00 baked milkfish // usda 171995
+   100     0   148  20.53   6.73   0.00   0.00 milkfish // usda 173675
+   100     0    97  18.56   1.95   0.00   0.00 baked monkfish // usda 171996
+   100     0    76  14.48   1.52   0.00   0.00 monkfish // usda 173676
+   100     0   150  24.81   4.86   0.00   0.00 baked mullet // usda 175124
+*   93     0     0 this                        fillet $this
+   100     0   117  19.35   3.79   0.00   0.00 mullet // usda 175123
+*  119     0     0 this                        fillet $this
+   100     0   113  24.69   0.88   0.00   0.00 baked northern pike // usda 175127
+*  310     0     0 this                        fillet $this
+   100     0   156  16.60   8.00   4.30   0.00 northern pike liver // usda 168021
+   100     0    88  19.26   0.69   0.00   0.00 northern pike // usda 173680
+*  396     0     0 this                        fillet $this
+   100     0    87  19.42   0.99   0.00   0.00 cooked alaska pollock // usda 173726
+   100     0   111  23.48   1.18   0.00   0.00 baked alaska pollock // usda 173681
+*   60     0     0 this                        fillet $this
+   100     0    76  17.17   0.82   0.00   0.00 alaska pollock // usda 173725
+   100     0   118  24.92   1.26   0.00   0.00 baked atlantic pollock // usda 174237
+*  302     0     0 this                        fillet $this
+   100     0    92  19.44   0.98   0.00   0.00 atlantic pollock // usda 175129
+*  386     0     0 this                        fillet $this
+   100     0    56  12.30   0.41   0.00   0.00 pollock // usda 333476
+*  177     0     0 this                        fillet $this
+   100     0   211  23.69  12.14   0.00   0.00 baked pompano // usda 173683
+*   88     0     0 this                        fillet $this
+   100     0   164  18.48   9.47   0.00   0.00 pompano // usda 173682
+    28     0     0 this                        boneless $this
+*  112     0     0 this                        fillet $this
+   100     0   102  21.33   1.17   0.00   0.00 baked ocean pout // usda 174238
+*  274     0     0 this                        fillet $this
+   100     0    79  16.64   0.91   0.00   0.00 ocean pout // usda 173677
+*  352     0     0 this                        fillet $this
+   100     0   109  22.23   1.62   0.00   0.00 baked rockfish // usda 175131
+*  149     0     0 this                        fillet $this
+   100     0    90  18.36   1.34   0.00   0.00 rockfish // usda 173684
+*  191     0     0 this                        fillet $this
+   100     0   105  22.64   0.90   0.00   0.00 baked orange roughy // usda 174251
+   100     0    76  16.41   0.70   0.00   0.00 orange roughy // usda 175133
+   100     0   250  17.19  19.62   0.00   0.00 baked sablefish // usda 174240
+*  302     0     0 this                        fillet $this
+   100     0   195  13.41  15.30   0.00   0.00 sablefish // usda 175134
+*  386     0     0 this                        fillet $this
+   100     0   257  17.65  20.14   0.00   0.00 smoked sablefish // usda 173685
+   100     0   135  24.21   3.50   0.00   0.00 baked scup // usda 174241
+*   50     0     0 this                        fillet $this // fillet
+   100     0   105  18.88   2.73   0.00   0.00 scup // usda 175141
+    28     0     0 this                        boneless $this
+*   64     0     0 this                        fillet $this
+   166   CUP     0 this                        replace
+   100     0   252  21.71  17.65   0.00   0.00 baked american shad // usda 174243
+*  144     0     0 this                        fillet $this
+   100     0   197  16.93  13.77   0.00   0.00 american shad // usda 173696
+*  184     0     0 this                        fillet $this
+   100     0   228  18.62  13.82   6.39   0.00 fried shark // usda 175143
+   100     0   130  20.98   4.51   0.00   0.00 shark // usda 173697
+   100     0   115  22.25   2.84   0.00   0.00 sheefish // usda 167648
+   100     0   126  26.02   1.63   0.00   0.00 baked sheepshead // usda 175145
+*  186     0     0 this                        fillet $this
+   100     0   108  20.21   2.41   0.00   0.00 sheepshead // usda 175144
+*  238     0     0 this                        fillet $this
+   100     0   124  22.60   3.10   0.00   0.00 baked rainbow smelt // usda 175147
+   100     0    97  17.63   2.42   0.00   0.00 rainbow smelt // usda 175146
+   100     0   128  26.30   1.72   0.00   0.00 baked snapper // usda 173699
+*  170     0     0 this                        fillet $this
+   100     0   100  20.51   1.34   0.00   0.00 snapper // usda 173698
+*  218     0     0 this                        fillet $this
+   100     0   158  23.73   6.28   0.00   0.00 baked spot // usda 174244
+*   50     0     0 this                        fillet $this
+   100     0   123  18.51   4.90   0.00   0.00 spot // usda 173700
+*   64     0     0 this                        fillet $this
+   100     0   135  20.70   5.18   0.00   0.00 baked sturgeon // usda 175148
+    17 16.39     0 this                        boneless $this
+   136   CUP     0 this                        cooked $this
+   100     0   105  16.14   4.04   0.00   0.00 sturgeon // usda 173701
+   100     0   173  31.20   4.40   0.00   0.00 smoked sturgeon // usda 175149
+   100     0   119  21.49   2.97   0.00   0.00 baked white sucker // usda 172002
+*  124     0     0 this                        fillet $this
+   100     0    92  16.76   2.32   0.00   0.00 white sucker // usda 175150
+*  159     0     0 this                        fillet $this
+   100     0   114  24.87   0.90   0.00   0.00 baked pumpkin seed sunfish // usda 172003
+*   37     0     0 this                        fillet $this
+   100     0    89  19.40   0.70   0.00   0.00 pumpkin seed sunfish // usda 175151
+*   48     0     0 this                        fillet $this
+   100     0    99  15.18   0.90   6.85   0.00 surimi // usda 173702
+   100     0   147  24.49   4.69   0.00   0.00 baked tilefish // usda 175152
+*  300     0     0 this                        fillet $this
+   100     0    96  17.50   2.31   0.00   0.00 tilefish // usda 173705
+*  286     0     0 this                        fillet $this
+   100     0   122  20.58   3.78   0.00   0.00 baked european turbot // usda 174245
+*  318     0     0 this                        fillet $this
+   100     0    95  16.05   2.95   0.00   0.00 european turbot // usda 173710
+*  408     0     0 this                        fillet $this
+   100     0   116  23.48   1.69   0.00   0.00 baked whiting // usda 175161
+*   72     0     0 this                        fillet $this
+   100     0    90  18.31   1.31   0.00   0.00 whiting // usda 173713
+*   92     0     0 this                        fillet $this
+   100     0   123  22.44   3.06   0.00   0.00 baked atlantic wolffish // usda 174247
+*  238     0     0 this                        fillet $this
+   100     0    96  17.50   2.39   0.00   0.00 atlantic wolffish // usda 175162
+*  306     0     0 this                        fillet $this
+   100     0   187  29.67   6.72   0.00   0.00 baked yellowtail // usda 174248
+*  292     0     0 this                        fillet $this
+   100     0   146  23.14   5.24   0.00   0.00 yellowtail // usda 175163
+*  374     0     0 this                        fillet $this
+
 [shellfish]
    100     0   144  27.59   2.35   1.24   0    shrimp
 *    0     0     6 this                        small $this
@@ -254,9 +520,6 @@
 *  163     0     0 this                        replace
 
 [fish]
-   100     0    85  18.5    0.7    0      0    mahi mahi
-    OZ     0    24 this                        boneless $this
-*    0     0   100 this                        fillet $this
    100     0   153  27.3    3.96   0.41   0    cooked tuna
     OZ     0    29 this                        $this with bone
     OZ     0    36 this                        boneless tuna cooked
