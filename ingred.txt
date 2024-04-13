@@ -145,8 +145,11 @@
    100     0   141  24.50   4.75   0.00   0.00 kippered sockeye salmon // usda 167646
 /sockeye salmon/red salmon/
 
-   100     0    96  20.08   1.7    0      0    tilapia
-*  170     0     0  this                       fillet $this
+   100     0   128  26.15   2.65   0.00   0.00 baked tilapia // usda 175177
+*   87     0     0 this                        fillet $this
+   100     0    96  20.08   1.70   0.00   0.00 tilapia // usda 175176
+*  116     0     0 this                        fillet $this
+
    100     0    82  17.9    0.63   0      0    pacific cod
 *    0     0    95  this                       fillet $this
    100     0   211  19.2   10.84   8.25   0.5  cod
@@ -195,13 +198,18 @@
    100     0   108  23.40   0.93   0.00   0.00 smoked whitefish // usda 173712
    136   CUP     0 this                        boneless $this
 
-   100     0   148  22.16   5.82   0      0    sea bass
-    OZ     0    28 this                        cooked $this with bone
-    OZ     0    34 this                        boneless $this
-    OZ     0    42 this                        cooked boneless $this
-*    0     0   152 this                        fillet $this
-   100     0    97  18.43   2      0      0    sea bass mixed species
-*    0     0   125 this                        fillet $this
+   100     0   114  18.86   3.69   0.00   0.00 freshwater bass // usda 174184
+*   79     0     0 this                        fillet $this
+   100     0   146  24.18   4.73   0.00   0.00 baked freshwater bass // usda 171989
+*   62     0     0 this                        fillet $this
+   100     0    97  17.73   2.33   0.00   0.00 striped bass // usda 171948
+*  159     0     0 this                        fillet $this
+   100     0   124  22.73   2.99   0.00   0.00 baked striped bass // usda 174228
+*  124     0     0 this                        fillet $this
+   100     0    97  18.43   2.00   0.00   0.00 sea bass // usda 175142
+*  129     0     0 this                        fillet $this
+   100     0   124  23.63   2.56   0.00   0.00 baked sea bass // usda 173694
+*  101     0     0 this                        fillet $this
 
 [shellfish]
    100     0   144  27.59   2.35   1.24   0    shrimp
