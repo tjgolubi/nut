@@ -484,20 +484,6 @@
      = this                                    nutmeg
    213   CUP     0   0      0      0      0    baking powder
    163   CUP     0   0      0      0      0    baking soda
-[wheat]
-    30  QCUP   130   2      3     23      1    graham cracker crumbs
-[bread]
-    30  1_3C   110   3      0     23      1    panko
-    28  HCUP   110   3      3.5   17      1    italian panko
-: bread crumbs
-   108   CUP   427  14.42   5.72  77.74   4.9  $$
-   120   CUP   460  16.96   6.58  82.19   5.9  seasoned $$
-     = this                                    italian $$
-    30  QCUP   120   4      1.5   21      2    whole wheat $$
-     = this                                    whole grain $$
-     = this                                    italian $this
-     = this                                    italian whole grain $$
-:
 [vegetable]
    100   181   282? 13.46  14.28  49.7   34.8  chili powder
    288   CUP     0   0      0      0      0    salt
@@ -875,6 +861,9 @@
    246   CUP   236   1.35   0.10  61.13   3.9  $$ in xheavy syrup
    219   CUP   182   1.40   0.24  46.67   5.9  $$ in heavy syrup drained
 :
+[general]
+   100     0    47   0.85   0.33  10.05   1.90 salmonberry // usda 168048
+
 [vegetable]
    100     0    15   0.49   0.16   3.32   1.6  celery
 *    0     0     1  this                       celery strip
@@ -2058,7 +2047,211 @@
    126  HCUP     0 this                        replace
    100     0    35   1.29   1.65   3.81   0.30 cooked condensed mushroom with beef stock // usda 174558
    244   CUP     0 this                        replace
+
 #Bread
+[4.00 8.70 4.10]
+   100     0   259   9.49   2.73  48.11   2.10 italian bread // usda 174913
+*   29     0     0 this                        slice $this
+[3.50 8.40 3.80]
+   100     0   195   5.20   1.50  43.30   4.70 canned boston brown bread // usda 174907
+*   45     0     0 this                        slice $this
+[general]
+   100     0   297  11.25   7.45  46.36   4.90 chapati bread // usda 171844
+*   68     0     0 this                        slice $this
+   100     0   299   7.85   9.20  46.13   9.70 whole-wheat chapati bread // usda 174075
+*   43     0     0 this                        slice $this
+/chapati bread/roti bread/
+   100     0   408  10.42  20.83  44.83   2.10 cheese bread // usda 167944
+*   48     0     0 this                        slice $this
+   100     0   253   7.05   5.29  44.38   3.50 cinnamon bread // usda 171849
+*   28     0     0 this                        slice $this
+[3.80 8.80 4.10]
+   100     0   418   7.00  12.20  69.50   6.50 cornbread mix // usda 174908
+*  241     0     0 this                        8.5-oz box $this
+[general]
+   100     0   330   6.59   9.58  54.46   2.30 cornbread // usda 174909
+*   51     0     0 this                        muffin $this
+*   60     0     0 this                        slice $this
+[3.80 8.80 3.90]
+   100     0   260   8.70   3.90  49.50   5.50 cracked-wheat bread // usda 172672
+*  9.4     0     0 this                        thin slice $this, without crust
+*   12     0     0 this                        slice $this, without crust
+*   20     0     0 this                        thin slice $this
+*   25     0     0 this                        slice $this
+*   30     0     0 this                        thick slice
+   3.2 16.39     0 this                        chopped $this
+[general]
+   100     0   287   9.50   6.00  47.80   2.30 egg bread // usda 172673
+*   40     0     0 this                        slice $this // 5" x 3" x 1/2"
+   100     0   315  10.50   6.60  52.60   2.50 toasted egg bread // usda 172674
+*   37     0     0 this                        slice $this // 5" x 3" x 1/2"
+   100     0   272  10.75   2.42  51.88   2.20 french bread // usda 172675
+*  139     0     0 this                        slice $this
+   100     0   319  13.00   2.14  61.93   3.10 toasted french bread // usda 174911
+*   29     0     0 this                        thin slice $this
+*   59     0     0 this                        slice $this
+*   88     0     0 this                        thick slice $this
+   100     0   239   8.33   1.04  49.10   4.20 whole-wheat french bread // usda 174091
+*   48     0     0 this                        slice $this
+/french bread/vienna bread/
+/french bread/sourdough bread/
+   100     0   320   3.13  10.70  52.83   3.50 gluten-free white potato bread // usda 174099
+*   34     0     0 this                        slice $this
+   100     0   248   4.31   5.24  45.78   4.30 gluten-free white rice bread // usda 174100
+*   35     0     0 this                        slice $this
+   100     0   298   5.40   8.02  51.15   5.50 gluten-free white tapioca bread // usda 174101
+*   28     0     0 this                        slice $this
+   100     0   309   7.25   9.34  49.09   4.90 gluten-free whole-grain bread // usda 174102
+*   25     0     0 this                        slice $this
+   100     0   290   6.60   5.00  56.00   2.60 irish soda bread // usda 174912
+   100     0   265  13.36   4.23  43.34   7.40 multi-grain bread // usda 168013
+*   26     0     0 this                        slice $this
+*   41     0     0 this                        thick slice $this
+   100     0   288  14.52   4.60  47.11   8.10 toasted multi-grain bread // usda 174914
+*   24     0     0 this                        slice $this
+*   38     0     0 this                        thick slice $this
+/multi-grain bread/whole-grain bread/
+   100     0   291   9.62   5.65  50.43   2.20 naan // usda 171845
+*   90     0     0 this                        piece $this
+   100     0   286  10.20   6.70  46.21   4.80 whole-wheat naan // usda 174077
+*  106     0     0 this                        piece $this
+[3.70 8.70 4.00]
+   100     0   236  10.40   4.40  39.80   4.50 oat bran bread // usda 172676
+*   30     0     0 this                        slice $this
+[general]
+   100     0   259  11.40   4.80  43.70   4.90 toasted oat bran bread // usda 172677
+*   27     0     0 this                        slice $this
+[3.80 8.60 4.10]
+   100     0   269   8.40   4.40  48.50   4.00 oatmeal bread // usda 172678
+*   27     0     0 this                        slice $this
+[general]
+   100     0   292   9.20   4.80  52.70   4.30 toasted oatmeal bread // usda 172679
+*   25     0     0 this                        slice $this
+   100     0   367   9.42  11.58  56.38   2.30 sweet yeast bread // usda 167935
+*   63     0     0 this                        slice $this
+/sweet yeast bread/dulce bread/
+   100     0   326   6.36  13.20  45.35   9.60 whole-wheat paratha bread // usda 174076
+*   79     0     0 this                        slice $this
+[4.00 8.40 4.10]
+   100     0   275   9.10   1.20  55.70   2.20 white pita bread // usda 174915
+*   28     0     0 this                        4" $this
+*   60     0     0 this                        6.5" $this
+[3.60 8.40 3.80]
+   100     0   262   9.80   1.71  55.89   6.10 whole-wheat pita bread // usda 174916
+*   28     0     0 this                        4" $this
+*   64     0     0 this                        6.5" $this
+[general]
+   100     0   266  12.50   3.13  47.07   6.30 potato bread // usda 167943
+*   32     0     0 this                        slice $this
+[3.90 8.40 4.10]
+   100     0   245  12.10   2.20  43.80   3.00 protein bread // usda 174917
+*   19     0     0 this                        slice $this
+[general]
+   100     0   270  13.20   2.40  48.10   3.30 toasted protein bread // usda 172809
+*   17     0     0 this                        slice $this
+[3.70 8.70 4.00]
+   100     0   250   8.70   3.10  47.50   6.50 pumpernickel bread // usda 174918
+*    7     0     0 this                        snack-size slice $this
+*   20     0     0 this                        thin slice $this
+*   26     0     0 this                        slice $this
+*   32     0     0 this                        thick slice $this // 5" x 4" x 3/8"
+[3.90 8.80 3.90]
+   100     0   274   7.90   4.40  52.30   4.30 raisin bread // usda 172680
+*   23     0     0 this                        thin slice $this
+*   26     0     0 this                        slice $this
+*   32     0     0 this                        thick slice $this
+[general]
+   100     0   297   8.60   4.80  56.90   4.70 toasted raisin bread // usda 172681
+*   21     0     0 this                        thin slice $this
+*   24     0     0 this                        slice $this
+*   29     0     0 this                        thick slice $this
+[3.60 8.60 3.50]
+   100     0   201   8.00   3.20  41.30  12.00 diet oat bran bread // usda 172682
+*   23     0     0 this                        slice $this
+   100     0   239   9.50   3.80  49.20  14.30 toasted diet oat bran bread // usda 172683
+*   19     0     0 this                        slice $this
+[3.90 8.40 3.50]
+   100     0   210   7.60   3.50  43.30   0.00 diet oatmeal bread // usda 174919
+*   23     0     0 this                        slice $this
+[4.00 8.60 3.50]
+   100     0   203   9.10   2.90  40.50  12.00 diet rye bread // usda 174920
+*   20     0     0 this                        thin slice $this
+*   23     0     0 this                        slice $this
+*   32     0     0 this                        thick slice $this
+[3.90 8.40 3.30]
+   100     0   217  13.32   2.92  42.47  11.10 diet wheat bread // usda 174921
+*   21     0     0 this                        slice $this
+[4.00 8.70 3.40]
+   100     0   207   8.70   2.50  44.30   9.70 diet white bread // usda 174922
+*   23     0     0 this                        slice $this
+[3.70 8.70 3.90]
+   100     0   243   8.90   4.60  43.50   4.90 rice bran bread // usda 174923
+*   27     0     0 this                        slice $this
+[general]
+   100     0   264   9.70   5.00  47.30   5.30 toasted rice bran bread // usda 175044
+*   25     0     0 this                        slice $this
+   100     0   318  10.65   5.80  55.77   2.20 mexican bread // usda 174078
+*   98     0     0 this                        piece $this
+[3.70 8.60 4.10]
+   100     0   259   8.50   3.30  48.30   5.80 rye bread // usda 172684
+*    7     0     0 this                        snack-size slice $this
+*   25     0     0 this                        thin slice $this
+*   32     0     0 this                        slice $this
+[general]
+   100     0   284   9.40   3.60  53.10   6.40 toasted rye bread // usda 172685
+*   18     0     0 this                        thin slice $this
+*   24     0     0 this                        slice $this
+*   29     0     0 this                        thick slice $this
+[4.00 8.80 4.10]
+   100     0   412  12.00   9.50  68.40   3.00 bread stick // usda 174929
+*    5     0     0 this                        short $this // 4-1/4" long
+*    6     0     0 this                        thin $this  // 9-1/4" x 3/8"
+*   10     0     0 this                        thick $this // 7-5/8" x 5/8"
+    46   CUP     0 this                        sliced $this
+[general]
+   100     0   274  10.67   4.53  47.54   4.00 wheat bread // usda 172686
+*   29     0     0 this                        slice $this
+   100     0   188  13.16   0.00  33.88   5.30 sprouted-wheat bread // usda 171850
+*   38     0     0 this                        slice $this
+   100     0   205  14.30   0.00  36.82   5.70 toasted sprouted-wheat bread // usda 171851
+*   38     0     0 this                        slice $this
+   100     0   313  12.96   4.27  55.77   4.70 toasted wheat bread // usda 172687
+*   24     0     0 this                        slice $this
+   100     0   238  10.66   2.15  43.91   9.20 white wheat bread // usda 167532
+*   28     0     0 this                        slice $this
+[bread]
+   100     0   270   9.43   3.59  49.20   2.30 white bread // usda 325871
+*   27     0     0 this                        slice $this // slice
+[general]
+   100     0   290   9.00   4.00  54.50   2.90 toasted white bread // usda 174925
+*    8     0     0 this                        thin slice, without crust
+*   11     0     0 this                        slice, without crust
+*   13     0     0 this                        very thin slice $this
+*   17     0     0 this                        thin slice $this
+*   22     0     0 this                        slice $this
+*   27     0     0 this                        thick slice $this
+    42   CUP     0 this                        cubed $this
+    45   CUP     0 this                        crumbs $this
+   100     0   252  12.45   3.50  42.71   6.00 whole-wheat bread // usda 172688
+*   32     0     0 this                        slice $this
+   100     0   306  16.27   4.07  51.16   7.50 toasted whole-wheat bread // usda 172689
+*   25     0     0 this                        slice $this
+[wheat]
+    30  QCUP   130   2      3     23      1    graham cracker crumbs
+[bread]
+    30  1_3C   110   3      0     23      1    panko
+    28  HCUP   110   3      3.5   17      1    italian panko
+    30  QCUP   120   4      1.5   21      2    whole-grain bread crumbs
+     = this                                    italian $this
+     = this                                    seasoned $this
+/whole-grain bread crumbs/whole-wheat bread crumbs/
+[4.00 8.80 4.10]
+   100     0   395  13.35   5.30  71.98   4.50 bread crumbs // usda 174928
+   108   CUP     0 this                        replace
+[4.00 8.40 4.10]
+   100     0   383  14.13   5.48  68.49   4.90 seasoned bread crumbs // usda 172806
+   120   CUP     0 this                        replace
+/seasoned bread crumbs/italian bread crumbs/
 [bread]
 *   36     0   100   4      2     18      1    slider bun
 [general]
@@ -2094,28 +2287,25 @@
 # Baked
 [bread]
 *   43     0   113   4.10   2.60  19      2    hamburger bun
-: flour tortilla
-   100     0   312   8.29   7.75  51.35   3.1  flour tortilla
-*    0     0    41 this                        4-inch $this
-*    0     0    94 this                        6-inch $this
-*    0     0   122 this                        7-inch $this
-*    0     0   159 this                        8-inch $this
-*    0     0   218 this                        10-inch $this
-*    0     0   356 this                        12-inch $this
-*    =             "4-inch $this"              mini $this
-*    =             "6-inch $this"              small $this
-*    =             "7-inch $this"              medium $this
-*    =             "10-inch $this"             large $this
-*    =             "12-inch $this"             xlarge $this
-*    =             "4-inch $this"              4" $this
-*    =             "6-inch $this"              6" $this
-*    =             "7-inch $this"              7" $this
-*    =             "10-inch $this"             10" $this
-*    =             "12-inch $this"             12" $this
-:
 
+## Tortillas
+[2.70 8.40 4.00]
+   100     0   218   5.70   2.85  44.64   6.30 corn tortilla // usda 175036
+*   24     0     0 this                        replace
+[4.00 8.80 4.10]
+   100     0   325   8.70   7.10  55.60   3.30 flour tortilla // usda 173242
+*   32     0     0 this                        6" $this
+*   49     0     0 this                        7-8" $this
+*   72     0     0 this                        10" $this
+*  117     0     0 this                        12" $this
+   100     0   306   8.20   7.99  49.38   3.50 refrigerated flour tortilla // usda 175037
+*   30     0     0 this                        6" $this
+*   49     0     0 this                        7-8" $this 
+*   72     0     0 this                        10" $this
+*  117     0     0 this                        12" $this
 [general]
-   100     0    47   0.85   0.33  10.05   1.90 salmonberries // usda 168048
+   100     0   310   9.76   9.76  45.89   9.80 whole-wheat tortilla // usda 174081
+*   41     0     0 this                        replace
 
 # Beverages
 [juice]
