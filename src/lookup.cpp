@@ -26,6 +26,8 @@ namespace rng = std::ranges;
 
 std::ios::fmtflags DefaultCoutFlags;
 
+const auto DbPath = std::string{"db/"};
+
 constexpr auto Round(float x) -> float
   { return (std::abs(x) < 10) ? (std::round(10 * x) / 10) : std::round(x); }
 
@@ -135,7 +137,7 @@ void LoadNutrients(std::vector<Ingred>& foods) {
   for (auto& ingred: foods)
     food_map.emplace(ingred.id, &ingred);
 
-  std::string fname = "usda_foods.tsv";
+  const auto fname = DbPath + "usda_foods.tsv";
   auto db = std::ifstream{fname};
   if (!db)
     throw std::runtime_error("Cannot open " + fname);
@@ -208,7 +210,7 @@ std::ostream& operator<<(std::ostream& os, const Portion& p) {
 auto LoadPortions(const std::vector<Ingred>& foods)
   -> std::vector<Portion>
 {
-  const std::string fname = "usda_portions.tsv";
+  const auto fname = DbPath + "usda_portions.tsv";
   auto input = std::ifstream(fname);
   if (!input)
     throw std::runtime_error("Cannot open " + fname);

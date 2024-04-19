@@ -1,8 +1,8 @@
 // Copyright 2023-2024 Terry Golubiewski, all rights reserved.
 
-#include "Atwater.h"
-#include "To.h"
-#include "Parse.h"
+#include "../src/Parse.h"
+#include "../src/Atwater.h"
+#include "../src/To.h"
 
 #include <gsl/gsl>
 
@@ -26,9 +26,11 @@
 
 namespace rng = std::ranges;
 
-const std::string UsdaPath = "../usda/";
+const std::string UsdaPath = "../../usda/";
 const std::string FdcPath  = UsdaPath + "fdc/";
 const std::string SrPath   = UsdaPath + "sr/";
+
+const std::string DbPath = "../db/";
 
 std::ios::fmtflags DefaultCoutFlags;
 
@@ -158,7 +160,7 @@ std::ostream& operator<<(std::ostream& os, const Ingred& f) {
 } // << Ingred
 
 auto GetFoods() -> std::vector<Ingred> {
-  auto outname = std::string("food.txt");
+  const auto outname = DbPath + "food.txt";
   auto output = std::ofstream{outname, std::ios::binary};
   if (!output)
     throw std::runtime_error{"Cannot write " + outname};
@@ -417,7 +419,7 @@ void ProcessNutrients(std::vector<Ingred>& foods) {
       ingred->value(i) = To<float>(v[Idx::amount]);
     }
   }
-  const std::string outname{"usda_foods.tsv"};
+  const auto outname = DbPath + "usda_foods.tsv";
   auto output = std::ofstream{outname, std::ios::binary};
   if (!output)
     throw std::runtime_error{"Could not write " + outname};
@@ -504,7 +506,7 @@ void ProcessPortions(const std::vector<Ingred>& foods) {
     std::cout << "Loaded " << units.size() << " units of measure.\n";
   }
   {
-    std::string outname = "usda_portions.tsv";
+    const auto outname = DbPath + "usda_portions.tsv";
     auto output = std::ofstream{outname, std::ios::binary};
     if (!output)
       throw std::runtime_error{"Cannot write to " + outname};
