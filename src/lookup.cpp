@@ -26,7 +26,7 @@ namespace rng = std::ranges;
 
 std::ios::fmtflags DefaultCoutFlags;
 
-const auto DbPath = std::string{"db/"};
+const auto DbPath = std::string{std::getenv("FOOD_PATH")} + "/";
 
 constexpr auto Round(float x) -> float
   { return (std::abs(x) < 10) ? (std::round(10 * x) / 10) : std::round(x); }
@@ -299,49 +299,62 @@ public:
 
 int main() {
   using namespace std::literals;
-  DefaultCoutFlags = std::cout.flags();
 
-  auto foods = ReadFoods();
+  try {
+    DefaultCoutFlags = std::cout.flags();
 
-  LoadNutrients(foods);
+    auto foods = ReadFoods();
 
-  const auto portions = LoadPortions(foods);
+    LoadNutrients(foods);
 
-  const auto fname = "lookout.txt"s;
-  auto output = std::ofstream(fname);
-  output << "#include \"defs.txt\"\n";
-  if (!output)
-    throw std::runtime_error("Could not write " + fname);
-  const MlText mlStr;
-  output << std::fixed << std::setprecision(2);
-  auto last_atwater = Atwater{0, 0, 0, 0};
-  for (const auto& ingred: foods) {
-    if (ingred.atwater != last_atwater) {
-      last_atwater = ingred.atwater;
-      output << '[' << last_atwater.str() << "]\n";
-    }
-    output << "   100     0 " << OutIngred(ingred)
-           << " // usda " << ingred.id << '\n';
-    {
-      auto r = rng::equal_range(portions, ingred.id, rng::less{}, &Portion::id);
+    const auto portions = LoadPortions(foods);
 
-      using std::setw, std::left, std::right, std::quoted;
-
-      std::ostringstream ostr;
-      for (const auto& p: r) {
-	ostr << ((p.ml == 0.0f) ? '*' : ' ') << setw(5) << Round(p.g)
-	     << ' ' << setw(5) << mlStr(p.ml)
-	     << ' ' << setw(5) << 0
-	     << ' ' << left << setw(27) << "this" << right;
-	if (!p.desc.empty())
-	  ostr << ' ' << p.desc;
-	ostr << " $this";
-	if (!p.comment.empty())
-	  ostr << " // " << p.comment;
-	ostr << '\n';
+    const auto fname = "lookout.nut"s;
+    auto output = std::ofstream(fname);
+    output << "#include \"defs.nut\"\n";
+    if (!output)
+      throw std::runtime_error("Could not write " + fname);
+    const MlText mlStr;
+    output << std::fixed << std::setprecision(2);
+    auto last_atwater = Atwater{0, 0, 0, 0};
+    for (const auto& ingred: foods) {
+      if (ingred.atwater != last_atwater) {
+	last_atwater = ingred.atwater;
+	output << '[' << last_atwater.str() << "]\n";
       }
-      output << ostr.str();
+      output << "   100     0 " << OutIngred(ingred)
+	     << " // usda " << ingred.id << '\n';
+      {
+	auto r =
+	    rng::equal_range(portions, ingred.id, rng::less{}, &Portion::id);
+
+	using std::setw, std::left, std::right, std::quoted;
+
+	std::ostringstream ostr;
+	for (const auto& p: r) {
+	  ostr << ((p.ml == 0.0f) ? '*' : ' ') << setw(5) << Round(p.g)
+	       << ' ' << setw(5) << mlStr(p.ml)
+	       << ' ' << setw(5) << 0
+	       << ' ' << left << setw(27) << "this" << right;
+	  if (!p.desc.empty())
+	    ostr << ' ' << p.desc;
+	  ostr << " $this";
+	  if (!p.comment.empty())
+	    ostr << " // " << p.comment;
+	  ostr << '\n';
+	}
+	output << ostr.str();
+      }
     }
+    return EXIT_SUCCESS;
   }
-  return EXIT_SUCCESS;
+  catch (const std::ios::failure& fail) {
+    std::cout << "ios::failure: " << fail.what()
+	<< "\n    error code = " << fail.code().message() << std::endl;
+
+  }
+  catch (const std::exception& x) {
+    std::cout << "standard exception: " << x.what() << std::endl;
+  }
+  return EXIT_FAILURE;
 } // main

@@ -48,7 +48,10 @@ struct Ingredient {
 using NutrVec = std::vector<Ingredient>;
 
 void ReadIngredients(NutrVec& ingredients) {
-  static const auto fname = "ingred.dat";
+  gsl::czstring dir = std::getenv("INGRED_PATH");
+  if (!dir)
+    throw std::runtime_error("INGRED_PATH not set");
+  const auto fname = dir + "/ingred.dat"s;
   std::ifstream input{fname, std::ios::binary};
   if (!input || !input.is_open())
     throw std::runtime_error(fname + ": cannot read"s);
