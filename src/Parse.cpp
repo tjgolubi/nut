@@ -6,21 +6,26 @@
 #include <exception>
 #include <cctype>
 
-static void RemoveTabs(std::string& str) {
+#include <iostream>
+#include <iomanip>
+
+namespace {
+
+void RemoveTabs(std::string& str) {
   if (!str.contains('\t'))
     return;
   static const auto re = std::regex{"\\t\\s*"};
   str = std::regex_replace(str, re, " ");
 } // RemoveTabs
 
-static void RemoveExcessQuotes(std::string& str) {
+void RemoveExcessQuotes(std::string& str) {
   if (!str.contains('"'))
     return;
   static const auto re = std::regex{"\"\"+"};
   str = std::regex_replace(str, re, "\"");
 } // RemoveExcessQuotes
 
-static bool TrimSpaces(std::string& str) {
+bool TrimSpaces(std::string& str) noexcept {
   if (str.empty() || !std::isspace(str.front()) && !std::isspace(str.back()))
     return false;
   while (!str.empty() && std::isspace(str.back()))
@@ -32,7 +37,7 @@ static bool TrimSpaces(std::string& str) {
   return true;
 } // TrimSpaces
 
-static bool TrimQuotes(std::string& str, char quote='"') {
+bool TrimQuotes(std::string& str, char quote='"') noexcept {
   auto sv = std::string_view{str};
   while (sv.size() >= 2 && sv.front() == quote && sv.back() == quote) {
     sv.remove_prefix(1);
@@ -44,9 +49,27 @@ static bool TrimQuotes(std::string& str, char quote='"') {
   return true;
 } // TrimQuotes
 
+class Spc {
+  int _n;
+public:
+  explicit Spc(int n_) : _n(n_) { }
+  friend std::ostream& operator<<(std::ostream& os, const Spc& s) {
+    auto n = s._n;
+    while (n-- != 0)
+      os << ' ';
+    return os;
+  }
+}; // Spc
+
+} // local
+
 void Parse(const std::string& line, std::vector<std::string>& row,
 	   const char sep, const char quote, const char escape)
 {
+  if (line.empty()) {
+    row.clear();
+    return;
+  }
   auto col = row.begin();
   auto it = line.begin();
   while (it != line.end()) {
@@ -63,12 +86,15 @@ void Parse(const std::string& line, std::vector<std::string>& row,
 	    break;
 	}
         else if (*it == quote) {
-	  if (++it == line.end() || *it != quote)
-	    break;
+          break;
 	}
         col->push_back(*it);
 	++it;
       }
+      if (it == line.end() || *it != quote)
+        throw std::runtime_error{"Parse: missing quote"};
+      if (++it != line.end() && *it != sep)
+        throw std::runtime_error{"Parse: missing separator"};
     }
     else {
       while (it != line.end() && *it != sep) {
@@ -85,12 +111,12 @@ void Parse(const std::string& line, std::vector<std::string>& row,
       }
     }
     RemoveExcessQuotes(*col);
-    if (it != line.end()) {
-      if (*it != sep)
-        throw std::runtime_error{"Parse: missing separator"};
-      ++it; // skip the separator
-    }
     ++col;
+    if (it == line.end() || *it != sep)
+      break;
+    ++it;
   }
+  if (it != line.end())
+    throw std::runtime_error{"Parse: missing separator"};
   row.erase(col, row.end());
 } // Parse

@@ -23,11 +23,11 @@ void ParseTsv(const std::string& line, std::vector<std::string>& row)
 
 inline
 void ParseCsv(const std::string& line, std::vector<std::string>& row)
-  { Parse(line, row, ',', '"'); }
+  { Parse(line, row, ',', '"', '\\'); }
 
 inline
 void ParseTxt(const std::string& line, std::vector<std::string>& row)
-  { Parse(line, row, '^', '~'); }
+  { Parse(line, row, '^', '~', '\\'); }
 
 template<class E>
 struct ParseVec: public std::vector<std::string> {
@@ -76,7 +76,7 @@ auto Parse(ParseVec<E>& v, const std::string& str,
     }
   }
   if (v.size() != static_cast<ParseVec<E>::size_type>(E::end))
-    throw std::runtime_error("Parse: invalid number of columns");
+    throw std::runtime_error{"Parse: invalid number of columns"};
   return v;
 } // Parse
 
@@ -86,7 +86,7 @@ auto ParseTsv(ParseVec<E>& v, const std::string& str) -> ParseVec<E>&
 
 template<class E>
 auto ParseCsv(ParseVec<E>& v, const std::string& str) -> ParseVec<E>&
-  { return Parse<E>(v, str, ','); }
+  { return Parse<E>(v, str, ',', '"', '\\'); }
 
 template<class E>
 auto ParseTxt(ParseVec<E>& v, const std::string& str) -> ParseVec<E>&
@@ -98,7 +98,7 @@ void CheckHeadings(const ParseVec<Idx>& v,
 {
   for (gsl::index i = 0; i != headings.size(); ++i) {
     if (v.at(gsl::narrow_cast<Idx>(i)) != headings[i])
-      throw std::runtime_error("Invalid column headings");
+      throw std::runtime_error{"Invalid column headings"};
   }
 } // CheckHeadings
 

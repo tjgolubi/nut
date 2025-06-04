@@ -379,7 +379,14 @@ Line Parse(const std::string& str) {
   return line;
 } // Parse
 
+void NewHandler() {
+  std::set_new_handler(nullptr);
+  std::cerr << "Out of memory!" << std::endl;
+  std::terminate();
+} // NewHandler
+
 int main() {
+  std::set_new_handler(NewHandler);
   try {
     NutrVec ingredients;
     ReadIngredients(ingredients);

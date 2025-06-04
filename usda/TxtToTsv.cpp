@@ -10,6 +10,8 @@
 #include <iomanip>
 #include <cctype>
 
+namespace {
+
 std::ostream& Print(std::ostream& output, const std::vector<std::string>& row) {
   bool first = true;
   for (const auto& col: row) {
@@ -67,7 +69,16 @@ void ConvertFile(std::istream& input, std::ostream& output,
   }
 } // ConvertFile
 
+void NewHandler() {
+  std::set_new_handler(nullptr);
+  std::cerr << "Out of memory!" << std::endl;
+  std::terminate();
+} // NewHandler
+
+} // local
+
 int main() {
+  std::set_new_handler(NewHandler);
   try {
     ConvertFile(std::cin, std::cout);
   }

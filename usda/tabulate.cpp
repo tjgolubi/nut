@@ -26,9 +26,15 @@
 
 namespace rng = std::ranges;
 
+#if 0
 const std::string UsdaPath = "../../usda/";
 const std::string FdcPath  = UsdaPath + "fdc/";
 const std::string SrPath   = UsdaPath + "sr/";
+#endif
+
+const std::string UsdaPath = "zip/";
+const std::string FdcPath  = UsdaPath;
+const std::string SrPath   = UsdaPath;
 
 const std::string DbPath = "../db/";
 
@@ -177,13 +183,13 @@ auto GetFoods() -> std::vector<Ingred> {
   auto input = std::ifstream{fname};
   if (!input)
     throw std::runtime_error{"Cannot open " + fname};
+  std::cout << "Reading " << fname << '\n';
   if (!std::getline(input, line))
     throw std::runtime_error{"Cannot read " + fname};
   ParseVec<Idx> v;
   ParseTsv(v, line);
   CheckHeadings(v, Headings);
   std::vector<Ingred> rval;
-  std::cout << "Reading " << fname << '\n';
   {
     long long linenum = 1;
     while (std::getline(input, line)) {
@@ -230,7 +236,7 @@ void ReadAtwaterFoods(std::vector<Ingred>& foods, AtwaterDb& atwaterDb) {
       "fat_value",
       "carbohydrate_value"
     }; // Headings
-    auto fname = FdcPath + "food_calorie_conversion_factor.tsv";
+    const auto fname = FdcPath + "food_calorie_conversion_factor.tsv";
     auto input = std::ifstream{fname};
     if (!input)
       throw std::runtime_error{"Cannot open " + fname};
@@ -254,7 +260,7 @@ void ReadAtwaterFoods(std::vector<Ingred>& foods, AtwaterDb& atwaterDb) {
     static const std::array<std::string_view, int(Idx::end)> Headings = {
       "id", "fdc_id"
     }; // Headings
-    auto fname = FdcPath + "food_nutrient_conversion_factor.tsv";
+    const auto fname = FdcPath + "food_nutrient_conversion_factor.tsv";
     auto input = std::ifstream{fname};
     if (!input)
       throw std::runtime_error{"Cannot open " + fname};
@@ -286,7 +292,7 @@ void UpdateAtwaterFromLegacy(std::vector<Ingred>& foods, AtwaterDb& atwaterDb) {
     static const std::array<std::string_view, int(Idx::end)> Headings = {
       "fdc_id", "NDB_number"
     }; // Headings
-    auto fname = FdcPath + "sr_legacy_food.tsv";
+    const auto fname = FdcPath + "sr_legacy_food.tsv";
     auto input = std::ifstream{fname};
     if (!input)
       throw std::runtime_error{"Cannot open " + fname};
@@ -311,10 +317,11 @@ void UpdateAtwaterFromLegacy(std::vector<Ingred>& foods, AtwaterDb& atwaterDb) {
       Ref_desc, Refuse, SciName, N_Factor, Pro_Factor, Fat_Factor, CHO_Factor,
       end
     };
-    auto fname = SrPath + "FOOD_DES.tsv";
+    const auto fname = SrPath + "FOOD_DES.tsv";
     auto input = std::ifstream{fname};
     if (!input)
       throw std::runtime_error{"Cannot open " + fname};
+    std::cout << "Reading " << fname << std::endl;
     if (!std::getline(input, line))
       throw std::runtime_error{"Cannot read " + fname};
     ParseVec<Idx> v;
@@ -341,7 +348,7 @@ void UpdateAtwaterFromLegacy(std::vector<Ingred>& foods, AtwaterDb& atwaterDb) {
 	++updateCount;
       }
       catch (const std::exception& x) {
-        std::cout << fname << '(' << linenum << ") " << x.what() << '\n';
+        std::cerr << fname << '(' << linenum << ") " << x.what() << '\n';
       }
     }
     std::cout << "Updated " << updateCount << " Atwater codes.\n";
@@ -358,7 +365,7 @@ void ProcessNutrients(std::vector<Ingred>& foods) {
 
   enum class Idx {
     id, fdc_id, nutrient_id, amount, data_points, derivation_id,
-    min, max, median, log, footnote, min_year_acquired, end
+    min, max, median, log, footnote, min_year_acquired, percent_daily_value, end
   }; // Idx
 
   static const std::array<std::string_view, int(Idx::end)> Headings = {
@@ -373,50 +380,64 @@ void ProcessNutrients(std::vector<Ingred>& foods) {
     "median",
     "loq",
     "footnote",
-    "min_year_acquired"
+    "min_year_acquired",
+    "percent_daily_value"
   }; // Headings
 
-  std::string fname = FdcPath + "food_nutrient.tsv";
+  const auto fname = FdcPath + "food_nutrient.tsv";
   auto db = std::ifstream{fname};
   if (!db)
     throw std::runtime_error{"Cannot open " + fname};
   std::string line;
   ParseVec<Idx> v;
-  {
+  std::cout << "Reading " << fname << '\n';
+  try {
     if (!std::getline(db, line))
       throw std::runtime_error{"Cannot read " + fname};
     ParseTsv(v, line);
     CheckHeadings(v, Headings);
   }
-  std::cout << "Reading " << fname << '\n';
+  catch (const std::exception& x) {
+    std::cerr << fname << "(1) " << x.what() << '\n';
+    return;
+  }
   {
-    long long linenum = 0;
+    int errCount = 0;
+    const int maxErrs = 20;
+    long long linenum = 1;
     FdcId last_id;
     Ingred* last_ingred = nullptr;
     while (std::getline(db, line)) {
       ++linenum;
-      ParseTsv(v, line);
-      auto fdc_id = FdcId{To<int>(v[Idx::fdc_id])};
-      Ingred* ingred = nullptr;
-      if (fdc_id == last_id) {
-	ingred = last_ingred;
+      try {
+        ParseTsv(v, line);
+        auto fdc_id = FdcId{To<int>(v[Idx::fdc_id])};
+        Ingred* ingred = nullptr;
+        if (fdc_id == last_id) {
+          ingred = last_ingred;
+        }
+        else {
+          last_id = fdc_id;
+          auto food = rng::lower_bound(foods, fdc_id, {}, &Ingred::fdc_id);
+          if (food == foods.end() || food->fdc_id != fdc_id) {
+            last_ingred = nullptr;
+            continue;
+          }
+          ingred = last_ingred = &*food;
+        }
+        if (!ingred)
+          continue;
+        auto iter = rng::find(FieldIds, v[Idx::nutrient_id]);
+        if (iter == FieldIds.end())
+          continue;
+        auto i = FieldIdx(std::distance(FieldIds.begin(), iter));
+        ingred->value(i) = To<float>(v[Idx::amount]);
       }
-      else {
-	last_id = fdc_id;
-	auto food = rng::lower_bound(foods, fdc_id, {}, &Ingred::fdc_id);
-	if (food == foods.end() || food->fdc_id != fdc_id) {
-	  last_ingred = nullptr;
-	  continue;
-	}
-	ingred = last_ingred = &*food;
+      catch (const std::exception& x) {
+        std::cerr << fname << '(' << linenum << ") " << x.what() << '\n';
+        if (++errCount > maxErrs)
+          break;
       }
-      if (!ingred)
-	continue;
-      auto iter = rng::find(FieldIds, v[Idx::nutrient_id]);
-      if (iter == FieldIds.end())
-	continue;
-      auto i = FieldIdx(std::distance(FieldIds.begin(), iter));
-      ingred->value(i) = To<float>(v[Idx::amount]);
     }
   }
   const auto outname = DbPath + "usda_foods.tsv";
@@ -686,7 +707,14 @@ void ProcessPortions(const std::vector<Ingred>& foods) {
   }
 } // ProcessPortions
 
+void NewHandler() {
+  std::set_new_handler(nullptr);
+  std::cerr << "Out of memory!" << std::endl;
+  std::terminate();
+} // NewHandler
+
 int main() {
+  std::set_new_handler(NewHandler);
   DefaultCoutFlags = std::cout.flags();
   std::cout << "Starting..." << std::endl;
 

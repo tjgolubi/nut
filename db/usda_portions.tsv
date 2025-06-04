@@ -2643,8 +2643,8 @@ fdc_id	g	ml	desc	comment
 169470	1289.00	  0.00	roast	
 169471	284.00	  0.00	steak	
 169472	269.00	  0.00	steak	
-169473	139.00	  0.00	portion	yield from 1/2 lb raw meat 
-169474	284.00	  0.00	loaf	 yield from 1 lb raw meat 
+169473	139.00	  0.00	portion	yield from 1/2 lb raw meat
+169474	284.00	  0.00	loaf	yield from 1 lb raw meat
 169475	177.00	  0.00	steak	
 169476	199.00	  0.00	steak	
 169477	1438.00	  0.00	steak	
@@ -2734,7 +2734,7 @@ fdc_id	g	ml	desc	comment
 169578	 20.00	 14.79		
 169579	 78.00	  0.00	bar 2.8 oz	
 169580	 12.00	  0.00	piece	
-169580	612.00	  0.00	recipe yield, recipe makes 49     1 " x 1"     pieces	
+169580	612.00	  0.00	recipe yield, recipe makes 49 1 " x 1" pieces	
 169581	 14.00	  0.00	serving 0.5 oz, about 1 tbsp	
 169581	340.00	  0.00	package	net weight, 12 oz
 169582	 54.00	  0.00	serving 1 singles bag	
@@ -6305,7 +6305,7 @@ fdc_id	g	ml	desc	comment
 171775	302.00	  0.00	steak	
 171786	297.00	  0.00	steak	
 171789	287.00	  0.00	steak	
-171794	154.00	  0.00	portion	 yield from 1/2 lb raw meat 
+171794	154.00	  0.00	portion	yield from 1/2 lb raw meat
 171821	223.00	236.60		
 171822	 40.00	  0.00	1.41x oz dry	half noodle block
 171823	 33.00	  0.00	2x Tbsp	
@@ -6394,7 +6394,7 @@ fdc_id	g	ml	desc	comment
 171884	240.00	236.60		
 171885	269.00	236.60		
 171886	 19.00	  0.00	envelope Alba	.675 oz
-171886	 15.00	  0.00	envelope  Swiss Miss	.53 oz
+171886	 15.00	  0.00	envelope Swiss Miss	.53 oz
 171887	 20.00	  0.00	serving 1 envelope	
 171888	271.00	236.60		
 171889	 29.60	 29.58		
@@ -7418,20 +7418,20 @@ fdc_id	g	ml	desc	comment
 172593	222.00	  0.00	piece, cooked, excluding refuse	yield from 1 lb raw meat with refuse
 172595	273.00	  0.00	piece, cooked, excluding refuse	yield from 1 lb raw meat with refuse
 172597	233.00	  0.00	piece, cooked, excluding refuse	yield from 1 lb raw meat with refuse
-172598	 85.00	  0.00	serving	 3 oz 
+172598	 85.00	  0.00	serving	3 oz
 172598	1237.00	  0.00	roast	3 to 5 lb roast
-172599	 85.00	  0.00	serving	 3 oz 
-172599	179.00	  0.00	steak	 yield from 232.8 g raw meat 
-172600	 85.00	  0.00	serving	 3 oz 
+172599	 85.00	  0.00	serving	3 oz
+172599	179.00	  0.00	steak	yield from 232.8 g raw meat
+172600	 85.00	  0.00	serving	3 oz
 172600	180.00	  0.00	steak	
-172601	 85.00	  0.00	serving	 3 oz 
+172601	 85.00	  0.00	serving	3 oz
 172601	489.00	  0.00	steak	
 172602	 85.00	  0.00	patty	cooked from 4 oz raw
 172603	 93.00	  0.00	patty	
-172603	 85.00	  0.00	serving	 3 oz 
+172603	 85.00	  0.00	serving	3 oz
 172604	 54.00	  0.00	steak	
-172604	 85.00	  0.00	serving	 3 oz 
-172605	 85.00	  0.00	serving	 3 oz 
+172604	 85.00	  0.00	serving	3 oz
+172605	 85.00	  0.00	serving	3 oz
 172605	293.00	  0.00	roast	3 to 5 lb roast
 172606	330.00	  0.00	roast with bone	
 172607	330.00	  0.00	roast with bone	
@@ -7800,22 +7800,22 @@ fdc_id	g	ml	desc	comment
 172831	627.00	  0.00	bird	
 172832	117.00	  0.00	patty	
 172833	109.00	  0.00	patty	yield from 135.8 g raw meat
-172833	 85.00	  0.00	serving	 3 oz 
-172834	 85.00	  0.00	serving	 3 oz 
-172834	496.00	  0.00	full rump cooked	 yield from 695 g raw meat 
+172833	 85.00	  0.00	serving	3 oz
+172834	 85.00	  0.00	serving	3 oz
+172834	496.00	  0.00	full rump cooked	yield from 695 g raw meat
 172835	572.00	  0.00	inside drum	
-172836	 85.00	  0.00	serving	 3 oz 
-172836	416.00	  0.00	inside drum cooked	 yield from 572 g raw meat 
+172836	 85.00	  0.00	serving	3 oz
+172836	416.00	  0.00	inside drum cooked	yield from 572 g raw meat
 172837	422.00	  0.00	outside drum	
 172838	300.00	  0.00	steak	
-172839	 85.00	  0.00	serving	 cooked from 4 oz raw 
-172840	 85.00	  0.00	serving	 3 oz 
+172839	 85.00	  0.00	serving	cooked from 4 oz raw
+172840	 85.00	  0.00	serving	3 oz
 172841	 85.00	  0.00	serving	cooked from 4 oz raw
-172842	 85.00	  0.00	serving	 3 oz 
-172843	 85.00	  0.00	serving	 3 oz 
+172842	 85.00	  0.00	serving	3 oz
+172843	 85.00	  0.00	serving	3 oz
 172844	 85.00	  0.00	serving	cooked from 4 oz raw
 172845	 85.00	  0.00	serving	cooked from 4 oz raw
-172846	 85.00	  0.00	serving	 cooked from 4 oz raw
+172846	 85.00	  0.00	serving	cooked from 4 oz raw
 172847	 85.00	  0.00	patty	cooked from 4 oz raw
 172849	 85.00	  0.00	patty	
 172850	 85.00	  0.00	serving	cooked from 4 oz
@@ -7947,7 +7947,7 @@ fdc_id	g	ml	desc	comment
 172938	113.00	  0.00	package	4 oz
 172938	 10.00	  0.00	slice	3-1/8" dia x 1/16" thick
 172939	 68.00	  0.00	link	4" long x 1-1/8" dia
-172939	 16.00	  0.00	link,  little	2" long x 3/4" dia
+172939	 16.00	  0.00	link, little	2" long x 3/4" dia
 172940	 56.00	  0.00	2x oz 1 serving	
 172941	 16.00	  0.00	slice	
 172942	 16.00	  0.00	sausage	7/8" dia x 2" long
@@ -8110,7 +8110,7 @@ fdc_id	g	ml	desc	comment
 173072	301.00	  0.00	steak	
 173076	 85.00	  0.00	serving	
 173112	 70.00	  0.00	patty	
-173113	139.00	  0.00	portion	yield from 1/2 lb raw meat 
+173113	139.00	  0.00	portion	yield from 1/2 lb raw meat
 173124	252.00	  0.00	roast	
 173125	1289.00	  0.00	roast	
 173126	1392.00	  0.00	roast	
@@ -8921,7 +8921,7 @@ fdc_id	g	ml	desc	comment
 173613	140.00	236.60	chopped or diced	
 173613	 34.00	  0.00	unit	yield from 1 lb ready-to-cook chicken
 173613	 57.00	  0.00	drumstick, bone removed	
-173614	130.00	  0.00	drumstick  with skin	
+173614	130.00	  0.00	drumstick with skin	
 173614	122.00	  0.00	drumstick without skin	
 173615	 95.00	  0.00	unit	yield from 1 lb ready-to-cook chicken
 173615	158.00	  0.00	leg, bone removed	
@@ -9411,7 +9411,7 @@ fdc_id	g	ml	desc	comment
 174010	301.00	  0.00	steak	
 174011	302.00	  0.00	steak	
 174032	 77.00	  0.00	patty	yield from 1/4 lb raw meat
-174033	 83.00	  0.00	patty	 yield from 1/4 lb raw meat 
+174033	 83.00	  0.00	patty	yield from 1/4 lb raw meat
 174037	 85.00	  0.00	serving	3 oz
 174062	254.00	236.60		
 174062	521.00	  0.00	can	
@@ -9793,27 +9793,27 @@ fdc_id	g	ml	desc	comment
 174414	 63.00	  0.00	chop	
 174415	 54.00	  0.00	chop	
 174416	 63.00	  0.00	chop	
-174421	 85.00	  0.00	serving	 3 oz 
+174421	 85.00	  0.00	serving	3 oz
 174421	113.00	  0.00	patty	
-174422	 87.00	  0.00	patty	 yield from 112.7 g raw meat 
-174422	 85.00	  0.00	serving	 3 oz 
-174423	 85.00	  0.00	serving	 3 oz 
-174423	194.00	  0.00	steak	 yield from 309.7 g raw meat 
-174424	 85.00	  0.00	serving	 3 oz 
-174424	774.00	  0.00	roast	 yield from 1247 g raw meat ) ( 3 to 5 lb roast
-174425	102.00	  0.00	patty	 yield from 102.2 g raw meat 
-174426	 95.00	  0.00	patty	 yield from 104.1 g raw meat 
-174426	 85.00	  0.00	serving	 3 oz 
-174427	114.00	  0.00	steak	 yield from 148.1 g raw meat 
-174427	 85.00	  0.00	serving	 3 oz 
-174428	 85.00	  0.00	serving	 3 oz 
-174428	176.00	  0.00	steak	 yield from 233.1 g raw meat 
-174429	 92.00	  0.00	steak	 yield from 123.5 g raw meat 
-174429	 85.00	  0.00	serving	 3 oz 
-174430	 85.00	  0.00	serving	 3 oz 
-174430	202.00	  0.00	roast	 yield from 271.8 g raw meat ) (0.5 to 1 lb roast
-174431	102.00	  0.00	steak	 yield from 134.9 g raw meat 
-174431	 85.00	  0.00	serving	 3 oz 
+174422	 87.00	  0.00	patty	yield from 112.7 g raw meat
+174422	 85.00	  0.00	serving	3 oz
+174423	 85.00	  0.00	serving	3 oz
+174423	194.00	  0.00	steak	yield from 309.7 g raw meat
+174424	 85.00	  0.00	serving	3 oz
+174424	774.00	  0.00	roast	yield from 1247 g raw meat) (3 to 5 lb roast
+174425	102.00	  0.00	patty	yield from 102.2 g raw meat
+174426	 95.00	  0.00	patty	yield from 104.1 g raw meat
+174426	 85.00	  0.00	serving	3 oz
+174427	114.00	  0.00	steak	yield from 148.1 g raw meat
+174427	 85.00	  0.00	serving	3 oz
+174428	 85.00	  0.00	serving	3 oz
+174428	176.00	  0.00	steak	yield from 233.1 g raw meat
+174429	 92.00	  0.00	steak	yield from 123.5 g raw meat
+174429	 85.00	  0.00	serving	3 oz
+174430	 85.00	  0.00	serving	3 oz
+174430	202.00	  0.00	roast	yield from 271.8 g raw meat) (0.5 to 1 lb roast
+174431	102.00	  0.00	steak	yield from 134.9 g raw meat
+174431	 85.00	  0.00	serving	3 oz
 174432	235.00	  0.00	roast with bone	
 174433	235.00	  0.00	roast with bone	
 174465	115.00	  0.00	giblets	
@@ -9838,26 +9838,26 @@ fdc_id	g	ml	desc	comment
 174474	182.00	  0.00	0.5x breast, bone and skin removed	
 174475	297.00	  0.00	unit	yield from 1 lb ready-to-cook squab
 174475	199.00	  0.00	squab	
-174476	 85.00	  0.00	serving	 3 oz 
+174476	 85.00	  0.00	serving	3 oz
 174476	513.00	  0.00	fan fillet	
-174477	 85.00	  0.00	serving	 3 oz 
+174477	 85.00	  0.00	serving	3 oz
 174477	394.00	  0.00	steak	
 174478	354.00	  0.00	flat fillet	
 174479	695.00	  0.00	full rump	
-174480	 85.00	  0.00	serving	 3 oz 
+174480	 85.00	  0.00	serving	3 oz
 174480	244.00	  0.00	steak	
 174481	109.00	  0.00	patty	
 174481	435.00	  0.00	4x patty	
 174482	 93.00	  0.00	patty	
-174482	 85.00	  0.00	serving	 3 oz 
-174483	 85.00	  0.00	serving	 cooked from 4oz raw
+174482	 85.00	  0.00	serving	3 oz
+174483	 85.00	  0.00	serving	cooked from 4oz raw
 174484	 85.00	  0.00	serving	cooked from 4 oz raw
 174485	 85.00	  0.00	serving	cooked from 4 oz raw
-174486	 85.00	  0.00	serving	 3 oz 
-174487	 85.00	  0.00	serving	 cooked from 4 oz raw
-174488	 85.00	  0.00	serving	 3 oz 
+174486	 85.00	  0.00	serving	3 oz
+174487	 85.00	  0.00	serving	cooked from 4 oz raw
+174488	 85.00	  0.00	serving	3 oz
 174489	 85.00	  0.00	serving	cooked from 4 oz raw
-174490	 85.00	  0.00	serving	 3 oz 
+174490	 85.00	  0.00	serving	3 oz
 174491	 44.00	  0.00	liver	
 174493	 85.00	  0.00	patty	cooked from 4 oz raw
 174497	 95.00	  0.00	drumstick without skin	
@@ -10669,8 +10669,8 @@ fdc_id	g	ml	desc	comment
 175092	192.00	  0.00	serving dry mix with 6 fl oz water	
 175093	258.00	  0.00	serving child 12 fl oz, without ice	
 175093	347.00	  0.00	serving small 16 fl oz, without ice	
-175093	486.00	  0.00	serving medium 21 fl oz,  without ice	
-175093	722.00	  0.00	serving large 32 fl oz,  without ice	
+175093	486.00	  0.00	serving medium 21 fl oz, without ice	
+175093	722.00	  0.00	serving large 32 fl oz, without ice	
 175094	 35.20	 29.58		
 175094	423.00	  0.00	can	12 fl oz
 175095	 29.30	 29.58		
@@ -10731,7 +10731,7 @@ fdc_id	g	ml	desc	comment
 175112	103.00	  0.00	glass	3.5 fl oz
 175113	 29.60	 29.58		
 175113	355.00	  0.00	can	12 fl oz
-175114	 15.00	  0.00	envelope  Swiss Miss	.53 oz
+175114	 15.00	  0.00	envelope Swiss Miss	.53 oz
 175114	 19.00	  0.00	packet	0.675 oz
 175115	 32.70	 29.58		
 175115	262.00	236.60		

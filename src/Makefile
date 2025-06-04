@@ -6,7 +6,7 @@ BIN=$(abspath $(HOME)/bin)
 
 OPT=
 
-.PHONY: all clean scour
+.PHONY: all clean scour install uninstall
 
 all: nut.exe digest.exe barf.exe lookup.exe
 
@@ -19,7 +19,7 @@ digest.exe: digest.cpp Atwater.cpp Atwater.h To.h Nutrition.h
 barf.exe: barf.cpp Nutrition.cpp Nutrition.h
 	g++ -I $(INCL) -std=$(STD) $(OPT) barf.cpp Nutrition.cpp -o $@
 
-lookup.exe: lookup.cpp Atwater.cpp Atwater.h To.h
+lookup.exe: lookup.cpp Atwater.cpp Atwater.h To.h Parse.h
 	g++ -I $(INCL) -std=$(STD) $(OPT) lookup.cpp Atwater.cpp -o $@
 
 clean:
@@ -27,12 +27,22 @@ clean:
 scour: clean
 	rm -f nut.exe digest.exe barf.exe lookup.exe
 
-install: all findfood.bash
-	ln --verbose --force --symbolic $(PWD)/nut.exe       $(BIN)/nut
-	ln --verbose --force --symbolic $(PWD)/digest.exe    $(BIN)/digest
-	ln --verbose --force --symbolic $(PWD)/barf.exe      $(BIN)/barf
-	ln --verbose --force --symbolic $(PWD)/lookup.exe    $(BIN)/lookup
-	ln --verbose --force --symbolic $(PWD)/findfood.bash $(BIN)/findfood
+$(BIN)/nut: nut.exe
+	ln --verbose --force --symbolic $(PWD)/$< $@
+
+$(BIN)/digest: digest.exe
+	ln --verbose --force --symbolic $(PWD)/$< $@
+
+$(BIN)/barf: barf.exe
+	ln --verbose --force --symbolic $(PWD)/$< $@
+
+$(BIN)/lookup: lookup.exe
+	ln --verbose --force --symbolic $(PWD)/$< $@
+
+$(BIN)/findfood: findfood.bash
+	ln --verbose --force --symbolic $(PWD)/$< $@
+
+install: $(BIN)/nut $(BIN)/digest $(BIN)/barf $(BIN)/lookup $(BIN)/findfood
 
 uninstall:
 	rm -f $(BIN)/nut $(BIN)/digest $(BIN)/barf $(BIN)/lookup $(BIN)/findfood
