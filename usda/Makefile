@@ -13,7 +13,7 @@ STD=c++23
 
 OPT=
 
-.PHONY: all clean scour install uninstall unzip
+.PHONY: all clean scour unzip
 
 all: usda_foods.tsv usda_portions.tsv food.txt
 
