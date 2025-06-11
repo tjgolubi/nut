@@ -1,55 +1,71 @@
-// Copyright 2023-2024 Terry Golubiewski, all rights reserved.
+// Copyright 2023-2025 Terry Golubiewski, all rights reserved.
 #ifndef NUTRITION_H
 #define NUTRITION_H
 #pragma once
 
+#include <mp-units/systems/si.h>
+#include <mp-units/systems/isq.h>
+
 #include <iosfwd>
 #include <compare>
 
+namespace mp_units::si {
+
+inline constexpr struct Calorie final : named_unit<"cal", mag_ratio<4184, 1000> * joule> {} Calorie;
+inline constexpr auto Kcal = kilo<Calorie>;
+
+} // mp_units::si
+
 struct Nutrition {
-  float g     = 0.0;
-  float ml    = 0.0;
-  float kcal  = 0.0;
-  float prot  = 0.0;
-  float fat   = 0.0;
-  float carb  = 0.0;
-  float fiber = 0.0;
-  float alcohol = 0.0;
+  template<auto U> using Quantity = ::mp_units::quantity<U, float>;
+
+  using Gram  = Quantity<::mp_units::si::gram>;
+  using Litre = Quantity<::mp_units::si::litre>;
+  using Kcal  = Quantity<::mp_units::si::Kcal>;
+
+  Gram  wt;
+  Litre vol;
+  Kcal  energy;
+  Gram  prot;
+  Gram  fat;
+  Gram  carb;
+  Gram  fiber;
+  Gram  alcohol;
 
   void zero() {
-    g     = 0.0;
-    ml    = 0.0;
-    kcal  = 0.0;
-    prot  = 0.0;
-    fat   = 0.0;
-    carb  = 0.0;
-    fiber = 0.0;
-    alcohol = 0.0;
+    wt      = Gram::zero();
+    vol     = Litre::zero();
+    energy  = Kcal::zero();
+    prot    = Gram::zero();
+    fat     = Gram::zero();
+    carb    = Gram::zero();
+    fiber   = Gram::zero();
+    alcohol = Gram::zero();
   }
 
   void scaleMacros(float ratio) {
-    prot  *= ratio;
-    fat   *= ratio;
-    carb  *= ratio;
-    fiber *= ratio;
+    prot    *= ratio;
+    fat     *= ratio;
+    carb    *= ratio;
+    fiber   *= ratio;
     alcohol *= ratio;
   }
 
   void scale(float ratio) {
-    g     *= ratio;
-    ml    *= ratio;
-    kcal  *= ratio;
+    wt     *= ratio;
+    vol    *= ratio;
+    energy *= ratio;
     scaleMacros(ratio);
   }
 
   Nutrition& operator+=(const Nutrition& rhs) {
-    g     += rhs.g;
-    ml    += rhs.ml;
-    kcal  += rhs.kcal;
-    prot  += rhs.prot;
-    fat   += rhs.fat;
-    carb  += rhs.carb;
-    fiber += rhs.fiber;
+    wt      += rhs.wt;
+    vol     += rhs.vol;
+    energy  += rhs.energy;
+    prot    += rhs.prot;
+    fat     += rhs.fat;
+    carb    += rhs.carb;
+    fiber   += rhs.fiber;
     alcohol += rhs.alcohol;
     return *this;
   }

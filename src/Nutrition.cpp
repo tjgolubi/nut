@@ -4,19 +4,22 @@
 #include <iomanip>
 
 std::ostream& operator<<(std::ostream& output, const Nutrition& nutr) {
+  using namespace mp_units;
+  using namespace mp_units::si;
+
   auto prec  = output.precision(2);
   auto flags = output.flags();
   try {
     using std::setw;
     output << std::fixed
-	          << setw(8) << nutr.g
-	   << ' ' << setw(7) << nutr.ml
-	   << ' ' << setw(7) << nutr.kcal
-	   << ' ' << setw(6) << nutr.prot
-	   << ' ' << setw(6) << nutr.fat
-	   << ' ' << setw(6) << nutr.carb
-	   << ' ' << setw(6) << nutr.fiber
-	   << ' ' << setw(6) << nutr.alcohol;
+	          << setw(8) << nutr.wt.numerical_value_in(gram)
+	   << ' ' << setw(7) << nutr.vol.numerical_value_in(milli<litre>)
+	   << ' ' << setw(7) << nutr.energy.numerical_value_in(Kcal)
+	   << ' ' << setw(6) << nutr.prot.numerical_value_in(gram)
+	   << ' ' << setw(6) << nutr.fat.numerical_value_in(gram)
+	   << ' ' << setw(6) << nutr.carb.numerical_value_in(gram)
+	   << ' ' << setw(6) << nutr.fiber.numerical_value_in(gram)
+	   << ' ' << setw(6) << nutr.alcohol.numerical_value_in(gram);
     output.precision(prec);
     output.flags(flags);
     return output;
@@ -29,8 +32,19 @@ std::ostream& operator<<(std::ostream& output, const Nutrition& nutr) {
 } // << Nutrition
 
 std::istream& operator>>(std::istream& input, Nutrition& nutr) {
+  using namespace mp_units;
+  using namespace mp_units::si;
+
   nutr = Nutrition{};
-  return input >> nutr.g >> nutr.ml >> nutr.kcal
-	       >> nutr.prot >> nutr.fat >> nutr.carb >> nutr.fiber
-	       >> nutr.alcohol;
+  float wt, vol, energy, prot, fat, carb, fiber, alcohol;
+  input >> wt >> vol >> energy >> prot >> fat >> carb >> fiber >> alcohol;
+  nutr.wt      = wt      * gram;
+  nutr.vol     = vol     * milli<litre>;
+  nutr.energy  = energy  * Kcal;
+  nutr.prot    = prot    * gram;
+  nutr.fat     = fat     * gram;
+  nutr.carb    = carb    * gram;
+  nutr.fiber   = fiber   * gram;
+  nutr.alcohol = alcohol * gram;
+  return input;
 } // >> Nutrition

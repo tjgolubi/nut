@@ -1,4 +1,4 @@
-// Copyright 2023-2024 Terry Golubiewski, all rights reserved.
+// Copyright 2023-2025 Terry Golubiewski, all rights reserved.
 #include "Atwater.h"
 
 #include "To.h"
@@ -11,6 +11,8 @@
 
 namespace rng = std::ranges;
 
+using namespace mp_units;
+
 #if defined(_LIBCPP_CLANG_VER) && (_LIBCPP_CLANG_VER <= 1700)
 namespace std::ranges {
 
@@ -21,12 +23,12 @@ constexpr bool contains(const R& r, const auto& x)
 } // std::ranges
 #endif
 
-float Atwater::kcal(const Nutrition& nutr) const {
-  float rval = prot * nutr.prot + fat * nutr.fat + alcohol * nutr.alcohol;;
-  if (fiber == 0.0f)
+Nutrition::Kcal Atwater::energy(const Nutrition& nutr) const {
+  auto rval = prot * nutr.prot + fat * nutr.fat + alcohol * nutr.alcohol;;
+  if (fiber == 0.0f * Factor)
     return rval + carb * nutr.carb;
   return rval + carb * (nutr.carb - nutr.fiber) + fiber * nutr.fiber;
-}  // kcal
+}  // energy
 
 std::istream& SetFail(std::istream& is) {
   is.setstate(std::ios_base::failbit);
@@ -125,9 +127,11 @@ static const SynMap Synonyms = {
 std::string Atwater::values_str(std::string_view delim) const {
   std::ostringstream oss;
   oss << std::fixed << std::setprecision(2);
-  oss << prot << delim << fat << delim << carb;
-  if (fiber != 0.0f)
-    oss << delim << fiber;
+  oss << prot.numerical_value_in(Factor)
+    << delim << fat.numerical_value_in(Factor)
+    << delim << carb.numerical_value_in(Factor);
+  if (fiber != 0.0f * Factor)
+    oss << delim << fiber.numerical_value_in(Factor);
   return oss.str();
 } // values_str
 
@@ -158,7 +162,7 @@ Atwater::Atwater(const std::string_view& str) {
   if (!result)
     throw error;
   *this = Atwater{};
-  std::array<float*, 4> m {
+  std::array m {
     &prot, &fat, &carb, &fiber
   };
   auto iter = std::begin(m);
@@ -166,7 +170,7 @@ Atwater::Atwater(const std::string_view& str) {
     auto x = To<float>(v);
     if (iter == std::end(m))
       throw error;
-    **iter = x;
+    **iter = x * Factor;
     ++iter;
   }
 } // ctor(string_view)

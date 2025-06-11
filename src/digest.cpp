@@ -1,7 +1,9 @@
-// Copyright 2023 Terry Golubiewski, all rights reserved.
+// Copyright 2023-2025 Terry Golubiewski, all rights reserved.
 
 #include "Nutrition.h"
 #include "Atwater.h"
+
+#include <mp-units/ostream.h>
 
 #include <gsl/gsl>
 
@@ -21,6 +23,23 @@ namespace rng = std::ranges;
 
 using NutritionMap = std::map<std::string, Nutrition>;
 
+namespace std {
+
+template<auto T, typename R>
+inline constexpr auto abs(::mp_units::quantity<T, R> x) {
+  return (x >= ::mp_units::quantity<T, R>::zero())
+         ?  x : -x;
+}
+
+template<auto T, typename R>
+auto to_string(const ::mp_units::quantity<T, R>& x) {
+  ostringstream os;
+  os << x;
+  return os.str();
+}
+
+} // std
+
 struct VarItem {
   std::regex  re;
   std::string str;
@@ -36,6 +55,9 @@ bool Contains(const std::string& str1, const auto& str2)
 void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 {
   using std::cout;
+  using namespace mp_units;
+  using namespace mp_units::si;
+
   auto input = std::ifstream(fname);
   if (!input || !input.is_open()) {
     cout << fname << ": could not read\n";
@@ -328,25 +350,31 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 	key.clear();
       }
       else {
-	istr >> nutr.g >> nutr.ml >> std::ws;
+        auto wt  = 0.0f;
+        auto vol = 0.0f;
+	istr >> wt >> vol >> std::ws;
 	if (!istr) {
 	  COUT << "invalid nutrition\n";
 	  continue;
 	}
+        nutr.wt  = wt  * gram;
+        nutr.vol = vol * milli<litre>;
 	if (istr.peek() == '=') {
 	  istr.ignore();
-	  if (nutr.g == 0.0 && nutr.ml == 0.0) {
+	  if (nutr.wt == 0.0f * gram && nutr.vol == 0.0f * milli<litre>) {
 	    COUT << "Equivalence must specify either weight or volume\n";
 	    continue;
 	  }
-	  nutr.kcal = -1.0;
+	  nutr.energy = -1.0f * Calorie;
 	}
 	else {
-	  istr >> nutr.kcal;
+          auto energy = 0.0f;
+	  istr >> energy;
 	  if (!istr) {
 	    COUT << "invalid nutrition\n";
 	    continue;
 	  }
+          nutr.energy = energy * Kcal;
 	}
 	kcal_range_error = (istr.peek() == '?');
 	if (kcal_range_error)
@@ -354,10 +382,21 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 	istr >> std::ws;
 	key.clear();
 	if (auto c = istr.peek(); std::isdigit(c) || c == '.') {
-	  istr >> nutr.prot >> nutr.fat >> nutr.carb >> nutr.fiber;
-	  if (nutr.fiber < 0.0f) {
-	    nutr.alcohol = -nutr.fiber;
-	    nutr.fiber = 0.0f;
+          auto prot  = 0.0f;
+          auto fat   = 0.0f;
+          auto carb  = 0.0f;
+          auto fiber = 0.0f;
+	  istr >> prot >> fat >> carb >> fiber;
+          if (!istr) {
+	    COUT << "invalid nutrition\n";
+	    continue;
+          }
+          nutr.prot = prot * gram;
+          nutr.fat  = fat  * gram;
+          nutr.carb = carb * gram;
+	  if (fiber < 0.0f) {
+	    nutr.alcohol = -fiber * gram;
+	    nutr.fiber = 0.0f * gram;
 	  }
 	  else if (nutr.carb < nutr.fiber)
 	    throw std::runtime_error{"Invalid carbs: " + std::to_string(nutr.carb) + " < " + std::to_string(nutr.fiber)};
@@ -390,20 +429,21 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
       if (!is_equal && key.empty()) {
 	using std::abs;
 	using std::round;
-	auto kcal = atwater.kcal(nutr);
-	if (nutr.kcal < 0.0) {
-	  nutr.kcal = kcal;
+	auto energy = atwater.energy(nutr);
+	if (nutr.energy < 0.0f * Calorie) {
+	  nutr.energy = energy;
 	}
 	else {
-	  auto err = abs(kcal - nutr.kcal) / nutr.kcal;
-	  bool error =
-		    (abs(err) > 0.11 && abs(round(kcal) - round(nutr.kcal)) > 1);
+	  auto err = double(abs(energy - nutr.energy) / nutr.energy);
+          auto energy_kcal = round(energy.numerical_value_in(Kcal));
+          auto nutr_kcal   = round(nutr.energy.numerical_value_in(Kcal));
+	  bool error = (abs(err) > 0.11 && abs(energy_kcal - nutr_kcal) > 1);
 	  if (!error && kcal_range_error) {
 	    COUT << "? not needed\n";
 	  }
 	  else if (error && !kcal_range_error) {
 	    COUT << "kcal warning: "
-		 << round(nutr.kcal) << " != " << round(kcal)
+		 << nutr_kcal << " != " << energy_kcal
 		 << ' ' << name << '\n';
 	    COUT << '[' << atwater.values_str() << "] "
 		 << nutr << '\n';
@@ -432,19 +472,19 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 	}
 	auto const& n = *nptr;
 
-	if (n.kcal == 0.0) {
+	if (n.energy == 0.0 * Kcal) {
 	  COUT << "zero base kcal\n";
 	  continue;
 	}
 
-        if (nutr.kcal >= 0.0f) {
+        if (nutr.energy >= 0.0f * Kcal) {
 	  double scale = 0.0;
-	  if (nutr.kcal != 0.0)
-	    scale = nutr.kcal / n.kcal;
-	  else if (nutr.g != 0.0 && n.g != 0.0)
-	    scale = nutr.g / std::abs(n.g);
-	  else if (nutr.ml != 0.0 && n.ml != 0.0)
-	    scale = nutr.ml / n.ml;
+	  if (nutr.energy != 0.0 * Kcal)
+	    scale = double(nutr.energy / n.energy);
+	  else if (nutr.wt != 0.0 * gram && n.wt != 0.0 * gram)
+	    scale = double(nutr.wt / std::abs(n.wt));
+	  else if (nutr.vol != 0.0 * litre && n.vol != 0.0 * litre)
+	    scale = double(nutr.vol / n.vol);
 	  if (scale == 0.0) {
 	    COUT << "0 scale: " << std::quoted(key) << '\n';
 	    continue;
@@ -454,33 +494,33 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 	  nutr.carb    = scale * n.carb;
 	  nutr.fiber   = scale * n.fiber;
 	  nutr.alcohol = scale * n.alcohol;
-	  if (nutr.kcal == 0.0)
-	    nutr.kcal = scale * n.kcal;
-	  if (nutr.g == 0.0)
-	    nutr.g = scale * std::abs(n.g);
-	  if (nutr.ml == 0.0)
-	    nutr.ml = scale * n.ml;
+	  if (nutr.energy == 0.0 * Kcal)
+	    nutr.energy = scale * n.energy;
+	  if (nutr.wt == 0.0 * gram)
+	    nutr.wt = scale * std::abs(n.wt);
+	  if (nutr.vol == nutr.vol.zero())
+	    nutr.vol = scale * n.vol;
 	}
 	else {
-	  nutr.kcal = n.kcal;
+	  nutr.energy = n.energy;
 	  nutr.prot = n.prot;
 	  nutr.fat  = n.fat;
 	  nutr.carb = n.carb;
 	  nutr.fiber = n.fiber;
 	  nutr.alcohol = n.alcohol;
-	  if (nutr.g == 0.0)
-	    nutr.g = std::abs(n.g);
-	  if (nutr.ml == 0.0)
-	    nutr.ml = n.ml;
+	  if (nutr.wt == 0.0 * gram)
+	    nutr.wt = std::abs(n.wt);
+	  if (nutr.vol == 0.0 * litre)
+	    nutr.vol = n.vol;
 	}
       }
 
-      if (nutr.g == 0.0) {
-	if (nutr.ml == 0.0 && !allow_each)
+      if (nutr.wt == 0.0 * gram) {
+	if (nutr.vol == 0.0 * litre && !allow_each)
 	  COUT << "allow each assumed\n";
       }
       else {
-	nutr.g = allow_each ? -std::abs(nutr.g) : std::abs(nutr.g);
+	nutr.wt = allow_each ? -std::abs(nutr.wt) : std::abs(nutr.wt);
       }
   #if 0
 	cout << std::left << std::setw(40) << std::quoted(name) << ' '
