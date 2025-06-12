@@ -259,16 +259,10 @@ const std::map<std::string, std::string> UnitSyn = {
   { "tsps",        "tsp"  }
 }; // UnitSyn
 
-namespace mp_units::si {
-
-inline constexpr auto millilitre = milli<litre>;
-
-} // mp_units::si
-
 using namespace mp_units;
 
 using Gram  = quantity<si::gram>;
-using Litre = quantity<si::litre>;
+using Milliliter = quantity<si::milliliter>;
 
 [[nodiscard]]
 auto FindUnit(const std::string& unit) {
@@ -281,12 +275,12 @@ auto FindUnit(const std::string& unit) {
 
 struct Volume {
   std::string unit;
-  Litre vol;
+  Milliliter vol;
 };
 
 const std::vector<Volume> Volumes = {
-  { "ml",   1.0 * si::millilitre   },
-  { "l",    1.0 * si::litre        },
+  { "ml",   1.0 * si::milliliter   },
+  { "l",    1.0 * si::liter        },
   { "tsp",  1.0 * usc::teaspoon    },
   { "tbsp", 1.0 * usc::tablespoon  },
   { "floz", 1.0 * usc::fluid_ounce },
@@ -303,7 +297,7 @@ auto FindVolume(const std::string& unit) {
     if (it.unit == unit)
       return it.vol;
   }
-  return Litre::zero();
+  return Milliliter::zero();
 } // FindVolume
 
 struct Weight {
@@ -339,16 +333,16 @@ inline constexpr auto abs(quantity<T, Rep> x) {
 
 [[nodiscard]]
 double Ratio(const Nutrition& nutr, const std::string& unit,
-             double value, Litre volume, Gram weight)
+             double value, Milliliter volume, Gram weight)
 {
-  if (unit == "ea" && nutr.wt < Gram::zero())
+  if (unit == "ea" && nutr.wt < nutr.wt.zero())
     return value;
-  if (nutr.vol != Litre::zero()) {
-    if (volume != Litre::zero())
+  if (nutr.vol != nutr.vol.zero()) {
+    if (volume != volume.zero())
       return value * double(volume / nutr.vol);
   }
-  if (nutr.wt != Gram::zero()) {
-    if (weight != Gram::zero())
+  if (nutr.wt != nutr.wt.zero()) {
+    if (weight != weight.zero())
       return value * double(weight / std::abs(nutr.wt));
   }
   return 0.0;
@@ -472,7 +466,7 @@ int main() {
 	    std::string u;
 	    iss >> v >> u;
 	    w = v * FindWeight(FindUnit(u));
-	    if (w <= Gram::zero()) {
+	    if (w <= w.zero()) {
 	      throw std::runtime_error(
 		  "Invalid serving weight: " + MakeString(line));
 	    }
@@ -480,7 +474,7 @@ int main() {
 	  servings = gsl::narrow_cast<int>(s);
 	  cookedWeight = w;
 	  std::cout << "servings=" << servings;
-	  if (cookedWeight != Gram::zero())
+	  if (cookedWeight != cookedWeight.zero())
 	    std::cout << ", cooked weight=" << std::ceil(cookedWeight.numerical_value_in(si::gram)) << " g";
 	  std::cout << std::endl;
 	  continue;
@@ -488,13 +482,13 @@ int main() {
       }
       auto value = Value(line.value);
       auto unit  = FindUnit(line.unit);
-      Litre volume;
+      Milliliter volume;
       Gram  weight;
       if (unit != "ea") {
         volume = FindVolume(unit);
-	if (volume == Litre::zero()) {
+	if (volume == volume.zero()) {
 	  weight = FindWeight(unit);
-	  if (weight == Gram::zero() && line.weight.empty()) {
+	  if (weight == weight.zero() && line.weight.empty()) {
 	    line.name = line.unit + ' ' + line.name;
 	    unit = "ea";
 	    line.unit.clear();
@@ -535,7 +529,7 @@ int main() {
 	nutr = Nutrition();
       auto& nut = *nutr;
       nut.scale(Ratio(nut, unit, value, volume, weight));
-      if (nut.wt != Gram::zero())
+      if (nut.wt != nut.wt.zero())
         nut.wt = std::max(std::abs(nut.wt), 0.1f * si::gram);
       using std::cout;
       using std::setw;
@@ -559,7 +553,7 @@ int main() {
 	cout << " (";
         if (!std::isdigit(line.weight[0])) {
 	  auto w = FindWeight(FindUnit(line.weight));
-	  if (w == Gram::zero()) {
+	  if (w == w.zero()) {
 	    cout << line.weight << '?';
 	  }
 	  else {
@@ -576,7 +570,7 @@ int main() {
 	  iss >> v >> u;
 	  if (iss)
 	    wt = v * FindWeight(FindUnit(u));
-	  if (wt <= Gram::zero() || (100 * std::abs(nut.wt-wt))/wt > 7) {
+	  if (wt <= wt.zero() || (100 * std::abs(nut.wt-wt))/wt > 7) {
 	    cout << '?';
 	  }
 	}

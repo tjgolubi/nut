@@ -13,7 +13,7 @@ std::ostream& operator<<(std::ostream& output, const Nutrition& nutr) {
     using std::setw;
     output << std::fixed
 	          << setw(8) << nutr.wt.numerical_value_in(gram)
-	   << ' ' << setw(7) << nutr.vol.numerical_value_in(milli<litre>)
+	   << ' ' << setw(7) << nutr.vol.numerical_value_in(millilitre)
 	   << ' ' << setw(7) << nutr.energy.numerical_value_in(Kcal)
 	   << ' ' << setw(6) << nutr.prot.numerical_value_in(gram)
 	   << ' ' << setw(6) << nutr.fat.numerical_value_in(gram)
@@ -36,10 +36,10 @@ std::istream& operator>>(std::istream& input, Nutrition& nutr) {
   using namespace mp_units::si;
 
   nutr = Nutrition{};
-  float wt, vol, energy, prot, fat, carb, fiber, alcohol;
+  float wt=0, vol=0, energy=0, prot=0, fat=0, carb=0, fiber=0, alcohol=0;
   input >> wt >> vol >> energy >> prot >> fat >> carb >> fiber >> alcohol;
   nutr.wt      = wt      * gram;
-  nutr.vol     = vol     * milli<litre>;
+  nutr.vol     = vol     * millilitre;
   nutr.energy  = energy  * Kcal;
   nutr.prot    = prot    * gram;
   nutr.fat     = fat     * gram;

@@ -20,11 +20,11 @@ struct Nutrition {
   template<auto U> using Quantity = ::mp_units::quantity<U, float>;
 
   using Gram  = Quantity<::mp_units::si::gram>;
-  using Litre = Quantity<::mp_units::si::litre>;
+  using Milliliter = Quantity<::mp_units::si::milliliter>;
   using Kcal  = Quantity<::mp_units::si::Kcal>;
 
   Gram  wt;
-  Litre vol;
+  Milliliter vol;
   Kcal  energy;
   Gram  prot;
   Gram  fat;
@@ -33,14 +33,14 @@ struct Nutrition {
   Gram  alcohol;
 
   void zero() {
-    wt      = Gram::zero();
-    vol     = Litre::zero();
-    energy  = Kcal::zero();
-    prot    = Gram::zero();
-    fat     = Gram::zero();
-    carb    = Gram::zero();
-    fiber   = Gram::zero();
-    alcohol = Gram::zero();
+    wt      = wt.zero();
+    vol     = vol.zero();
+    energy  = energy.zero();
+    prot    = prot.zero();
+    fat     = fat.zero();
+    carb    = carb.zero();
+    fiber   = fiber.zero();
+    alcohol = alcohol.zero();
   }
 
   void scaleMacros(float ratio) {

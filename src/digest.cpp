@@ -430,7 +430,7 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 	using std::abs;
 	using std::round;
 	auto energy = atwater.energy(nutr);
-	if (nutr.energy < 0.0f * Calorie) {
+	if (nutr.energy <= nutr.energy.zero()) {
 	  nutr.energy = energy;
 	}
 	else {
