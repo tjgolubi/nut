@@ -4,6 +4,7 @@
 
 #include <mp-units/systems/usc.h>
 #include <mp-units/systems/usc.h>
+#include <mp-units/math.h>
 
 #include <gsl/gsl>
 
@@ -61,7 +62,7 @@ void ReadIngredients(NutrVec& ingredients) {
   Ingredient ingr;
   while (std::getline(input, ingr.name, '\0')) {
     input.read(reinterpret_cast<char*>(&ingr.nutr), sizeof(ingr.nutr));
-    ingr.nutr.fiber = std::max(ingr.nutr.fiber.zero(), ingr.nutr.fiber); // remove alcohol
+    ingr.nutr.fiber = std::max(ingr.nutr.fiber, ingr.nutr.fiber.zero()); // remove alcohol
     ingredients.push_back(ingr);
   }
   if (!rng::is_sorted(ingredients))
@@ -312,7 +313,6 @@ const std::vector<Weight> Weights = {
   { "lb", 1.0 * usc::pound   }
 }; // Weights
 
-[[nodiscard]]
 auto FindWeight(const std::string& unit) {
   for (auto& it : Weights) {
     if (it.unit == unit)
@@ -321,29 +321,26 @@ auto FindWeight(const std::string& unit) {
   return Gram::zero();
 } // FindWeight
 
-namespace std {
+template<auto U, typename R>
+constexpr bool IsZero(const mp_units::quantity<U, R>& q)
+{ return (q == q.zero()); }
 
-template<auto T, typename Rep>
-inline constexpr auto abs(quantity<T, Rep> x) {
-  return (x >= quantity<T, Rep>::zero())
-    ? x : -x;
-}
+template<auto U, typename R>
+constexpr auto Sign(const mp_units::quantity<U, R>& q)
+{ return (q <=> q.zero()); }
 
-} // std
-
-[[nodiscard]]
 double Ratio(const Nutrition& nutr, const std::string& unit,
              double value, Milliliter volume, Gram weight)
 {
-  if (unit == "ea" && nutr.wt < nutr.wt.zero())
+  if (unit == "ea" && Sign(nutr.wt) < 0)
     return value;
-  if (nutr.vol != nutr.vol.zero()) {
-    if (volume != volume.zero())
+  if (!IsZero(nutr.vol)) {
+    if (!IsZero(volume))
       return value * double(volume / nutr.vol);
   }
-  if (nutr.wt != nutr.wt.zero()) {
-    if (weight != weight.zero())
-      return value * double(weight / std::abs(nutr.wt));
+  if (!IsZero(nutr.wt)) {
+    if (!IsZero(weight))
+      return value * double(weight / mp_units::abs(nutr.wt));
   }
   return 0.0;
 } // Ratio
@@ -466,7 +463,7 @@ int main() {
 	    std::string u;
 	    iss >> v >> u;
 	    w = v * FindWeight(FindUnit(u));
-	    if (w <= w.zero()) {
+	    if (Sign(w) <= 0) {
 	      throw std::runtime_error(
 		  "Invalid serving weight: " + MakeString(line));
 	    }
@@ -474,7 +471,7 @@ int main() {
 	  servings = gsl::narrow_cast<int>(s);
 	  cookedWeight = w;
 	  std::cout << "servings=" << servings;
-	  if (cookedWeight != cookedWeight.zero())
+	  if (!IsZero(cookedWeight))
 	    std::cout << ", cooked weight=" << std::ceil(cookedWeight.numerical_value_in(si::gram)) << " g";
 	  std::cout << std::endl;
 	  continue;
@@ -486,9 +483,9 @@ int main() {
       Gram  weight;
       if (unit != "ea") {
         volume = FindVolume(unit);
-	if (volume == volume.zero()) {
+	if (IsZero(volume)) {
 	  weight = FindWeight(unit);
-	  if (weight == weight.zero() && line.weight.empty()) {
+	  if (IsZero(weight) && line.weight.empty()) {
 	    line.name = line.unit + ' ' + line.name;
 	    unit = "ea";
 	    line.unit.clear();
@@ -529,8 +526,8 @@ int main() {
 	nutr = Nutrition();
       auto& nut = *nutr;
       nut.scale(Ratio(nut, unit, value, volume, weight));
-      if (nut.wt != nut.wt.zero())
-        nut.wt = std::max(std::abs(nut.wt), 0.1f * si::gram);
+      if (!IsZero(nut.wt))
+        nut.wt = std::max(mp_units::abs(nut.wt), 0.1f * si::gram);
       using std::cout;
       using std::setw;
       using std::ceil;
@@ -553,7 +550,7 @@ int main() {
 	cout << " (";
         if (!std::isdigit(line.weight[0])) {
 	  auto w = FindWeight(FindUnit(line.weight));
-	  if (w == w.zero()) {
+	  if (IsZero(w)) {
 	    cout << line.weight << '?';
 	  }
 	  else {
@@ -570,7 +567,7 @@ int main() {
 	  iss >> v >> u;
 	  if (iss)
 	    wt = v * FindWeight(FindUnit(u));
-	  if (wt <= wt.zero() || (100 * std::abs(nut.wt-wt))/wt > 7) {
+	  if (Sign(wt) <= 0 || (100 * mp_units::abs(nut.wt-wt))/wt > 7) {
 	    cout << '?';
 	  }
 	}
@@ -588,12 +585,12 @@ int main() {
       cout << '\n';
       if (servings != 0) {
 	cout << "Per ";
-	if (cookedWeight != 0.0 * si::gram)
+	if (!IsZero(cookedWeight))
 	  cout << std::ceil(cookedWeight.numerical_value_in(si::gram)/servings) << " g ";
 	cout << "serving:\n\n";
 	total.scale(1.0/servings);
       }
-      cout << setw(4) << round(total.energy.numerical_value_in(si::Kcal))     << " kcal\n"
+      cout << setw(4) << round(total.energy.numerical_value_in(si::Kcal)) << " kcal\n"
 	   << setw(4) << round(total.wt.numerical_value_in(si::gram))   << " g raw\n"
 	   << setw(4) << round(total.prot.numerical_value_in(si::gram)) << " g protein\n"
 	   << setw(4) << round(total.fat.numerical_value_in(si::gram))  << " g fat\n"

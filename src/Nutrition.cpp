@@ -4,7 +4,6 @@
 #include <iomanip>
 
 std::ostream& operator<<(std::ostream& output, const Nutrition& nutr) {
-  using namespace mp_units;
   using namespace mp_units::si;
 
   auto prec  = output.precision(2);
@@ -32,7 +31,6 @@ std::ostream& operator<<(std::ostream& output, const Nutrition& nutr) {
 } // << Nutrition
 
 std::istream& operator>>(std::istream& input, Nutrition& nutr) {
-  using namespace mp_units;
   using namespace mp_units::si;
 
   nutr = Nutrition{};
