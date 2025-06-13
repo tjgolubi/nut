@@ -1,4 +1,4 @@
-// Copyright 2023-2024 Terry Golubiewski, all rights reserved.
+// Copyright 2023-2025 Terry Golubiewski, all rights reserved.
 
 #include "Atwater.h"
 #include "To.h"
@@ -73,17 +73,6 @@ std::istream& operator>>(std::istream& is, FdcId& id) {
   return is;
 } // >> FdcId
 
-namespace my {
-
-inline constexpr struct Calorie final
-  : mp_units::named_unit<"cal",
-                         mp_units::mag_ratio<4184, 1000> * mp_units::si::joule>
-  {} Calorie;
-inline constexpr auto kiloCalorie = mp_units::si::kilo<Calorie>;
-inline constexpr auto Kcal = kiloCalorie;
-
-} // my
-
 struct Ingred {
   using Energy = mp_units::quantity<my::Kcal, float>;
   using Weight = mp_units::quantity<mp_units::si::gram  , float>;
@@ -103,7 +92,7 @@ std::ostream& operator<<(std::ostream& os, const Ingred& f) {
   std::ostringstream ostr;
   using namespace std;
   using namespace mp_units::si;
-  ostr << setw(5) << Round(f.kcal.numerical_value_in(Kcal))
+  ostr << setw(5) << Round(f.kcal.numerical_value_in(my::Kcal))
        << fixed << setprecision(2)
        << ' ' << setw(6) << f.protein.numerical_value_in(gram)
        << ' ' << setw(6) << f.fat.numerical_value_in(gram)
@@ -130,7 +119,7 @@ public:
     using namespace mp_units::si;
     const auto& f = out.ingred;
     auto x = IsZero(f.alcohol) ? f.fiber : -f.alcohol;
-    ostr << setw(5) << Round(f.kcal.numerical_value_in(Kcal))
+    ostr << setw(5) << Round(f.kcal.numerical_value_in(my::Kcal))
 	 << fixed << setprecision(2)
 	 << ' ' << setw(6) << f.protein.numerical_value_in(gram)
 	 << ' ' << setw(6) << f.fat.numerical_value_in(gram)
@@ -198,7 +187,7 @@ void LoadNutrients(std::vector<Ingred>& foods) {
       auto ingred = food->second;
       using namespace mp_units::si;
       ingred->id      = fdc_id;
-      ingred->kcal    = To<float>(v[Idx::kcal])  * Kcal;
+      ingred->kcal    = To<float>(v[Idx::kcal])  * my::Kcal;
       ingred->protein = To<float>(v[Idx::prot])  * gram;
       ingred->fat     = To<float>(v[Idx::fat])   * gram;
       ingred->carb    = To<float>(v[Idx::carb])  * gram;

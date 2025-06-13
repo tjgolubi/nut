@@ -23,7 +23,7 @@ constexpr bool contains(const R& r, const auto& x)
 } // std::ranges
 #endif
 
-Nutrition::Kcal Atwater::energy(const Nutrition& nutr) const {
+Nutrition::Energy Atwater::energy(const Nutrition& nutr) const {
   auto rval = prot * nutr.prot + fat * nutr.fat + alcohol * nutr.alcohol;;
   if (fiber == 0.0f * Factor)
     return rval + carb * nutr.carb;

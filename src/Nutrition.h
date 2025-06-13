@@ -9,28 +9,32 @@
 #include <iosfwd>
 #include <compare>
 
-namespace mp_units::si {
+namespace my {
 
-inline constexpr struct Calorie final : named_unit<"cal", mag_ratio<4184, 1000> * joule> {} Calorie;
-inline constexpr auto Kcal = kilo<Calorie>;
+inline constexpr struct Calorie final
+  : mp_units::named_unit<"cal",
+                         mp_units::mag_ratio<4184, 1000> * mp_units::si::joule>
+  {} Calorie;
 
-} // mp_units::si
+inline constexpr auto Kcal = mp_units::si::kilo<Calorie>;
+
+} // my
 
 struct Nutrition {
   template<auto U> using Quantity = ::mp_units::quantity<U, float>;
 
-  using Gram  = Quantity<::mp_units::si::gram>;
-  using Milliliter = Quantity<::mp_units::si::milliliter>;
-  using Kcal  = Quantity<::mp_units::si::Kcal>;
+  using Weight = Quantity<::mp_units::si::gram>;
+  using Volume = Quantity<::mp_units::si::milliliter>;
+  using Energy = Quantity<my::Kcal>;
 
-  Gram  wt;
-  Milliliter vol;
-  Kcal  energy;
-  Gram  prot;
-  Gram  fat;
-  Gram  carb;
-  Gram  fiber;
-  Gram  alcohol;
+  Weight wt;
+  Volume vol;
+  Energy energy;
+  Weight prot;
+  Weight fat;
+  Weight carb;
+  Weight fiber;
+  Weight alcohol;
 
   void zero() {
     wt      = wt.zero();

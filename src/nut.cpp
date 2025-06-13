@@ -536,7 +536,7 @@ int main() {
         PrecSaver prec(cout, 1);
 	cout << std::fixed
 	  << "wt="     << setw(6) << nut.wt.numerical_value_in(si::gram)
-	  << " kcal="  << setw(6) << nut.energy.numerical_value_in(si::Kcal)
+	  << " kcal="  << setw(6) << nut.energy.numerical_value_in(my::Kcal)
 	  << " p="     << setw(5) << nut.prot.numerical_value_in(si::gram)
 	  << " f="     << setw(5) << nut.fat.numerical_value_in(si::gram)
 	  << " c="     << setw(5) << nut.carb.numerical_value_in(si::gram)
@@ -590,7 +590,7 @@ int main() {
 	cout << "serving:\n\n";
 	total.scale(1.0/servings);
       }
-      cout << setw(4) << round(total.energy.numerical_value_in(si::Kcal)) << " kcal\n"
+      cout << setw(4) << round(total.energy.numerical_value_in(my::Kcal)) << " kcal\n"
 	   << setw(4) << round(total.wt.numerical_value_in(si::gram))   << " g raw\n"
 	   << setw(4) << round(total.prot.numerical_value_in(si::gram)) << " g protein\n"
 	   << setw(4) << round(total.fat.numerical_value_in(si::gram))  << " g fat\n"

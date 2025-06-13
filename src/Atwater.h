@@ -14,7 +14,7 @@
 
 struct Atwater {
   static constexpr struct Factor final
-    : ::mp_units::named_unit<"Atw", mp_units::si::Kcal/mp_units::si::gram> {} Factor;
+    : ::mp_units::named_unit<"Atw", my::Kcal/mp_units::si::gram> {} Factor;
   using FactorQ = ::mp_units::quantity<Factor, float>;
   static const std::map<std::string_view, Atwater> Names;
   static constexpr FactorQ alcohol = 6.93f * Factor;
@@ -22,8 +22,7 @@ struct Atwater {
   FactorQ fat   = 9.00f * Factor;
   FactorQ carb  = 4.00f * Factor;
   FactorQ fiber = 0.00f * Factor;
-  [[nodiscard]]
-  Nutrition::Kcal energy(const Nutrition& nutr) const;
+  Nutrition::Energy energy(const Nutrition& nutr) const;
   Atwater() = default;
   Atwater(float prot_, float fat_, float carb_, float fiber_=0.0f)
     : prot{prot_   * Factor}
@@ -35,9 +34,7 @@ struct Atwater {
     : prot{prot_}, fat{fat_}, carb{carb_}, fiber{fiber_} { }
   explicit Atwater(const std::string_view& sv);
   // explicit Atwater(const std::string& str);
-  [[nodiscard]]
   std::string str(std::string_view delim=" ") const;
-  [[nodiscard]]
   std::string values_str(std::string_view delim=" ") const;
   friend auto operator<=>(const Atwater&, const Atwater&) = default;
 }; // Atwater

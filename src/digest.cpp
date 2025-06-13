@@ -368,7 +368,7 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 	    COUT << "Equivalence must specify either weight or volume\n";
 	    continue;
 	  }
-	  nutr.energy = -1.0f * Calorie;
+	  nutr.energy = -1.0f * my::Kcal;
 	}
 	else {
           auto energy = 0.0f;
@@ -377,7 +377,7 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 	    COUT << "invalid nutrition\n";
 	    continue;
 	  }
-          nutr.energy = energy * Kcal;
+          nutr.energy = energy * my::Kcal;
 	}
 	kcal_range_error = (istr.peek() == '?');
 	if (kcal_range_error)
@@ -385,10 +385,7 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 	istr >> std::ws;
 	key.clear();
 	if (auto c = istr.peek(); std::isdigit(c) || c == '.') {
-          auto prot  = 0.0f;
-          auto fat   = 0.0f;
-          auto carb  = 0.0f;
-          auto fiber = 0.0f;
+          float prot=0, fat=0, carb=0, fiber=0;
 	  istr >> prot >> fat >> carb >> fiber;
           if (!istr) {
 	    COUT << "invalid nutrition\n";
@@ -437,8 +434,8 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 	}
 	else {
 	  auto err = double(mp_units::abs(energy - nutr.energy) / nutr.energy);
-          auto energy_kcal = round(energy.numerical_value_in(Kcal));
-          auto nutr_kcal   = round(nutr.energy.numerical_value_in(Kcal));
+          auto energy_kcal = round(energy.numerical_value_in(my::Kcal));
+          auto nutr_kcal   = round(nutr.energy.numerical_value_in(my::Kcal));
 	  bool error = (std::abs(err) > 0.11 && std::abs(energy_kcal - nutr_kcal) > 1.0f);
 	  if (!error && kcal_range_error) {
 	    COUT << "? not needed\n";
@@ -479,7 +476,7 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 	  continue;
 	}
 
-        if (nutr.energy >= 0.0f * Kcal) {
+        if (nutr.energy >= 0.0f * my::Kcal) {
           using mp_units::abs;
 	  double scale = 0.0;
 	  if (!IsZero(nutr.energy))
