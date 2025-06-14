@@ -9,23 +9,12 @@
 #include <iosfwd>
 #include <compare>
 
-namespace my {
-
-inline constexpr struct Calorie final
-  : mp_units::named_unit<"cal",
-                         mp_units::mag_ratio<4184, 1000> * mp_units::si::joule>
-  {} Calorie;
-
-inline constexpr auto Kcal = mp_units::si::kilo<Calorie>;
-
-} // my
-
 struct Nutrition {
   template<auto U> using Quantity = ::mp_units::quantity<U, float>;
 
   using Weight = Quantity<::mp_units::si::gram>;
-  using Volume = Quantity<::mp_units::si::milliliter>;
-  using Energy = Quantity<my::Kcal>;
+  using Volume = Quantity<::mp_units::si::millilitre>;
+  using Energy = Quantity<::mp_units::si::kilocalorie>;
 
   Weight wt;
   Volume vol;

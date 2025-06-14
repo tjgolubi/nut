@@ -263,9 +263,8 @@ const std::map<std::string, std::string> UnitSyn = {
 using namespace mp_units;
 
 using Gram  = quantity<si::gram>;
-using Milliliter = quantity<si::milliliter>;
+using Milliliter = quantity<si::millilitre>;
 
-[[nodiscard]]
 auto FindUnit(const std::string& unit) {
   if (unit.empty())
     return std::string("ea");
@@ -280,8 +279,8 @@ struct Volume {
 };
 
 const std::vector<Volume> Volumes = {
-  { "ml",   1.0 * si::milliliter   },
-  { "l",    1.0 * si::liter        },
+  { "ml",   1.0 * si::millilitre  },
+  { "l",    1.0 * si::litre       },
   { "tsp",  1.0 * usc::teaspoon    },
   { "tbsp", 1.0 * usc::tablespoon  },
   { "floz", 1.0 * usc::fluid_ounce },
@@ -292,7 +291,6 @@ const std::vector<Volume> Volumes = {
   { "gal",  1.0 * usc::gallon      }
 }; // Volumes
 
-[[nodiscard]]
 auto FindVolume(const std::string& unit) {
   for (auto& it : Volumes) {
     if (it.unit == unit)
@@ -536,7 +534,7 @@ int main() {
         PrecSaver prec(cout, 1);
 	cout << std::fixed
 	  << "wt="     << setw(6) << nut.wt.numerical_value_in(si::gram)
-	  << " kcal="  << setw(6) << nut.energy.numerical_value_in(my::Kcal)
+	  << " kcal="  << setw(6) << nut.energy.numerical_value_in(si::kilocalorie)
 	  << " p="     << setw(5) << nut.prot.numerical_value_in(si::gram)
 	  << " f="     << setw(5) << nut.fat.numerical_value_in(si::gram)
 	  << " c="     << setw(5) << nut.carb.numerical_value_in(si::gram)
@@ -590,7 +588,7 @@ int main() {
 	cout << "serving:\n\n";
 	total.scale(1.0/servings);
       }
-      cout << setw(4) << round(total.energy.numerical_value_in(my::Kcal)) << " kcal\n"
+      cout << setw(4) << round(total.energy.numerical_value_in(si::kilocalorie)) << " kcal\n"
 	   << setw(4) << round(total.wt.numerical_value_in(si::gram))   << " g raw\n"
 	   << setw(4) << round(total.prot.numerical_value_in(si::gram)) << " g protein\n"
 	   << setw(4) << round(total.fat.numerical_value_in(si::gram))  << " g fat\n"

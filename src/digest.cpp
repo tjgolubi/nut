@@ -361,23 +361,23 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 	  continue;
 	}
         nutr.wt  = wt  * gram;
-        nutr.vol = vol * milli<litre>;
+        nutr.vol = vol * millilitre;
 	if (istr.peek() == '=') {
 	  istr.ignore();
 	  if (IsZero(nutr.wt) && IsZero(nutr.vol)) {
 	    COUT << "Equivalence must specify either weight or volume\n";
 	    continue;
 	  }
-	  nutr.energy = -1.0f * my::Kcal;
+	  nutr.energy = -1.0f * kilocalorie;
 	}
 	else {
-          auto energy = 0.0f;
+          float energy = 0.0f;
 	  istr >> energy;
 	  if (!istr) {
 	    COUT << "invalid nutrition\n";
 	    continue;
 	  }
-          nutr.energy = energy * my::Kcal;
+          nutr.energy = energy * kilocalorie;
 	}
 	kcal_range_error = (istr.peek() == '?');
 	if (kcal_range_error)
@@ -398,8 +398,10 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 	    nutr.alcohol = -fiber * gram;
 	    nutr.fiber = 0.0f * gram;
 	  }
-	  else if (nutr.carb < nutr.fiber)
-	    throw std::runtime_error{"Invalid carbs: " + std::to_string(nutr.carb) + " < " + std::to_string(nutr.fiber)};
+	  else if (nutr.carb < nutr.fiber) {
+	    throw std::runtime_error{"Invalid carbs: "
+	      + std::to_string(nutr.carb) + " < " + std::to_string(nutr.fiber)};
+	  }
 	}
 	else {
 	  istr >> std::quoted(key);
@@ -434,9 +436,10 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 	}
 	else {
 	  auto err = double(mp_units::abs(energy - nutr.energy) / nutr.energy);
-          auto energy_kcal = round(energy.numerical_value_in(my::Kcal));
-          auto nutr_kcal   = round(nutr.energy.numerical_value_in(my::Kcal));
-	  bool error = (std::abs(err) > 0.11 && std::abs(energy_kcal - nutr_kcal) > 1.0f);
+          auto energy_kcal = round(energy.numerical_value_in(kilocalorie));
+          auto nutr_kcal   = round(nutr.energy.numerical_value_in(kilocalorie));
+	  bool error = (std::abs(err) > 0.11
+	               && std::abs(energy_kcal - nutr_kcal) > 1.0f);
 	  if (!error && kcal_range_error) {
 	    COUT << "? not needed\n";
 	  }
@@ -476,7 +479,7 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
 	  continue;
 	}
 
-        if (nutr.energy >= 0.0f * my::Kcal) {
+        if (Sign(nutr.energy) >= 0) {
           using mp_units::abs;
 	  double scale = 0.0;
 	  if (!IsZero(nutr.energy))

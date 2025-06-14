@@ -1,9 +1,9 @@
 .ONESHELL:
 
 GSL=$(HOME)/App/GSL
-MP_UNITS=$(HOME)/App/mp-units
+UNITS=$(HOME)/App/mp-units/src
 
-INCL=$(MP_UNITS)/include $(GSL)/include
+INCL=$(UNITS)/core/include $(UNITS)/systems/include $(GSL)/include
 STD=c++23
 BIN=$(abspath $(HOME)/bin)
 

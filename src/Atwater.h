@@ -13,9 +13,10 @@
 #include <map>
 
 struct Atwater {
-  static constexpr struct Factor final
-    : ::mp_units::named_unit<"Atw", my::Kcal/mp_units::si::gram> {} Factor;
-  using FactorQ = ::mp_units::quantity<Factor, float>;
+  struct Factor final
+    : mp_units::named_unit<"Atw", mp_units::si::kilocalorie/mp_units::si::gram> {};
+  static constexpr auto Factor = Factor{};
+  using FactorQ = mp_units::quantity<Factor, float>;
   static const std::map<std::string_view, Atwater> Names;
   static constexpr FactorQ alcohol = 6.93f * Factor;
   FactorQ prot  = 4.00f * Factor;
@@ -30,7 +31,7 @@ struct Atwater {
     , carb{carb_   * Factor}
     , fiber{fiber_ * Factor}
     { }
-  Atwater(FactorQ prot_, FactorQ fat_, FactorQ carb_, FactorQ fiber_=0.0f * Factor)
+  Atwater(FactorQ prot_, FactorQ fat_, FactorQ carb_, FactorQ fiber_=FactorQ{})
     : prot{prot_}, fat{fat_}, carb{carb_}, fiber{fiber_} { }
   explicit Atwater(const std::string_view& sv);
   // explicit Atwater(const std::string& str);

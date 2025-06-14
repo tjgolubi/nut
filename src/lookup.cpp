@@ -74,11 +74,11 @@ std::istream& operator>>(std::istream& is, FdcId& id) {
 } // >> FdcId
 
 struct Ingred {
-  using Energy = mp_units::quantity<my::Kcal, float>;
+  using Energy = mp_units::quantity<mp_units::si::kilocalorie, float>;
   using Weight = mp_units::quantity<mp_units::si::gram  , float>;
   FdcId id;
   std::string desc;
-  Energy kcal;
+  Energy energy;
   Weight protein;
   Weight fat;
   Weight carb;
@@ -92,7 +92,7 @@ std::ostream& operator<<(std::ostream& os, const Ingred& f) {
   std::ostringstream ostr;
   using namespace std;
   using namespace mp_units::si;
-  ostr << setw(5) << Round(f.kcal.numerical_value_in(my::Kcal))
+  ostr << setw(5) << Round(f.energy.numerical_value_in(kilocalorie))
        << fixed << setprecision(2)
        << ' ' << setw(6) << f.protein.numerical_value_in(gram)
        << ' ' << setw(6) << f.fat.numerical_value_in(gram)
@@ -119,7 +119,7 @@ public:
     using namespace mp_units::si;
     const auto& f = out.ingred;
     auto x = IsZero(f.alcohol) ? f.fiber : -f.alcohol;
-    ostr << setw(5) << Round(f.kcal.numerical_value_in(my::Kcal))
+    ostr << setw(5) << Round(f.energy.numerical_value_in(kilocalorie))
 	 << fixed << setprecision(2)
 	 << ' ' << setw(6) << f.protein.numerical_value_in(gram)
 	 << ' ' << setw(6) << f.fat.numerical_value_in(gram)
@@ -187,7 +187,7 @@ void LoadNutrients(std::vector<Ingred>& foods) {
       auto ingred = food->second;
       using namespace mp_units::si;
       ingred->id      = fdc_id;
-      ingred->kcal    = To<float>(v[Idx::kcal])  * my::Kcal;
+      ingred->energy  = To<float>(v[Idx::kcal])  * kilocalorie;
       ingred->protein = To<float>(v[Idx::prot])  * gram;
       ingred->fat     = To<float>(v[Idx::fat])   * gram;
       ingred->carb    = To<float>(v[Idx::carb])  * gram;
@@ -261,7 +261,7 @@ auto LoadPortions(const std::vector<Ingred>& foods)
 	continue;
       rval.emplace_back(fdc_id,
                         To<float>(v[Idx::g])  * gram,
-                        To<float>(v[Idx::ml]) * milliliter,
+                        To<float>(v[Idx::ml]) * millilitre,
 			std::string{v[Idx::desc]},
 			std::string{v[Idx::comment]});
     }
