@@ -4,6 +4,11 @@
 #include "../src/Atwater.h"
 #include "../src/To.h"
 
+#include <mp-units/systems/si.h>
+#include <mp-units/systems/usc.h>
+#include <mp-units/math.h>
+#include <mp-units/ostream.h>
+
 #include <gsl/gsl>
 
 #include <system_error>
@@ -42,6 +47,10 @@ std::ios::fmtflags DefaultCoutFlags;
 
 constexpr auto Round(float x) -> float
   { return (std::abs(x) < 10) ? (std::round(10 * x) / 10) : std::round(x); }
+
+template<auto U, typename R>
+constexpr auto Round(const mp_units::quantity<U, R>& q)
+  { return Round(q.numerical_value_in(U)) * U; }
 
 class StringDb {
 public:
@@ -121,32 +130,34 @@ struct Ingred {
   explicit Ingred(FdcId id_) : fdc_id(id_) { values.fill(0.0f); }
   Ingred(FdcId id_, std::string desc_)
     : fdc_id(id_), desc(std::move(desc_)) { values.fill(0.0f); }
-  float energy() const {
-    auto kcal = value(FieldIdx::atwater_specific);
-    if (kcal != 0.0)
+  auto energy() const {
+    using namespace mp_units::si;
+    mp_units::quantity kcal = value(FieldIdx::atwater_specific) * kilocalorie;
+    if (is_neq_zero(kcal))
       return kcal;
-    kcal = value(FieldIdx::atwater_general);
-    if (kcal != 0.0)
+    kcal = value(FieldIdx::atwater_general) * kilocalorie;
+    if (is_neq_zero(kcal))
       return kcal;
-    kcal = value(FieldIdx::energy);
-    if (kcal != 0.0)
+    kcal = value(FieldIdx::energy) * kilocalorie;
+    if (is_neq_zero(kcal))
       return kcal;
-    constexpr auto KcalPerKj = 0.239;
-    return KcalPerKj * value(FieldIdx::kJ);
+    kcal = value(FieldIdx::kJ) * kilo<joule>;
+    return kcal;
   } // energy
-  float carb()    const {
-    auto g = value(FieldIdx::carb_diff);
-    if (g != 0.0)
+  auto carb() const {
+    using namespace mp_units::si;
+    mp_units::quantity g = value(FieldIdx::carb_diff) * gram;
+    if (is_neq_zero(g))
       return g;
-    g = value(FieldIdx::carb_sum);
-    if (g != 0.0)
+    g = value(FieldIdx::carb_sum) * gram;
+    if (is_neq_zero(g))
       return g;
-    return value(FieldIdx::carbohydrate);
+    return value(FieldIdx::carbohydrate) * gram;
   }
-  float protein() const { return value(FieldIdx::protein); }
-  float fat()     const { return value(FieldIdx::fat);     }
-  float fiber()   const { return value(FieldIdx::fiber);   }
-  float alcohol() const { return value(FieldIdx::alcohol); }
+  auto protein() const { return value(FieldIdx::protein) * mp_units::si::gram; }
+  auto fat()     const { return value(FieldIdx::fat)     * mp_units::si::gram; }
+  auto fiber()   const { return value(FieldIdx::fiber)   * mp_units::si::gram; }
+  auto alcohol() const { return value(FieldIdx::alcohol) * mp_units::si::gram; }
   friend auto operator<=>(const Ingred& lhs, const Ingred& rhs)
     { return (lhs.fdc_id <=> rhs.fdc_id); }
 }; // Ingred
@@ -195,19 +206,19 @@ auto GetFoods() -> std::vector<Ingred> {
     while (std::getline(input, line)) {
       ++linenum;
       try {
-	ParseTsv(v, line);
-	if (v.size() != std::size_t(Idx::end))
-	  throw std::range_error{"Invalid # columns read: "
-				  + To<std::string>(v.size())};
-	const auto& data_type = v[Idx::data_type];
-	if (data_type != "foundation_food" && data_type != "sr_legacy_food")
-	  continue;
-	rval.emplace_back(FdcId{To<int>(v[Idx::fdc_id])}, v[Idx::desc]);
-	output << v[Idx::fdc_id] << "\t|" << v[Idx::desc] << '\n';
+        ParseTsv(v, line);
+        if (v.size() != std::size_t(Idx::end))
+          throw std::range_error{"Invalid # columns read: "
+                                  + To<std::string>(v.size())};
+        const auto& data_type = v[Idx::data_type];
+        if (data_type != "foundation_food" && data_type != "sr_legacy_food")
+          continue;
+        rval.emplace_back(FdcId{To<int>(v[Idx::fdc_id])}, v[Idx::desc]);
+        output << v[Idx::fdc_id] << "\t|" << v[Idx::desc] << '\n';
       }
       catch (const std::exception& x) {
-	std::cerr << '\r' << fname << '(' << linenum << ") " << x.what() << '\n';
-	std::cerr << line << '\n';
+        std::cerr << '\r' << fname << '(' << linenum << ") " << x.what() << '\n';
+        std::cerr << line << '\n';
       }
     }
   }
@@ -249,11 +260,11 @@ void ReadAtwaterFoods(std::vector<Ingred>& foods, AtwaterDb& atwaterDb) {
       ParseTsv(v, line);
       const auto& id = v[Idx::id];
       auto atwater =
-	  AtwaterString(v[Idx::protein], v[Idx::fat], v[Idx::carb]);
+          AtwaterString(v[Idx::protein], v[Idx::fat], v[Idx::carb]);
       atwaterCodes.emplace(id, atwaterDb.get(atwater));
     }
     std::cout << "Read " << atwaterCodes.size() << " Atwater codes ("
-	<< atwaterDb.size() << " unique).\n";
+        << atwaterDb.size() << " unique).\n";
   }
   {
     enum Idx { id, fdc_id, end };
@@ -330,22 +341,22 @@ void UpdateAtwaterFromLegacy(std::vector<Ingred>& foods, AtwaterDb& atwaterDb) {
     while (std::getline(input, line)) {
       ++linenum;
       try {
-	ParseTsv<Idx>(v, line);
-	if (v.size() != std::size_t(Idx::end)) {
-	  throw std::runtime_error{
-	      "invalid # columns: " + To<std::string>(v.size())};
-	}
-	auto iter = legacy.find(v[Idx::ndb_id]);
-	if (iter == legacy.end())
-	  continue;
-	auto& ingred = *iter->second;
-	if (ingred.atwater != 0)
-	  continue;
-	auto str = AtwaterString(v[Idx::Pro_Factor],
-	                         v[Idx::Fat_Factor],
-				 v[Idx::CHO_Factor]);
-	ingred.atwater = atwaterDb.get(str);
-	++updateCount;
+        ParseTsv<Idx>(v, line);
+        if (v.size() != std::size_t(Idx::end)) {
+          throw std::runtime_error{
+              "invalid # columns: " + To<std::string>(v.size())};
+        }
+        auto iter = legacy.find(v[Idx::ndb_id]);
+        if (iter == legacy.end())
+          continue;
+        auto& ingred = *iter->second;
+        if (ingred.atwater != 0)
+          continue;
+        auto str = AtwaterString(v[Idx::Pro_Factor],
+                                 v[Idx::Fat_Factor],
+                                 v[Idx::CHO_Factor]);
+        ingred.atwater = atwaterDb.get(str);
+        ++updateCount;
       }
       catch (const std::exception& x) {
         std::cerr << fname << '(' << linenum << ") " << x.what() << '\n';
@@ -447,57 +458,59 @@ void ProcessNutrients(std::vector<Ingred>& foods) {
   output << "fdc_id\tkcal\tprot\tfat\tcarb\tfiber\talc\tatwater\tdesc\n";
   output << std::fixed << std::setprecision(2);
   for (const auto& ingred: foods) {
+    using namespace mp_units::si;
     output << ingred.fdc_id
-	<< '\t' << ingred.energy()
-	<< '\t' << ingred.protein()
-	<< '\t' << ingred.fat()
-	<< '\t' << ingred.carb()
-	<< '\t' << ingred.fiber()
-	<< '\t' << ingred.alcohol()
-	<< '\t' << atwaterDb.str(ingred.atwater)
-	<< '\t' << ingred.desc
-	<< '\n';
+        << '\t' << ingred.energy().numerical_value_in(kilocalorie)
+        << '\t' << ingred.protein().numerical_value_in(gram)
+        << '\t' << ingred.fat().numerical_value_in(gram)
+        << '\t' << ingred.carb().numerical_value_in(gram)
+        << '\t' << ingred.fiber().numerical_value_in(gram)
+        << '\t' << ingred.alcohol().numerical_value_in(gram)
+        << '\t' << atwaterDb.str(ingred.atwater)
+        << '\t' << ingred.desc
+        << '\n';
   }
   std::cout << "Wrote " << foods.size() << " foods to " << outname << ".\n";
 } // ProcessNutrients
 
-constexpr float Cup = 236.6;
+using Ml = mp_units::quantity<mp_units::si::millilitre, float>;
 
-const std::map<std::string, float> FactorMap = {
-  { "cup",         Cup     },
-  { "tablespoon",  Cup/16  },
-  { "tbsp",        Cup/16  },
-  { "Tablespoons", Cup/16  },
-  { "teaspoon",    Cup/48  },
-  { "tsp",         Cup/48  },
-  { "liter",       1000.0  },
-  { "milliliter",  1.0     },
-  { "ml",          1.0     },
-  { "cubic inch",  16.39   },
-  { "cubic centimeter", 1.0 },
-  { "cc",              1.0 },
-  { "gallon",     16 * Cup },
-  { "pint",        2 * Cup },
-  { "fl oz",       Cup / 8 },
-  { "floz",        Cup / 8 },
-  { "quart",       4 * Cup }
-}; // FactorMap
+const std::map<std::string, Ml> VolUnitMap = {
+  { "cup",         1.0f * mp_units::usc::cup        },
+  { "tablespoon",  1.0f * mp_units::usc::tablespoon },
+  { "tbsp",        1.0f * mp_units::usc::tablespoon },
+  { "Tablespoons", 1.0f * mp_units::usc::tablespoon },
+  { "teaspoon",    1.0f * mp_units::usc::teaspoon   },
+  { "tsp",         1.0f * mp_units::usc::teaspoon   },
+  { "liter",       1.0f * mp_units::si::litre       },
+  { "milliliter",  1.0f * mp_units::si::millilitre  },
+  { "ml",          1.0f * mp_units::si::millilitre  },
+  { "cubic inch",  1.0f * cubic(mp_units::usc::inch) },
+  { "cubic centimeter", 1.0f * cubic(mp_units::si::centimetre) },
+  { "cc",          1.0f * cubic(mp_units::si::centimetre) },
+  { "gallon",      1.0f * mp_units::usc::gallon },
+  { "pint",        1.0f * mp_units::usc::pint   },
+  { "fl oz",       1.0f * mp_units::usc::fluid_ounce },
+  { "floz",        1.0f * mp_units::usc::fluid_ounce },
+  { "quart",       1.0f * mp_units::usc::quart }
+}; // VolUnitMap
 
-float ConversionFactor(const std::string& unit) {
+Ml VolumeUnit(const std::string& unit) {
+  using mp_units::si::millilitre;
   if (unit.empty())
-    return 0.0f;
-  if (auto iter = FactorMap.find(unit); iter != FactorMap.end())
+    return 0.0f * millilitre;
+  if (auto iter = VolUnitMap.find(unit); iter != VolUnitMap.end())
     return iter->second;
-  return 0.0f;
-} // ConversionFactor
+  return 0.0f * millilitre;
+} // VolumeUnit
 
 void ProcessPortions(const std::vector<Ingred>& foods) {
   std::cout << "Processing portions.\n";
   struct Unit {
     const std::string name;
-    float ml_factor = 0.0;
+    Ml volume;
     explicit Unit(const std::string& n)
-      : name{n}, ml_factor{ConversionFactor(n)} { }
+      : name{n}, volume{VolumeUnit(n)} { }
     Unit() { }
   }; // Unit
   static const Unit NullUnit;
@@ -522,7 +535,7 @@ void ProcessPortions(const std::vector<Ingred>& foods) {
     while (std::getline(input, line)) {
       ParseTsv(v, line);
       if (v[Idx::id] != "9999")
-	units.emplace(v[Idx::id], Unit(v[Idx::name]));
+        units.emplace(v[Idx::id], Unit(v[Idx::name]));
     }
     std::cout << "Loaded " << units.size() << " units of measure.\n";
   }
@@ -532,7 +545,7 @@ void ProcessPortions(const std::vector<Ingred>& foods) {
     if (!output)
       throw std::runtime_error{"Cannot write to " + outname};
     enum class Idx { id, fdc_id, seq_num, amount, unit, desc,
-	modifier, grams, data_points, footnote, min_year_acquired, end };
+        modifier, grams, data_points, footnote, min_year_acquired, end };
     static const std::array<std::string_view, int(Idx::end)> Headings = {
       "id",
       "fdc_id",
@@ -562,145 +575,149 @@ void ProcessPortions(const std::vector<Ingred>& foods) {
     output << std::fixed << std::setprecision(2);
     int count = 0;
     while (std::getline(input, line)) {
+      using namespace mp_units;
+      using namespace mp_units::si;
       ParseTsv(v, line);
       auto fdc_id = FdcId{To<int>(v[Idx::fdc_id])};
       if (fdc_id != last_fdc_id) {
         last_fdc_id = fdc_id;
-	auto food = rng::lower_bound(foods, fdc_id, {}, &Ingred::fdc_id);
-	known_fdc_id = (food != foods.end() && food->fdc_id == fdc_id);
+        auto food = rng::lower_bound(foods, fdc_id, {}, &Ingred::fdc_id);
+        known_fdc_id = (food != foods.end() && food->fdc_id == fdc_id);
       }
       if (!known_fdc_id)
         continue;
-      float ml = 0.0f;
-      auto g  = To<float>(v[Idx::grams]);
+      quantity ml = 0.0f * millilitre;
+      quantity g  = To<float>(v[Idx::grams]) * gram;
       std::ostringstream desc;
       const auto& amount = v[Idx::amount];
       float val = amount.empty() ? 0.0 : To<float>(amount);
       auto iter = units.find(v[Idx::unit]);
       const auto& unit = (iter != units.end()) ? iter->second : NullUnit;
       if (!unit.name.empty()) {
-        if (unit.ml_factor) {
-	  ml = val * unit.ml_factor;
-	}
-	else {
-	  if (val != 0.0f && val != 1.0f)
-	    desc << val << "x ";
-	  desc << unit.name;
-	}
-	val = 0.0f;
+        if (is_neq_zero(unit.volume)) {
+          ml = val * unit.volume;
+        }
+        else {
+          if (val != 0.0f && val != 1.0f)
+            desc << val << "x ";
+          desc << unit.name;
+        }
+        val = 0.0f;
       }
       auto modifier{v[Idx::modifier]};
       if (val != 0.0f && !modifier.empty()) {
         auto pos = modifier.find(',');
-	ml = val * ConversionFactor(modifier.substr(0, pos));
-	if (ml != 0.0f) {
-	  val = 0.0f;
-	  constexpr auto npos = std::string::npos;
-	  modifier = (pos != npos && pos+1 < v[Idx::modifier].size())
-	           ? v[Idx::modifier].substr(pos+1)
-	           : std::string{};
-	  if (!modifier.empty()) {
-	    pos = modifier.find_first_not_of(" ");
-	    modifier = (pos != npos) ? modifier.substr(pos) : std::string{};
-	  }
-	}
-	else {
-	  auto m = std::string_view{modifier};
-	  for (const auto& [unit, factor]: FactorMap) {
-	    if (m.starts_with(unit)) {
-	      ml = val * factor;
-	      val = 0.0f;
-	      m.remove_prefix(unit.size());
-	      if (!m.empty() && m[0] == ',')
-	        m.remove_prefix(1);
-	      auto pos = m.find_first_not_of(" ");
-	      if (pos != std::string_view::npos)
-	        m.remove_prefix(pos);
-	      modifier = std::string(m);
-	      break;
-	    }
-	  }
-	}
+        ml = val * VolumeUnit(modifier.substr(0, pos));
+        if (is_neq_zero(ml)) {
+          val = 0.0f;
+          constexpr auto npos = std::string::npos;
+          modifier = (pos != npos && pos+1 < v[Idx::modifier].size())
+                   ? v[Idx::modifier].substr(pos+1)
+                   : std::string{};
+          if (!modifier.empty()) {
+            pos = modifier.find_first_not_of(" ");
+            modifier = (pos != npos) ? modifier.substr(pos) : std::string{};
+          }
+        }
+        else {
+          auto m = std::string_view{modifier};
+          for (const auto& [unit, factor]: VolUnitMap) {
+            if (m.starts_with(unit)) {
+              ml = val * factor;
+              val = 0.0f;
+              m.remove_prefix(unit.size());
+              if (!m.empty() && m[0] == ',')
+                m.remove_prefix(1);
+              auto pos = m.find_first_not_of(" ");
+              if (pos != std::string_view::npos)
+                m.remove_prefix(pos);
+              modifier = std::string(m);
+              break;
+            }
+          }
+        }
       }
       if (val != 0.0f && val != 1.0f)
         desc << val << 'x';
       if (!v[Idx::desc].empty()) {
         auto d = std::string_view{v[Idx::desc]};
-        if (amount.empty() && ml == 0.0f) {
-	  float value = 1.0f;
-	  if (std::isdigit(d[0])) {
-	    std::size_t pos = 0;
-	    value = std::stof(v[Idx::desc], &pos);
-	    pos = d.find_first_not_of(" ", pos);
-	    if (pos != std::string_view::npos)
-	      d.remove_prefix(pos);
-	  }
-	  for (const auto& [unit, factor]: FactorMap) {
-	    if (d.starts_with(unit)) {
-	      ml = value * factor;
-	      d.remove_prefix(unit.size());
-	      if (!d.empty() && d[0] == ',')
-	        d.remove_prefix(1);
-	      auto pos = d.find_first_not_of(" ");
-	      if (pos != std::string_view::npos)
-	        d.remove_prefix(pos);
-	      break;
-	    }
-	  }
-	  if (ml == 0.0f)
-	    d = std::string_view{v[Idx::desc]};
-	}
+        if (amount.empty() && is_eq_zero(ml)) {
+          float value = 1.0f;
+          if (std::isdigit(d[0])) {
+            std::size_t pos = 0;
+            value = std::stof(v[Idx::desc], &pos);
+            pos = d.find_first_not_of(" ", pos);
+            if (pos != std::string_view::npos)
+              d.remove_prefix(pos);
+          }
+          for (const auto& [unit, factor]: VolUnitMap) {
+            if (d.starts_with(unit)) {
+              ml = value * factor;
+              d.remove_prefix(unit.size());
+              if (!d.empty() && d[0] == ',')
+                d.remove_prefix(1);
+              auto pos = d.find_first_not_of(" ");
+              if (pos != std::string_view::npos)
+                d.remove_prefix(pos);
+              break;
+            }
+          }
+          if (is_eq_zero(ml))
+            d = std::string_view{v[Idx::desc]};
+        }
         if (!desc.str().empty())
-	  desc << ' ';
-	desc << d;
+          desc << ' ';
+        desc << d;
       }
       std::string comment;
       if (!modifier.empty()) {
         std::smatch m;
         static const std::regex e{"\\(.*\\)"};
-	if (std::regex_search(modifier, m, e)) {
-	  static const std::regex e1{" *$"};
-	  auto pfx = std::regex_replace(m.prefix().str(), e1, "");
-	  static const std::regex e2{"^ *"};
-	  auto sfx = std::regex_replace(m.suffix().str(), e2, "");
-	  comment = modifier.substr(m.position(0)+1, m.length(0)-2);
-	  modifier = pfx;
-	  if (!sfx.empty())
-	    modifier += " " + sfx;
-	}
+        if (std::regex_search(modifier, m, e)) {
+          static const std::regex e1{" *$"};
+          auto pfx = std::regex_replace(m.prefix().str(), e1, "");
+          static const std::regex e2{"^ *"};
+          auto sfx = std::regex_replace(m.suffix().str(), e2, "");
+          comment = modifier.substr(m.position(0)+1, m.length(0)-2);
+          modifier = pfx;
+          if (!sfx.empty())
+            modifier += " " + sfx;
+        }
       }
       if (!modifier.empty()) {
         if (!desc.str().empty())
-	  desc << ' ';
-	desc << modifier;
+          desc << ' ';
+        desc << modifier;
       }
-      constexpr auto GramsPerOz = 28.34952f;
-      constexpr auto GramsPerLb = 16 * GramsPerOz;
-      if (ml == 0.0f) {
-        if (desc.str() == "oz" && std::abs(g-GramsPerOz)/GramsPerOz < 0.02)
-	  continue;
-	if (desc.str() == "lb" && std::abs(g-GramsPerLb)/GramsPerLb < 0.02)
-	  continue;
-	std::smatch m;
-	static const std::regex e{"([0-9.]+)x (oz|lb)"};
-	auto str = desc.str();
-	if (std::regex_match(str, m, e)) {
-	  auto valstr = m.str(1);
-	  float v = To<float>(m.str(1));
-	  if (v != 0.0f) {
-	    auto expect = v * ((m[2] == "oz") ? GramsPerOz : GramsPerLb);
-	    if (std::abs(g - expect) / expect < 0.02)
-	      continue;
-	  }
-	}
+      constexpr quantity OneOz = (1.0f * usc::ounce).in(gram);
+      constexpr quantity OneLb = (1.0f * usc::pound).in(gram);
+      if (is_eq_zero(ml)) {
+        if (desc.str() == "oz" && abs(g-OneOz)/OneOz < 0.02)
+          continue;
+        if (desc.str() == "lb" && abs(g-OneLb)/OneLb < 0.02)
+          continue;
+        std::smatch m;
+        static const std::regex e{"([0-9.]+)x (oz|lb)"};
+        auto str = desc.str();
+        if (std::regex_match(str, m, e)) {
+          auto valstr = m.str(1);
+          float v = To<float>(m.str(1));
+          if (v != 0.0f) {
+            auto expect = v * ((m[2] == "oz") ? OneOz : OneLb);
+            if (abs(g - expect) / expect < 0.02)
+              continue;
+          }
+        }
       }
       using std::setw;
+      using mp_units::si::gram;
+      using mp_units::si::millilitre;
       output << setw(6) << fdc_id
-	     << '\t' << setw(6) << g
-             << '\t' << setw(6) << ml
-	     << '\t' << desc.str()
-	     << '\t' << comment
-	     << '\n';
+             << '\t' << setw(6) << g.numerical_value_in(gram)
+             << '\t' << setw(6) << ml.numerical_value_in(millilitre)
+             << '\t' << desc.str()
+             << '\t' << comment
+             << '\n';
       ++count;
     }
     std::cout << "Wrote " << count << " portions to " << outname << ".\n";

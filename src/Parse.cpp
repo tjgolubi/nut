@@ -64,7 +64,7 @@ public:
 } // local
 
 void Parse(const std::string& line, std::vector<std::string>& row,
-	   const char sep, const char quote, const char escape)
+           const char sep, const char quote, const char escape)
 {
   if (line.empty()) {
     row.clear();
@@ -81,15 +81,15 @@ void Parse(const std::string& line, std::vector<std::string>& row,
     if (*it == quote) {
       ++it;
       while (it != line.end()) {
-	if (*it == escape) {
-	  if (++it == line.end())
-	    break;
-	}
+        if (*it == escape) {
+          if (++it == line.end())
+            break;
+        }
         else if (*it == quote) {
           break;
-	}
+        }
         col->push_back(*it);
-	++it;
+        ++it;
       }
       if (it == line.end() || *it != quote)
         throw std::runtime_error{"Parse: missing quote"};
@@ -99,7 +99,7 @@ void Parse(const std::string& line, std::vector<std::string>& row,
     else {
       while (it != line.end() && *it != sep) {
         col->push_back(*it);
-	++it;
+        ++it;
       }
     }
     RemoveTabs(*col);
@@ -107,7 +107,7 @@ void Parse(const std::string& line, std::vector<std::string>& row,
       auto changed = true;
       while (changed) {
         changed = TrimSpaces(*col);
-	changed = TrimQuotes(*col) || changed;
+        changed = TrimQuotes(*col) || changed;
       }
     }
     RemoveExcessQuotes(*col);

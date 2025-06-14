@@ -1,31 +1,30 @@
 .ONESHELL:
 
-GSL=$(HOME)/App/GSL
-UNITS=$(HOME)/App/mp-units/src
+APP=$(abspath $(HOME)/App)
+GSL=$(APP)/GSL
+UNITS=$(APP)/mp-units/src
 
-INCL=$(UNITS)/core/include $(UNITS)/systems/include $(GSL)/include
-STD=c++23
+INCL=$(addsuffix /include, $(UNITS)/core $(UNITS)/systems $(GSL))
+
 BIN=$(abspath $(HOME)/bin)
 
-OPT=
-
-GPP=g++ -std=$(STD) $(OPT) $(addprefix -I, $(INCL))
+GPP=g++ -std=c++23 $(addprefix -I, $(INCL)) -o $@
 
 .PHONY: all clean scour install uninstall
 
 all: nut.exe digest.exe barf.exe lookup.exe
 
 nut.exe: nut.cpp Nutrition.h
-	$(GPP) nut.cpp -o $@
+	$(GPP) nut.cpp
 
 digest.exe: digest.cpp Atwater.cpp Atwater.h To.h Nutrition.h
-	$(GPP) digest.cpp Atwater.cpp Nutrition.cpp -o $@
+	$(GPP) digest.cpp Atwater.cpp Nutrition.cpp
 
 barf.exe: barf.cpp Nutrition.cpp Nutrition.h
-	$(GPP) barf.cpp Nutrition.cpp -o $@
+	$(GPP) barf.cpp Nutrition.cpp
 
 lookup.exe: lookup.cpp Atwater.cpp Atwater.h To.h Parse.h
-	$(GPP) lookup.cpp Atwater.cpp -o $@
+	$(GPP) lookup.cpp Atwater.cpp
 
 clean:
 

@@ -17,7 +17,7 @@ int main(int argc, const char* const argv[]) {
     if (argc == 1) {
       gsl::czstring dir = std::getenv("INGRED_PATH");
       if (!dir)
-	throw std::runtime_error{"INGRED_PATH not set"};
+        throw std::runtime_error{"INGRED_PATH not set"};
       ingred_dat = dir + std::string{"/ingred.dat"};
     }
     const auto input_file = (argc == 1) ? ingred_dat : std::string{argv[1]}; 
@@ -39,7 +39,7 @@ int main(int argc, const char* const argv[]) {
 
     for (auto const& [x, y]: v) {
       std::cout << std::left << std::setw(w) << x << std::right
-	  << ' ' << y << '\n';
+          << ' ' << y << '\n';
     }
 
     return EXIT_SUCCESS;

@@ -11,23 +11,23 @@ vpath food.txt $(DB)
 APP=$(abspath $(HOME)/App)
 GSL=$(APP)/GSL
 UNITS=$(APP)/mp-units/src
-INCL=$(addprefix -I, $(addsuffix /include, $(GSL) $(UNITS)/core $(UNITS)/systems))
-STD=c++23
 
-OPT=
+INCL=$(addsuffix /include, $(GSL) $(UNITS)/core $(UNITS)/systems)
+
+GPP=g++ -std=c++23 $(addprefix -I, $(INCL)) -o $@
 
 .PHONY: all clean scour unzip
 
 all: usda_foods.tsv usda_portions.tsv food.txt
 
 tabulate.exe: tabulate.cpp $(SRC)/Atwater.cpp $(SRC)/Atwater.h $(SRC)/Parse.h $(SRC)/To.h
-	g++ -std=$(STD) $(OPT) $(INCL) tabulate.cpp $(SRC)/Atwater.cpp -o tabulate.exe
+	$(GPP) tabulate.cpp $(SRC)/Atwater.cpp
 
 CsvToTsv.exe: CsvToTsv.cpp $(SRC)/Parse.cpp $(SRC)/Parse.h
-	g++ -std=$(STD) $(OPT) $(INCL) CsvToTsv.cpp $(SRC)/Parse.cpp -o CsvToTsv.exe
+	$(GPP) CsvToTsv.cpp $(SRC)/Parse.cpp
 
 TxtToTsv.exe: TxtToTsv.cpp Parse.cpp Parse.h
-	g++ -std=$(STD) $(OPT) $(INCL) TxtToTsv.cpp $(SRC)/Parse.cpp -o TxtToTsv.exe
+	$(GPP) TxtToTsv.cpp $(SRC)/Parse.cpp
 
 clean:
 

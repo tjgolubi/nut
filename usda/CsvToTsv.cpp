@@ -44,16 +44,16 @@ void ConvertFile(std::istream& input, std::ostream& output,
       ParseCsv(line, row);
       if (row.size() > numCols) {
         for (auto i = row.size() - 1; i != numCols; --i) {
-	  if (!row[i].empty()) {
-	    std::cerr << '(' << linenum << ") too many columns\n";
-	    break;
-	  }
-	}
+          if (!row[i].empty()) {
+            std::cerr << '(' << linenum << ") too many columns\n";
+            break;
+          }
+        }
       }
       row.resize(numCols);
       for (int i = 0; i != numCols; ++i) {
         if (row[i].empty())
-	  ++empty[i];
+          ++empty[i];
       }
       Print(output, row);
     }
