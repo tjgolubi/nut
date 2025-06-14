@@ -11,7 +11,7 @@
 
 namespace rng = std::ranges;
 
-using namespace mp_units;
+using namespace tjg::units;
 
 #if defined(_LIBCPP_CLANG_VER) && (_LIBCPP_CLANG_VER <= 1700)
 namespace std::ranges {
@@ -25,7 +25,7 @@ constexpr bool contains(const R& r, const auto& x)
 
 Nutrition::Energy Atwater::energy(const Nutrition& nutr) const {
   auto rval = prot * nutr.prot + fat * nutr.fat + alcohol * nutr.alcohol;;
-  if (fiber == 0.0f * Factor)
+  if (fiber == 0.0f * atwater)
     return rval + carb * nutr.carb;
   return rval + carb * (nutr.carb - nutr.fiber) + fiber * nutr.fiber;
 }  // energy
@@ -127,11 +127,11 @@ static const SynMap Synonyms = {
 std::string Atwater::values_str(std::string_view delim) const {
   std::ostringstream oss;
   oss << std::fixed << std::setprecision(2);
-  oss << prot.numerical_value_in(Factor)
-    << delim << fat.numerical_value_in(Factor)
-    << delim << carb.numerical_value_in(Factor);
-  if (fiber != 0.0f * Factor)
-    oss << delim << fiber.numerical_value_in(Factor);
+  oss << prot.numerical_value_in(atwater)
+    << delim << fat.numerical_value_in(atwater)
+    << delim << carb.numerical_value_in(atwater);
+  if (fiber != 0.0f * atwater)
+    oss << delim << fiber.numerical_value_in(atwater);
   return oss.str();
 } // values_str
 
@@ -170,7 +170,7 @@ Atwater::Atwater(const std::string_view& str) {
     auto x = To<float>(v);
     if (iter == std::end(m))
       throw error;
-    **iter = x * Factor;
+    **iter = x * atwater;
     ++iter;
   }
 } // ctor(string_view)

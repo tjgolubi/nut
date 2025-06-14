@@ -8,7 +8,10 @@ vpath usda_foods.tsv $(DB)
 vpath usda_portions.tsv $(DB)
 vpath food.txt $(DB)
 
-INCL=$(abspath $(HOME)/App/GSL/include)
+APP=$(abspath $(HOME)/App)
+GSL=$(APP)/GSL
+UNITS=$(APP)/mp-units/src
+INCL=$(addprefix -I, $(addsuffix /include, $(GSL) $(UNITS)/core $(UNITS)/systems))
 STD=c++23
 
 OPT=
@@ -18,13 +21,13 @@ OPT=
 all: usda_foods.tsv usda_portions.tsv food.txt
 
 tabulate.exe: tabulate.cpp $(SRC)/Atwater.cpp $(SRC)/Atwater.h $(SRC)/Parse.h $(SRC)/To.h
-	g++ -I $(INCL) -std=$(STD) $(OPT) tabulate.cpp $(SRC)/Atwater.cpp -o tabulate.exe
+	g++ -std=$(STD) $(OPT) $(INCL) tabulate.cpp $(SRC)/Atwater.cpp -o tabulate.exe
 
 CsvToTsv.exe: CsvToTsv.cpp $(SRC)/Parse.cpp $(SRC)/Parse.h
-	g++ -I $(INCL) -std=$(STD) $(OPT) CsvToTsv.cpp $(SRC)/Parse.cpp -o CsvToTsv.exe
+	g++ -std=$(STD) $(OPT) $(INCL) CsvToTsv.cpp $(SRC)/Parse.cpp -o CsvToTsv.exe
 
 TxtToTsv.exe: TxtToTsv.cpp Parse.cpp Parse.h
-	g++ -I $(INCL) -std=$(STD) $(OPT) TxtToTsv.cpp $(SRC)/Parse.cpp -o TxtToTsv.exe
+	g++ -std=$(STD) $(OPT) $(INCL) TxtToTsv.cpp $(SRC)/Parse.cpp -o TxtToTsv.exe
 
 clean:
 
