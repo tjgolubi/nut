@@ -1,6 +1,4 @@
 // Copyright 2023 Terry Golubiewski, all rights reserved.
-#ifndef ATWATER_H
-#define ATWATER_H
 #pragma once
 
 #include <gsl/gsl>
@@ -46,5 +44,3 @@ struct Atwater {
 
 std::ostream& operator<<(std::ostream& os, const Atwater& atw);
 std::istream& operator>>(std::istream& is, Atwater& atw);
-
-#endif

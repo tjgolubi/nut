@@ -1,5 +1,3 @@
-#ifndef TJG_PRINTFIELDS_H
-#define TJG_PRINTFIELDS_H
 #pragma once
 
 #include <ranges>
@@ -244,5 +242,3 @@ void PrintlnFields(const std::string_view sep, const Args&... args) {
 }
 
 } // tjg
-
-#endif

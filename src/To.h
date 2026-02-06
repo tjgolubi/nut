@@ -1,5 +1,3 @@
-#ifndef TO_H
-#define TO_H
 #pragma once
 
 #include <gsl/gsl>
@@ -87,5 +85,3 @@ template<typename T>
 requires (std::is_arithmetic_v<T>)
 constexpr auto To(gsl::czstring str) -> T
 { return To<T>(std::string_view{str, str + std::strlen(str)}); }
-
-#endif

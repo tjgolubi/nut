@@ -1,6 +1,4 @@
 // Copyright 2023-2024 Terry Golubiewski, all rights reserved.
-#ifndef PARSE_H
-#define PARSE_H
 #pragma once
 
 #include <gsl/gsl>
@@ -102,5 +100,3 @@ void CheckHeadings(const ParseVec<Idx>& v,
       throw std::runtime_error{"Invalid column headings"};
   }
 } // CheckHeadings
-
-#endif

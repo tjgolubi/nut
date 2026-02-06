@@ -1,6 +1,4 @@
 // Copyright 2023-2025 Terry Golubiewski, all rights reserved.
-#ifndef NUTRITION_H
-#define NUTRITION_H
 #pragma once
 
 #include <mp-units/systems/isq/thermodynamics.h>
@@ -98,5 +96,3 @@ struct Nutrition {
 
 std::ostream& operator<<(std::ostream& output, const Nutrition& nutr);
 std::istream& operator>>(std::istream& input, Nutrition& nutr);
-
-#endif
