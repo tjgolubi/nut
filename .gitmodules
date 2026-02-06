@@ -1,0 +1,6 @@
+[submodule "ext/mp-units"]
+	path = ext/mp-units
+	url = https://github.com/mpusz/mp-units.git
+[submodule "ext/GSL"]
+	path = ext/GSL
+	url = https://github.com/microsoft/GSL.git

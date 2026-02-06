@@ -8190,16 +8190,41 @@ fdc_id	kcal	prot	fat	carb	fiber	alc	atwater	desc
 2727574	146.16	21.98	5.71	0.22	0.00	0.00	4.27,9.02,3.87	Beef, top sirloin steak, raw
 2727575	144.62	22.81	5.47	-0.56	0.00	0.00	4.27,9.02,3.87	Pork, chop, center cut, raw
 2727576	385.36	15.20	35.83	-0.70	0.00	0.00	4.27,9.02,3.87	Pork, belly, with skin, raw
-2727577	0.00	1.15	0.00	0.00	0.00	0.00	3.36,8.37,3.6	Pawpaw, peeled, seeded, raw
-2727578	0.00	0.85	0.00	0.00	0.00	0.00	2.44,8.37,3.57	Squash, pie pumpkin, peeled, seeded, raw
-2727579	0.00	0.79	0.00	0.00	0.00	0.00	2.44,8.37,3.57	Squash, spaghetti, peeled, seeded, raw
-2727580	0.00	0.89	0.00	0.00	0.00	0.00	2.78,8.37,3.84	Rutabaga, peeled, raw
-2727581	0.00	1.53	0.00	0.00	0.00	0.00	3.36,8.37,3.6	Blackberries, raw
-2727582	0.00	1.06	0.00	0.00	0.00	0.00	2.44,8.37,3.57	Tomatillos, dehusked, raw
-2727583	0.00	1.06	0.00	0.00	0.00	0.00	2.44,8.37,3.7	Cabbage, napa, leaf, destemmed, raw
-2727584	0.00	1.47	0.00	0.00	0.00	0.00	2.78,8.37,3.84	Leeks, bulb and greens, root removed, raw
-2727585	0.00	0.67	0.00	0.00	0.00	0.00	2.44,8.37,3.57	Green onion, (scallion), bulb and greens, root removed, raw
-2727586	0.00	1.38	0.00	0.00	0.00	0.00	2.78,8.37,3.84	Shallots, bulb, peeled, root removed, raw
+2727577	0.00	1.15	0.00	0.00	3.30	0.00	3.36,8.37,3.6	Pawpaw, peeled, seeded, raw
+2727578	0.00	0.85	0.00	0.00	2.30	0.00	2.44,8.37,3.57	Squash, pie pumpkin, peeled, seeded, raw
+2727579	0.00	0.79	0.00	0.00	1.40	0.00	2.44,8.37,3.57	Squash, spaghetti, peeled, seeded, raw
+2727580	0.00	0.89	0.00	0.00	2.90	0.00	2.78,8.37,3.84	Rutabaga, peeled, raw
+2727581	0.00	1.53	0.00	0.00	5.30	0.00	3.36,8.37,3.6	Blackberries, raw
+2727582	0.00	1.06	0.00	0.00	1.70	0.00	2.44,8.37,3.57	Tomatillos, dehusked, raw
+2727583	0.00	1.06	0.00	0.00	1.20	0.00	2.44,8.37,3.7	Cabbage, napa, leaf, destemmed, raw
+2727584	0.00	1.47	0.00	0.00	3.00	0.00	2.78,8.37,3.84	Leeks, bulb and greens, root removed, raw
+2727585	0.00	0.67	0.00	0.00	2.30	0.00	2.44,8.37,3.57	Green onion, (scallion), bulb and greens, root removed, raw
+2727586	0.00	1.38	0.00	0.00	2.20	0.00	2.78,8.37,3.84	Shallots, bulb, peeled, root removed, raw
 2727587	0.00	0.42	0.00	0.00	0.00	0.00	3.36,8.37,3.92	Juice, prune, shelf-stable
 2727588	0.00	0.00	0.00	0.00	0.00	0.00	3.36,8.37,3.92	Juice, pomegranate, from concentrate, shelf-stable
 2727589	0.00	0.15	0.00	0.00	0.00	0.00	3.36,8.37,3.92	Juice, tart cherry, from concentrate, shelf-stable
+2747652	206.07	26.94	9.85	2.41	0.00	0.00	4.0,9.0,4.0	Anchovies, canned in olive oil, with salt, drained
+2747653	26.37	1.61	0.14	4.66	2.58	0.00	4.0,9.0,4.0	Beet greens, raw
+2747654	60.84	14.20	0.22	0.52	0.00	0.00	4.0,9.0,4.0	Cod, Pacific or Alaskan, frozen, wild caught
+2747655	26.89	0.92	0.14	5.49	2.05	0.00	4.0,9.0,4.0	Fennel, bulb, raw
+2747656	81.33	19.06	0.59	-0.06	0.00	0.00	4.0,9.0,4.0	Halibut, frozen, wild caught
+2747657	58.82	12.99	0.37	0.89	0.00	0.00	4.0,9.0,4.0	Lobster, tail only, frozen, wild caught
+2747658	83.71	19.79	0.38	0.29	0.00	0.00	4.0,9.0,4.0	Mahi mahi, frozen, wild caught
+2747659	87.07	1.27	0.54	19.29	5.35	0.00	4.0,9.0,4.0	Parsnips, raw
+2747660	23.94	0.72	0.13	4.97	1.79	0.00	4.0,9.0,4.0	Peppers, banana or Hungarian wax, seeded, raw
+2747661	24.13	0.62	0.15	5.08	1.73	0.00	4.0,9.0,4.0	Peppers, jalapeno, seeded, raw
+2747662	27.99	1.43	0.19	5.14	2.07	0.00	4.0,9.0,4.0	Peppers, poblano, seeded, raw
+2747663	29.23	0.86	0.14	6.14	2.52	0.00	4.0,9.0,4.0	Peppers, serrano, seeded, raw
+2747664	26.37	1.31	0.14	4.96	2.11	0.00	4.0,9.0,4.0	Radicchio, raw
+2747665	19.60	0.66	0.08	4.06	1.31	0.00	4.0,9.0,4.0	Radishes, red, raw
+2747666	78.46	16.39	0.42	2.28	0.00	0.00	4.0,9.0,4.0	Scallops, bay, Patagonian, frozen, wild caught
+2747667	66.35	13.51	0.49	1.97	0.00	0.00	4.0,9.0,4.0	Scallops, sea, frozen, wild caught
+2747668	209.39	14.93	16.57	0.14	0.00	0.00	4.0,9.0,4.0	Sea bass, Chilean, frozen, wild caught
+2747669	89.54	20.66	0.57	0.44	0.00	0.00	4.0,9.0,4.0	Snapper, frozen, wild caught
+2747670	69.22	15.54	0.29	1.11	0.00	0.00	4.0,9.0,4.0	Snow crab, legs only, frozen
+2747671	43.91	8.81	0.55	0.93	0.00	0.00	4.0,9.0,4.0	Squid (calamari), frozen, tubes only
+2747672	151.85	19.24	8.12	0.45	0.00	0.00	4.0,9.0,4.0	Swordfish, frozen, wild caught
+2747673	101.87	24.70	0.39	-0.10	0.00	0.00	4.0,9.0,4.0	Tuna, ahi or yellowfin, frozen, wild caught
+2747674	33.98	0.95	0.12	7.27	1.91	0.00	4.0,9.0,4.0	Turnips, raw
+2747675	0.00	0.87	0.00	0.00	0.00	0.00	4.0,9.0,4.0	Watermelon, seedless, flesh only, raw
+2747676	23.90	0.53	0.97	3.27	1.53	0.00	4.0,9.0,4.0	Watermelon, seedless, rind only, raw

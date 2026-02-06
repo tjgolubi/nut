@@ -1,8 +1,12 @@
-// Copyright 2023-2024 Terry Golubiewski, all rights reserved.
+// Copyright 2023-2025 Terry Golubiewski, all rights reserved.
 
 #include "Atwater.h"
 #include "To.h"
 #include "Parse.h"
+
+#include <mp-units/systems/si.h>
+#include <mp-units/systems/usc.h>
+#include <mp-units/math.h>
 
 #include <system_error>
 #include <ranges>
@@ -34,7 +38,7 @@ constexpr auto Round(float x) -> float
 auto ToStr(float x) {
   std::array<char, 16> buf;
   auto [ptr, ec] = std::to_chars(buf.data(), buf.data() + buf.size(), x,
-				 std::chars_format::fixed, 2);
+                                 std::chars_format::fixed, 2);
   if (ec != std::errc())
     throw std::system_error(std::make_error_code(ec));
   return std::string(buf.data(), ptr);
@@ -65,14 +69,16 @@ std::istream& operator>>(std::istream& is, FdcId& id) {
 } // >> FdcId
 
 struct Ingred {
+  using Energy = mp_units::quantity<mp_units::si::kilocalorie, float>;
+  using Weight = mp_units::quantity<mp_units::si::gram  , float>;
   FdcId id;
   std::string desc;
-  float kcal    = 0.0f;
-  float protein = 0.0f;
-  float fat     = 0.0f;
-  float carb    = 0.0f;
-  float fiber   = 0.0f;
-  float alcohol = 0.0f;
+  Energy energy;
+  Weight protein;
+  Weight fat;
+  Weight carb;
+  Weight fiber;
+  Weight alcohol;
   Atwater atwater;
   friend auto operator<=>(const Ingred&, const Ingred&) = default;
 }; // Ingred
@@ -80,13 +86,14 @@ struct Ingred {
 std::ostream& operator<<(std::ostream& os, const Ingred& f) {
   std::ostringstream ostr;
   using namespace std;
-  ostr << setw(5) << Round(f.kcal)
+  using namespace mp_units::si;
+  ostr << setw(5) << Round(f.energy.numerical_value_in(kilocalorie))
        << fixed << setprecision(2)
-       << ' ' << setw(6) << f.protein
-       << ' ' << setw(6) << f.fat
-       << ' ' << setw(6) << f.carb
-       << ' ' << setw(6) << f.fiber
-       << ' ' << setw(6) << f.alcohol
+       << ' ' << setw(6) << f.protein.numerical_value_in(gram)
+       << ' ' << setw(6) << f.fat.numerical_value_in(gram)
+       << ' ' << setw(6) << f.carb.numerical_value_in(gram)
+       << ' ' << setw(6) << f.fiber.numerical_value_in(gram)
+       << ' ' << setw(6) << f.alcohol.numerical_value_in(gram)
        << ' ' << f.atwater
        << ' ' << f.desc;
   return os << ostr.str();
@@ -96,23 +103,24 @@ class OutIngred {
   const Ingred& ingred;
 public:
   explicit OutIngred(const Ingred& ing_) : ingred{ing_} {
-    if (ingred.alcohol != 0.0f && ingred.fiber != 0.0f) {
+    if (is_neq_zero(ingred.alcohol) && is_neq_zero(ingred.fiber)) {
       throw std::runtime_error{
-	  std::to_string(ingred.id) + " invalid alcohol/fiber"};
+          std::to_string(ingred.id) + " invalid alcohol/fiber"};
     }
   }
   friend std::ostream& operator<<(std::ostream& os, const OutIngred& out) {
     std::ostringstream ostr;
     using namespace std;
+    using namespace mp_units::si;
     const auto& f = out.ingred;
-    auto x = (f.alcohol == 0.0f) ? f.fiber : -f.alcohol;
-    ostr << setw(5) << Round(f.kcal)
-	 << fixed << setprecision(2)
-	 << ' ' << setw(6) << f.protein
-	 << ' ' << setw(6) << f.fat
-	 << ' ' << setw(6) << f.carb
-	 << ' ' << setw(6) << x
-	 << ' ' << f.desc;
+    auto x = is_eq_zero(f.alcohol) ? f.fiber : -f.alcohol;
+    ostr << setw(5) << Round(f.energy.numerical_value_in(kilocalorie))
+         << fixed << setprecision(2)
+         << ' ' << setw(6) << f.protein.numerical_value_in(gram)
+         << ' ' << setw(6) << f.fat.numerical_value_in(gram)
+         << ' ' << setw(6) << f.carb.numerical_value_in(gram)
+         << ' ' << setw(6) << x.numerical_value_in(gram)
+         << ' ' << f.desc;
     return os << ostr.str();
   } // << OutIngred
 }; // OutIngred
@@ -161,7 +169,6 @@ void LoadNutrients(std::vector<Ingred>& foods) {
   ParseTsv(v, line);
   CheckHeadings(v, headings);
   int linenum = 1;
-  int found = 0;
   while (std::getline(db, line)) {
     try {
       ++linenum;
@@ -169,16 +176,16 @@ void LoadNutrients(std::vector<Ingred>& foods) {
       auto fdc_id = FdcId{To<int>(v[Idx::fdc_id])};
       auto food = food_map.find(fdc_id);
       if (food == food_map.end())
-	continue;
-      ++found;
+        continue;
       auto ingred = food->second;
+      using namespace mp_units::si;
       ingred->id      = fdc_id;
-      ingred->kcal    = To<float>(v[Idx::kcal]);
-      ingred->protein = To<float>(v[Idx::prot]);
-      ingred->fat     = To<float>(v[Idx::fat]);
-      ingred->carb    = To<float>(v[Idx::carb]);
-      ingred->fiber   = To<float>(v[Idx::fiber]);
-      ingred->alcohol = To<float>(v[Idx::alc]);
+      ingred->energy  = To<float>(v[Idx::kcal])  * kilocalorie;
+      ingred->protein = To<float>(v[Idx::prot])  * gram;
+      ingred->fat     = To<float>(v[Idx::fat])   * gram;
+      ingred->carb    = To<float>(v[Idx::carb])  * gram;
+      ingred->fiber   = To<float>(v[Idx::fiber]) * gram;
+      ingred->alcohol = To<float>(v[Idx::alc])   * gram;
       ingred->atwater = Atwater{v[Idx::atwater]};
       if (ingred->desc.empty())
         ingred->desc    = std::string(v[Idx::desc]);
@@ -190,21 +197,24 @@ void LoadNutrients(std::vector<Ingred>& foods) {
 } // LoadNutrients
 
 struct Portion {
+  using Wt  = mp_units::quantity<mp_units::si::gram, float>;
+  using Vol = mp_units::quantity<mp_units::si::millilitre, float>;
   FdcId id;
-  float g  = 0.0;
-  float ml = 0.0;
+  Wt  wt;
+  Vol vol;
   std::string desc;
   std::string comment;
-  Portion(FdcId id_, float g_, float ml_,
-	  std::string desc_, std::string comment_)
-    : id{id_}, g{g_}, ml{ml_}
+  Portion(FdcId id_, Wt wt_, Vol vol_,
+          std::string desc_, std::string comment_)
+    : id{id_}, wt{wt_}, vol{vol_}
     , desc{std::move(desc_)}, comment{std::move(comment_)}
     { }
   friend auto operator<=>(const Portion&, const Portion&) = default;
 }; // Portion
 
 std::ostream& operator<<(std::ostream& os, const Portion& p) {
-  return os << '{' << p.id << ' ' << p.g << ' ' << p.ml << ' ' << p.desc << '}';
+  os << '{' << p.id << ' ' << p.wt << ' ' << p.vol << ' ' << p.desc << '}';
+  return os;
 } // << Portion
 
 auto LoadPortions(const std::vector<Ingred>& foods)
@@ -236,14 +246,17 @@ auto LoadPortions(const std::vector<Ingred>& foods)
   int linenum = 1;
   while (std::getline(input, line)) {
     try {
+      using namespace mp_units::si;
       ++linenum;
       ParseTsv(v, line);
       auto fdc_id = FdcId{To<int>(v[Idx::fdc_id])};
       if (!rng::binary_search(fdc_ids, fdc_id))
-	continue;
-      rval.emplace_back(fdc_id, To<float>(v[Idx::g]), To<float>(v[Idx::ml]),
-			std::string{v[Idx::desc]},
-			std::string{v[Idx::comment]});
+        continue;
+      rval.emplace_back(fdc_id,
+                        To<float>(v[Idx::g])  * gram,
+                        To<float>(v[Idx::ml]) * millilitre,
+                        std::string{v[Idx::desc]},
+                        std::string{v[Idx::comment]});
     }
     catch (std::exception& x) {
       std::cerr << fname << '(' << linenum << ") " << x.what() << '\n';
@@ -255,20 +268,32 @@ auto LoadPortions(const std::vector<Ingred>& foods)
 
 class MlText {
 private:
-  static constexpr float Round(float x) {
-    return (std::abs(x) >= 100.0f) ? (std::round(x * 10) / 10)
-				   : (std::round(x * 100) / 100);
+  using Vol = mp_units::quantity<mp_units::si::millilitre, float>;
+  static constexpr auto Round(Vol x) {
+    using namespace mp_units::si;
+    auto v = x.numerical_value_in(millilitre);
+    v = (std::abs(v) >= 100.0f) ? (std::round(v * 10) / 10)
+                                : (std::round(v * 100) / 100);
+    return v * millilitre;
   }
-  std::map<float, std::string> dict;
+  std::map<Vol, std::string> dict;
 public:
   MlText() {
-    constexpr auto FlOz = 29.5735f;
-    constexpr auto Cup  = 8 * FlOz;
-    constexpr auto Tbsp = Cup / 16;
-    constexpr auto Tsp  = Tbsp / 3;
-    constexpr auto Pint = 2 * Cup;
-    constexpr auto Quart = 4 * Cup;
+    constexpr auto FlOz   = 1.0f * mp_units::usc::fluid_ounce;
+    constexpr auto Cup    = 1.0f * mp_units::usc::cup;
+    constexpr auto Tbsp   = 1.0f * mp_units::usc::tablespoon;
+    constexpr auto Tsp    = 1.0f * mp_units::usc::teaspoon;
+    constexpr auto Pint   = 1.0f * mp_units::usc::pint;
+    constexpr auto Quart  = 1.0f * mp_units::usc::quart;
+    constexpr auto Gallon = 1.0f * mp_units::usc::gallon;
+#if 0
+    constexpr auto Cup    = 8 * FlOz;
+    constexpr auto Tbsp   = Cup / 16;
+    constexpr auto Tsp    = Tbsp / 3;
+    constexpr auto Pint   = 2 * Cup;
+    constexpr auto Quart  = 4 * Cup;
     constexpr auto Gallon = 4 * Quart;
+#endif
     dict.emplace(Round(FlOz),   "FLOZ");
     dict.emplace(Round(Cup),    "CUP");
     dict.emplace(Round(Cup/2),  "HCUP");
@@ -285,11 +310,11 @@ public:
     for (int i = 2; i < 16; ++i)
       dict.emplace(Round(i * FlOz), std::to_string(i) + "FLOZ");
   }
-  std::string operator()(float x) const {
+  std::string operator()(Vol x) const {
     x = Round(x);
     if (auto iter = dict.find(x); iter != dict.end())
       return iter->second;
-    if (std::abs(x) < 0.05f)
+    if (mp_units::abs(x) < 0.05f * mp_units::si::millilitre)
       return "0";
     std::ostringstream oss;
     oss << x;
@@ -319,38 +344,40 @@ int main() {
     auto last_atwater = Atwater{0, 0, 0, 0};
     for (const auto& ingred: foods) {
       if (ingred.atwater != last_atwater) {
-	last_atwater = ingred.atwater;
-	output << '[' << last_atwater.str() << "]\n";
+        last_atwater = ingred.atwater;
+        output << '[' << last_atwater.str() << "]\n";
       }
       output << "   100     0 " << OutIngred(ingred)
-	     << " // usda " << ingred.id << '\n';
+             << " // usda " << ingred.id << '\n';
       {
-	auto r =
-	    rng::equal_range(portions, ingred.id, rng::less{}, &Portion::id);
+        auto r =
+            rng::equal_range(portions, ingred.id, rng::less{}, &Portion::id);
 
-	using std::setw, std::left, std::right, std::quoted;
+        using std::setw, std::left, std::right, std::quoted;
 
-	std::ostringstream ostr;
-	for (const auto& p: r) {
-	  ostr << ((p.ml == 0.0f) ? '*' : ' ') << setw(5) << Round(p.g)
-	       << ' ' << setw(5) << mlStr(p.ml)
-	       << ' ' << setw(5) << 0
-	       << ' ' << left << setw(27) << "this" << right;
-	  if (!p.desc.empty())
-	    ostr << ' ' << p.desc;
-	  ostr << " $this";
-	  if (!p.comment.empty())
-	    ostr << " // " << p.comment;
-	  ostr << '\n';
-	}
-	output << ostr.str();
+        std::ostringstream ostr;
+        for (const auto& p: r) {
+          using namespace mp_units::si;
+          ostr << (is_eq_zero(p.vol) ? '*' : ' ')
+               << setw(5) << Round(p.wt.numerical_value_in(gram))
+               << ' ' << setw(5) << mlStr(p.vol)
+               << ' ' << setw(5) << 0
+               << ' ' << left << setw(27) << "this" << right;
+          if (!p.desc.empty())
+            ostr << ' ' << p.desc;
+          ostr << " $this";
+          if (!p.comment.empty())
+            ostr << " // " << p.comment;
+          ostr << '\n';
+        }
+        output << ostr.str();
       }
     }
     return EXIT_SUCCESS;
   }
   catch (const std::ios::failure& fail) {
     std::cout << "ios::failure: " << fail.what()
-	<< "\n    error code = " << fail.code().message() << std::endl;
+        << "\n    error code = " << fail.code().message() << std::endl;
 
   }
   catch (const std::exception& x) {

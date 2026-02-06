@@ -23,6 +23,8 @@ std::ostream& Print(std::ostream& output, const std::vector<std::string>& row) {
   return output << '\n';
 } // Print
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wnarrowing"
 void ConvertFile(std::istream& input, std::ostream& output,
                  long long filesize=0)
 {
@@ -33,7 +35,7 @@ void ConvertFile(std::istream& input, std::ostream& output,
   int linenum = 1;
   int errCount = 0;
   ParseTxt(line, row);
-  const auto numCols = row.size();
+  const auto numCols = gsl::index{row.size()};
   if (numCols == 0)
     throw std::runtime_error{"ConvertFile: no column headings"};
   Print(output, row);
@@ -42,18 +44,18 @@ void ConvertFile(std::istream& input, std::ostream& output,
     try {
       ++linenum;
       ParseTxt(line, row);
-      if (row.size() > numCols) {
-        for (auto i = row.size() - 1; i != numCols; --i) {
-	  if (!row[i].empty()) {
-	    std::cerr << '(' << linenum << ") too many columns\n";
-	    break;
-	  }
-	}
+      if (gsl::index{row.size()} > numCols) {
+        for (auto i = gsl::index{row.size() - 1}; i != numCols; --i) {
+          if (!row[i].empty()) {
+            std::cerr << '(' << linenum << ") too many columns\n";
+            break;
+          }
+        }
       }
       row.resize(numCols);
-      for (int i = 0; i != numCols; ++i) {
+      for (gsl::index i = 0; i != numCols; ++i) {
         if (row[i].empty())
-	  ++empty[i];
+          ++empty[i];
       }
       Print(output, row);
     }
@@ -63,11 +65,12 @@ void ConvertFile(std::istream& input, std::ostream& output,
         return;
     }
   }
-  for (int i=0; i != numCols; ++i) {
+  for (gsl::index i=0; i != numCols; ++i) {
     if (empty[i] >= linenum)
       std::cerr << "********* Column " << i << " is always empty.\n";
   }
 } // ConvertFile
+#pragma GCC diagnostic pop
 
 void NewHandler() {
   std::set_new_handler(nullptr);

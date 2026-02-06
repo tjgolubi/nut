@@ -42,7 +42,9 @@ namespace std {
 
 template<typename T>
 requires (std::is_floating_point_v<T>)
-auto from_chars(const char* first, const char* last, T& x) -> from_chars_result {
+auto from_chars(const char* first, const char* last, T& x) noexcept
+    -> from_chars_result
+{
   char* ptr;
   auto y = T{};
   if constexpr (std::is_same_v<T, float>)

@@ -1,31 +1,52 @@
-.ONESHELL:
+# Copyright 2025 Terry Golubiewski, all rights reserved.
 
-INCL=$(abspath $(HOME)/App/GSL/include)
-STD=c++23
+export PROJDIR := $(abspath ..)
+SWDEV := $(PROJDIR)/SwDev
+include $(PROJDIR)/SwDev/project.mk
+
+TARGET1=$(PROJDIR)/lib/libNut$(COMPILER)$(DBGSFX).$A
+TARGET2=nut$(DBGSFX).$E
+TARGET3=digest$(DBGSFX).$E
+TARGET4=barf$(DBGSFX).$E
+TARGET5=lookup$(DBGSFX).$E
+TARGETS=$(TARGET1) $(TARGET2) $(TARGET3) $(TARGET4) $(TARGET5)
+
+SRC1 := Nutrition.cpp Atwater.cpp Nutrition.cpp Parse.cpp
+SRC2 := nut.cpp
+SRC3 := digest.cpp
+SRC4 := barf.cpp
+SRC5 := lookup.cpp
+SOURCE := $(SRC1) $(SRC2) $(SRC3) $(SRC4) $(SRC5)
+
+SYSINCL:=$(addsuffix /include, $(UNITS)/core $(UNITS)/systems $(GSL))
+INCLUDE:=$(PROJDIR)
+
+LIBS=$(TARGET1)
+
+include $(SWDEV)/$(COMPILER).mk
+include $(SWDEV)/build.mk
+
 BIN=$(abspath $(HOME)/bin)
 
-OPT=
+.ONESHELL:
 
 .PHONY: all clean scour install uninstall
 
-all: nut.exe digest.exe barf.exe lookup.exe
+all: $(TARGETS)
 
-nut.exe: nut.cpp Nutrition.h
-	g++ -I $(INCL) -std=$(STD) $(OPT) nut.cpp -o $@
+$(TARGET1): $(OBJ1)
 
-digest.exe: digest.cpp Atwater.cpp Atwater.h To.h Nutrition.h
-	g++ -I $(INCL) -std=$(STD) $(OPT) digest.cpp Atwater.cpp Nutrition.cpp -o $@
+$(TARGET2): $(OBJ2) $(LIBS)
+        $(LINK)
 
-barf.exe: barf.cpp Nutrition.cpp Nutrition.h
-	g++ -I $(INCL) -std=$(STD) $(OPT) barf.cpp Nutrition.cpp -o $@
+$(TARGET3): $(OBJ3) $(LIBS)
+        $(LINK)
 
-lookup.exe: lookup.cpp Atwater.cpp Atwater.h To.h Parse.h
-	g++ -I $(INCL) -std=$(STD) $(OPT) lookup.cpp Atwater.cpp -o $@
+$(TARGET4): $(OBJ4) $(LIBS)
+        $(LINK)
 
-clean:
-
-scour: clean
-	rm -f nut.exe digest.exe barf.exe lookup.exe
+$(TARGET5): $(OBJ5) $(LIBS)
+        $(LINK)
 
 $(BIN)/nut: nut.exe
 	ln --verbose --force --symbolic $(PWD)/$< $@

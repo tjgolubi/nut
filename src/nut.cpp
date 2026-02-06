@@ -1,6 +1,10 @@
-// Copyright 2023 Terry Golubiewski, all rights reserved.
+// Copyright 2023-2025 Terry Golubiewski, all rights reserved.
 
 #include "Nutrition.h"
+
+#include <mp-units/systems/usc.h>
+#include <mp-units/systems/usc.h>
+#include <mp-units/math.h>
 
 #include <gsl/gsl>
 
@@ -58,13 +62,14 @@ void ReadIngredients(NutrVec& ingredients) {
   Ingredient ingr;
   while (std::getline(input, ingr.name, '\0')) {
     input.read(reinterpret_cast<char*>(&ingr.nutr), sizeof(ingr.nutr));
-    ingr.nutr.fiber = std::max(0.0f, ingr.nutr.fiber); // remove alcohol
+    ingr.nutr.fiber = std::max(ingr.nutr.fiber, ingr.nutr.fiber.zero()); // remove alcohol
     ingredients.push_back(ingr);
   }
   if (!rng::is_sorted(ingredients))
     throw std::runtime_error(fname + " is not sorted"s);
 } // ReadIngredients
 
+[[nodiscard]]
 auto FindIngredient(const NutrVec& ingredients,
                     const std::string& name)
   -> std::optional<Nutrition>
@@ -79,8 +84,9 @@ auto FindIngredient(const NutrVec& ingredients,
   return i->nutr;
 } // FindIngredient
 
+[[nodiscard]]
 auto FindIngredientWithPlurals(const NutrVec& ingredients,
-			       std::string name)
+                               std::string name)
   -> std::optional<Nutrition>
 {
   auto nutr = FindIngredient(ingredients, name);
@@ -98,9 +104,11 @@ auto FindIngredientWithPlurals(const NutrVec& ingredients,
   return FindIngredient(ingredients, name);
 } // FindIngredientWithPlurals
 
+[[nodiscard]]
 unsigned char ToLower(unsigned char c) { return std::tolower(c); }
 
-std::string ToLower(const std::string& str) {
+[[nodiscard]]
+auto ToLower(const std::string& str) -> std::string {
   std::string result;
   result.reserve(str.size());
   auto to_lower = [](unsigned char c) -> unsigned char
@@ -118,18 +126,23 @@ void TrimTrailingWs(std::string& str) {
     str.erase(i);
 }
 
+[[nodiscard]]
 bool ContainsAny(const std::string& str1, const std::string& str2)
 { return (str1.find_first_of(str2) != std::string::npos); }
 
+[[nodiscard]]
 bool Contains(const std::string& str1, const std::string& str2)
 { return (str1.find(str2) != std::string::npos); }
 
+[[nodiscard]]
 bool Contains(const std::string& str1, gsl::czstring str2)
 { return (str1.find(str2) != std::string::npos); }
 
+[[nodiscard]]
 bool Contains(const std::string& str, char ch)
 { return (str.find(ch) != std::string::npos); }
 
+[[nodiscard]]
 bool Contains(gsl::czstring str, char ch)
 { return (std::strchr(str, ch) != nullptr); }
 
@@ -145,7 +158,8 @@ const std::map<std::string, std::string> FractionMap = {
   { "⅞", "7/8" }
 }; // FractionMap
 
-std::string SubstFraction(const std::string& str) {
+[[nodiscard]]
+auto SubstFraction(const std::string& str) -> std::string {
   if (str.empty())
     return str;
   for (const auto& s: FractionMap) {
@@ -156,7 +170,7 @@ std::string SubstFraction(const std::string& str) {
     if (i != 0) {
       rval = str.substr(0, i);
       if (std::isdigit(str[i-1]))
-	rval += ' ';
+        rval += ' ';
     }
     rval += s.second;
     i += s.first.size();
@@ -167,20 +181,21 @@ std::string SubstFraction(const std::string& str) {
   return str;
 } // SubstFraction
 
+[[nodiscard]]
 double Value(const std::string& arg) {
   if (arg.empty())
     return 0;
   auto str = SubstFraction(arg);
   if (Contains(str, '.') || !ContainsAny(str, "-/ ")) {
-    std::size_t pos = 0;
-    double rval = 0.0;
+    auto pos = std::size_t{0};
+    auto rval = 0.0;
     try { rval = std::stod(str, &pos); }
     catch (...) { return 0; }
     if (pos != str.size())
       return 0;
     return rval;
   }
-  std::istringstream iss(str);
+  auto iss = std::istringstream{str};
   int base = 0;
   iss >> base;
   if (!iss || base < 0)
@@ -191,8 +206,8 @@ double Value(const std::string& arg) {
       int den = 0;
       iss >> den;
       if (!iss || !iss.eof() || den <= base)
-	return 0;
-      return double(base) / den;
+        return 0;
+      return static_cast<double>(base) / den;
     }
     case ' ':
     case '-':
@@ -210,7 +225,7 @@ double Value(const std::string& arg) {
   iss >> den;
   if (!iss || den <= num || !iss.eof())
     return 0;
-  return base + double(num) / den;
+  return base + static_cast<double>(num) / den;
 } // Value
 
 const std::map<std::string, std::string> UnitSyn = {
@@ -245,6 +260,11 @@ const std::map<std::string, std::string> UnitSyn = {
   { "tsps",        "tsp"  }
 }; // UnitSyn
 
+using namespace mp_units;
+
+using Gram  = quantity<si::gram>;
+using Milliliter = quantity<Nutrition::millilitre>;
+
 auto FindUnit(const std::string& unit) {
   if (unit.empty())
     return std::string("ea");
@@ -255,62 +275,62 @@ auto FindUnit(const std::string& unit) {
 
 struct Volume {
   std::string unit;
-  double ml = 0;
+  Milliliter vol;
 };
 
 const std::vector<Volume> Volumes = {
-  { "ml",     1 },
-  { "l",   1000 },
-  { "tsp",    4.9289 },
-  { "tbsp",  14.7868 },
-  { "floz",  29.5735 },
-  { "shot",  44.3603 },
-  { "cup",  236.5882 },
-  { "pt",   473.1765 },
-  { "qt",   946.3529 },
-  { "gal", 3785.4118 }
+  { "ml",   1.0 * si::millilitre   },
+  { "l",    1.0 * si::litre        },
+  { "tsp",  1.0 * usc::teaspoon    },
+  { "tbsp", 1.0 * usc::tablespoon  },
+  { "floz", 1.0 * usc::fluid_ounce },
+  { "shot", 1.0 * usc::shot        },
+  { "cup",  1.0 * usc::cup         },
+  { "pt",   1.0 * usc::pint        },
+  { "qt",   1.0 * usc::quart       },
+  { "gal",  1.0 * usc::gallon      }
 }; // Volumes
 
 auto FindVolume(const std::string& unit) {
   for (auto& it : Volumes) {
     if (it.unit == unit)
-      return it.ml;
+      return it.vol;
   }
-  return 0.0;
+  return Milliliter::zero();
 } // FindVolume
 
 struct Weight {
   std::string unit;
-  double g = 0;
+  Gram wt;
 };
 
 const std::vector<Weight> Weights = {
-  { "g",     1 },
-  { "kg", 1000 },
-  { "oz",  28.3495 },
-  { "lb", 453.5924 }
+  { "g",  1.0 * si::gram     },
+  { "kg", 1.0 * si::kilogram },
+  { "oz", 1.0 * usc::ounce   },
+  { "lb", 1.0 * usc::pound   }
 }; // Weights
 
 auto FindWeight(const std::string& unit) {
   for (auto& it : Weights) {
     if (it.unit == unit)
-      return it.g;
+      return it.wt;
   }
-  return 0.0;
+  return Gram::zero();
 } // FindWeight
 
-auto Ratio(const Nutrition& nutr, const std::string& unit,
-	   double value, double volume, double weight)
+double Ratio(const Nutrition& nutr, const std::string& unit,
+             double value, Milliliter volume, Gram weight)
 {
-  if (unit == "ea" && nutr.g < 0.0)
+  if (unit == "ea" && is_lt_zero(nutr.wt))
     return value;
-  if (nutr.ml != 0) {
-    if (volume != 0.0)
-      return value * volume / nutr.ml;
+  if (is_neq_zero(nutr.vol)) {
+    if (is_neq_zero(volume))
+      return value * static_cast<double>(volume / nutr.vol);
   }
-  if (nutr.g != 0) {
-    if (weight != 0.0)
-      return value * weight / std::abs(nutr.g);
+  if (is_neq_zero(nutr.wt)) {
+    if (is_neq_zero(weight))
+      return value * static_cast<double>(weight / mp_units::abs(nutr.wt));
   }
   return 0.0;
 } // Ratio
@@ -328,8 +348,9 @@ struct Line {
   }
 }; // Line
 
-std::string MakeString(const Line& line) {
-  std::string rval = line.value;
+[[nodiscard]]
+auto MakeString(const Line& line) {
+  auto rval = std::string{line.value};
   if (!line.unit.empty())
     rval += " " + line.unit;
   if (!line.weight.empty())
@@ -342,9 +363,10 @@ std::string MakeString(const Line& line) {
 std::ostream& operator<<(std::ostream& os, const Line& line)
   { return os << MakeString(line); }
 
-Line Parse(const std::string& str) {
+[[nodiscard]]
+auto Parse(const std::string& str) -> Line {
   Line line;
-  std::istringstream input(str);
+  auto input = std::istringstream{str};
   input >> line.value;
   if (!input)
     return line;
@@ -354,17 +376,17 @@ Line Parse(const std::string& str) {
     if (!input)
       return line;
     if (!ContainsAny(line.value, ".-/")
-	&& !FractionMap.contains(line.value)
-	&& !line.unit.empty())
+        && !FractionMap.contains(line.value)
+        && !line.unit.empty())
     {
-      if (std::isdigit(line.unit[0]) && Contains(line.unit, '/')
-	|| FractionMap.contains(line.unit))
+      if ((std::isdigit(line.unit[0]) && Contains(line.unit, '/'))
+        || FractionMap.contains(line.unit))
       {
-	line.value += ' ';
-	line.value += line.unit;
-	input >> line.unit;
-	if (!input)
-	  return line;
+        line.value += ' ';
+        line.value += line.unit;
+        input >> line.unit;
+        if (!input)
+          return line;
       }
     }
     input >> std::ws;
@@ -379,7 +401,8 @@ Line Parse(const std::string& str) {
   return line;
 } // Parse
 
-void NewHandler() {
+[[noreturn]]
+void NewHandler() noexcept {
   std::set_new_handler(nullptr);
   std::cerr << "Out of memory!" << std::endl;
   std::terminate();
@@ -393,7 +416,7 @@ int main() {
     std::cout << "Read " << ingredients.size() << " ingredients." << std::endl;
 
     int servings = 0;
-    double cookedWeight = 0.0;
+    Gram cookedWeight;
     Line line;
     std::string buf;
     Nutrition total;
@@ -401,147 +424,147 @@ int main() {
     while (std::cin) {
       std::cin >> std::ws;
       if (std::cin.eof())
-	break;
+        break;
       if (std::cin.peek() == '#') {
         static const auto all = std::numeric_limits<std::streamsize>::max();
-	std::cin.ignore(all, '\n');
-	continue;
+        std::cin.ignore(all, '\n');
+        continue;
       }
       std::getline(std::cin, buf);
       Line line = Parse(buf);
       { // Process servings specification.
-	auto unit = ToLower(line.unit);
-	if (unit == "serving" || unit == "servings") {
-	  if (!line.name.empty() && line.name[0] != '#') {
-	    throw std::runtime_error(
-		"Invalid servings spec: " + MakeString(line));
-	  }
-	  if (servings != 0)
-	    throw std::runtime_error("Duplicate servings: " + MakeString(line));
-	  double s = std::stod(line.value);
-	  if (s < 1 || s > 100 || std::round(s) != s) {
-	    throw std::runtime_error(
-		"Invalid number of servings: " + MakeString(line));
-	  }
-	  double w = 0.0;
-	  if (!line.weight.empty()) {
-	    std::istringstream iss(line.weight);
-	    double v = 0.0;
-	    std::string u;
-	    iss >> v >> u;
-	    w = v * FindWeight(FindUnit(u));
-	    if (w <= 0.0) {
-	      throw std::runtime_error(
-		  "Invalid serving weight: " + MakeString(line));
-	    }
-	  }
-	  servings = gsl::narrow_cast<int>(s);
-	  cookedWeight = w;
-	  std::cout << "servings=" << servings;
-	  if (cookedWeight)
-	    std::cout << ", cooked weight=" << std::ceil(cookedWeight) << " g";
-	  std::cout << std::endl;
-	  continue;
-	}
+        auto unit = ToLower(line.unit);
+        if (unit == "serving" || unit == "servings") {
+          if (!line.name.empty() && line.name[0] != '#') {
+            throw std::runtime_error(
+                "Invalid servings spec: " + MakeString(line));
+          }
+          if (servings != 0)
+            throw std::runtime_error("Duplicate servings: " + MakeString(line));
+          auto s = std::stod(line.value);
+          if (s < 1 || s > 100 || std::round(s) != s) {
+            throw std::runtime_error(
+                "Invalid number of servings: " + MakeString(line));
+          }
+          Gram w;
+          if (!line.weight.empty()) {
+            std::istringstream iss(line.weight);
+            double v = 0.0;
+            std::string u;
+            iss >> v >> u;
+            w = v * FindWeight(FindUnit(u));
+            if (is_lteq_zero(w)) {
+              throw std::runtime_error(
+                  "Invalid serving weight: " + MakeString(line));
+            }
+          }
+          servings = gsl::narrow_cast<int>(s);
+          cookedWeight = w;
+          std::cout << "servings=" << servings;
+          if (is_neq_zero(cookedWeight))
+            std::cout << ", cooked weight=" << std::ceil(cookedWeight.numerical_value_in(si::gram)) << " g";
+          std::cout << std::endl;
+          continue;
+        }
       }
       auto value = Value(line.value);
       auto unit  = FindUnit(line.unit);
-      double volume = 0.0;
-      double weight = 0.0;
+      Milliliter volume;
+      Gram  weight;
       if (unit != "ea") {
         volume = FindVolume(unit);
-	if (volume == 0.0) {
-	  weight = FindWeight(unit);
-	  if (weight == 0.0 && line.weight.empty()) {
-	    line.name = line.unit + ' ' + line.name;
-	    unit = "ea";
-	    line.unit.clear();
-	  }
-	}
+        if (is_eq_zero(volume)) {
+          weight = FindWeight(unit);
+          if (is_eq_zero(weight) && line.weight.empty()) {
+            line.name = line.unit + ' ' + line.name;
+            unit = "ea";
+            line.unit.clear();
+          }
+        }
       }
       std::optional<Nutrition> nutr;
       {
-	auto name = ToLower(line.name);
-	{ // trim punctuation
-	  const auto punct = std::string("!$()*+:;<=>?@[]^{|}~");
-	  auto i = name.find_first_of(punct);
-	  if (i != std::string::npos)
-	    name.erase(i);
-	}
-	TrimTrailingWs(name);
-	if (!name.empty()) {
-	  if (Contains(name, "extra")) {
-	    static const std::regex
-				e{"\\bextra[ -](small|large|light|heavy)\\b"};
-	    name = std::regex_replace(name, e, "x$1");
-	  }
-	  nutr = FindIngredientWithPlurals(ingredients, name);
-	  if (!nutr) {
-	    // substitute common synonyms
-	    rng::replace(name, '-', ' ');
-	    static const std::regex e1{"\\b(diced|cubed)\\b"};
-	    static const std::regex e2{"\\bdry\\b"};
-	    static const std::regex e3{"\\bservings\\b"};
-	    name = std::regex_replace(name, e1, "chopped");
-	    name = std::regex_replace(name, e2, "dried");
-	    name = std::regex_replace(name, e3, "serving");
-	    nutr = FindIngredientWithPlurals(ingredients, name);
-	  }
-	}
+        auto name = ToLower(line.name);
+        { // trim punctuation
+          const auto punct = std::string("!$()*+:;<=>?@[]^{|}~");
+          auto i = name.find_first_of(punct);
+          if (i != std::string::npos)
+            name.erase(i);
+        }
+        TrimTrailingWs(name);
+        if (!name.empty()) {
+          if (Contains(name, "extra")) {
+            static const std::regex
+                                e{"\\bextra[ -](small|large|light|heavy)\\b"};
+            name = std::regex_replace(name, e, "x$1");
+          }
+          nutr = FindIngredientWithPlurals(ingredients, name);
+          if (!nutr) {
+            // substitute common synonyms
+            rng::replace(name, '-', ' ');
+            static const std::regex e1{"\\b(diced|cubed)\\b"};
+            static const std::regex e2{"\\bdry\\b"};
+            static const std::regex e3{"\\bservings\\b"};
+            name = std::regex_replace(name, e1, "chopped");
+            name = std::regex_replace(name, e2, "dried");
+            name = std::regex_replace(name, e3, "serving");
+            nutr = FindIngredientWithPlurals(ingredients, name);
+          }
+        }
       }
       if (!nutr)
-	nutr = Nutrition();
+        nutr = Nutrition();
       auto& nut = *nutr;
       nut.scale(Ratio(nut, unit, value, volume, weight));
-      if (nut.g != 0.0)
-        nut.g = std::max(std::abs(nut.g), 0.1f);
+      if (is_neq_zero(nut.wt))
+        nut.wt = std::max(mp_units::abs(nut.wt), 0.1f * si::gram);
       using std::cout;
       using std::setw;
       using std::ceil;
       using std::round;
       {
         PrecSaver prec(cout, 1);
-	cout << std::fixed
-	  << "g="     << setw(6) << nut.g
-	  << " kcal=" << setw(6) << nut.kcal
-	  << " p="    << setw(5) << nut.prot
-	  << " f="    << setw(5) << nut.fat
-	  << " c="    << setw(5) << nut.carb
-	  << " fb="   << setw(5) << nut.fiber
-	  << std::defaultfloat
-	  << " : " << line.value;
+        cout << std::fixed
+          << "wt="     << setw(6) << nut.wt.numerical_value_in(si::gram)
+          << " kcal="  << setw(6) << nut.energy.numerical_value_in(si::kilocalorie)
+          << " p="     << setw(5) << nut.prot.numerical_value_in(si::gram)
+          << " f="     << setw(5) << nut.fat.numerical_value_in(si::gram)
+          << " c="     << setw(5) << nut.carb.numerical_value_in(si::gram)
+          << " fb="    << setw(5) << nut.fiber.numerical_value_in(si::gram)
+          << std::defaultfloat
+          << " : " << line.value;
       }
       if (!line.unit.empty())
-	cout << ' ' << line.unit;
+        cout << ' ' << line.unit;
       if (!line.weight.empty()) {
-	cout << " (";
+        cout << " (";
         if (!std::isdigit(line.weight[0])) {
-	  double w = FindWeight(FindUnit(line.weight));
-	  if (w == 0.0) {
-	    cout << line.weight << '?';
-	  }
-	  else {
-	    PrecSaver prec(cout, 3);
-	    cout << (nut.g / w) << ' ' << line.weight;
-	  }
-	}
-	else {
-	  cout << line.weight;
-	  std::istringstream iss(line.weight);
-	  double v = 0.0;
-	  std::string u;
-	  double g = 0.0;
-	  iss >> v >> u;
-	  if (iss)
-	    g = v * FindWeight(FindUnit(u));
-	  if (g <= 0.0 || (100 * std::abs(nut.g-g))/g > 7) {
-	    cout << '?';
-	  }
-	}
-	cout << ')';
+          auto w = FindWeight(FindUnit(line.weight));
+          if (is_eq_zero(w)) {
+            cout << line.weight << '?';
+          }
+          else {
+            PrecSaver prec(cout, 3);
+            cout << static_cast<double>(nut.wt / w) << ' ' << line.weight;
+          }
+        }
+        else {
+          cout << line.weight;
+          std::istringstream iss(line.weight);
+          double v = 0.0;
+          std::string u;
+          Gram wt;
+          iss >> v >> u;
+          if (iss)
+            wt = v * FindWeight(FindUnit(u));
+          if (is_lteq_zero(wt) || (100 * mp_units::abs(nut.wt-wt))/wt > 7) {
+            cout << '?';
+          }
+        }
+        cout << ')';
       }
       if (!line.name.empty())
-	cout << ' ' << line.name;
+        cout << ' ' << line.name;
       cout << std::endl;
       total += nut;
     }
@@ -551,19 +574,19 @@ int main() {
       using std::round;
       cout << '\n';
       if (servings != 0) {
-	cout << "Per ";
-	if (cookedWeight != 0.0)
-	  cout << std::ceil(cookedWeight/servings) << " g ";
-	cout << "serving:\n\n";
-	total.scale(1.0/servings);
+        cout << "Per ";
+        if (is_neq_zero(cookedWeight))
+          cout << std::ceil(cookedWeight.numerical_value_in(si::gram)/servings) << " g ";
+        cout << "serving:\n\n";
+        total.scale(1.0/servings);
       }
-      cout << setw(4) << round(total.kcal) << " kcal\n"
-	   << setw(4) << round(total.g)    << " g raw\n"
-	   << setw(4) << round(total.prot) << " g protein\n"
-	   << setw(4) << round(total.fat)  << " g fat\n"
-	   << setw(4) << round(total.carb) << " g carb\n"
-	   << setw(4) << round(total.fiber)<< " g fiber"
-	   << std::endl;
+      cout << setw(4) << round(total.energy.numerical_value_in(si::kilocalorie)) << " kcal\n"
+           << setw(4) << round(total.wt.numerical_value_in(si::gram))   << " g raw\n"
+           << setw(4) << round(total.prot.numerical_value_in(si::gram)) << " g protein\n"
+           << setw(4) << round(total.fat.numerical_value_in(si::gram))  << " g fat\n"
+           << setw(4) << round(total.carb.numerical_value_in(si::gram)) << " g carb\n"
+           << setw(4) << round(total.fiber.numerical_value_in(si::gram))<< " g fiber"
+           << std::endl;
     }
     return EXIT_SUCCESS;
   }

@@ -8202,3 +8202,28 @@
 2727587	|Juice, prune, shelf-stable
 2727588	|Juice, pomegranate, from concentrate, shelf-stable
 2727589	|Juice, tart cherry, from concentrate, shelf-stable
+2747652	|Anchovies, canned in olive oil, with salt, drained
+2747653	|Beet greens, raw
+2747654	|Cod, Pacific or Alaskan, frozen, wild caught
+2747655	|Fennel, bulb, raw
+2747656	|Halibut, frozen, wild caught
+2747657	|Lobster, tail only, frozen, wild caught
+2747658	|Mahi mahi, frozen, wild caught
+2747659	|Parsnips, raw
+2747660	|Peppers, banana or Hungarian wax, seeded, raw
+2747661	|Peppers, jalapeno, seeded, raw
+2747662	|Peppers, poblano, seeded, raw
+2747663	|Peppers, serrano, seeded, raw
+2747664	|Radicchio, raw
+2747665	|Radishes, red, raw
+2747666	|Scallops, bay, Patagonian, frozen, wild caught
+2747667	|Scallops, sea, frozen, wild caught
+2747668	|Sea bass, Chilean, frozen, wild caught
+2747669	|Snapper, frozen, wild caught
+2747670	|Snow crab, legs only, frozen
+2747671	|Squid (calamari), frozen, tubes only
+2747672	|Swordfish, frozen, wild caught
+2747673	|Tuna, ahi or yellowfin, frozen, wild caught
+2747674	|Turnips, raw
+2747675	|Watermelon, seedless, flesh only, raw
+2747676	|Watermelon, seedless, rind only, raw

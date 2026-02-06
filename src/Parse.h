@@ -96,7 +96,8 @@ template<class Idx, std::size_t N>
 void CheckHeadings(const ParseVec<Idx>& v,
                    const std::array<std::string_view, N>& headings)
 {
-  for (gsl::index i = 0; i != headings.size(); ++i) {
+  const auto size = gsl::index{headings.size()};
+  for (gsl::index i = 0; i != size; ++i) {
     if (v.at(gsl::narrow_cast<Idx>(i)) != headings[i])
       throw std::runtime_error{"Invalid column headings"};
   }
