@@ -4,8 +4,8 @@ export PROJDIR := $(abspath ..)
 SWDEV := $(PROJDIR)/SwDev
 include $(SWDEV)/project.mk
 
-DB=$(abspath ../db)
-SRC=$(abspath ../src)
+DB :=$(PROJDIR)/db
+SRC:=$(PROJDIR)/src
 
 TABULATE=tabulate$(DBGSFX).$E
 CSVTOTSV=CsvToTsv$(DBGSFX).$E
@@ -39,7 +39,7 @@ include $(SWDEV)/build.mk
 
 .PHONY: all clean scour
 
-SCOUR=zip
+SCOUR=zip $(DB)
 
 all: $(DB_TGTS)
 

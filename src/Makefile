@@ -4,7 +4,9 @@ export PROJDIR := $(abspath ..)
 SWDEV := $(PROJDIR)/SwDev
 include $(PROJDIR)/SwDev/project.mk
 
-TARGET1=$(PROJDIR)/lib/libNut$(COMPILER)$(DBGSFX).$A
+LIBDIR:=$(PROJDIR)/lib
+
+TARGET1=$(LIBDIR)/libNut$(COMPILER)$(DBGSFX).$A
 TARGET2=nut$(DBGSFX).$E
 TARGET3=digest$(DBGSFX).$E
 TARGET4=barf$(DBGSFX).$E
@@ -28,13 +30,18 @@ include $(SWDEV)/build.mk
 
 BIN=$(abspath $(HOME)/bin)
 
+SCOUR:=$(LIBDIR)
+
 .ONESHELL:
 
 .PHONY: all clean scour install uninstall
 
 all: $(TARGETS)
 
-$(TARGET1): $(OBJ1)
+$(LIBDIR):
+	mkdir -p $@
+
+$(TARGET1): $(OBJ1) | $(LIBDIR)
 
 $(TARGET2): $(OBJ2) $(LIBS)
         $(LINK)
