@@ -15,7 +15,7 @@
 #include <exception>
 
 void Parse(const std::string& line, std::vector<std::string>& row,
-	   const char sep='\t', const char quote='\0', const char escape='\0');
+           const char sep='\t', const char quote='\0', const char escape='\0');
 
 inline
 void ParseTsv(const std::string& line, std::vector<std::string>& row)
@@ -66,13 +66,13 @@ auto Parse(ParseVec<E>& v, const std::string& str,
   while (iss.get(c) && c == sep) {
     if (iss.peek() == quote) {
       if (iss >> std::quoted(s, quote, escape))
-	v.push_back(s);
+        v.push_back(s);
     }
     else {
       std::getline(iss, s, sep);
       v.push_back(s);
       if (!iss.eof())
-	iss.unget();
+        iss.unget();
     }
   }
   if (v.size() != static_cast<ParseVec<E>::size_type>(E::end))
