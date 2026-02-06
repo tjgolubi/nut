@@ -20,20 +20,21 @@ namespace tjg::units {
 } // tjg::units
 
 struct Atwater {
-  using Factor = mp_units::quantity<tjg::units::atwater, float>;
+  static constexpr auto atwater = tjg::units::atwater;
+  using Factor = mp_units::quantity<atwater, float>;
   static const std::map<std::string_view, Atwater> Names;
-  static constexpr Factor alcohol = 6.93f * tjg::units::atwater;
-  Factor prot  = 4.00f * tjg::units::atwater;
-  Factor fat   = 9.00f * tjg::units::atwater;
-  Factor carb  = 4.00f * tjg::units::atwater;
-  Factor fiber = 0.00f * tjg::units::atwater;
+  static constexpr Factor alcohol = 6.93f * atwater;
+  Factor prot  = 4.00f * atwater;
+  Factor fat   = 9.00f * atwater;
+  Factor carb  = 4.00f * atwater;
+  Factor fiber = 0.00f * atwater;
   Nutrition::Energy energy(const Nutrition& nutr) const;
   Atwater() = default;
   Atwater(float prot_, float fat_, float carb_, float fiber_=0.0f)
-    : prot{prot_   * tjg::units::atwater}
-    , fat{fat_     * tjg::units::atwater}
-    , carb{carb_   * tjg::units::atwater}
-    , fiber{fiber_ * tjg::units::atwater}
+    : prot{prot_   * atwater}
+    , fat{fat_     * atwater}
+    , carb{carb_   * atwater}
+    , fiber{fiber_ * atwater}
     { }
   Atwater(Factor prot_, Factor fat_, Factor carb_, Factor fiber_=Factor{})
     : prot{prot_}, fat{fat_}, carb{carb_}, fiber{fiber_} { }
