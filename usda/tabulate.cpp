@@ -25,6 +25,7 @@
 #include <chrono>
 #include <charconv>
 #include <limits>
+#include <new>
 #include <cstdlib>
 #include <cmath>
 

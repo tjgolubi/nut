@@ -20,6 +20,7 @@
 #include <iomanip>
 #include <fstream>
 #include <iterator>
+#include <new>
 #include <cmath>
 #include <cstring>
 #include <cctype>

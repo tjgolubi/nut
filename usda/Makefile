@@ -55,8 +55,7 @@ $(TARGET6): $(OBJ6) $(LIBS)
         $(LINK)
 
 zip/fdc.zip:
-	@set -euo pipefail
-	set -x
+	@set -x
 	mkdir -p zip
 	fdc_file=$$(curl -sL https://fdc.nal.usda.gov/download-datasets \
 	  | grep -o 'href="/fdc-datasets/FoodData_Central_csv_[0-9-]*\.zip"' \
@@ -66,8 +65,7 @@ zip/fdc.zip:
 	curl -o $@ "https://fdc.nal.usda.gov/fdc-datasets/$$fdc_file"
 
 zip/sr.zip:
-	@set -euo pipefail
-	set -x
+	@set -x
 	mkdir -p zip
 	curl -o $@ https://www.ars.usda.gov/ARSUserFiles/80400535/DATA/SR/sr28/dnload/sr28asc.zip
 

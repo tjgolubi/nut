@@ -8,6 +8,9 @@ ifndef PROJDIR
 $(error PROJDIR is not defined)
 endif
 
+SHELL := bash
+.SHELLFLAGS := -eu -o pipefail -c
+
 EXT:=$(PROJDIR)/ext
 UNITS:=$(EXT)/mp-units/src
 GSL:=$(EXT)/GSL

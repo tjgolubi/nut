@@ -8,6 +8,7 @@
 #include <fstream>
 #include <iostream>
 #include <iomanip>
+#include <new>
 #include <cctype>
 
 namespace {
