@@ -473,7 +473,6 @@ void ReadIngredients(const std::string& fname, NutritionMap& nuts, VarMap& defs)
         }
 
         if (is_gteq_zero(nutr.energy)) {
-          using mp_units::abs;
           double scale = 0.0;
           if (is_neq_zero(nutr.energy))
             scale = static_cast<double>(nutr.energy / n.energy);
