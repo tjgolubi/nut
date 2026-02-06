@@ -49,20 +49,6 @@ bool TrimQuotes(std::string& str, char quote='"') noexcept {
   return true;
 } // TrimQuotes
 
-#if 0
-class Spc {
-  int _n;
-public:
-  explicit Spc(int n_) : _n(n_) { }
-  friend std::ostream& operator<<(std::ostream& os, const Spc& s) {
-    auto n = s._n;
-    while (n-- != 0)
-      os << ' ';
-    return os;
-  }
-}; // Spc
-#endif
-
 } // local
 
 void Parse(const std::string& line, std::vector<std::string>& row,
