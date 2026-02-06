@@ -1,3 +1,8 @@
+/// @file To.h
+/// @brief Lightweight type conversion utilities using C++ constraints and
+/// from_chars.
+/// @copyright Copyright 2023-2025 Terry Golubiewski, all rights reserved.
+
 #ifndef TO_H
 #define TO_H
 #pragma once
@@ -15,10 +20,21 @@
 #include <cctype>
 #include <cstring>
 
+/// @brief Performs a static cast between compatible types.
+/// @tparam T Target type.
+/// @tparam U Source type.
+/// @param x Value to convert.
+/// @return Converted value of type T.
 template<typename T, typename U>
 requires requires (U x) { static_cast<T>(x); }
 constexpr auto To(U x) noexcept -> T { return static_cast<T>(x); }
 
+/// @brief Converts an arithmetic value to a string using std::to_chars.
+/// @tparam T Must be std::string.
+/// @tparam U Must be an arithmetic type.
+/// @param x Value to convert.
+/// @return String representation of the numeric value.
+/// @throw std::system_error if conversion fails.
 template<typename T, typename U>
 requires (std::is_same_v<T, std::string> && std::is_arithmetic_v<U>)
 constexpr auto To(const U& x) -> T {
@@ -29,6 +45,11 @@ constexpr auto To(const U& x) -> T {
   return std::string{buf.data(), result.ptr};
 }
 
+/// @brief Converts a non-arithmetic type to a string using std::to_string.
+/// @tparam T Must be std::string.
+/// @tparam U A type with a valid std::to_string(U) overload.
+/// @param x Value to convert.
+/// @return String representation of the value.
 template<typename T, typename U>
 requires (std::is_same_v<T, std::string> && !std::is_arithmetic_v<U>)
   && requires (U x) { std::to_string(x); }
@@ -40,6 +61,16 @@ constexpr auto To(U x) noexcept -> T { return std::to_string(x); }
 
 namespace std {
 
+/// @brief Fallback implementation of from_chars for floating-point types.
+///
+/// Provides compatibility on systems without std::from_chars(float/double).
+/// Uses std::strtof, std::strtod, or std::strtold based on T.
+///
+/// @tparam T Floating-point type.
+/// @param first Pointer to beginning of input.
+/// @param last Pointer to end of input.
+/// @param x Output value.
+/// @return from_chars_result with status and parse position.
 template<typename T>
 requires (std::is_floating_point_v<T>)
 auto from_chars(const char* first, const char* last, T& x) noexcept
@@ -65,6 +96,16 @@ auto from_chars(const char* first, const char* last, T& x) noexcept
 
 #endif
 
+/// @brief Converts a character range to a numeric value using std::from_chars.
+///
+/// This overload is enabled for contiguous character ranges.
+/// Validates that T is an arithmetic type.
+///
+/// @tparam T Target arithmetic type.
+/// @tparam R Character range type.
+/// @param r Input range.
+/// @return Converted value of type T.
+/// @throw std::system_error if conversion fails.
 template<typename T, std::ranges::contiguous_range R>
 requires (std::is_arithmetic_v<T>) && std::ranges::sized_range<R>
 constexpr auto To(const R& r) -> T
